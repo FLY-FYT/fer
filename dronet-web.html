@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dronetry - Vuelo Infinito para Monitoreo Crítico</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0c0c0c; color: #f8fafc; overflow-x: hidden; }
+        .gradient-text { background: linear-gradient(to right, #f97316, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .bg-grid-pattern { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); background-size: 40px 40px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        const Icon = ({ name, size = 24, className = "" }) => {
+            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        };
+
+        const App = () => {
+            // Renderizar los íconos de Lucide al cargar la página
+            useEffect(() => {
+                lucide.createIcons();
+            });
+
+            return (
+                <div className="min-h-screen relative">
+                    {/* Fondo decorativo */}
+                    <div className="fixed inset-0 z-[-1] bg-grid-pattern opacity-20 pointer-events-none"></div>
+                    <div className="fixed top-0 right-0 w-[800px] h-[800px] bg-orange-600/10 rounded-full blur-[150px] z-[-1] pointer-events-none"></div>
+                    <div className="fixed bottom-0 left-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] z-[-1] pointer-events-none"></div>
+
+                    {/* NAVBAR (Navegación) */}
+                    <nav className="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
+                        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-black tracking-tighter">DRT</div>
+                                <span className="text-xl font-black tracking-widest uppercase">Drone<span className="text-orange-500">try</span></span>
+                            </div>
+                            <div className="hidden md:flex items-center gap-8 text-sm font-bold text-slate-300 uppercase tracking-widest">
+                                <a href="#solucion" className="hover:text-orange-400 transition-colors">Solución</a>
+                                <a href="#tecnologia" className="hover:text-orange-400 transition-colors">Tecnología</a>
+                                <a href="#equipo" className="hover:text-orange-400 transition-colors">Joint Venture</a>
+                            </div>
+                            <a href="#cotizar" className="px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white text-sm font-black uppercase tracking-widest rounded-full transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+                                Cotizar Proyecto
+                            </a>
+                        </div>
+                    </nav>
+
+                    {/* HERO SECTION */}
+                    <section className="pt-40 pb-20 px-6 min-h-screen flex items-center">
+                        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                            <div className="space-y-8">
+                                <div className="inline-flex items-center gap-3 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full">
+                                    <span className="w-2 h-2 bg-orange-500 rounded-full animate-ping"></span>
+                                    <span className="text-[10px] font-black text-orange-400 uppercase tracking-widest">Hardware as a Service (HaaS)</span>
+                                </div>
+                                <h1 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.9]">
+                                    Vuelo <br/><span className="gradient-text">Infinito</span>
+                                </h1>
+                                <p className="text-xl text-slate-400 max-w-lg leading-relaxed">
+                                    Ingeniería aeroespacial y física aplicada para el monitoreo ininterrumpido. Superamos la barrera de las baterías para seguridad industrial y emergencias forestales.
+                                </p>
+                                <div className="flex gap-4 pt-4">
+                                    <a href="#cotizar" className="px-8 py-4 bg-white text-slate-900 font-black uppercase tracking-widest rounded-full hover:bg-slate-200 transition-colors flex items-center gap-2">
+                                        Solicitar Demo <Icon name="arrow-right" size={18} />
+                                    </a>
+                                    <a href="#solucion" className="px-8 py-4 bg-slate-800 text-white font-black uppercase tracking-widest rounded-full hover:bg-slate-700 transition-colors border border-white/10">
+                                        Ver Solución
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="relative h-[600px] rounded-[3rem] border border-white/10 bg-slate-900/50 p-8 flex flex-col items-center justify-center overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent z-10"></div>
+                                <div className="relative z-20 flex gap-12 text-orange-500 opacity-80">
+                                    <Icon name="wind" size={100} className="animate-pulse" />
+                                    <Icon name="zap" size={100} />
+                                </div>
+                                <div className="relative z-20 mt-12 w-full max-w-sm bg-slate-950 p-6 rounded-3xl border border-white/5 shadow-2xl">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Estado del Sistema</span>
+                                        <span className="text-xs font-black text-emerald-400 flex items-center gap-2"><div className="w-2 h-2 bg-emerald-400 rounded-full"></div> ONLINE</span>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <div className="flex justify-between text-[10px] uppercase font-bold text-slate-500 mb-1"><span>Energía AC/DC</span><span>100%</span></div>
+                                            <div className="w-full h-1.5 bg-slate-800 rounded-full"><div className="w-full h-full bg-orange-500 rounded-full"></div></div>
+                                        </div>
+                                        <div>
+                                            <div className="flex justify-between text-[10px] uppercase font-bold text-slate-500 mb-1"><span>Enlace de Datos</span><span>Estable</span></div>
+                                            <div className="w-full h-1.5 bg-slate-800 rounded-full"><div className="w-full h-full bg-blue-500 rounded-full"></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* PROBLEMA & SOLUCIÓN */}
+                    <section id="solucion" className="py-24 px-6 bg-slate-950 border-y border-white/5">
+                        <div className="max-w-7xl mx-auto space-y-24">
+                            <div className="text-center space-y-4">
+                                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">De la Interrupción a la <span className="text-orange-500">Presencia Total</span></h2>
+                                <p className="text-slate-400 max-w-2xl mx-auto">En operaciones críticas, aterrizar un dron para cambiar baterías cada 30 minutos crea puntos ciegos tácticos inaceptables.</p>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div className="p-8 rounded-[2rem] bg-slate-900 border border-red-500/20 space-y-4">
+                                    <div className="w-14 h-14 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center"><Icon name="battery-warning" size={28}/></div>
+                                    <h3 className="text-xl font-bold uppercase tracking-tight">Vuelo Convencional</h3>
+                                    <p className="text-sm text-slate-400">Limitado a 30-40 minutos. Requiere constante intervención humana y pérdida del foco de la emergencia.</p>
+                                </div>
+                                <div className="p-8 rounded-[2rem] bg-slate-900 border border-slate-800 space-y-4">
+                                    <div className="w-14 h-14 bg-slate-800 text-slate-400 rounded-2xl flex items-center justify-center"><Icon name="helicopter" size={28}/></div>
+                                    <h3 className="text-xl font-bold uppercase tracking-tight">Helicópteros Tripulados</h3>
+                                    <p className="text-sm text-slate-400">Altísimos costos operacionales (CapEx/OpEx) e indisponibilidad inmediata para monitoreo 24/7.</p>
+                                </div>
+                                <div className="p-8 rounded-[2rem] bg-orange-600 border border-orange-500 space-y-4 shadow-[0_0_40px_rgba(249,115,22,0.2)] transform md:-translate-y-4">
+                                    <div className="w-14 h-14 bg-white/20 text-white rounded-2xl flex items-center justify-center"><Icon name="infinity" size={28}/></div>
+                                    <h3 className="text-xl font-bold uppercase tracking-tight">Dronetry Tethered</h3>
+                                    <p className="text-sm text-white/90">Sistema de cableado micro-filamento. Suministra energía ininterrumpida y transmisión de datos segura 24/7.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* TECNOLOGÍA */}
+                    <section id="tecnologia" className="py-24 px-6">
+                        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                            <div className="space-y-8">
+                                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">Ingeniería <span className="text-orange-500">Dronetry</span></h2>
+                                <p className="text-slate-400">Nuestro ecosistema combina Hardware industrial y Software de Inteligencia Artificial para ofrecer una solución integral.</p>
+                                
+                                <div className="space-y-6">
+                                    <div className="flex gap-6">
+                                        <div className="w-12 h-12 bg-slate-800 text-orange-400 rounded-2xl flex items-center justify-center shrink-0"><Icon name="briefcase" size={24}/></div>
+                                        <div>
+                                            <h4 className="font-bold uppercase tracking-widest text-sm mb-1">El Maletín de Potencia</h4>
+                                            <p className="text-sm text-slate-500">Conversión AC/DC de alta eficiencia. Winche automatizado que controla dinámicamente la tensión del micro-filamento de aramida.</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-6">
+                                        <div className="w-12 h-12 bg-slate-800 text-blue-400 rounded-2xl flex items-center justify-center shrink-0"><Icon name="microscope" size={24}/></div>
+                                        <div>
+                                            <h4 className="font-bold uppercase tracking-widest text-sm mb-1">Física Aerodinámica</h4>
+                                            <p className="text-sm text-slate-500">Cálculo del arrastre (Drag) del cable. Compensación del "efecto catenaria" bajo vientos laterales para un vuelo estacionario inquebrantable.</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-6">
+                                        <div className="w-12 h-12 bg-slate-800 text-emerald-400 rounded-2xl flex items-center justify-center shrink-0"><Icon name="brain-circuit" size={24}/></div>
+                                        <div>
+                                            <h4 className="font-bold uppercase tracking-widest text-sm mb-1">IA & Visión Térmica</h4>
+                                            <p className="text-sm text-slate-500">Procesamiento de visión por computadora en tiempo real (RGB + Térmica) para detectar humo, fuego e intrusos automáticamente.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-slate-900 p-6 rounded-3xl border border-white/5 space-y-2">
+                                    <span className="text-4xl font-black text-orange-500">100m</span>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Alcance Vertical Máximo</p>
+                                </div>
+                                <div className="bg-slate-900 p-6 rounded-3xl border border-white/5 space-y-2">
+                                    <span className="text-4xl font-black text-blue-500">IP65</span>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Protección Clima/Polvo</p>
+                                </div>
+                                <div className="bg-slate-900 p-6 rounded-3xl border border-white/5 space-y-2 col-span-2 text-center">
+                                    <span className="text-4xl font-black text-emerald-500">SaaS + HaaS</span>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Modelo Comercial Híbrido: Arriendo Operativo (OpEx)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* JOINT VENTURE TEAM */}
+                    <section id="equipo" className="py-24 px-6 bg-slate-950 border-y border-white/5">
+                        <div className="max-w-7xl mx-auto space-y-16">
+                            <div className="text-center space-y-4">
+                                <div className="inline-flex items-center gap-3 px-4 py-2 bg-slate-800 rounded-full mb-4">
+                                    <Icon name="network" size={16} className="text-slate-400" />
+                                    <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Alianza Estratégica</span>
+                                </div>
+                                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">Joint Venture <span className="text-white">Fundador</span></h2>
+                                <p className="text-slate-400 max-w-2xl mx-auto">La fusión de tres entidades especializadas para escalar la tecnología Dronetry en el mercado B2B y B2G.</p>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {/* FERNANDA */}
+                                <div className="bg-slate-900 p-8 rounded-[2rem] border border-orange-500/30 group hover:border-orange-500 transition-colors relative overflow-hidden flex flex-col">
+                                    <div className="absolute -top-10 -right-10 text-orange-500/10 group-hover:text-orange-500/20 transition-colors"><Icon name="cpu" size={150} /></div>
+                                    <div className="relative z-10 flex-1 space-y-4">
+                                        <h3 className="text-2xl font-black uppercase tracking-tighter">Fernanda Mesa C.</h3>
+                                        <p className="text-xs font-bold text-orange-400 uppercase tracking-widest">CEO | Física e Ingeniera</p>
+                                        <p className="text-sm text-slate-400 leading-relaxed">Directora de <strong>FyT</strong>. Coordina la visión comercial, levantamiento de capital y diseño de hardware aerodinámico.</p>
+                                    </div>
+                                    <div className="relative z-10 mt-8 pt-4 border-t border-white/10 text-[10px] font-black text-slate-500 uppercase tracking-widest">Estrategia & Hardware</div>
+                                </div>
+
+                                {/* BRUNO */}
+                                <div className="bg-slate-900 p-8 rounded-[2rem] border border-blue-500/30 group hover:border-blue-500 transition-colors relative overflow-hidden flex flex-col">
+                                    <div className="absolute -top-10 -right-10 text-blue-500/10 group-hover:text-blue-500/20 transition-colors"><Icon name="zap" size={150} /></div>
+                                    <div className="relative z-10 flex-1 space-y-4">
+                                        <h3 className="text-2xl font-black uppercase tracking-tighter">Bruno Osses L.</h3>
+                                        <p className="text-xs font-bold text-blue-400 uppercase tracking-widest">CTO | Ing. Civil Eléctrico</p>
+                                        <p className="text-sm text-slate-400 leading-relaxed">Especialista en electromovilidad. Desarrolla la arquitectura de potencia continua y el circuito de ultra-tensión.</p>
+                                    </div>
+                                    <div className="relative z-10 mt-8 pt-4 border-t border-white/10 text-[10px] font-black text-slate-500 uppercase tracking-widest">Energía & Pila Tecnológica</div>
+                                </div>
+
+                                {/* JULIO */}
+                                <div className="bg-slate-900 p-8 rounded-[2rem] border border-emerald-500/30 group hover:border-emerald-500 transition-colors relative overflow-hidden flex flex-col">
+                                    <div className="absolute -top-10 -right-10 text-emerald-500/10 group-hover:text-emerald-500/20 transition-colors"><Icon name="eye" size={150} /></div>
+                                    <div className="relative z-10 flex-1 space-y-4">
+                                        <h3 className="text-2xl font-black uppercase tracking-tighter">Julio Hofflinger</h3>
+                                        <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest">CTO | Ing. Forestal</p>
+                                        <p className="text-sm text-slate-400 leading-relaxed">Experto en IA y Visión Computacional. Implementa algoritmos de detección autónoma (humo, fuego, topografía).</p>
+                                    </div>
+                                    <div className="relative z-10 mt-8 pt-4 border-t border-white/10 text-[10px] font-black text-slate-500 uppercase tracking-widest">Software, Datos & IA</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* CONTACTO / COTIZAR (FORMULARIO FUNCIONAL) */}
+                    <section id="cotizar" className="py-32 px-6 relative">
+                        <div className="max-w-4xl mx-auto bg-slate-900 rounded-[3rem] p-10 md:p-16 border border-white/10 shadow-2xl relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+                            
+                            <div className="text-center space-y-4 mb-12 relative z-10">
+                                <Icon name="send" size={48} className="mx-auto text-orange-500 mb-6" />
+                                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">Inicia tu <span className="text-orange-500">Proyecto</span></h2>
+                                <p className="text-slate-400">Contáctanos para agendar una demo técnica o solicitar una evaluación comercial B2B/B2G.</p>
+                            </div>
+
+                            {/* INSTRUCCIONES PARA FORMSPREE:
+                                Para que este formulario envíe correos reales:
+                                1. Entra a formspree.io, crea una cuenta gratis.
+                                2. Crea un "New Form".
+                                3. Copia la URL que te dan (ej: https://formspree.io/f/xyzabqwe).
+                                4. Pega esa URL en el atributo 'action' de la etiqueta <form> de abajo.
+                                5. En Formspree, configura que los correos lleguen a tu mail, al de Bruno y al de Julio.
+                            */}
+                            <form 
+                                action="https://formspree.io/f/AQUI_TU_ID_DE_FORMSPREE" 
+                                method="POST" 
+                                className="space-y-6 relative z-10"
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-2">Nombre Completo</label>
+                                        <input type="text" name="nombre" required className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all" placeholder="Ej. Juan Pérez" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-2">Email Corporativo</label>
+                                        <input type="email" name="email" required className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all" placeholder="juan@empresa.com" />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-2">Empresa / Institución</label>
+                                        <input type="text" name="empresa" required className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all" placeholder="CONAF, Minera, etc." />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-2">Área de Interés</label>
+                                        <select name="interes" className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-6 py-4 text-slate-300 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all appearance-none">
+                                            <option value="Forestal">Monitoreo Forestal</option>
+                                            <option value="Mineria">Seguridad en Faenas Mineras</option>
+                                            <option value="Seguridad">Seguridad Ciudadana / Eventos</option>
+                                            <option value="Inversion">Levantamiento de Capital / Fondos</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-2">Mensaje o Requerimiento Técnico</label>
+                                    <textarea name="mensaje" required rows="4" className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all resize-none" placeholder="Describa brevemente su caso de uso o interés en Dronetry..."></textarea>
+                                </div>
+                                <button type="submit" className="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-lg shadow-orange-900 flex items-center justify-center gap-3 mt-4">
+                                    Enviar Cotización <Icon name="arrow-right" size={20} />
+                                </button>
+                                <p className="text-center text-[10px] text-slate-500 uppercase tracking-widest mt-4">La información será enviada directamente a la directiva de Dronetry (Fernanda, Bruno y Julio).</p>
+                            </form>
+                        </div>
+                    </section>
+
+                    {/* FOOTER */}
+                    <footer className="py-8 text-center border-t border-white/5 bg-slate-950">
+                        <div className="flex justify-center items-center gap-2 mb-4">
+                            <div className="w-6 h-6 bg-orange-500 rounded flex items-center justify-center text-white font-black text-[8px]">DRT</div>
+                            <span className="font-black tracking-widest uppercase">Drone<span className="text-orange-500">try</span></span>
+                        </div>
+                        <p className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.3em]">
+                            Physics • Aerospace Engineering • AI Vision • Dronetry 2026
+                        </p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
