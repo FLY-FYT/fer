@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dronetry - Infinite Flight Pitch Deck</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // Componente Icon para cargar los íconos dinámicamente
+        const Icon = ({ name, size = 24, className = "" }) => {
+            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        };
+
+        const App = () => {
+            const [currentSlide, setCurrentSlide] = useState(0);
+
+            // Renderizar los íconos cada vez que cambiamos de diapositiva
+            useEffect(() => {
+                lucide.createIcons();
+            }, [currentSlide]);
+
+            const slides = [
+                // SLIDE 1: PORTADA
+                {
+                    title: "Dronetry: Infinite Flight",
+                    subtitle: "Ingeniería Aeroespacial aplicada a la Seguridad y el sector Forestal",
+                    content: (
+                        <div className="flex flex-col items-center justify-center h-full space-y-8 text-center">
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-orange-500 blur-[120px] opacity-20 rounded-full"></div>
+                                <div className="relative bg-slate-900 p-8 rounded-[3rem] shadow-2xl border border-orange-500/30">
+                                    <div className="flex items-center justify-center space-x-4">
+                                        <Icon name="wind" size={60} className="text-orange-400" />
+                                        <div className="h-12 w-px bg-slate-700"></div>
+                                        <Icon name="zap" size={60} className="text-orange-400" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="space-y-4">
+                                <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter uppercase">
+                                    DRONE<span className="text-orange-500">TRY</span>
+                                </h1>
+                                <p className="text-xl font-bold text-slate-500 tracking-widest uppercase">Autonomía Permanente</p>
+                                <div className="flex flex-wrap justify-center gap-3 pt-4">
+                                    <span className="px-4 py-2 bg-slate-100 rounded-full text-[10px] font-black text-slate-600 uppercase tracking-widest border border-slate-200">Hardware as a Service (HaaS)</span>
+                                    <span className="px-4 py-2 bg-slate-100 rounded-full text-[10px] font-black text-slate-600 uppercase tracking-widest border border-slate-200">Inteligencia Artificial</span>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                },
+                // SLIDE 2: EL PROBLEMA Y LA SOLUCIÓN
+                {
+                    title: "El Desafío Crítico",
+                    subtitle: "Definiendo el problema y nuestra propuesta de valor",
+                    content: (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 h-full items-center">
+                            <div className="space-y-6">
+                                <h3 className="text-3xl font-black text-slate-800 leading-tight">
+                                    El Problema:<br/><span className="text-red-500">Vigilancia Interrumpida</span>
+                                </h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">
+                                    En la contención de incendios forestales y seguridad industrial, el <strong>monitoreo continuo</strong> es vital. Los drones convencionales tienen un techo de autonomía de 30-40 minutos, obligando a aterrizar para cambiar baterías y perdiendo el foco de la emergencia. Alternativas como helicópteros son inaccesibles por sus altos costos operativos.
+                                </p>
+                                <div className="flex items-center gap-4 p-4 bg-red-50 border border-red-100 rounded-2xl">
+                                    <Icon name="battery-warning" size={32} className="text-red-500 shrink-0" />
+                                    <p className="text-xs font-bold text-red-800 uppercase">Riesgo: Pérdida de datos tácticos en tiempo real durante recambios de energía.</p>
+                                </div>
+                            </div>
+                            <div className="bg-slate-900 p-8 rounded-[3rem] text-white space-y-6 shadow-xl relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/20 rounded-full -mr-10 -mt-10 blur-3xl"></div>
+                                <h3 className="text-2xl font-black text-white leading-tight">
+                                    La Solución:<br/><span className="text-orange-500">Dronetry Tethered System</span>
+                                </h3>
+                                <p className="text-slate-300 text-sm leading-relaxed">
+                                    Sistema de dron cautivo desplegable desde cualquier vehículo. Suministra energía ininterrumpida y transmisión de datos segura mediante cable micro-filamento.
+                                </p>
+                                <ul className="space-y-3">
+                                    <li className="flex items-center gap-3 text-xs text-slate-300 font-medium">
+                                        <div className="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg"><Icon name="infinity" size={16}/></div>
+                                        Vuelo continuo (24+ horas ininterrumpidas).
+                                    </li>
+                                    <li className="flex items-center gap-3 text-xs text-slate-300 font-medium">
+                                        <div className="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg"><Icon name="shield-check" size={16}/></div>
+                                        Transmisión de datos segura vía fibra óptica.
+                                    </li>
+                                    <li className="flex items-center gap-3 text-xs text-slate-300 font-medium">
+                                        <div className="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg"><Icon name="eye" size={16}/></div>
+                                        Cámaras Térmicas + RGB con Detección IA.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    )
+                },
+                // SLIDE 3: MERCADO
+                {
+                    title: "Oportunidad de Mercado",
+                    subtitle: "Proyección TAM, SAM, SOM y Clientes Meta (B2B/B2G)",
+                    content: (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 h-full items-center">
+                            <div className="space-y-6">
+                                <h4 className="text-xl font-black text-slate-900 uppercase tracking-tighter mb-4">Tamaño del Mercado</h4>
+                                <div className="space-y-4">
+                                    <div className="p-5 bg-white border border-slate-200 rounded-3xl shadow-sm flex items-center gap-4 relative overflow-hidden">
+                                        <div className="absolute left-0 top-0 bottom-0 w-2 bg-slate-200"></div>
+                                        <div className="p-3 bg-slate-100 text-slate-500 rounded-xl"><Icon name="globe" size={24}/></div>
+                                        <div>
+                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">TAM (Mercado Total - Global)</p>
+                                            <p className="text-lg font-bold text-slate-800">Drones comerciales e industriales ($34 Billones USD)</p>
+                                        </div>
+                                    </div>
+                                    <div className="p-5 bg-white border border-slate-200 rounded-3xl shadow-sm flex items-center gap-4 relative overflow-hidden">
+                                        <div className="absolute left-0 top-0 bottom-0 w-2 bg-blue-400"></div>
+                                        <div className="p-3 bg-blue-50 text-blue-600 rounded-xl"><Icon name="map" size={24}/></div>
+                                        <div>
+                                            <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest">SAM (Mercado Disponible - LatAm)</p>
+                                            <p className="text-lg font-bold text-slate-800">Drones de Seguridad y Emergencias LatAm</p>
+                                        </div>
+                                    </div>
+                                    <div className="p-5 bg-white border border-slate-200 rounded-3xl shadow-lg flex items-center gap-4 relative overflow-hidden transform scale-105 border-orange-200">
+                                        <div className="absolute left-0 top-0 bottom-0 w-2 bg-orange-500"></div>
+                                        <div className="p-3 bg-orange-100 text-orange-600 rounded-xl"><Icon name="target" size={24}/></div>
+                                        <div>
+                                            <p className="text-[10px] font-black text-orange-500 uppercase tracking-widest">SOM (Mercado Obtenible - Chile Inicial)</p>
+                                            <p className="text-lg font-bold text-slate-800">Monitoreo Forestal, Minero y Municipal B2B</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-slate-50 p-8 rounded-[3rem] border border-slate-200 space-y-6">
+                                <h4 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Público Objetivo Inicial</h4>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
+                                        <Icon name="flame" className="mx-auto text-orange-500 mb-2" size={28}/>
+                                        <p className="text-xs font-bold text-slate-800 uppercase">Sector Forestal</p>
+                                        <p className="text-[10px] text-slate-500 mt-1">CONAF, Empresas Madereras.</p>
+                                    </div>
+                                    <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
+                                        <Icon name="pickaxe" className="mx-auto text-orange-500 mb-2" size={28}/>
+                                        <p className="text-xs font-bold text-slate-800 uppercase">Minería y Faenas</p>
+                                        <p className="text-[10px] text-slate-500 mt-1">Vigilancia de rajo y perímetros.</p>
+                                    </div>
+                                    <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
+                                        <Icon name="building-2" className="mx-auto text-orange-500 mb-2" size={28}/>
+                                        <p className="text-xs font-bold text-slate-800 uppercase">Municipios</p>
+                                        <p className="text-[10px] text-slate-500 mt-1">Seguridad ciudadana y eventos.</p>
+                                    </div>
+                                    <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
+                                        <Icon name="shield" className="mx-auto text-orange-500 mb-2" size={28}/>
+                                        <p className="text-xs font-bold text-slate-800 uppercase">Seguridad Privada</p>
+                                        <p className="text-[10px] text-slate-500 mt-1">Protección de infraestructura crítica.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                },
+                // SLIDE 4: INGENIERÍA
+                {
+                    title: "Ingeniería Dronetry",
+                    subtitle: "Sistema de Micro-Tethering & Estación de Potencia",
+                    content: (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 h-full items-center">
+                            <div className="bg-slate-50 p-8 rounded-[3.5rem] border border-slate-200 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 p-8 opacity-5"><Icon name="briefcase" size={100} /></div>
+                                <h4 className="text-xl font-black text-slate-800 mb-6">El Maletín de Potencia</h4>
+                                <ul className="space-y-4">
+                                    <li className="flex gap-4">
+                                        <div className="p-2 bg-orange-100 text-orange-600 rounded-xl h-fit"><Icon name="battery-charging" size={18}/></div>
+                                        <p className="text-xs text-slate-600"><strong>Conversión de Energía:</strong> Transformación AC/DC de alta eficiencia para envío de potencia constante desde tierra.</p>
+                                    </li>
+                                    <li className="flex gap-4">
+                                        <div className="p-2 bg-orange-100 text-orange-600 rounded-xl h-fit"><Icon name="radio" size={18}/></div>
+                                        <p className="text-xs text-slate-600"><strong>Cable de Ultra-Tensión:</strong> Micro-filamento reforzado en fibra de aramida para transmisión dual (datos/energía).</p>
+                                    </li>
+                                    <li className="flex gap-4">
+                                        <div className="p-2 bg-orange-100 text-orange-600 rounded-xl h-fit"><Icon name="gauge" size={18}/></div>
+                                        <p className="text-xs text-slate-600"><strong>Control Dinámico:</strong> Winche automatizado que ajusta y compensa el cable según los vientos y la altura.</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="space-y-6">
+                                <div className="p-8 bg-slate-900 rounded-[3rem] text-white space-y-6 shadow-xl">
+                                    <h4 className="font-bold text-orange-400 uppercase tracking-widest text-[10px]">Especificaciones Técnicas</h4>
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between text-xs py-2 border-b border-white/10">
+                                            <span className="opacity-50">Alcance Vertical</span>
+                                            <span className="font-black tracking-tight text-orange-400">60 - 100 Metros</span>
+                                        </div>
+                                        <div className="flex justify-between text-xs py-2 border-b border-white/10">
+                                            <span className="opacity-50">Transmisión de Datos</span>
+                                            <span className="font-black tracking-tight text-white">Fibra Óptica Cifrada / RF</span>
+                                        </div>
+                                        <div className="flex justify-between text-xs py-2 border-b border-white/10">
+                                            <span className="opacity-50">Protección del Sistema</span>
+                                            <span className="font-black tracking-tight text-white">IP65 (Lluvia / Polvo)</span>
+                                        </div>
+                                        <div className="flex justify-between text-xs py-2">
+                                            <span className="opacity-50">Cámaras Integradas</span>
+                                            <span className="font-black tracking-tight text-white">RGB 4K + Sensor Térmico</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                },
+                // SLIDE 5: MODELO DE NEGOCIOS
+                {
+                    title: "Modelo de Negocios y Operación",
+                    subtitle: "Generación de ingresos recurrentes y estructura de costos (OpEx)",
+                    content: (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-full items-center">
+                            <div className="p-8 bg-white border border-slate-100 rounded-[2.5rem] shadow-sm space-y-6">
+                                <div className="flex items-center gap-4 mb-2">
+                                    <div className="p-3 bg-orange-100 text-orange-600 rounded-xl"><Icon name="trending-up" size={24}/></div>
+                                    <h4 className="text-xl font-black text-slate-800 uppercase tracking-tight">Vías de Ingreso</h4>
+                                </div>
+                                <p className="text-sm text-slate-500 mb-4">Modelo híbrido (SaaS + HaaS) enfocado en ingresos recurrentes y escalabilidad, reduciendo la barrera de entrada para el cliente.</p>
+                                <div className="space-y-4">
+                                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                        <p className="text-xs font-bold text-slate-800">1. Arriendo de Hardware (HaaS)</p>
+                                        <p className="text-[10px] text-slate-500 mt-1">Tarifa mensual por el uso del dron, el maletín de potencia y el cableado (Leasing operativo).</p>
+                                    </div>
+                                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                        <p className="text-xs font-bold text-slate-800">2. Plataforma de Software (SaaS)</p>
+                                        <p className="text-[10px] text-slate-500 mt-1">Cobro mensual por acceso al dashboard web, streaming encriptado y analíticas de IA.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="p-8 bg-slate-900 rounded-[2.5rem] shadow-xl text-white space-y-6">
+                                <div className="flex items-center gap-4 mb-2">
+                                    <div className="p-3 bg-white/10 text-white rounded-xl"><Icon name="activity" size={24}/></div>
+                                    <h4 className="text-xl font-black text-white uppercase tracking-tight">Costos Operacionales (OpEx)</h4>
+                                </div>
+                                <p className="text-xs text-slate-400 italic">"Estructura optimizada para maximizar márgenes."</p>
+                                <ul className="space-y-4">
+                                    <li className="flex items-center gap-3">
+                                        <Icon name="server" className="text-orange-400 shrink-0" size={18} />
+                                        <div>
+                                            <p className="text-xs font-bold">Servidores Nube y Streaming</p>
+                                            <p className="text-[9px] text-slate-400">AWS/GCP para procesamiento IA y video en vivo.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <Icon name="wrench" className="text-orange-400 shrink-0" size={18} />
+                                        <div>
+                                            <p className="text-xs font-bold">Mantenimiento de Flota</p>
+                                            <p className="text-[9px] text-slate-400">Recambio de micro-filamento y desgaste de drones.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <Icon name="shield-alert" className="text-orange-400 shrink-0" size={18} />
+                                        <div>
+                                            <p className="text-xs font-bold">Seguros Especializados</p>
+                                            <p className="text-[9px] text-slate-400">Seguros de responsabilidad civil y daños a equipos.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    )
+                },
+                // SLIDE 6: CIENCIA E IA
+                {
+                    title: "Ciencia Aplicada & IA",
+                    subtitle: "Física Aerodinámica y Algoritmos de Detección Autónoma",
+                    content: (
+                        <div className="flex flex-col h-full justify-center space-y-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="p-8 bg-white border border-slate-100 rounded-[2.5rem] shadow-sm space-y-4">
+                                    <div className="p-3 bg-blue-50 text-blue-600 w-fit rounded-xl"><Icon name="microscope" size={24} /></div>
+                                    <h4 className="font-bold text-slate-800 uppercase tracking-tight text-sm">Ingeniería Aerodinámica (Drag)</h4>
+                                    <p className="text-xs text-slate-500 leading-relaxed">Cálculo del coeficiente de arrastre del cable y modelamiento de la masa como carga dinámica. Esto compensa vientos laterales y mantiene el centro de gravedad óptimo para un vuelo estacionario inquebrantable.</p>
+                                </div>
+                                <div className="p-8 bg-slate-900 rounded-[2.5rem] shadow-xl space-y-4 text-white border border-orange-500/30">
+                                    <div className="p-3 bg-orange-500/20 text-orange-400 w-fit rounded-xl"><Icon name="brain-circuit" size={24} /></div>
+                                    <h4 className="font-bold uppercase tracking-tight text-sm text-white">Inteligencia Artificial Integrada</h4>
+                                    <p className="text-xs text-slate-300 leading-relaxed">Procesamiento de visión por computadora en tiempo real. Análisis simultáneo de cámaras RGB y Térmicas para detección autónoma de humo, focos de fuego, personas o vehículos intrusos.</p>
+                                </div>
+                            </div>
+                            <div className="bg-orange-50 p-6 rounded-2xl border border-orange-100 flex items-center justify-center gap-4">
+                                <Icon name="radar" className="text-orange-600" size={24}/>
+                                <p className="text-xs font-bold text-orange-800 uppercase tracking-widest">Sinergia Tecnológica: Software + Hardware Físico en perfecta armonía.</p>
+                            </div>
+                        </div>
+                    )
+                },
+                // SLIDE 7: EQUIPO JOINT VENTURE (COLORES MODIFICADOS)
+                {
+                    title: "Alianza Estratégica",
+                    subtitle: "Modelo Joint Venture: Fusión de experticia técnica y comercial",
+                    content: (
+                        <div className="flex flex-col h-full justify-center space-y-6">
+                            <div className="text-center space-y-2">
+                                <h4 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Equipo Fundador Multidisciplinario</h4>
+                                <p className="text-slate-500 text-sm max-w-2xl mx-auto">Distribución de Horas Hombre (HH) entre tres firmas especializadas, garantizando un despliegue tecnológico sin precedentes.</p>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                                {/* FERNANDA - TEMA NARANJA */}
+                                <div className="bg-slate-900 p-6 rounded-[2rem] text-white shadow-xl relative overflow-hidden border border-orange-500/30 group hover:border-orange-500 transition-colors flex flex-col">
+                                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity text-orange-400"><Icon name="cpu" size={80} /></div>
+                                    <h5 className="text-xl font-black text-white uppercase tracking-tighter">Fernanda Mesa C.</h5>
+                                    <p className="text-[10px] font-bold tracking-widest text-orange-400 mb-3 uppercase">CEO | Física e Ingeniera</p>
+                                    <p className="text-xs text-slate-400 mb-4 leading-relaxed flex-1">Directora de <span className="text-white font-bold">FyT</span>. Coordina proyectos I+D, visión comercial, negociación de inversión y diseño de hardware aerodinámico.</p>
+                                    <div className="flex justify-between items-center pt-4 border-t border-white/10 mt-auto">
+                                        <span className="text-[10px] font-black text-slate-300">ESTRATEGIA & HW</span>
+                                        <a href="https://www.linkedin.com/in/fernanda-383091250/" target="_blank" className="text-slate-400 hover:text-orange-400 transition-colors"><Icon name="linkedin" size={18} /></a>
+                                    </div>
+                                </div>
+                                {/* BRUNO - TEMA AZUL */}
+                                <div className="bg-slate-900 p-6 rounded-[2rem] text-white shadow-xl relative overflow-hidden border border-blue-500/30 group hover:border-blue-500 transition-colors flex flex-col">
+                                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity text-blue-400"><Icon name="zap" size={80} /></div>
+                                    <h5 className="text-xl font-black text-white uppercase tracking-tighter">Bruno Osses L.</h5>
+                                    <p className="text-[10px] font-bold tracking-widest text-blue-400 mb-3 uppercase">CTO | Ing. Civil Eléctrico</p>
+                                    <p className="text-xs text-slate-400 mb-4 leading-relaxed flex-1">Especialista en electromovilidad y baterías. Desarrolla la arquitectura del sistema de potencia continua y el circuito de ultra-tensión.</p>
+                                    <div className="flex justify-between items-center pt-4 border-t border-white/10 mt-auto">
+                                        <span className="text-[10px] font-black text-slate-300">PILA TÉC. & ENERGÍA</span>
+                                        <a href="https://cl.linkedin.com/in/bruno-osses-labbe" target="_blank" className="text-slate-400 hover:text-blue-400 transition-colors"><Icon name="linkedin" size={18} /></a>
+                                    </div>
+                                </div>
+                                {/* JULIO - TEMA ESMERALDA */}
+                                <div className="bg-slate-900 p-6 rounded-[2rem] text-white shadow-xl relative overflow-hidden border border-emerald-500/30 group hover:border-emerald-500 transition-colors flex flex-col">
+                                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity text-emerald-400"><Icon name="eye" size={80} /></div>
+                                    <h5 className="text-xl font-black text-white uppercase tracking-tighter">Julio Hofflinger</h5>
+                                    <p className="text-[10px] font-bold tracking-widest text-emerald-400 mb-3 uppercase">CTO | Ing. Forestal</p>
+                                    <p className="text-xs text-slate-400 mb-4 leading-relaxed flex-1">Experto en IA y Visión por Computadora. Implementa algoritmos de detección autónoma (humo, fuego y reconocimiento topográfico).</p>
+                                    <div className="flex justify-between items-center pt-4 border-t border-white/10 mt-auto">
+                                        <span className="text-[10px] font-black text-slate-300">SOFTWARE, IA & DATA</span>
+                                        <a href="https://cl.linkedin.com/in/julio-hofflinger/es" target="_blank" className="text-slate-400 hover:text-emerald-400 transition-colors"><Icon name="linkedin" size={18} /></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-orange-50 p-4 rounded-2xl border border-orange-100 flex items-center justify-start gap-4 mx-auto w-full">
+                                <div className="p-3 bg-orange-600 text-white rounded-xl"><Icon name="network" size={24} /></div>
+                                <div>
+                                    <p className="text-xs font-black text-orange-900 uppercase">Sinapsis Operativa: Joint Venture</p>
+                                    <p className="text-[11px] text-orange-700 font-medium">Asociación de empresas independientes que unen su capital intelectual y herramientas operativas para escalar Dronetry al mercado B2B y B2G.</p>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                },
+                // SLIDE 8: ROADMAP E HITOS (NUEVA DIAPOSITIVA)
+                {
+                    title: "Roadmap: Próximos Pasos",
+                    subtitle: "Proyección a corto y mediano plazo para levantamiento de capital",
+                    content: (
+                        <div className="flex flex-col h-full justify-center space-y-12">
+                            <div className="relative mt-8">
+                                {/* Línea conectora horizontal */}
+                                <div className="absolute top-1/2 left-0 w-full h-1 bg-slate-200 -translate-y-1/2 z-0 hidden md:block"></div>
+                                
+                                <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 gap-6">
+                                    {/* Hito 1 */}
+                                    <div className="bg-white border-2 border-orange-500 rounded-3xl p-6 shadow-xl relative">
+                                        <div className="w-8 h-8 bg-orange-500 rounded-full border-4 border-white absolute -top-4 left-1/2 transform -translate-x-1/2 shadow-md"></div>
+                                        <p className="text-[10px] font-black text-orange-500 uppercase tracking-widest text-center mt-2 mb-1">Fase Actual</p>
+                                        <h4 className="text-lg font-black text-slate-800 text-center uppercase tracking-tighter leading-tight mb-2">Reunión de Tomas</h4>
+                                        <p className="text-[11px] text-slate-500 text-center">Definición de requerimientos técnicos, alineación del equipo Joint Venture y distribución de tareas.</p>
+                                    </div>
+
+                                    {/* Hito 2 */}
+                                    <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm relative opacity-90">
+                                        <div className="w-8 h-8 bg-slate-300 rounded-full border-4 border-white absolute -top-4 left-1/2 transform -translate-x-1/2 shadow-sm"></div>
+                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center mt-2 mb-1">Fin de Mes</p>
+                                        <h4 className="text-lg font-black text-slate-800 text-center uppercase tracking-tighter leading-tight mb-2">Visita a Concepción</h4>
+                                        <p className="text-[11px] text-slate-500 text-center">Coordinación de terreno. Pruebas preliminares de campo en entornos forestales y validación de hardware.</p>
+                                    </div>
+
+                                    {/* Hito 3 */}
+                                    <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm relative opacity-80">
+                                        <div className="w-8 h-8 bg-slate-300 rounded-full border-4 border-white absolute -top-4 left-1/2 transform -translate-x-1/2 shadow-sm"></div>
+                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center mt-2 mb-1">Mes 3</p>
+                                        <h4 className="text-lg font-black text-slate-800 text-center uppercase tracking-tighter leading-tight mb-2">Desarrollo MVP</h4>
+                                        <p className="text-[11px] text-slate-500 text-center">Producto Mínimo Viable funcional: Estación tethered acoplada, transmisión de video e IA operativa.</p>
+                                    </div>
+
+                                    {/* Hito 4 */}
+                                    <div className="bg-slate-900 border border-slate-700 rounded-3xl p-6 shadow-xl relative transform scale-105">
+                                        <div className="w-8 h-8 bg-blue-500 rounded-full border-4 border-slate-900 absolute -top-4 left-1/2 transform -translate-x-1/2 shadow-sm"></div>
+                                        <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest text-center mt-2 mb-1">Mes 6</p>
+                                        <h4 className="text-lg font-black text-white text-center uppercase tracking-tighter leading-tight mb-2">Fondos & Comercial</h4>
+                                        <p className="text-[11px] text-slate-400 text-center">Postulación oficial a fondo gubernamental (Semilla Inicia/Expande) y prospección B2B.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                },
+                // SLIDE 9: CONTACTO
+                {
+                    title: "Contacto Estratégico",
+                    subtitle: "Ingeniería chilena para desafíos globales",
+                    content: (
+                        <div className="flex flex-col items-center justify-center h-full space-y-12">
+                            <div className="text-center space-y-4">
+                                <div className="w-20 h-20 bg-slate-900 rounded-3xl flex items-center justify-center mx-auto shadow-2xl">
+                                    <Icon name="rocket" size={40} className="text-orange-400" />
+                                </div>
+                                <h2 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">¿Innovamos Juntos?</h2>
+                                <p className="text-slate-500 text-sm max-w-sm mx-auto">Invierte en la autonomía crítica para seguridad e industria forestal.</p>
+                            </div>
+                            <div className="w-full max-w-md p-6 bg-white border border-slate-100 rounded-[2.5rem] shadow-sm border-l-8 border-l-orange-600">
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">CEO | Relaciones Comerciales</p>
+                                <p className="text-lg font-black text-slate-800">fernandamesacarrasco.ip@gmail.com</p>
+                            </div>
+                            <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.5em] mt-10">Physics • Aerospace Engineering • AI Vision • Dronetry 2026</p>
+                        </div>
+                    )
+                }
+            ];
+
+            const next = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+            const prev = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+            return (
+                <div className="min-h-screen flex items-center justify-center p-4 md:p-8">
+                    <div className="w-full max-w-6xl bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col border-[12px] border-white ring-1 ring-slate-200">
+                        {/* HEADER */}
+                        <div className="px-8 py-6 md:px-12 md:py-10 border-b border-slate-50 flex justify-between items-center bg-white">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-[10px] text-white font-black tracking-tighter">DRT</div>
+                                <div>
+                                    <h2 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tighter leading-none">{slides[currentSlide].title}</h2>
+                                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">{slides[currentSlide].subtitle}</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-2">
+                                <button onClick={prev} className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-slate-50 hover:bg-orange-50 flex items-center justify-center transition-all text-slate-300 hover:text-orange-600">
+                                    <Icon name="chevron-left" size={24} />
+                                </button>
+                                <button onClick={next} className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-slate-900 hover:bg-orange-600 flex items-center justify-center transition-all text-white shadow-lg">
+                                    <Icon name="chevron-right" size={24} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* CONTENT */}
+                        <div className="flex-1 min-h-[500px] p-8 md:p-14 bg-white relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-1/4 h-full bg-slate-50/50 skew-x-12 transform translate-x-20"></div>
+                            <div key={currentSlide} className="relative h-full animate-fade-in">
+                                {slides[currentSlide].content}
+                            </div>
+                        </div>
+
+                        {/* FOOTER */}
+                        <div className="px-8 py-6 md:px-12 md:py-8 bg-slate-50 flex justify-between items-center">
+                            <div className="flex gap-3">
+                                {slides.map((_, i) => (
+                                    <button 
+                                        key={i}
+                                        onClick={() => setCurrentSlide(i)}
+                                        className={`h-1.5 rounded-full transition-all duration-500 ${i === currentSlide ? 'w-12 bg-orange-600 shadow-md shadow-orange-200' : 'w-3 bg-slate-200 hover:bg-slate-300'}`}
+                                    />
+                                ))}
+                            </div>
+                            <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] hidden sm:block">
+                                Dronetry Aerospace Solutions 2026
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
