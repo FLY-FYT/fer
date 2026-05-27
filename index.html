@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Presupuesto Personal</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #faf9ff;
+            --panel-bg: #ffffff;
+            --primary-light: #e6e6fa; /* Lavanda claro */
+            --primary: #c3bbf4; /* Morado suave */
+            --primary-dark: #4a4a75; /* Morado oscuro para texto */
+            --text-main: #333333;
+            --text-muted: #666666;
+            --border: #f0f0f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Encabezado */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-dark);
+        }
+
+        header h1 {
+            font-weight: 400;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+
+        /* Tarjetas de Resumen */
+        .summary-cards {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            flex: 1;
+            min-width: 200px;
+            background: var(--primary-light);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .card h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        /* Cuadrícula Principal */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        /* Paneles */
+        .panel {
+            background: var(--panel-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid var(--border);
+        }
+
+        .panel-header {
+            background: var(--primary-light);
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            letter-spacing: 1px;
+        }
+
+        /* Tablas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        td.amount {
+            text-align: right;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ff4d4d;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Formularios para agregar */
+        .add-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .add-form input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .add-form input[type="text"] {
+            flex: 2;
+        }
+
+        .add-form input[type="number"] {
+            flex: 1;
+        }
+
+        .add-form button {
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add-form button:hover {
+            background: #3a3a5c;
+        }
+
+        /* Contenedores de Gráficos */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Dashboard de Presupuesto</h1>
+            <p id="currentMonth" style="color: var(--text-muted);"></p>
+        </header>
+
+        <div class="summary-cards">
+            <div class="card">
+                <h3>Ingresos Totales</h3>
+                <p id="totalIncome">$0.00</p>
+            </div>
+            <div class="card">
+                <h3>Gastos Totales</h3>
+                <p id="totalExpenses">$0.00</p>
+            </div>
+            <div class="card" style="background: var(--primary);">
+                <h3 style="color: white;">Disponible para Gastar</h3>
+                <p id="leftover" style="color: white;">$0.00</p>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="charts-column">
+                <div class="panel" style="margin-bottom: 20px;">
+                    <div class="panel-header">CANTIDAD DISPONIBLE</div>
+                    <div class="chart-container">
+                        <canvas id="donutChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="panel">
+                    <div class="panel-header">RESUMEN DE FLUJO</div>
+                    <div class="chart-container">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tables-column">
+                <div class="panel" style="margin-bottom: 20px;">
+                    <div class="panel-header">INGRESOS</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>CATEGORÍA</th>
+                                <th class="amount">REAL</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="incomeTableBody">
+                            </tbody>
+                    </table>
+                    <form class="add-form" onsubmit="addItem(event, 'income')">
+                        <input type="text" id="incomeName" placeholder="Nueva fuente..." required>
+                        <input type="number" id="incomeAmount" placeholder="$0.00" step="0.01" required>
+                        <button type="submit">+</button>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">GASTOS</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>CATEGORÍA</th>
+                                <th class="amount">REAL</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenseTableBody">
+                            </tbody>
+                    </table>
+                    <form class="add-form" onsubmit="addItem(event, 'expense')">
+                        <input type="text" id="expenseName" placeholder="Nuevo gasto..." required>
+                        <input type="number" id="expenseAmount" placeholder="$0.00" step="0.01" required>
+                        <button type="submit">+</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. CONFIGURACIÓN DE DATOS Y LOCALSTORAGE ---
+        // Intentar cargar datos guardados, si no hay, usar datos por defecto
+        let budgetData = JSON.parse(localStorage.getItem('budgetData')) || {
+            income: [
+                { id: 1, name: 'Sueldo', amount: 4400 }
+            ],
+            expenses: [
+                { id: 1, name
