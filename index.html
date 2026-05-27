@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Presupuesto Personal</title>
+    <title>Mi Presupuesto Personal - Chile</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --bg-color: #faf9ff;
             --panel-bg: #ffffff;
-            --primary-light: #e6e6fa; /* Lavanda claro */
-            --primary: #c3bbf4; /* Morado suave */
-            --primary-dark: #4a4a75; /* Morado oscuro para texto */
+            --primary-light: #e6e6fa;
+            --primary: #c3bbf4;
+            --primary-dark: #4a4a75;
             --text-main: #333333;
             --text-muted: #666666;
             --border: #f0f0f5;
+            --expense-color: #ffb3b3;
+            --savings-color: #bdf4cb;
         }
 
         * {
@@ -35,7 +37,6 @@
             margin: 0 auto;
         }
 
-        /* Encabezado */
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -48,10 +49,9 @@
             margin-bottom: 5px;
         }
 
-        /* Tarjetas de Resumen */
         .summary-cards {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
@@ -59,15 +59,20 @@
         .card {
             flex: 1;
             min-width: 200px;
-            background: var(--primary-light);
+            background: var(--panel-bg);
             padding: 20px;
             border-radius: 8px;
             text-align: center;
+            border: 1px solid var(--border);
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
 
+        .card.main { background: var(--primary-light); }
+        .card.highlight { background: var(--primary); color: white; }
+        .card.highlight h3 { color: white; }
+
         .card h3 {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--primary-dark);
@@ -75,29 +80,28 @@
         }
 
         .card p {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
-            color: var(--text-main);
         }
 
-        /* Cuadrícula Principal */
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1.5fr;
             gap: 20px;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .grid { grid-template-columns: 1fr; }
         }
 
-        /* Paneles */
         .panel {
             background: var(--panel-bg);
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
             border: 1px solid var(--border);
+            margin-bottom: 20px;
+            overflow-x: auto;
         }
 
         .panel-header {
@@ -111,11 +115,11 @@
             letter-spacing: 1px;
         }
 
-        /* Tablas */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 15px;
+            min-width: 400px;
         }
 
         th, td {
@@ -125,14 +129,9 @@
             font-size: 0.9rem;
         }
 
-        th {
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        td.amount {
-            text-align: right;
-        }
+        th { color: var(--text-muted); font-weight: 600; }
+        td.amount { text-align: right; font-weight: bold; }
+        td.date { color: var(--text-muted); font-size: 0.85rem; }
 
         .delete-btn {
             background: none;
@@ -140,28 +139,26 @@
             color: #ff4d4d;
             cursor: pointer;
             font-weight: bold;
+            padding: 5px;
         }
 
-        /* Formularios para agregar */
         .add-form {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-top: 10px;
+            flex-wrap: wrap;
+            background: var(--bg-color);
+            padding: 10px;
+            border-radius: 6px;
         }
 
-        .add-form input {
+        .add-form input, .add-form select {
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
             outline: none;
-        }
-
-        .add-form input[type="text"] {
-            flex: 2;
-        }
-
-        .add-form input[type="number"] {
             flex: 1;
+            min-width: 110px;
         }
 
         .add-form button {
@@ -174,55 +171,65 @@
             font-weight: bold;
         }
 
-        .add-form button:hover {
-            background: #3a3a5c;
-        }
+        .add-form button:hover { background: #3a3a5c; }
 
-        /* Contenedores de Gráficos */
         .chart-container {
             position: relative;
-            height: 300px;
+            height: 250px;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .badge.con { background: #d4edda; color: #155724; }
+        .badge.sin { background: #f8d7da; color: #721c24; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>Dashboard de Presupuesto</h1>
+            <h1>Mi Presupuesto</h1>
             <p id="currentMonth" style="color: var(--text-muted);"></p>
         </header>
 
         <div class="summary-cards">
-            <div class="card">
-                <h3>Ingresos Totales</h3>
-                <p id="totalIncome">$0.00</p>
+            <div class="card main">
+                <h3>Ingresos</h3>
+                <p id="totalIncome">$0</p>
             </div>
             <div class="card">
-                <h3>Gastos Totales</h3>
-                <p id="totalExpenses">$0.00</p>
+                <h3>Gastos</h3>
+                <p id="totalExpenses" style="color: var(--expense-color);">$0</p>
             </div>
-            <div class="card" style="background: var(--primary);">
-                <h3 style="color: white;">Disponible para Gastar</h3>
-                <p id="leftover" style="color: white;">$0.00</p>
+            <div class="card">
+                <h3>Ahorros</h3>
+                <p id="totalSavings" style="color: #28a745;">$0</p>
+            </div>
+            <div class="card highlight">
+                <h3>Disponible (Bolsillo)</h3>
+                <p id="leftover">$0</p>
             </div>
         </div>
 
         <div class="grid">
             <div class="charts-column">
-                <div class="panel" style="margin-bottom: 20px;">
-                    <div class="panel-header">CANTIDAD DISPONIBLE</div>
+                <div class="panel">
+                    <div class="panel-header">DISTRIBUCIÓN DE INGRESOS</div>
                     <div class="chart-container">
                         <canvas id="donutChart"></canvas>
                     </div>
                 </div>
                 
                 <div class="panel">
-                    <div class="panel-header">RESUMEN DE FLUJO</div>
+                    <div class="panel-header">RESUMEN MENSUAL</div>
                     <div class="chart-container">
                         <canvas id="barChart"></canvas>
                     </div>
@@ -230,55 +237,246 @@
             </div>
 
             <div class="tables-column">
-                <div class="panel" style="margin-bottom: 20px;">
-                    <div class="panel-header">INGRESOS</div>
+                
+                <div class="panel">
+                    <div class="panel-header">INGRESOS RECIBIDOS</div>
                     <table>
-                        <thead>
-                            <tr>
-                                <th>CATEGORÍA</th>
-                                <th class="amount">REAL</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="incomeTableBody">
-                            </tbody>
+                        <thead><tr><th>FECHA</th><th>DESCRIPCIÓN</th><th class="amount">MONTO</th><th></th></tr></thead>
+                        <tbody id="incomeTableBody"></tbody>
                     </table>
                     <form class="add-form" onsubmit="addItem(event, 'income')">
-                        <input type="text" id="incomeName" placeholder="Nueva fuente..." required>
-                        <input type="number" id="incomeAmount" placeholder="$0.00" step="0.01" required>
+                        <input type="date" id="incomeDate" required>
+                        <input type="text" id="incomeDesc" placeholder="Detalle del ingreso..." required>
+                        <input type="number" id="incomeAmount" placeholder="Monto ($)" min="1" required>
                         <button type="submit">+</button>
                     </form>
                 </div>
 
                 <div class="panel">
-                    <div class="panel-header">GASTOS</div>
+                    <div class="panel-header">GASTOS / COMPRAS</div>
                     <table>
-                        <thead>
-                            <tr>
-                                <th>CATEGORÍA</th>
-                                <th class="amount">REAL</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="expenseTableBody">
-                            </tbody>
+                        <thead><tr><th>FECHA</th><th>TIENDA / DETALLE</th><th class="amount">MONTO</th><th></th></tr></thead>
+                        <tbody id="expenseTableBody"></tbody>
                     </table>
                     <form class="add-form" onsubmit="addItem(event, 'expense')">
-                        <input type="text" id="expenseName" placeholder="Nuevo gasto..." required>
-                        <input type="number" id="expenseAmount" placeholder="$0.00" step="0.01" required>
+                        <input type="date" id="expenseDate" required>
+                        <input type="text" id="expenseDesc" placeholder="Tienda o servicio..." required>
+                        <input type="number" id="expenseAmount" placeholder="Monto ($)" min="1" required>
                         <button type="submit">+</button>
                     </form>
                 </div>
+
+                <div class="panel">
+                    <div class="panel-header">REGISTRO DE AHORRO</div>
+                    <table>
+                        <thead><tr><th>FECHA</th><th>META / FONDO</th><th class="amount">MONTO</th><th></th></tr></thead>
+                        <tbody id="savingTableBody"></tbody>
+                    </table>
+                    <form class="add-form" onsubmit="addItem(event, 'saving')">
+                        <input type="date" id="savingDate" required>
+                        <input type="text" id="savingDesc" placeholder="Fondo de emergencia, viaje..." required>
+                        <input type="number" id="savingAmount" placeholder="Monto ($)" min="1" required>
+                        <button type="submit">+</button>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">CONTROL DE PRÉSTAMOS</div>
+                    <table>
+                        <thead><tr><th>FECHA</th><th>TEXTO / PERSONA</th><th>ESTADO</th><th class="amount">MONTO</th><th></th></tr></thead>
+                        <tbody id="loanTableBody"></tbody>
+                    </table>
+                    <form class="add-form" onsubmit="addItem(event, 'loan')">
+                        <input type="date" id="loanDate" required>
+                        <input type="text" id="loanDesc" placeholder="A quién / De quién..." required>
+                        <select id="loanStatus" required>
+                            <option value="con">Con Devolución</option>
+                            <option value="sin">Sin Devolución</option>
+                        </select>
+                        <input type="number" id="loanAmount" placeholder="Monto ($)" min="1" required>
+                        <button type="submit">+</button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script>
-        // --- 1. CONFIGURACIÓN DE DATOS Y LOCALSTORAGE ---
-        // Intentar cargar datos guardados, si no hay, usar datos por defecto
-        let budgetData = JSON.parse(localStorage.getItem('budgetData')) || {
-            income: [
-                { id: 1, name: 'Sueldo', amount: 4400 }
-            ],
-            expenses: [
-                { id: 1, name
+        // Cambiamos la clave de LocalStorage para evitar conflictos con la versión anterior
+        let budgetData = JSON.parse(localStorage.getItem('budgetDataCLP')) || {
+            income: [],
+            expense: [],
+            saving: [],
+            loan: []
+        };
+
+        let donutChartInstance = null;
+        let barChartInstance = null;
+
+        // Fecha actual en el título y por defecto en los inputs
+        const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        const hoy = new Date();
+        document.getElementById('currentMonth').innerText = `${meses[hoy.getMonth()]} ${hoy.getFullYear()}`;
+        
+        // Formatear la fecha para los inputs (YYYY-MM-DD)
+        const fechaInputDefault = hoy.toISOString().split('T')[0];
+        document.getElementById('incomeDate').value = fechaInputDefault;
+        document.getElementById('expenseDate').value = fechaInputDefault;
+        document.getElementById('savingDate').value = fechaInputDefault;
+        document.getElementById('loanDate').value = fechaInputDefault;
+
+        // Formato Peso Chileno (CLP) - Sin decimales
+        const formatCLP = (amount) => {
+            return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(amount);
+        };
+
+        // Formato Fecha amigable (DD/MM/YYYY)
+        const formatDate = (dateString) => {
+            const [year, month, day] = dateString.split('-');
+            return `${day}/${month}/${year}`;
+        };
+
+        function updateDashboard() {
+            localStorage.setItem('budgetDataCLP', JSON.stringify(budgetData));
+            renderTables();
+            updateTotalsAndCharts();
+        }
+
+        function renderTables() {
+            // Render Ingresos
+            document.getElementById('incomeTableBody').innerHTML = budgetData.income.map(item => `
+                <tr>
+                    <td class="date">${formatDate(item.date)}</td>
+                    <td>${item.desc}</td>
+                    <td class="amount">${formatCLP(item.amount)}</td>
+                    <td style="text-align:center;"><button class="delete-btn" onclick="deleteItem('income', ${item.id})">✖</button></td>
+                </tr>`).join('');
+
+            // Render Gastos
+            document.getElementById('expenseTableBody').innerHTML = budgetData.expense.map(item => `
+                <tr>
+                    <td class="date">${formatDate(item.date)}</td>
+                    <td>${item.desc}</td>
+                    <td class="amount">${formatCLP(item.amount)}</td>
+                    <td style="text-align:center;"><button class="delete-btn" onclick="deleteItem('expense', ${item.id})">✖</button></td>
+                </tr>`).join('');
+
+            // Render Ahorros
+            document.getElementById('savingTableBody').innerHTML = budgetData.saving.map(item => `
+                <tr>
+                    <td class="date">${formatDate(item.date)}</td>
+                    <td>${item.desc}</td>
+                    <td class="amount">${formatCLP(item.amount)}</td>
+                    <td style="text-align:center;"><button class="delete-btn" onclick="deleteItem('saving', ${item.id})">✖</button></td>
+                </tr>`).join('');
+
+            // Render Préstamos
+            document.getElementById('loanTableBody').innerHTML = budgetData.loan.map(item => {
+                const badgeClass = item.status === 'con' ? 'con' : 'sin';
+                const badgeText = item.status === 'con' ? 'Con Devolución' : 'Sin Devolución';
+                return `
+                <tr>
+                    <td class="date">${formatDate(item.date)}</td>
+                    <td>${item.desc}</td>
+                    <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+                    <td class="amount">${formatCLP(item.amount)}</td>
+                    <td style="text-align:center;"><button class="delete-btn" onclick="deleteItem('loan', ${item.id})">✖</button></td>
+                </tr>`;
+            }).join('');
+        }
+
+        function addItem(event, type) {
+            event.preventDefault();
+            
+            const dateInput = document.getElementById(`${type}Date`).value;
+            const descInput = document.getElementById(`${type}Desc`).value;
+            const amountInput = parseFloat(document.getElementById(`${type}Amount`).value);
+            
+            const newItem = {
+                id: Date.now(),
+                date: dateInput,
+                desc: descInput,
+                amount: amountInput
+            };
+
+            if (type === 'loan') {
+                newItem.status = document.getElementById('loanStatus').value;
+            }
+
+            budgetData[type].push(newItem);
+            
+            // Limpiar campos de texto y monto, mantener la fecha
+            document.getElementById(`${type}Desc`).value = '';
+            document.getElementById(`${type}Amount`).value = '';
+
+            updateDashboard();
+        }
+
+        function deleteItem(type, id) {
+            budgetData[type] = budgetData[type].filter(item => item.id !== id);
+            updateDashboard();
+        }
+
+        function updateTotalsAndCharts() {
+            const totalIncome = budgetData.income.reduce((sum, item) => sum + item.amount, 0);
+            const totalExpenses = budgetData.expense.reduce((sum, item) => sum + item.amount, 0);
+            const totalSavings = budgetData.saving.reduce((sum, item) => sum + item.amount, 0);
+            
+            // Dinero disponible (Ingresos - Gastos - Ahorros)
+            const leftover = totalIncome - totalExpenses - totalSavings;
+
+            document.getElementById('totalIncome').innerText = formatCLP(totalIncome);
+            document.getElementById('totalExpenses').innerText = formatCLP(totalExpenses);
+            document.getElementById('totalSavings').innerText = formatCLP(totalSavings);
+            document.getElementById('leftover').innerText = formatCLP(leftover);
+
+            // --- GRÁFICO DONUT (Distribución de lo que haces con el ingreso) ---
+            const ctxDonut = document.getElementById('donutChart').getContext('2d');
+            if(donutChartInstance) donutChartInstance.destroy();
+            
+            donutChartInstance = new Chart(ctxDonut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Gastos', 'Ahorros', 'Disponible'],
+                    datasets: [{
+                        data: [totalExpenses, totalSavings, leftover > 0 ? leftover : 0],
+                        backgroundColor: ['#ffb3b3', '#bdf4cb', '#c3bbf4'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+
+            // --- GRÁFICO DE BARRAS (Ingreso vs Salidas) ---
+            const ctxBar = document.getElementById('barChart').getContext('2d');
+            if(barChartInstance) barChartInstance.destroy();
+
+            barChartInstance = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Ingresos', 'Gastos', 'Ahorros'],
+                    datasets: [{
+                        label: 'Monto (CLP)',
+                        data: [totalIncome, totalExpenses, totalSavings],
+                        backgroundColor: ['#e6e6fa', '#ffb3b3', '#bdf4cb'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        updateDashboard();
+    </script>
+</body>
+</html>
