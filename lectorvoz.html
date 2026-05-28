@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lector de Documentos Ilimitado</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+    
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background-color: #f0f2f5; color: #333; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h1 { color: #1a73e8; text-align: center; margin-bottom: 5px; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 25px; }
+        textarea { width: 100%; height: 250px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; line-height: 1.5; margin-bottom: 15px; }
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        label { font-weight: bold; font-size: 14px; color: #444; display: block; margin-bottom: 5px; }
+        select, input[type="range"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .buttons { display: flex; gap: 10px; justify-content: center; }
+        button { padding: 12px 25px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: opacity 0.2s; color: white; }
+        .btn-play { background-color: #1a73e8; }
+        .btn-pause { background-color: #fbbc04; color: #333; }
+        .btn-stop { background-color: #ea4335; }
+        button:hover { opacity: 0.8; }
+        #status { text-align: center; margin-top: 15px; font-weight: bold; color: #1a73e8; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎧 Lector Fluido e Ilimitado</h1>
+    <p class="subtitle">Sube PDFs de múltiples páginas. El sistema limpia el texto y lo lee sin pausas raras.</p>
+
+    <div class="controls" style="grid-template-columns: 1fr;">
+        <div>
+            <label for="file-upload">Sube tu documento (PDF o Word DOCX):</label>
+            <input type="file" id="file-upload" accept=".pdf, .docx">
+        </div>
+    </div>
+
+    <textarea id="text-input" placeholder="El texto extraído aparecerá aquí y se limpiará automáticamente para una lectura fluida..."></textarea>
+
+    <div class="controls">
+        <div>
+            <label for="voice-select">Seleccionar Voz:</label>
+            <select id="voice-select"><option>Cargando voces...</option></select>
+        </div>
+        <div>
+            <label for="rate">Velocidad de lectura:</label>
+            <input type="range" id="rate" min="0.8" max="2" value="1.1" step="0.1">
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button class="btn-play" onclick="reproducir()">▶️ Reproducir</button>
+        <button class="btn-pause" onclick="pausar()">⏸️ Pausar</button>
+        <button class="btn-stop" onclick="detener()">⏹️ Detener</button>
+    </div>
+    
+    <div id="status">Esperando documento...</div>
+</div>
+
+<script>
+    // Configuración de PDF.js
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    const synth = window.speechSynthesis;
+    const textInput = document.getElementById('text-input');
+    const voiceSelect = document.getElementById('voice-select');
+    const rateInput = document.getElementById('rate');
+    const fileUpload = document.getElementById('file-upload');
+    const statusDiv = document.getElementById('status');
+
+    let voces = [];
+    let fragmentosDeTexto = [];
+    let indiceFragmentoActual = 0;
+
+    // 1. Cargar Voces del sistema
+    function cargarVoces() {
+        voces = synth.getVoices();
+        voiceSelect.innerHTML = '';
+        voces.forEach((voz) => {
+            if (voz.lang.includes('es')) {
+                const option = document.createElement('option');
+                option.textContent = `${voz.name} (${voz.lang})`;
+                option.setAttribute('data-name', voz.name);
+                voiceSelect.appendChild(option);
+            }
+        });
+    }
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = cargarVoces;
+    }
+
+    // 2. Procesar Archivos Subidos
+    fileUpload.addEventListener('change', async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        statusDiv.innerText = "Extrayendo y limpiando texto... Por favor espera.";
+        textInput.value = "";
+        let textoExtraido = "";
+
+        try {
+            if (file.name.endsWith('.pdf')) {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    textoExtraido += pageText + " ";
+                }
+            } else if (file.name.endsWith('.docx')) {
+                const arrayBuffer = await file.arrayBuffer();
+                const result = await mammoth.extractRawText({arrayBuffer: arrayBuffer});
+                textoExtraido = result.value;
+            }
+
+            // LIMPIEZA EXTREMA PARA FLUIDEZ
+            // Eliminar guiones de final de línea, múltiples espacios y saltos de línea raros
+            textoExtraido = textoExtraido
+                .replace(/-\s*\n/g, "") // Une palabras separadas por guión al final de la línea
+                .replace(/\n/g, " ") // Cambia saltos de línea por espacios
+                .replace(/\s{2,}/g, " "); // Elimina espacios dobles o triples
+
+            textInput.value = textoExtraido.trim();
+            statusDiv.innerText = "¡Texto listo para escuchar!";
+        } catch (error) {
+            statusDiv.innerText = "Error al leer el archivo.";
+            console.error(error);
+        }
+    });
+
+    // 3. Sistema de Lectura por Fragmentos (Evita que se corte)
+    function reproducir() {
+        if (synth.speaking && synth.paused) {
+            synth.resume();
+            return;
+        }
+        if (synth.speaking) synth.cancel(); // Reiniciar si ya estaba hablando
+
+        const textoCompleto = textInput.value.trim();
+        if (!textoCompleto) return;
+
+        // Dividir el texto por puntos para crear oraciones manejables (soluciona el límite del navegador)
+        // La expresión regular busca puntos, interrogaciones o exclamaciones seguidos de un espacio
+        fragmentosDeTexto = textoCompleto.match(/[^.!?]+[.!?]+[\])'"`’”]*|.+/g) || [textoCompleto];
+        indiceFragmentoActual = 0;
+
+        leerSiguienteFragmento();
+    }
+
+    function leerSiguienteFragmento() {
+        if (indiceFragmentoActual >= fragmentosDeTexto.length) {
+            statusDiv.innerText = "Lectura finalizada.";
+            return; // Terminó de leer todo
+        }
+
+        const textoFragmento = fragmentosDeTexto[indiceFragmentoActual].trim();
+        if (!textoFragmento) {
+            indiceFragmentoActual++;
+            leerSiguienteFragmento();
+            return;
+        }
+
+        const utterance = new SpeechSynthesisUtterance(textoFragmento);
+        const vozSeleccionada = voiceSelect.selectedOptions[0]?.getAttribute('data-name');
+        
+        if (vozSeleccionada) {
+            utterance.voice = voces.find(v => v.name === vozSeleccionada);
+        }
+        utterance.rate = rateInput.value;
+
+        // Cuando termina de leer la oración actual, pasa a la siguiente automáticamente
+        utterance.onend = () => {
+            indiceFragmentoActual++;
+            leerSiguienteFragmento();
+        };
+
+        utterance.onerror = (e) => {
+            console.error("Error en lectura", e);
+            synth.cancel();
+        };
+
+        statusDiv.innerText = `Reproduciendo... (Fragmento ${indiceFragmentoActual + 1} de ${fragmentosDeTexto.length})`;
+        synth.speak(utterance);
+    }
+
+    function pausar() {
+        if (synth.speaking && !synth.paused) {
+            synth.pause();
+            statusDiv.innerText = "En pausa.";
+        }
+    }
+
+    function detener() {
+        synth.cancel();
+        indiceFragmentoActual = fragmentosDeTexto.length; // Fuerza a que no siga reproduciendo
+        statusDiv.innerText = "Lectura detenida.";
+    }
+</script>
+
+</body>
+</html>
