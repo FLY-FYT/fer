@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DroneTry | Dashboard de Monitoreo</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .val { font-size: 24px; font-weight: bold; color: #2c3e50; }
+        .status-ok { color: green; }
+        .status-warn { color: orange; }
+    </style>
+</head>
+<body>
+
+    <h1>Dashboard de Operación: DroneTry</h1>
+    
+    <div class="grid">
+        <div class="card">
+            <h3>Potencia Consumida</h3>
+            <div class="val">1,250 W</div>
+            <p>Estado: <span class="status-ok">Normal</span></p>
+        </div>
+        <div class="card">
+            <h3>Temperatura Cable</h3>
+            <div class="val">42°C</div>
+            <p>Estado: <span class="status-ok">Operativo</span></p>
+        </div>
+        <div class="card">
+            <h3>Voltaje Llegada (Dron)</h3>
+            <div class="val">21.8 V</div>
+            <p>Estado: <span class="status-warn">Caída 0.4V</span></p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+        <h3>Bitácora de Hitos (MVP)</h3>
+        <ul>
+            <li>[✓] Auditoría de Hardware (Completado)</li>
+            <li>[ ] Banco de Pruebas (En curso)</li>
+            <li>[ ] Integración Física (Pendiente)</li>
+        </ul>
+    </div>
+
+</body>
+</html>
