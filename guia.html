@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DroneTry | Dashboard de Monitoreo y Simulación</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; color: #333; }
+        h1, h2, h3 { color: #2c3e50; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px;}
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .val { font-size: 24px; font-weight: bold; color: #2c3e50; }
+        .status-ok { color: green; font-weight: bold;}
+        .status-warn { color: orange; font-weight: bold;}
+        
+        /* Estilos para el simulador */
+        .slider-container { display: flex; align-items: center; justify-content: space-between; margin: 15px 0; }
+        .slider-container input[type="range"] { flex-grow: 1; margin: 0 15px; cursor: pointer; }
+        .slider-label { width: 150px; font-weight: 500; }
+        .slider-val { width: 50px; text-align: right; background: #eee; padding: 5px; border-radius: 5px; }
+        
+        .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; text-align: center; }
+        .result-box { background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6; }
+        .result-title { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; }
+        .result-value { font-size: 20px; font-weight: bold; color: #0d6efd; margin-top: 5px; }
+
+        .math-section { line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <h1>Dashboard de Operación: DroneTry</h1>
+    
+    <div class="grid">
+        <div class="card">
+            <h3>Potencia Consumida</h3>
+            <div class="val">1,250 W</div>
+            <p>Estado: <span class="status-ok">Normal</span></p>
+        </div>
+        <div class="card">
+            <h3>Temperatura Cable</h3>
+            <div class="val">42°C</div>
+            <p>Estado: <span class="status-ok">Operativo</span></p>
+        </div>
+        <div class="card">
+            <h3>Voltaje Llegada (Dron)</h3>
+            <div class="val">21.8 V</div>
+            <p>Estado: <span class="status-warn">Caída 0.4V</span></p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+        <h2>Simulación Dinámica: Tensión del Cable (Catenaria)</h2>
+        <p>Ajusta los parámetros operativos para predecir las tensiones estructurales del sistema anclado.</p>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+            <div style="flex: 1; min-width: 300px;">
+                <div class="slider-container">
+                    <span class="slider-label">Distancia Radial (r):</span>
+                    <input type="range" id="slideR" min="1" max="100" value="50" step="1" oninput="updateSim()">
+                    <span class="slider-val" id="valR">50 m</span>
+                </div>
+                <div class="slider-container">
+                    <span class="slider-label">Altura (z):</span>
+                    <input type="range" id="slideZ" min="10" max="100" value="50" step="1" oninput="updateSim()">
+                    <span class="slider-val" id="valZ">50 m</span>
+                </div>
+                <div class="slider-container">
+                    <span class="slider-label">Peso Lineal (w):</span>
+                    <input type="range" id="slideW" min="0.05" max="1.0" value="0.245" step="0.005" oninput="updateSim()">
+                    <span class="slider-val" id="valW">0.245 N/m</span>
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-box">
+                        <div class="result-title">Longitud (L)</div>
+                        <div class="result-value" id="outL">0.00 m</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-title">Tensión Horiz. (T₀)</div>
+                        <div class="result-value" id="outT0">0.00 N</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-title">Tensión Dron (T_D)</div>
+                        <div class="result-value" id="outTD">0.00 N</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-title">Peso Cable (W)</div>
+                        <div class="result-value" id="outW">0.00 N</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="flex: 1; min-width: 300px; border: 1px solid #ddd; border-radius: 8px;">
+                <div id="catenaryPlot" style="width: 100%; height: 350px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card math-section" style="margin-bottom: 20px;">
+        <h2>Fundamentos Físicos del Sistema</h2>
+        <p>El perfil del cable asume la forma de una <strong>catenaria</strong>, gobernada por el equilibrio estático entre el peso propio del cable y la tensión aplicada. La constante fundamental de la curva es \(\lambda\), definida por la relación entre la tensión horizontal en tierra (\(T_0\)) y el peso lineal del cable (\(w\)):</p>
+        
+        <div style="text-align: center; margin: 15px 0;">
+            \(\lambda = \frac{T_0}{w}\)
+        </div>
+
+        <p>Para determinar \(\lambda\) basado en la posición del dron \((r, z)\), se resuelve numéricamente la ecuación trascendental:</p>
+        
+        <div style="text-align: center; margin: 15px 0;">
+            \(z = \lambda \left[ \cosh\left(\frac{r}{\lambda}\right) - 1 \right]\)
+        </div>
+
+        <p>Una vez hallado \(\lambda\), el sistema calcula las fuerzas dinámicas que debe soportar el chasis y los rotores del dron. La longitud total del cable suspendido (\(L\)) y la tensión total experimentada en el dron (\(T_D\)) son:</p>
+
+        <div style="display: flex; justify-content: space-around; margin: 15px 0;">
+            <span>\(L = \lambda \sinh\left(\frac{r}{\lambda}\right)\)</span>
+            <span>\(T_D = \sqrt{T_0^2 + (L \cdot w)^2}\)</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Bitácora de Hitos (MVP)</h3>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li><strong style="color: green;">[✓]</strong> Auditoría de Hardware (Completado)</li>
+            <li><strong style="color: orange;">[~]</strong> Banco de Pruebas (En curso)</li>
+            <li><strong style="color: gray;">[ ]</strong> Integración Física (Pendiente)</li>
+        </ul>
+    </div>
+
+    <script>
+        // Aproximación numérica (Newton-Raphson) para encontrar Lambda
+        function solveLambda(r, z) {
+            if (r <= 0.01) return 10000; // Evitar división por 0 en el origen
+            let lambda = (r * r) / (2 * z) + 0.1; // Estimación inicial (parábola)
+            for (let i = 0; i < 30; i++) {
+                let term = r / lambda;
+                let f = lambda * Math.cosh(term) - lambda - z;
+                let df = Math.cosh(term) - term * Math.sinh(term) - 1;
+                let step = f / df;
+                lambda -= step;
+                if (Math.abs(step) < 1e-5) break;
+            }
+            return Math.abs(lambda);
+        }
+
+        function updateSim() {
+            // Leer inputs
+            let r = parseFloat(document.getElementById('slideR').value);
+            let z = parseFloat(document.getElementById('slideZ').value);
+            let w = parseFloat(document.getElementById('slideW').value);
+
+            // Actualizar etiquetas visuales
+            document.getElementById('valR').innerText = r + " m";
+            document.getElementById('valZ').innerText = z + " m";
+            document.getElementById('valW').innerText = w.toFixed(3) + " N/m";
+
+            // Cálculos Físicos
+            let lambda = solveLambda(r, z);
+            let L = lambda * Math.sinh(r / lambda);
+            let T0 = lambda * w;
+            let W_cable = L * w;
+            let TD = Math.sqrt(T0 * T0 + W_cable * W_cable);
+
+            // Actualizar resultados en pantalla
+            document.getElementById('outL').innerText = L.toFixed(2) + " m";
+            document.getElementById('outT0').innerText = T0.toFixed(2) + " N";
+            document.getElementById('outTD').innerText = TD.toFixed(2) + " N";
+            document.getElementById('outW').innerText = W_cable.toFixed(2) + " N";
+
+            // Generar puntos para la gráfica
+            let xData = [];
+            let yData = [];
+            let step = r / 50;
+            for (let x = 0; x <= r; x += step) {
+                xData.push(x);
+                yData.push(lambda * (Math.cosh(x / lambda) - 1));
+            }
+            // Asegurar el último punto exacto
+            xData.push(r);
+            yData.push(z);
+
+            // Trazado con Plotly
+            let traceCable = {
+                x: xData,
+                y: yData,
+                mode: 'lines',
+                name: 'Cable',
+                line: { color: '#0d6efd', width: 3 }
+            };
+
+            let traceDrone = {
+                x: [r],
+                y: [z],
+                mode: 'markers+text',
+                name: 'Dron',
+                marker: { size: 12, color: '#28a745', symbol: 'square' },
+                text: ['Dron (' + r + 'm, ' + z + 'm)'],
+                textposition: 'top center'
+            };
+
+            let layout = {
+                margin: { l: 40, r: 20, t: 30, b: 40 },
+                xaxis: { title: 'Distancia Radial (m)', range: [-5, Math.max(110, r + 10)] },
+                yaxis: { title: 'Altura (m)', range: [-5, Math.max(110, z + 10)], scaleanchor: "x", scaleratio: 1 },
+                showlegend: false,
+                plot_bgcolor: '#f8f9fa'
+            };
+
+            Plotly.react('catenaryPlot', [traceCable, traceDrone], layout, {displayModeBar: false});
+        }
+
+        // Ejecutar al cargar la página
+        window.onload = updateSim;
+    </script>
+</body>
+</html>
