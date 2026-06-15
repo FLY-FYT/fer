@@ -113,7 +113,7 @@
         <div class="tuav-grid">
             <div class="tuav-panel">
                 <h4>1. Estructura y Transmisión del Cable</h4>
-                <p>El diseño del <em>tether</em> exige un balance entre carga estructural y eficiencia eléctrica[cite: 190, 191]. Emplea una cubierta de fluoropolímero [cite: 193], núcleo reforzado con <strong>Kevlar</strong> para soportar el estrés mecánico de tracción , conductores de cobre para alta tensión [cite: 194], y fibra óptica  para inmunidad EMI y ancho de banda.</p>
+                <p>El diseño del <em>tether</em> exige un balance entre carga estructural y eficiencia eléctrica. Emplea una cubierta de fluoropolímero, núcleo reforzado con <strong>Kevlar</strong> para soportar el estrés mecánico de tracción, conductores de cobre para alta tensión, y fibra óptica para inmunidad EMI y ancho de banda.</p>
                 <p>La pérdida de potencia disipada se modela termodinámicamente como: <br> \[ P_{loss} = R \cdot i^2 = \rho \frac{L}{A} \cdot i^2 \]</p>
             </div>
             
@@ -121,24 +121,70 @@
                 <h4>2. Sistema de Gestión (TMS) y Winche Activo</h4>
                 <p>La base en tierra requiere un control en lazo cerrado para evitar el efecto latigazo (Snap Loading). La dinámica electromecánica del motor DC del winche relaciona el torque con la tensión de la cuerda \(T\):</p>
                 <p>\[ I_{aw}\frac{d\omega_m}{dt} = k_t i - B_f \omega_m - r_c T \]</p>
-                <p>Donde \(I_{aw}\) es la inercia del sistema [cite: 569], \(B_f\) la fricción viscosa [cite: 611], y \(r_c\) el radio efectivo de bobinado[cite: 572].</p>
+                <p>Donde \(I_{aw}\) es la inercia del sistema, \(B_f\) la fricción viscosa, y \(r_c\) el radio efectivo de bobinado.</p>
             </div>
 
             <div class="tuav-panel">
                 <h4>3. Restricción del Modelo Acoplado</h4>
-                <p>La seguridad del vuelo en un marco dinámico unificado exige que el cable opere bajo la restricción estricta de tensión taut (cable tenso)[cite: 618]. Esta restricción física, vital para la respuesta aerodinámica del cuadricóptero, se define por[cite: 662]:</p>
+                <p>La seguridad del vuelo en un marco dinámico unificado exige que el cable opere bajo la restricción estricta de tensión taut (cable tenso). Esta restricción física, vital para la respuesta aerodinámica del cuadricóptero, se define por:</p>
                 <p>\[ \Gamma(t) = T(t) > 0 \quad \forall t \ge 0 \]</p>
                 <p>Si la aceleración radial \(m\ddot{r}\) supera a las fuerzas estabilizadoras, se pierde el régimen de control lineal y el cable entra en una fase de catenaria libre (slack).</p>
             </div>
 
             <div class="tuav-panel">
                 <h4>4. Estrategias de Control Resiliente</h4>
-                <p>La literatura estipula que los controladores PID estándar suelen desestabilizarse por perturbaciones de viento sobre la gran área transversal del cable[cite: 808, 809]. Para un vuelo estable a gran altitud, se requiere la implementación de:</p>
+                <p>La literatura estipula que los controladores PID estándar suelen desestabilizarse por perturbaciones de viento sobre la gran área transversal del cable. Para un vuelo estable a gran altitud, se requiere la implementación de:</p>
                 <ul>
-                    <li><strong>Control Predictivo (MPC):</strong> Resuelve el problema de control óptimo anticipando las restricciones de actuación y tensión[cite: 832, 833, 838].</li>
+                    <li><strong>Control Predictivo (MPC):</strong> Resuelve el problema de control óptimo anticipando las restricciones de actuación y tensión.</li>
                     <li><strong>Modos Deslizantes (SMC):</strong> Provee alta robustez rechazando perturbaciones aerodinámicas no lineales y modelado inexacto.</li>
                 </ul>
             </div>
+        </div>
+    </div>
+
+    <div class="card math-section" style="margin-bottom: 20px;">
+        <h2>Dinámica de la Plataforma Aérea (EoM)</h2>
+        <p>Para que la configuración de monitoreo continuo de DroneTry logre estabilizarse, el controlador de vuelo a bordo debe resolver las <strong>Ecuaciones de Movimiento (EoM)</strong> en tiempo real. En la notación clásica, se utilizan funciones trigonométricas abreviadas (\(s_\theta = \sin(\theta)\), \(c_\theta = \cos(\theta)\)).</p>
+        
+        <div class="tuav-grid">
+            <div class="tuav-panel">
+                <h4>Fuerzas y Torques Activos</h4>
+                <p>El empuje colectivo \(F_T\) se genera por los cuatro rotores (\(\omega_i\)), y es la fuerza que debe superar tanto el peso muerto del equipo (\(mg\)) como la tensión del cable (\(T_D\)) calculada en la simulación superior. Los torques de guiñada (Yaw, \(\tau_\psi\)), alabeo (Roll, \(\tau_\phi\)) y cabeceo (Pitch, \(\tau_\theta\)) responden al arrastre aerodinámico (\(C_Q\)) y la configuración de los brazos (\(\delta\)):</p>
+                <p style="font-size: 0.9em;">
+                    \[ F_T = \sum_{i=1}^{4} C_T \omega_i^2 \]
+                    \[ \tau_\psi = \sum_{i=1}^{4} (-1)^i C_Q \omega_i^2 \]
+                    \[ \tau_\phi = l \cdot s_\delta (\omega_2^2 + \omega_3^2 - \omega_1^2 - \omega_4^2) \]
+                    \[ \tau_\theta = l \cdot c_\delta (\omega_3^2 + \omega_4^2 - \omega_1^2 - \omega_2^2) \]
+                </p>
+            </div>
+
+            <div class="tuav-panel">
+                <h4>Modelo de Ecuaciones de Movimiento Extendidas</h4>
+                <p>Las EoM para el cuadricóptero, utilizando la parametrización de ángulos de Euler (\(\phi, \theta, \psi\)), asumen un marco de cuerpo rígido acoplado con el marco inercial. En el contexto de DroneTry, el término de empuje \(F_T\) en el eje Z (\(m\ddot{z}\)) es el más estresado debido al cable:</p>
+                <p style="font-size: 0.85em; overflow-x: auto;">
+                    \[
+                    \begin{cases}
+                    m\ddot{x} = (c_\phi s_\theta c_\psi + s_\phi s_\psi) F_T \\
+                    m\ddot{y} = (c_\phi s_\theta s_\psi - s_\phi c_\psi) F_T \\
+                    m\ddot{z} = (c_\phi c_\theta) F_T - mg \\
+                    I_{xx}\ddot{\phi} = \dot{\theta}\dot{\psi}(I_{yy} - I_{zz}) + \tau_\phi \\
+                    I_{yy}\ddot{\theta} = \dot{\phi}\dot{\psi}(I_{zz} - I_{xx}) + \tau_\theta \\
+                    I_{zz}\ddot{\psi} = \dot{\phi}\dot{\theta}(I_{xx} - I_{yy}) + \tau_\psi
+                    \end{cases}
+                    \]
+                </p>
+            </div>
+        </div>
+
+        <div class="tuav-panel" style="margin-top: 15px;">
+            <h4>Prevención de Falla: Cuaterniones vs Gimbal Lock</h4>
+            <p><strong>Relación con el caso de estudio:</strong> El modelo tradicional de ángulos de Euler presenta singularidades cuando el cabeceo (\(\theta\)) se acerca a \(\pm 90^\circ\), causando pérdida de grados de libertad (conocido como *Gimbal Lock*). Si el dron de DroneTry recibe una fuerte ráfaga de viento o un tirón lateral abrupto del cable tenso, podría inclinarse drásticamente y el controlador matemático colapsaría.</p>
+            <p>Para garantizar una alta resiliencia, el desarrollo del *firmware* debe modelar la actitud utilizando <strong>cuaterniones unitarios</strong> (\(q = [q_0, q_1, q_2, q_3]^T\)), que proporcionan una representación global y no singular del espacio de rotación 3D:</p>
+            <p>
+                \[
+                \dot{q} = \begin{bmatrix} \dot{q}_0 \\ \dot{q}_1 \\ \dot{q}_2 \\ \dot{q}_3 \end{bmatrix} = \frac{1}{2} \begin{bmatrix} 0 & -p & -q & -r \\ p & 0 & r & -q \\ q & -r & 0 & p \\ r & q & -p & 0 \end{bmatrix} \begin{bmatrix} q_0 \\ q_1 \\ q_2 \\ q_3 \end{bmatrix}
+                \]
+            </p>
         </div>
     </div>
 
@@ -152,7 +198,7 @@
     </div>
 
     <script>
-        // Lógica de cálculo numérico original
+        // Aproximación numérica (Newton-Raphson) para encontrar Lambda
         function solveLambda(r, z) {
             if (r <= 0.01) return 10000;
             let lambda = (r * r) / (2 * z) + 0.1; 
