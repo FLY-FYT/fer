@@ -13,22 +13,23 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px;}
         .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .val { font-size: 24px; font-weight: bold; color: #2c3e50; }
-        .status-ok { color: green; font-weight: bold;}
-        .status-warn { color: orange; font-weight: bold;}
-        .status-danger { color: red; font-weight: bold;}
+        .status-ok { color: #198754; font-weight: bold;}
+        .status-warn { color: #fd7e14; font-weight: bold;}
+        .status-danger { color: #dc3545; font-weight: bold;}
         
         /* Estilos para el simulador */
         .slider-container { display: flex; align-items: center; justify-content: space-between; margin: 15px 0; }
-        .slider-container input[type="range"] { flex-grow: 1; margin: 0 15px; cursor: pointer; }
+        .slider-container input[type="range"] { flex-grow: 1; margin: 0 15px; cursor: pointer; accent-color: #6f42c1;}
         .slider-label { width: 160px; font-weight: 500; font-size: 14px;}
-        .slider-val { width: 60px; text-align: right; background: #eee; padding: 5px; border-radius: 5px; font-size: 14px; font-weight: bold;}
+        .slider-val { width: 60px; text-align: right; background: #e9ecef; padding: 5px; border-radius: 5px; font-size: 14px; font-weight: bold;}
         
-        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 20px; text-align: center; }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 20px; text-align: center; }
         .result-box { background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6; }
-        .result-box.highlight { background: #e9ecef; border-color: #ced4da; }
+        .result-box.highlight { background: #fdfdfe; border-color: #0dcaf0; box-shadow: 0 0 8px rgba(13, 202, 240, 0.2);}
         .result-title { font-size: 11px; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; }
         .result-value { font-size: 18px; font-weight: bold; color: #0d6efd; margin-top: 5px; }
         .result-value.danger { color: #dc3545; }
+        .result-value.purple { color: #6f42c1; }
 
         .math-section { line-height: 1.6; }
         .tuav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
@@ -62,8 +63,8 @@
     </div>
 
     <div class="card" style="margin-bottom: 20px;">
-        <h2>Simulador de Entorno Real: Tensión y Aerodinámica</h2>
-        <p>Ajusta la posición del dron y las condiciones climáticas para calcular el estrés total sobre el chasis y la propulsión.</p>
+        <h2>Simulador de Entorno Real: Aerodinámica Acoplada</h2>
+        <p>Modelo físico de alta precisión. El viento transversal no solo empuja el dron, sino que incrementa el <strong>peso lineal efectivo</strong> del cable al formar una catenaria 3D.</p>
         
         <div style="display: flex; flex-wrap: wrap; gap: 20px;">
             <div style="flex: 1; min-width: 300px;">
@@ -74,209 +75,200 @@
                 </div>
                 <div class="slider-container">
                     <span class="slider-label">Altura (z):</span>
-                    <input type="range" id="slideZ" min="10" max="100" value="50" step="1" oninput="updateSim()">
+                    <input type="range" id="slideZ" min="1" max="100" value="50" step="1" oninput="updateSim()">
                     <span class="slider-val" id="valZ">50 m</span>
                 </div>
                 <div class="slider-container">
-                    <span class="slider-label">Peso Lineal C. (w):</span>
+                    <span class="slider-label">Masa Cable (w):</span>
                     <input type="range" id="slideW" min="0.05" max="1.0" value="0.245" step="0.005" oninput="updateSim()">
                     <span class="slider-val" id="valW">0.245 N/m</span>
                 </div>
                 <div class="slider-container" style="border-top: 1px dashed #ccc; padding-top: 10px; margin-top: 10px;">
-                    <span class="slider-label" style="color: #dc3545;">Viento Transversal:</span>
-                    <input type="range" id="slideWind" min="0" max="60" value="15" step="1" oninput="updateSim()">
-                    <span class="slider-val" id="valWind" style="color: #dc3545;">15 km/h</span>
+                    <span class="slider-label" style="color: #6f42c1; font-weight: 700;">Viento Transversal:</span>
+                    <input type="range" id="slideWind" min="0" max="80" value="15" step="1" oninput="updateSim()">
+                    <span class="slider-val" id="valWind" style="color: #6f42c1;">15 km/h</span>
                 </div>
 
                 <div class="results-grid">
+                    <div class="result-box highlight">
+                        <div class="result-title">Tensión Dron (T_D)</div>
+                        <div class="result-value danger" id="outTD">0.00 N</div>
+                    </div>
                     <div class="result-box">
-                        <div class="result-title">Longitud (L)</div>
+                        <div class="result-title">Peso Efectivo (w_eff)</div>
+                        <div class="result-value purple" id="outWeff">0.00 N/m</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-title">Longitud Curva (L)</div>
                         <div class="result-value" id="outL">0.00 m</div>
                     </div>
                     <div class="result-box">
-                        <div class="result-title">Tensión Base (T₀)</div>
-                        <div class="result-value" id="outT0">0.00 N</div>
-                    </div>
-                    <div class="result-box">
-                        <div class="result-title">Tensión Dron (T_D)</div>
-                        <div class="result-value" id="outTD">0.00 N</div>
-                    </div>
-                    <div class="result-box highlight">
-                        <div class="result-title">Carga Viento Lateral</div>
-                        <div class="result-value danger" id="outWindDrag">0.00 N</div>
+                        <div class="result-title">Arrastre Lineal Viento</div>
+                        <div class="result-value" id="outWindDrag">0.00 N/m</div>
                     </div>
                 </div>
             </div>
 
-            <div style="flex: 1; min-width: 300px; border: 1px solid #ddd; border-radius: 8px;">
+            <div style="flex: 1; min-width: 300px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
                 <div id="catenaryPlot" style="width: 100%; height: 350px;"></div>
             </div>
         </div>
     </div>
 
     <div class="card math-section" style="margin-bottom: 20px;">
-        <h2>Dinámica Avanzada en Entornos Reales</h2>
-        <p>Al pasar a operaciones en exteriores, las perturbaciones mecánicas y climáticas exigen un modelado matemático robusto que el Autopilot (ej. PX4 o ArduPilot) debe procesar continuamente.</p>
+        <h2>Mecánica Vectorial: Efecto Vela en TUAV</h2>
+        <p>Para lograr una alta precisión en la estimación de tensiones sobre el chasis[cite: 130], ya no se asume un modelo de gravedad 1D. El viento transversal impacta el área proyectada del cable (\(d_{cable} \cdot L\)), generando un vector de arrastre ortogonal a la gravedad.</p>
         
         <div class="tuav-grid">
             <div class="tuav-panel">
-                <h4>1. Perturbaciones Aerodinámicas (Efecto Vela)</h4>
-                <p>El viento transversal impacta la geometría cilíndrica del cable. Un flujo de aire relativo (\(V_r\)) incidiendo con un ángulo (\(\alpha\)) genera una fuerza de sustentación (\(L_{aero}\)) y una fuerza de arrastre principal (\(D_{aero}\)), regidas por el principio de flujo cruzado:</p>
-                <p style="font-size: 0.9em;">
-                    \[ D_{aero} = \frac{1}{2} \rho_a d |V_r|^2 C_d \]
-                    \[ F_{\perp} = L_{aero} \cos(\alpha) + D_{aero} \sin(\alpha) \]
+                <h4>1. Ecuación de Flujo Cruzado (Cross-Flow)</h4>
+                <p>La fuerza aerodinámica de arrastre transversal por cada metro de cable (\(w_{viento}\)) depende del cuadrado de la velocidad del aire (\(V_r\)) y del coeficiente cilíndrico (\(C_d\))[cite: 116, 130]:</p>
+                <p style="font-size: 0.95em; text-align: center;">
+                    \[ w_{viento} = \frac{1}{2} \rho_a |V_r|^2 C_d \cdot d_{cable} \]
                 </p>
-                <p><strong>Impacto:</strong> Esta fuerza lateral deforma la catenaria en un tercer eje (Y), empujando el dron. Una fuerza de arrastre elevada saturará el margen de empuje (thrust margin) de los motores opuestos a la dirección del viento.</p>
             </div>
             
             <div class="tuav-panel">
-                <h4>2. Modelo Discreto Viscoelástico del Cable</h4>
-                <p>El cable no es una masa estática perfecta. Para simular el efecto latigazo (snap loading) y la propagación de oscilaciones generadas por ráfagas de viento, se debe discretizar la longitud del cable (\(i, i+1\)).</p>
-                <p>En lugar de una simple cuerda, se modela cada segmento matemático mediante sistemas de resortes y amortiguadores (ej. modelo de <strong>Kelvin-Voigt</strong> o el <strong>Standard Linear Solid - SLS</strong>):</p>
-                <p style="font-size: 0.9em; text-align: center;">
-                    <em>Segmento = Rigidez (\(k\)) + Amortiguamiento Viscoso (\(c\))</em>
+                <h4>2. Peso Lineal Efectivo (Suma Vectorial)</h4>
+                <p>El cable es sometido a una fuerza resultante combinada entre la gravedad (\(-Z\)) y el viento (\(Y\)). Esto crea un "peso efectivo" (\(w_{eff}\)) que tensa la catenaria en un plano inclinado en 3D[cite: 126]:</p>
+                <p style="font-size: 0.95em; text-align: center;">
+                    \[ w_{eff} = \sqrt{w_{grav}^2 + w_{viento}^2} \]
                 </p>
-                <p>Si el sistema de gestión del winche no amortigua rápidamente (\(B_f\)), estas ondas mecánicas viajan hasta el chasis del dron, desestabilizando el control de actitud (Pitch/Roll).</p>
             </div>
 
             <div class="tuav-panel">
-                <h4>3. Dinámica del Actuador (Tether Management System)</h4>
-                <p>Para contrarrestar la elasticidad del cable y mantener un perfil de catenaria seguro, el winche automatizado en tierra requiere un control dinámico. La relación electromecánica de su motor DC es:</p>
-                <p>\[ I_{aw}\frac{d\omega_m}{dt} = k_t i - B_f \omega_m - r_c T \]</p>
-                <p>Aquí, la inercia del tambor (\(I_{aw}\)) y la fricción (\(B_f\)) deben reaccionar más rápido que la oscilación natural del cable para mantener la tensión (\(T\)) constante.</p>
+                <h4>3. Tensión Resultante en el Dron (\(T_D\))</h4>
+                <p>La geometría de la catenaria (y su constante \(\lambda\)) está fijada por las coordenadas de vuelo del dron (\(r, z\)). Sin embargo, la <strong>tensión física</strong> se dispara drásticamente al escalar por el peso efectivo:</p>
+                <p style="font-size: 0.95em; text-align: center;">
+                    \[ T_D = \sqrt{(\lambda \cdot w_{eff})^2 + (w_{eff} \cdot L)^2} \]
+                </p>
             </div>
 
             <div class="tuav-panel">
-                <h4>4. Ecuaciones de Movimiento (EoM) - Chasis</h4>
-                <p>El dron debe compensar tanto el peso muerto del equipo (\(mg\)), la tensión del cable (\(T\)), como la fuerza aerodinámica (\(F_{\perp}\)). Usando cuaterniones (\(q\)) para evitar el <em>Gimbal Lock</em> al enfrentar vientos fuertes, el empuje se define como:</p>
-                <p style="font-size: 0.9em; overflow-x: auto;">
-                    \[
-                    \begin{cases}
-                    m\ddot{x} = (c_\phi s_\theta c_\psi + s_\phi s_\psi) F_T \\
-                    m\ddot{y} = (c_\phi s_\theta s_\psi - s_\phi c_\psi) F_T - \sum F_{viento} \\
-                    m\ddot{z} = (c_\phi c_\theta) F_T - mg - T_z \\
-                    \end{cases}
-                    \]
-                </p>
+                <h4>4. Repercusión en Motores (EoM)</h4>
+                <p>Si el margen de empuje (Thrust Margin) no se dimensiona usando \(T_D(w_{eff})\), una ráfaga de 40 km/h provocará que el controlador sature los rotores al 100%, resultando en pérdida de altitud inminente (Snap Loading al recuperar)[cite: 46].</p>
             </div>
         </div>
     </div>
 
-    <div class="card">
-        <h3>Bitácora de Hitos (MVP)</h3>
-        <ul style="list-style-type: none; padding-left: 0;">
-            <li><strong style="color: green;">[✓]</strong> Auditoría de Hardware (Completado)</li>
-            <li><strong style="color: green;">[✓]</strong> Modelado Físico y Viento (Completado)</li>
-            <li><strong style="color: orange;">[~]</strong> Banco de Pruebas Dinámico (En curso)</li>
-            <li><strong style="color: gray;">[ ]</strong> Integración Física (Pendiente)</li>
-        </ul>
-    </div>
-
     <script>
-        // Funciones matemáticas y aproximación numérica
-        function solveLambda(r, z) {
-            if (r <= 0.01) return 10000;
-            let lambda = (r * r) / (2 * z) + 0.1; 
-            for (let i = 0; i < 30; i++) {
-                let term = r / lambda;
-                let f = lambda * Math.cosh(term) - lambda - z;
-                let df = Math.cosh(term) - term * Math.sinh(term) - 1;
-                let step = f / df;
-                lambda -= step;
-                if (Math.abs(step) < 1e-5) break;
+        // Solucionador Bisección: 100% estable, no produce NaN como Newton-Raphson.
+        function solveLambdaBisection(r, z) {
+            if (r <= 0.001) return 10000;
+            let L_min = 0.001;
+            let L_max = 20000.0;
+            let lambda = (L_min + L_max) / 2;
+            
+            for (let i = 0; i < 70; i++) {
+                lambda = (L_min + L_max) / 2;
+                let calc_z = lambda * (Math.cosh(r / lambda) - 1);
+                
+                if (calc_z > z) {
+                    L_min = lambda; // Mucho pandeo, lambda es muy pequeño
+                } else {
+                    L_max = lambda; // Muy tenso, lambda es muy grande
+                }
+                // Si la precisión es suficiente, salir del bucle
+                if (Math.abs(calc_z - z) < 1e-5) break;
             }
-            return Math.abs(lambda);
+            return lambda;
         }
 
         function updateSim() {
-            // Variables de Posición y Catenaria
-            let r = parseFloat(document.getElementById('slideR').value);
-            let z = parseFloat(document.getElementById('slideZ').value);
-            let w = parseFloat(document.getElementById('slideW').value);
-            // Variable de Viento
-            let v_kmh = parseFloat(document.getElementById('slideWind').value);
+            try {
+                // 1. Obtener Variables de la UI
+                let r = parseFloat(document.getElementById('slideR').value);
+                let z = parseFloat(document.getElementById('slideZ').value);
+                let w_grav = parseFloat(document.getElementById('slideW').value);
+                let v_kmh = parseFloat(document.getElementById('slideWind').value);
 
-            // Actualizar etiquetas visuales
-            document.getElementById('valR').innerText = r + " m";
-            document.getElementById('valZ').innerText = z + " m";
-            document.getElementById('valW').innerText = w.toFixed(3) + " N/m";
-            document.getElementById('valWind').innerText = v_kmh + " km/h";
+                // Actualizar etiquetas en vivo
+                document.getElementById('valR').innerText = r + " m";
+                document.getElementById('valZ').innerText = z + " m";
+                document.getElementById('valW').innerText = w_grav.toFixed(3) + " N/m";
+                document.getElementById('valWind').innerText = v_kmh + " km/h";
 
-            // Cálculos Físicos Base (Catenaria Estática)
-            let lambda = solveLambda(r, z);
-            let L = lambda * Math.sinh(r / lambda);
-            let T0 = lambda * w;
-            let W_cable = L * w;
-            let TD = Math.sqrt(T0 * T0 + W_cable * W_cable);
+                // 2. Modelo Aerodinámico
+                let v_ms = v_kmh / 3.6;
+                let rho = 1.225; // Densidad aire
+                let Cd = 1.2;    // Coeficiente cilindro
+                let d_cable = 0.005; // 5mm de grosor
 
-            // Cálculo de Arrastre Aerodinámico (Viento Lateral)
-            // Fórmula: D = 0.5 * rho * V^2 * Cd * Area
-            let v_ms = v_kmh / 3.6; // Convertir a m/s
-            let rho = 1.225; // Densidad del aire (kg/m3) a nivel del mar
-            let Cd = 1.2; // Coeficiente de arrastre para un cilindro largo
-            let d_cable = 0.005; // Diámetro del cable estimado en 5mm (0.005 m)
-            let area_frontal = L * d_cable; // Área proyectada expuesta al viento
-            
-            let wind_drag = 0.5 * rho * (v_ms * v_ms) * Cd * area_frontal;
+                // Arrastre lateral por metro de cable (N/m)
+                let w_wind = 0.5 * rho * (v_ms * v_ms) * Cd * d_cable;
+                
+                // Suma vectorial: Gravedad + Viento
+                let w_eff = Math.sqrt((w_grav * w_grav) + (w_wind * w_wind));
 
-            // Actualizar resultados en pantalla
-            document.getElementById('outL').innerText = L.toFixed(2) + " m";
-            document.getElementById('outT0').innerText = T0.toFixed(2) + " N";
-            document.getElementById('outTD').innerText = TD.toFixed(2) + " N";
-            document.getElementById('outW').innerText = W_cable.toFixed(2) + " N";
-            document.getElementById('outWindDrag').innerText = wind_drag.toFixed(2) + " N";
+                // 3. Resolución Geométrica de la Catenaria
+                let lambda = solveLambdaBisection(r, z);
+                let L = lambda * Math.sinh(r / lambda);
 
-            // Alerta visual de peligro si el viento genera demasiada fuerza lateral
-            let windBox = document.getElementById('outWindDrag');
-            if(wind_drag > 10) {
-                windBox.style.color = "red";
-                windBox.innerHTML += " ⚠️";
-            } else {
-                windBox.style.color = "#dc3545";
+                // 4. Resolución Física Dinámica (Tensiones reales con viento)
+                let T0 = lambda * w_eff; // Tensión horizontal en el anclaje
+                let TD = Math.sqrt((T0 * T0) + Math.pow(w_eff * L, 2)); // Tensión 3D en el dron
+
+                // 5. Actualizar DOM
+                document.getElementById('outL').innerText = L.toFixed(2) + " m";
+                document.getElementById('outWeff').innerText = w_eff.toFixed(3) + " N/m";
+                document.getElementById('outWindDrag').innerText = w_wind.toFixed(3) + " N/m";
+                document.getElementById('outTD').innerText = TD.toFixed(2) + " N";
+
+                // Alerta Visual de Saturación
+                let tdBox = document.getElementById('outTD');
+                if (TD > 30) { // Umbral arbitrario de peligro
+                    tdBox.style.color = "#dc3545";
+                    tdBox.innerText += " ⚠️ OVERLOAD";
+                } else {
+                    tdBox.style.color = "#0d6efd";
+                }
+
+                // 6. Renderizar Plotly (Geometría Z-X proyectada)
+                let xData = [];
+                let yData = [];
+                let step = r / 60;
+                for (let x = 0; x <= r; x += step) {
+                    xData.push(x);
+                    yData.push(lambda * (Math.cosh(x / lambda) - 1));
+                }
+                xData.push(r);
+                yData.push(z);
+
+                let traceCable = {
+                    x: xData,
+                    y: yData,
+                    mode: 'lines',
+                    name: 'Perfil Cable',
+                    line: { color: '#6f42c1', width: 3, shape: 'spline' }
+                };
+
+                let traceDrone = {
+                    x: [r],
+                    y: [z],
+                    mode: 'markers+text',
+                    name: 'UAV',
+                    marker: { size: 14, color: '#28a745', symbol: 'square' },
+                    text: ['Dron (' + r + 'm, ' + z + 'm)'],
+                    textposition: 'top center',
+                    textfont: {weight: 'bold'}
+                };
+
+                let layout = {
+                    margin: { l: 40, r: 20, t: 20, b: 40 },
+                    xaxis: { title: 'Distancia Radial (X)', range: [-2, Math.max(105, r + 5)] },
+                    yaxis: { title: 'Altura (Z)', range: [-2, Math.max(105, z + 5)], scaleanchor: "x", scaleratio: 1 },
+                    showlegend: false,
+                    plot_bgcolor: '#fdfdfe'
+                };
+
+                Plotly.react('catenaryPlot', [traceCable, traceDrone], layout, {displayModeBar: false});
+            } catch (error) {
+                console.error("Error en la simulación matemática:", error);
             }
-
-            // Generar puntos para la gráfica Plotly
-            let xData = [];
-            let yData = [];
-            let step = r / 50;
-            for (let x = 0; x <= r; x += step) {
-                xData.push(x);
-                yData.push(lambda * (Math.cosh(x / lambda) - 1));
-            }
-            xData.push(r);
-            yData.push(z);
-
-            // Trazado con Plotly
-            let traceCable = {
-                x: xData,
-                y: yData,
-                mode: 'lines',
-                name: 'Cable',
-                line: { color: '#0d6efd', width: 3 }
-            };
-
-            let traceDrone = {
-                x: [r],
-                y: [z],
-                mode: 'markers+text',
-                name: 'Dron',
-                marker: { size: 12, color: '#28a745', symbol: 'square' },
-                text: ['Dron (' + r + 'm, ' + z + 'm)'],
-                textposition: 'top center'
-            };
-
-            let layout = {
-                margin: { l: 40, r: 20, t: 30, b: 40 },
-                xaxis: { title: 'Distancia Radial (m)', range: [-5, Math.max(110, r + 10)] },
-                yaxis: { title: 'Altura (m)', range: [-5, Math.max(110, z + 10)], scaleanchor: "x", scaleratio: 1 },
-                showlegend: false,
-                plot_bgcolor: '#f8f9fa'
-            };
-
-            Plotly.react('catenaryPlot', [traceCable, traceDrone], layout, {displayModeBar: false});
         }
 
-        window.onload = updateSim;
+        // Cargar script de forma segura
+        document.addEventListener('DOMContentLoaded', updateSim);
     </script>
 </body>
 </html>
