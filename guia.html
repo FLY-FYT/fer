@@ -15,17 +15,20 @@
         .val { font-size: 24px; font-weight: bold; color: #2c3e50; }
         .status-ok { color: green; font-weight: bold;}
         .status-warn { color: orange; font-weight: bold;}
+        .status-danger { color: red; font-weight: bold;}
         
         /* Estilos para el simulador */
         .slider-container { display: flex; align-items: center; justify-content: space-between; margin: 15px 0; }
         .slider-container input[type="range"] { flex-grow: 1; margin: 0 15px; cursor: pointer; }
-        .slider-label { width: 150px; font-weight: 500; }
-        .slider-val { width: 50px; text-align: right; background: #eee; padding: 5px; border-radius: 5px; }
+        .slider-label { width: 160px; font-weight: 500; font-size: 14px;}
+        .slider-val { width: 60px; text-align: right; background: #eee; padding: 5px; border-radius: 5px; font-size: 14px; font-weight: bold;}
         
-        .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; text-align: center; }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 20px; text-align: center; }
         .result-box { background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6; }
-        .result-title { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; }
-        .result-value { font-size: 20px; font-weight: bold; color: #0d6efd; margin-top: 5px; }
+        .result-box.highlight { background: #e9ecef; border-color: #ced4da; }
+        .result-title { font-size: 11px; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; }
+        .result-value { font-size: 18px; font-weight: bold; color: #0d6efd; margin-top: 5px; }
+        .result-value.danger { color: #dc3545; }
 
         .math-section { line-height: 1.6; }
         .tuav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
@@ -43,24 +46,24 @@
     <div class="grid">
         <div class="card">
             <h3>Potencia Consumida</h3>
-            <div class="val">1,250 W</div>
-            <p>Estado: <span class="status-ok">Normal</span></p>
+            <div class="val">1,480 W</div>
+            <p>Estado: <span class="status-warn">Compensando Viento</span></p>
         </div>
         <div class="card">
             <h3>Temperatura Cable</h3>
-            <div class="val">42°C</div>
+            <div class="val">44°C</div>
             <p>Estado: <span class="status-ok">Operativo</span></p>
         </div>
         <div class="card">
             <h3>Voltaje Llegada (Dron)</h3>
-            <div class="val">21.8 V</div>
-            <p>Estado: <span class="status-warn">Caída 0.4V</span></p>
+            <div class="val">21.5 V</div>
+            <p>Estado: <span class="status-warn">Caída 0.7V</span></p>
         </div>
     </div>
 
     <div class="card" style="margin-bottom: 20px;">
-        <h2>Simulación Dinámica: Tensión del Cable (Catenaria)</h2>
-        <p>Ajusta los parámetros operativos para predecir las tensiones estructurales del sistema anclado.</p>
+        <h2>Simulador de Entorno Real: Tensión y Aerodinámica</h2>
+        <p>Ajusta la posición del dron y las condiciones climáticas para calcular el estrés total sobre el chasis y la propulsión.</p>
         
         <div style="display: flex; flex-wrap: wrap; gap: 20px;">
             <div style="flex: 1; min-width: 300px;">
@@ -75,9 +78,14 @@
                     <span class="slider-val" id="valZ">50 m</span>
                 </div>
                 <div class="slider-container">
-                    <span class="slider-label">Peso Lineal (w):</span>
+                    <span class="slider-label">Peso Lineal C. (w):</span>
                     <input type="range" id="slideW" min="0.05" max="1.0" value="0.245" step="0.005" oninput="updateSim()">
                     <span class="slider-val" id="valW">0.245 N/m</span>
+                </div>
+                <div class="slider-container" style="border-top: 1px dashed #ccc; padding-top: 10px; margin-top: 10px;">
+                    <span class="slider-label" style="color: #dc3545;">Viento Transversal:</span>
+                    <input type="range" id="slideWind" min="0" max="60" value="15" step="1" oninput="updateSim()">
+                    <span class="slider-val" id="valWind" style="color: #dc3545;">15 km/h</span>
                 </div>
 
                 <div class="results-grid">
@@ -86,16 +94,16 @@
                         <div class="result-value" id="outL">0.00 m</div>
                     </div>
                     <div class="result-box">
-                        <div class="result-title">Tensión Horiz. (T₀)</div>
+                        <div class="result-title">Tensión Base (T₀)</div>
                         <div class="result-value" id="outT0">0.00 N</div>
                     </div>
                     <div class="result-box">
                         <div class="result-title">Tensión Dron (T_D)</div>
                         <div class="result-value" id="outTD">0.00 N</div>
                     </div>
-                    <div class="result-box">
-                        <div class="result-title">Peso Cable (W)</div>
-                        <div class="result-value" id="outW">0.00 N</div>
+                    <div class="result-box highlight">
+                        <div class="result-title">Carga Viento Lateral</div>
+                        <div class="result-value danger" id="outWindDrag">0.00 N</div>
                     </div>
                 </div>
             </div>
@@ -107,84 +115,50 @@
     </div>
 
     <div class="card math-section" style="margin-bottom: 20px;">
-        <h2>Arquitectura de Sistemas TUAV (Estado del Arte)</h2>
-        <p>Un sistema TUAV (Tethered UAV) opera acoplando tres niveles fundamentales: aéreo, físico de conexión y terrestre. La transición hacia un prototipo de grado industrial requiere modelar las siguientes interacciones físicas:</p>
+        <h2>Dinámica Avanzada en Entornos Reales</h2>
+        <p>Al pasar a operaciones en exteriores, las perturbaciones mecánicas y climáticas exigen un modelado matemático robusto que el Autopilot (ej. PX4 o ArduPilot) debe procesar continuamente.</p>
         
         <div class="tuav-grid">
             <div class="tuav-panel">
-                <h4>1. Estructura y Transmisión del Cable</h4>
-                <p>El diseño del <em>tether</em> exige un balance entre carga estructural y eficiencia eléctrica. Emplea una cubierta de fluoropolímero, núcleo reforzado con <strong>Kevlar</strong> para soportar el estrés mecánico de tracción, conductores de cobre para alta tensión, y fibra óptica para inmunidad EMI y ancho de banda.</p>
-                <p>La pérdida de potencia disipada se modela termodinámicamente como: <br> \[ P_{loss} = R \cdot i^2 = \rho \frac{L}{A} \cdot i^2 \]</p>
+                <h4>1. Perturbaciones Aerodinámicas (Efecto Vela)</h4>
+                <p>El viento transversal impacta la geometría cilíndrica del cable. Un flujo de aire relativo (\(V_r\)) incidiendo con un ángulo (\(\alpha\)) genera una fuerza de sustentación (\(L_{aero}\)) y una fuerza de arrastre principal (\(D_{aero}\)), regidas por el principio de flujo cruzado:</p>
+                <p style="font-size: 0.9em;">
+                    \[ D_{aero} = \frac{1}{2} \rho_a d |V_r|^2 C_d \]
+                    \[ F_{\perp} = L_{aero} \cos(\alpha) + D_{aero} \sin(\alpha) \]
+                </p>
+                <p><strong>Impacto:</strong> Esta fuerza lateral deforma la catenaria en un tercer eje (Y), empujando el dron. Una fuerza de arrastre elevada saturará el margen de empuje (thrust margin) de los motores opuestos a la dirección del viento.</p>
             </div>
             
             <div class="tuav-panel">
-                <h4>2. Sistema de Gestión (TMS) y Winche Activo</h4>
-                <p>La base en tierra requiere un control en lazo cerrado para evitar el efecto latigazo (Snap Loading). La dinámica electromecánica del motor DC del winche relaciona el torque con la tensión de la cuerda \(T\):</p>
-                <p>\[ I_{aw}\frac{d\omega_m}{dt} = k_t i - B_f \omega_m - r_c T \]</p>
-                <p>Donde \(I_{aw}\) es la inercia del sistema, \(B_f\) la fricción viscosa, y \(r_c\) el radio efectivo de bobinado.</p>
-            </div>
-
-            <div class="tuav-panel">
-                <h4>3. Restricción del Modelo Acoplado</h4>
-                <p>La seguridad del vuelo en un marco dinámico unificado exige que el cable opere bajo la restricción estricta de tensión taut (cable tenso). Esta restricción física, vital para la respuesta aerodinámica del cuadricóptero, se define por:</p>
-                <p>\[ \Gamma(t) = T(t) > 0 \quad \forall t \ge 0 \]</p>
-                <p>Si la aceleración radial \(m\ddot{r}\) supera a las fuerzas estabilizadoras, se pierde el régimen de control lineal y el cable entra en una fase de catenaria libre (slack).</p>
-            </div>
-
-            <div class="tuav-panel">
-                <h4>4. Estrategias de Control Resiliente</h4>
-                <p>La literatura estipula que los controladores PID estándar suelen desestabilizarse por perturbaciones de viento sobre la gran área transversal del cable. Para un vuelo estable a gran altitud, se requiere la implementación de:</p>
-                <ul>
-                    <li><strong>Control Predictivo (MPC):</strong> Resuelve el problema de control óptimo anticipando las restricciones de actuación y tensión.</li>
-                    <li><strong>Modos Deslizantes (SMC):</strong> Provee alta robustez rechazando perturbaciones aerodinámicas no lineales y modelado inexacto.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="card math-section" style="margin-bottom: 20px;">
-        <h2>Dinámica de la Plataforma Aérea (EoM)</h2>
-        <p>Para que la configuración de monitoreo continuo de DroneTry logre estabilizarse, el controlador de vuelo a bordo debe resolver las <strong>Ecuaciones de Movimiento (EoM)</strong> en tiempo real. En la notación clásica, se utilizan funciones trigonométricas abreviadas (\(s_\theta = \sin(\theta)\), \(c_\theta = \cos(\theta)\)).</p>
-        
-        <div class="tuav-grid">
-            <div class="tuav-panel">
-                <h4>Fuerzas y Torques Activos</h4>
-                <p>El empuje colectivo \(F_T\) se genera por los cuatro rotores (\(\omega_i\)), y es la fuerza que debe superar tanto el peso muerto del equipo (\(mg\)) como la tensión del cable (\(T_D\)) calculada en la simulación superior. Los torques de guiñada (Yaw, \(\tau_\psi\)), alabeo (Roll, \(\tau_\phi\)) y cabeceo (Pitch, \(\tau_\theta\)) responden al arrastre aerodinámico (\(C_Q\)) y la configuración de los brazos (\(\delta\)):</p>
-                <p style="font-size: 0.9em;">
-                    \[ F_T = \sum_{i=1}^{4} C_T \omega_i^2 \]
-                    \[ \tau_\psi = \sum_{i=1}^{4} (-1)^i C_Q \omega_i^2 \]
-                    \[ \tau_\phi = l \cdot s_\delta (\omega_2^2 + \omega_3^2 - \omega_1^2 - \omega_4^2) \]
-                    \[ \tau_\theta = l \cdot c_\delta (\omega_3^2 + \omega_4^2 - \omega_1^2 - \omega_2^2) \]
+                <h4>2. Modelo Discreto Viscoelástico del Cable</h4>
+                <p>El cable no es una masa estática perfecta. Para simular el efecto latigazo (snap loading) y la propagación de oscilaciones generadas por ráfagas de viento, se debe discretizar la longitud del cable (\(i, i+1\)).</p>
+                <p>En lugar de una simple cuerda, se modela cada segmento matemático mediante sistemas de resortes y amortiguadores (ej. modelo de <strong>Kelvin-Voigt</strong> o el <strong>Standard Linear Solid - SLS</strong>):</p>
+                <p style="font-size: 0.9em; text-align: center;">
+                    <em>Segmento = Rigidez (\(k\)) + Amortiguamiento Viscoso (\(c\))</em>
                 </p>
+                <p>Si el sistema de gestión del winche no amortigua rápidamente (\(B_f\)), estas ondas mecánicas viajan hasta el chasis del dron, desestabilizando el control de actitud (Pitch/Roll).</p>
             </div>
 
             <div class="tuav-panel">
-                <h4>Modelo de Ecuaciones de Movimiento Extendidas</h4>
-                <p>Las EoM para el cuadricóptero, utilizando la parametrización de ángulos de Euler (\(\phi, \theta, \psi\)), asumen un marco de cuerpo rígido acoplado con el marco inercial. En el contexto de DroneTry, el término de empuje \(F_T\) en el eje Z (\(m\ddot{z}\)) es el más estresado debido al cable:</p>
-                <p style="font-size: 0.85em; overflow-x: auto;">
+                <h4>3. Dinámica del Actuador (Tether Management System)</h4>
+                <p>Para contrarrestar la elasticidad del cable y mantener un perfil de catenaria seguro, el winche automatizado en tierra requiere un control dinámico. La relación electromecánica de su motor DC es:</p>
+                <p>\[ I_{aw}\frac{d\omega_m}{dt} = k_t i - B_f \omega_m - r_c T \]</p>
+                <p>Aquí, la inercia del tambor (\(I_{aw}\)) y la fricción (\(B_f\)) deben reaccionar más rápido que la oscilación natural del cable para mantener la tensión (\(T\)) constante.</p>
+            </div>
+
+            <div class="tuav-panel">
+                <h4>4. Ecuaciones de Movimiento (EoM) - Chasis</h4>
+                <p>El dron debe compensar tanto el peso muerto del equipo (\(mg\)), la tensión del cable (\(T\)), como la fuerza aerodinámica (\(F_{\perp}\)). Usando cuaterniones (\(q\)) para evitar el <em>Gimbal Lock</em> al enfrentar vientos fuertes, el empuje se define como:</p>
+                <p style="font-size: 0.9em; overflow-x: auto;">
                     \[
                     \begin{cases}
                     m\ddot{x} = (c_\phi s_\theta c_\psi + s_\phi s_\psi) F_T \\
-                    m\ddot{y} = (c_\phi s_\theta s_\psi - s_\phi c_\psi) F_T \\
-                    m\ddot{z} = (c_\phi c_\theta) F_T - mg \\
-                    I_{xx}\ddot{\phi} = \dot{\theta}\dot{\psi}(I_{yy} - I_{zz}) + \tau_\phi \\
-                    I_{yy}\ddot{\theta} = \dot{\phi}\dot{\psi}(I_{zz} - I_{xx}) + \tau_\theta \\
-                    I_{zz}\ddot{\psi} = \dot{\phi}\dot{\theta}(I_{xx} - I_{yy}) + \tau_\psi
+                    m\ddot{y} = (c_\phi s_\theta s_\psi - s_\phi c_\psi) F_T - \sum F_{viento} \\
+                    m\ddot{z} = (c_\phi c_\theta) F_T - mg - T_z \\
                     \end{cases}
                     \]
                 </p>
             </div>
-        </div>
-
-        <div class="tuav-panel" style="margin-top: 15px;">
-            <h4>Prevención de Falla: Cuaterniones vs Gimbal Lock</h4>
-            <p><strong>Relación con el caso de estudio:</strong> El modelo tradicional de ángulos de Euler presenta singularidades cuando el cabeceo (\(\theta\)) se acerca a \(\pm 90^\circ\), causando pérdida de grados de libertad (conocido como *Gimbal Lock*). Si el dron de DroneTry recibe una fuerte ráfaga de viento o un tirón lateral abrupto del cable tenso, podría inclinarse drásticamente y el controlador matemático colapsaría.</p>
-            <p>Para garantizar una alta resiliencia, el desarrollo del *firmware* debe modelar la actitud utilizando <strong>cuaterniones unitarios</strong> (\(q = [q_0, q_1, q_2, q_3]^T\)), que proporcionan una representación global y no singular del espacio de rotación 3D:</p>
-            <p>
-                \[
-                \dot{q} = \begin{bmatrix} \dot{q}_0 \\ \dot{q}_1 \\ \dot{q}_2 \\ \dot{q}_3 \end{bmatrix} = \frac{1}{2} \begin{bmatrix} 0 & -p & -q & -r \\ p & 0 & r & -q \\ q & -r & 0 & p \\ r & q & -p & 0 \end{bmatrix} \begin{bmatrix} q_0 \\ q_1 \\ q_2 \\ q_3 \end{bmatrix}
-                \]
-            </p>
         </div>
     </div>
 
@@ -192,13 +166,14 @@
         <h3>Bitácora de Hitos (MVP)</h3>
         <ul style="list-style-type: none; padding-left: 0;">
             <li><strong style="color: green;">[✓]</strong> Auditoría de Hardware (Completado)</li>
-            <li><strong style="color: orange;">[~]</strong> Banco de Pruebas (En curso)</li>
+            <li><strong style="color: green;">[✓]</strong> Modelado Físico y Viento (Completado)</li>
+            <li><strong style="color: orange;">[~]</strong> Banco de Pruebas Dinámico (En curso)</li>
             <li><strong style="color: gray;">[ ]</strong> Integración Física (Pendiente)</li>
         </ul>
     </div>
 
     <script>
-        // Aproximación numérica (Newton-Raphson) para encontrar Lambda
+        // Funciones matemáticas y aproximación numérica
         function solveLambda(r, z) {
             if (r <= 0.01) return 10000;
             let lambda = (r * r) / (2 * z) + 0.1; 
@@ -214,25 +189,53 @@
         }
 
         function updateSim() {
+            // Variables de Posición y Catenaria
             let r = parseFloat(document.getElementById('slideR').value);
             let z = parseFloat(document.getElementById('slideZ').value);
             let w = parseFloat(document.getElementById('slideW').value);
+            // Variable de Viento
+            let v_kmh = parseFloat(document.getElementById('slideWind').value);
 
+            // Actualizar etiquetas visuales
             document.getElementById('valR').innerText = r + " m";
             document.getElementById('valZ').innerText = z + " m";
             document.getElementById('valW').innerText = w.toFixed(3) + " N/m";
+            document.getElementById('valWind').innerText = v_kmh + " km/h";
 
+            // Cálculos Físicos Base (Catenaria Estática)
             let lambda = solveLambda(r, z);
             let L = lambda * Math.sinh(r / lambda);
             let T0 = lambda * w;
             let W_cable = L * w;
             let TD = Math.sqrt(T0 * T0 + W_cable * W_cable);
 
+            // Cálculo de Arrastre Aerodinámico (Viento Lateral)
+            // Fórmula: D = 0.5 * rho * V^2 * Cd * Area
+            let v_ms = v_kmh / 3.6; // Convertir a m/s
+            let rho = 1.225; // Densidad del aire (kg/m3) a nivel del mar
+            let Cd = 1.2; // Coeficiente de arrastre para un cilindro largo
+            let d_cable = 0.005; // Diámetro del cable estimado en 5mm (0.005 m)
+            let area_frontal = L * d_cable; // Área proyectada expuesta al viento
+            
+            let wind_drag = 0.5 * rho * (v_ms * v_ms) * Cd * area_frontal;
+
+            // Actualizar resultados en pantalla
             document.getElementById('outL').innerText = L.toFixed(2) + " m";
             document.getElementById('outT0').innerText = T0.toFixed(2) + " N";
             document.getElementById('outTD').innerText = TD.toFixed(2) + " N";
             document.getElementById('outW').innerText = W_cable.toFixed(2) + " N";
+            document.getElementById('outWindDrag').innerText = wind_drag.toFixed(2) + " N";
 
+            // Alerta visual de peligro si el viento genera demasiada fuerza lateral
+            let windBox = document.getElementById('outWindDrag');
+            if(wind_drag > 10) {
+                windBox.style.color = "red";
+                windBox.innerHTML += " ⚠️";
+            } else {
+                windBox.style.color = "#dc3545";
+            }
+
+            // Generar puntos para la gráfica Plotly
             let xData = [];
             let yData = [];
             let step = r / 50;
@@ -243,6 +246,7 @@
             xData.push(r);
             yData.push(z);
 
+            // Trazado con Plotly
             let traceCable = {
                 x: xData,
                 y: yData,
