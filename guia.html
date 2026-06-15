@@ -28,6 +28,12 @@
         .result-value { font-size: 20px; font-weight: bold; color: #0d6efd; margin-top: 5px; }
 
         .math-section { line-height: 1.6; }
+        .tuav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .tuav-panel { background: #fdfdfd; border-left: 4px solid #2c3e50; padding: 15px; border-radius: 4px; box-shadow: inset 0 0 5px rgba(0,0,0,0.02);}
+        
+        @media (max-width: 768px) {
+            .tuav-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -101,24 +107,38 @@
     </div>
 
     <div class="card math-section" style="margin-bottom: 20px;">
-        <h2>Fundamentos Físicos del Sistema</h2>
-        <p>El perfil del cable asume la forma de una <strong>catenaria</strong>, gobernada por el equilibrio estático entre el peso propio del cable y la tensión aplicada. La constante fundamental de la curva es \(\lambda\), definida por la relación entre la tensión horizontal en tierra (\(T_0\)) y el peso lineal del cable (\(w\)):</p>
+        <h2>Arquitectura de Sistemas TUAV (Estado del Arte)</h2>
+        <p>Un sistema TUAV (Tethered UAV) opera acoplando tres niveles fundamentales: aéreo, físico de conexión y terrestre. La transición hacia un prototipo de grado industrial requiere modelar las siguientes interacciones físicas:</p>
         
-        <div style="text-align: center; margin: 15px 0;">
-            \(\lambda = \frac{T_0}{w}\)
-        </div>
+        <div class="tuav-grid">
+            <div class="tuav-panel">
+                <h4>1. Estructura y Transmisión del Cable</h4>
+                <p>El diseño del <em>tether</em> exige un balance entre carga estructural y eficiencia eléctrica[cite: 190, 191]. Emplea una cubierta de fluoropolímero [cite: 193], núcleo reforzado con <strong>Kevlar</strong> para soportar el estrés mecánico de tracción , conductores de cobre para alta tensión [cite: 194], y fibra óptica  para inmunidad EMI y ancho de banda.</p>
+                <p>La pérdida de potencia disipada se modela termodinámicamente como: <br> \[ P_{loss} = R \cdot i^2 = \rho \frac{L}{A} \cdot i^2 \]</p>
+            </div>
+            
+            <div class="tuav-panel">
+                <h4>2. Sistema de Gestión (TMS) y Winche Activo</h4>
+                <p>La base en tierra requiere un control en lazo cerrado para evitar el efecto latigazo (Snap Loading). La dinámica electromecánica del motor DC del winche relaciona el torque con la tensión de la cuerda \(T\):</p>
+                <p>\[ I_{aw}\frac{d\omega_m}{dt} = k_t i - B_f \omega_m - r_c T \]</p>
+                <p>Donde \(I_{aw}\) es la inercia del sistema [cite: 569], \(B_f\) la fricción viscosa [cite: 611], y \(r_c\) el radio efectivo de bobinado[cite: 572].</p>
+            </div>
 
-        <p>Para determinar \(\lambda\) basado en la posición del dron \((r, z)\), se resuelve numéricamente la ecuación trascendental:</p>
-        
-        <div style="text-align: center; margin: 15px 0;">
-            \(z = \lambda \left[ \cosh\left(\frac{r}{\lambda}\right) - 1 \right]\)
-        </div>
+            <div class="tuav-panel">
+                <h4>3. Restricción del Modelo Acoplado</h4>
+                <p>La seguridad del vuelo en un marco dinámico unificado exige que el cable opere bajo la restricción estricta de tensión taut (cable tenso)[cite: 618]. Esta restricción física, vital para la respuesta aerodinámica del cuadricóptero, se define por[cite: 662]:</p>
+                <p>\[ \Gamma(t) = T(t) > 0 \quad \forall t \ge 0 \]</p>
+                <p>Si la aceleración radial \(m\ddot{r}\) supera a las fuerzas estabilizadoras, se pierde el régimen de control lineal y el cable entra en una fase de catenaria libre (slack).</p>
+            </div>
 
-        <p>Una vez hallado \(\lambda\), el sistema calcula las fuerzas dinámicas que debe soportar el chasis y los rotores del dron. La longitud total del cable suspendido (\(L\)) y la tensión total experimentada en el dron (\(T_D\)) son:</p>
-
-        <div style="display: flex; justify-content: space-around; margin: 15px 0;">
-            <span>\(L = \lambda \sinh\left(\frac{r}{\lambda}\right)\)</span>
-            <span>\(T_D = \sqrt{T_0^2 + (L \cdot w)^2}\)</span>
+            <div class="tuav-panel">
+                <h4>4. Estrategias de Control Resiliente</h4>
+                <p>La literatura estipula que los controladores PID estándar suelen desestabilizarse por perturbaciones de viento sobre la gran área transversal del cable[cite: 808, 809]. Para un vuelo estable a gran altitud, se requiere la implementación de:</p>
+                <ul>
+                    <li><strong>Control Predictivo (MPC):</strong> Resuelve el problema de control óptimo anticipando las restricciones de actuación y tensión[cite: 832, 833, 838].</li>
+                    <li><strong>Modos Deslizantes (SMC):</strong> Provee alta robustez rechazando perturbaciones aerodinámicas no lineales y modelado inexacto.</li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -132,10 +152,10 @@
     </div>
 
     <script>
-        // Aproximación numérica (Newton-Raphson) para encontrar Lambda
+        // Lógica de cálculo numérico original
         function solveLambda(r, z) {
-            if (r <= 0.01) return 10000; // Evitar división por 0 en el origen
-            let lambda = (r * r) / (2 * z) + 0.1; // Estimación inicial (parábola)
+            if (r <= 0.01) return 10000;
+            let lambda = (r * r) / (2 * z) + 0.1; 
             for (let i = 0; i < 30; i++) {
                 let term = r / lambda;
                 let f = lambda * Math.cosh(term) - lambda - z;
@@ -148,30 +168,25 @@
         }
 
         function updateSim() {
-            // Leer inputs
             let r = parseFloat(document.getElementById('slideR').value);
             let z = parseFloat(document.getElementById('slideZ').value);
             let w = parseFloat(document.getElementById('slideW').value);
 
-            // Actualizar etiquetas visuales
             document.getElementById('valR').innerText = r + " m";
             document.getElementById('valZ').innerText = z + " m";
             document.getElementById('valW').innerText = w.toFixed(3) + " N/m";
 
-            // Cálculos Físicos
             let lambda = solveLambda(r, z);
             let L = lambda * Math.sinh(r / lambda);
             let T0 = lambda * w;
             let W_cable = L * w;
             let TD = Math.sqrt(T0 * T0 + W_cable * W_cable);
 
-            // Actualizar resultados en pantalla
             document.getElementById('outL').innerText = L.toFixed(2) + " m";
             document.getElementById('outT0').innerText = T0.toFixed(2) + " N";
             document.getElementById('outTD').innerText = TD.toFixed(2) + " N";
             document.getElementById('outW').innerText = W_cable.toFixed(2) + " N";
 
-            // Generar puntos para la gráfica
             let xData = [];
             let yData = [];
             let step = r / 50;
@@ -179,11 +194,9 @@
                 xData.push(x);
                 yData.push(lambda * (Math.cosh(x / lambda) - 1));
             }
-            // Asegurar el último punto exacto
             xData.push(r);
             yData.push(z);
 
-            // Trazado con Plotly
             let traceCable = {
                 x: xData,
                 y: yData,
@@ -213,7 +226,6 @@
             Plotly.react('catenaryPlot', [traceCable, traceDrone], layout, {displayModeBar: false});
         }
 
-        // Ejecutar al cargar la página
         window.onload = updateSim;
     </script>
 </body>
