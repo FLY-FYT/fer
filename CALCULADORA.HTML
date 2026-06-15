@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DroneTry | Calculadora de Escalabilidad TUAV</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; color: #333; }
+        h1, h2, h3 { color: #2c3e50; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        
+        /* Controles Deslizables */
+        .slider-container { display: flex; align-items: center; justify-content: space-between; margin: 15px 0; padding: 10px; background: #fdfdfd; border-radius: 5px; border: 1px solid #eee;}
+        .slider-container input[type="range"] { flex-grow: 1; margin: 0 15px; cursor: pointer; accent-color: #0d6efd;}
+        .slider-label { width: 250px; font-weight: 500; font-size: 14px;}
+        .slider-val { width: 90px; text-align: right; background: #e9ecef; padding: 5px 10px; border-radius: 5px; font-size: 14px; font-weight: bold;}
+        
+        select { padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; cursor: pointer; width: 100%; max-width: 300px;}
+
+        /* Paneles de Resultados */
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; text-align: center; }
+        .result-box { background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6; transition: all 0.3s ease;}
+        .result-title { font-size: 11px; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .result-value { font-size: 22px; font-weight: bold; color: #0d6efd; }
+        
+        /* Sub-secciones temáticas */
+        .section-title { border-bottom: 2px solid #0d6efd; padding-bottom: 5px; margin-top: 30px; color: #0d6efd;}
+        
+        /* Sistema de Alertas Críticas */
+        .alert-danger { background-color: #fff3f4 !important; border-color: #dc3545 !important; box-shadow: 0 0 10px rgba(220, 53, 69, 0.2); }
+        .alert-danger .result-value { color: #dc3545; }
+        
+        .alert-box { display: none; background: #dc3545; color: white; padding: 15px; border-radius: 8px; font-weight: bold; margin-top: 20px; text-align: center; letter-spacing: 1px;}
+    </style>
+</head>
+<body>
+
+    <h1>Calculadora Electro-Mecánica TUAV | DroneTry</h1>
+    <p>Simulador de escalabilidad: Dimensionamiento de transmisión, cargas mecánicas y respaldo de energía para despliegues de largo alcance.</p>
+
+    <div class="card">
+        <h2>1. Parámetros Operativos (Inputs)</h2>
+        
+        <div class="slider-container">
+            <span class="slider-label">Potencia Continua Dron (W):</span>
+            <input type="range" id="slideP" min="100" max="1500" value="300" step="10" oninput="updateAll()">
+            <span class="slider-val" id="valP">300 W</span>
+        </div>
+
+        <div class="slider-container">
+            <span class="slider-label">Distancia / Altitud de Vuelo (m):</span>
+            <input type="range" id="slideAlt" min="10" max="300" value="200" step="5" oninput="updateAll()">
+            <span class="slider-val" id="valAlt">200 m</span>
+        </div>
+
+        <div class="slider-container">
+            <span class="slider-label">Autonomía Terrestre Requerida (h):</span>
+            <input type="range" id="slideTime" min="1" max="24" value="5" step="0.5" oninput="updateAll()">
+            <span class="slider-val" id="valTime">5.0 hrs</span>
+        </div>
+
+        <div class="slider-container" style="background: #eef2f5; border-color: #cbd3da;">
+            <span class="slider-label">Voltaje de Transmisión (Base a Dron):</span>
+            <select id="selectV" onchange="updateAll()">
+                <option value="15">15V DC (LiPo 4S Directo - NO RECOMENDADO)</option>
+                <option value="24">24V DC (Baja Tensión)</option>
+                <option value="48">48V DC (Media Tensión)</option>
+                <option value="400" selected>400V DC (Alta Tensión - Industrial)</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="globalAlert" class="alert-box">
+        ⚠️ DISEÑO INVIABLE: El cable es demasiado grueso y pesado para ser levantado por el dron. Aumente el voltaje de transmisión.
+    </div>
+
+    <div class="card">
+        <h2 class="section-title">2. Termodinámica y Diseño del Conductor</h2>
+        <div class="results-grid">
+            <div class="result-box">
+                <div class="result-title">Corriente en Línea (I)</div>
+                <div class="result-value" id="outI">0.0 A</div>
+            </div>
+            <div class="result-box" id="boxArea">
+                <div class="result-title">Sección Cobre Requerida</div>
+                <div class="result-value" id="outArea">0.00 mm²</div>
+                <div style="font-size: 11px; color: #6c757d; margin-top: 5px;">Para max. 5% de caída de tensión</div>
+            </div>
+            <div class="result-box">
+                <div class="result-title">Calibre Estimado (AWG)</div>
+                <div class="result-value" id="outAWG">AWG 0</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">3. Mecánica y Restricciones de Vuelo</h2>
+        <div class="results-grid">
+            <div class="result-box">
+                <div class="result-title">Peso Lineal del Cable (w)</div>
+                <div class="result-value" id="outWlineal">0.0 g/m</div>
+            </div>
+            <div class="result-box" id="boxMass">
+                <div class="result-title">Masa Muerta (Cable Suspendido)</div>
+                <div class="result-value" id="outMass">0.00 kg</div>
+            </div>
+            <div class="result-box">
+                <div class="result-title">Fuerza de Tracción (Tensión Dron)</div>
+                <div class="result-value" id="outTension">0.0 N</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">4. Dimensionamiento de Estación Terrestre (Respaldo)</h2>
+        <div class="results-grid">
+            <div class="result-box">
+                <div class="result-title">Energía Neta Requerida</div>
+                <div class="result-value" id="outKwh">0.00 kWh</div>
+            </div>
+            <div class="result-box">
+                <div class="result-title">Banco LFP Recomendado (48V)</div>
+                <div class="result-value" id="outAh">0 Ah</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Constantes Físicas
+        const RHO_CU = 1.68e-8; // Resistividad del cobre en Ohms*metro
+        const DENSIDAD_CU = 8960; // Densidad del cobre en kg/m3
+        const GRAVEDAD = 9.81; // m/s2
+        const DROP_PERMITIDO = 0.05; // 5% de caída de tensión máxima tolerada
+        const MASA_FUNDA_KEVLAR = 0.015; // 15 gramos extra por metro para funda térmica y Kevlar
+
+        function calcularAWG(area_mm2) {
+            if(area_mm2 <= 0) return "-";
+            // Fórmula logarítmica de aproximación AWG
+            let awg = -4.3125 * Math.log(area_mm2) + 17.16;
+            if(awg < 0) return "Cable Industrial";
+            return "AWG " + Math.round(awg);
+        }
+
+        function updateAll() {
+            // 1. Leer Inputs
+            let P = parseFloat(document.getElementById('slideP').value);
+            let Altitud = parseFloat(document.getElementById('slideAlt').value);
+            let Horas = parseFloat(document.getElementById('slideTime').value);
+            let V = parseFloat(document.getElementById('selectV').value);
+
+            // Actualizar Etiquetas
+            document.getElementById('valP').innerText = P + " W";
+            document.getElementById('valAlt').innerText = Altitud + " m";
+            document.getElementById('valTime').innerText = Horas.toFixed(1) + " hrs";
+
+            // ----------------------------------------------------
+            // 2. LÓGICA ELÉCTRICA (Cálculo del conductor)
+            // ----------------------------------------------------
+            let I = P / V; 
+            let V_drop_max = V * DROP_PERMITIDO; // Volts que se pueden perder
+            let R_max = V_drop_max / I; // Ley de Ohm para resistencia máxima del cable completo
+            
+            // Longitud total del circuito (Ida por el positivo, vuelta por el negativo)
+            let L_circuito = Altitud * 2; 
+
+            // Área en m2 = (rho * L) / R
+            let Area_m2 = (RHO_CU * L_circuito) / R_max;
+            let Area_mm2 = Area_m2 * 1e6;
+
+            // ----------------------------------------------------
+            // 3. LÓGICA MECÁNICA (Masas y Fuerzas)
+            // ----------------------------------------------------
+            // Volumen de cobre = Área * Longitud total del cable suspendido (Altitud * 2 hilos)
+            let Volumen_cu_m3 = Area_m2 * L_circuito;
+            let Masa_cobre_kg = Volumen_cu_m3 * DENSIDAD_CU;
+            
+            // Masa de la funda y estructura del cable
+            let Masa_estructura_kg = MASA_FUNDA_KEVLAR * Altitud;
+            
+            let Masa_total_cable_kg = Masa_cobre_kg + Masa_estructura_kg;
+
+            // Peso lineal (gramos por metro)
+            let w_gramos_metro = (Masa_total_cable_kg / Altitud) * 1000;
+            // Fuerza de tracción en Newtons (Tensión) - Asumiendo hover cuasi-vertical
+            let Tension_N = Masa_total_cable_kg * GRAVEDAD;
+
+            // ----------------------------------------------------
+            // 4. LÓGICA DE RESPALDO (Baterías)
+            // ----------------------------------------------------
+            let Energia_Wh = P * Horas;
+            let Energia_kWh = Energia_Wh / 1000;
+            
+            // Estimación de banco LFP en configuración de 48V (típico en telecom)
+            // Se asume un factor de profundidad de descarga (DoD) del 85% para no dañar las celdas
+            let Capacidad_Ah = (Energia_Wh / 0.85) / 48;
+
+            // ----------------------------------------------------
+            // 5. ACTUALIZAR UI Y ALERTAS
+            // ----------------------------------------------------
+            document.getElementById('outI').innerText = I.toFixed(1) + " A";
+            document.getElementById('outArea').innerText = Area_mm2.toFixed(3) + " mm²";
+            document.getElementById('outAWG').innerText = calcularAWG(Area_mm2);
+            
+            document.getElementById('outWlineal').innerText = Math.round(w_gramos_metro) + " g/m";
+            document.getElementById('outMass').innerText = Masa_total_cable_kg.toFixed(2) + " kg";
+            document.getElementById('outTension').innerText = Tension_N.toFixed(1) + " N";
+            
+            document.getElementById('outKwh').innerText = Energia_kWh.toFixed(2) + " kWh";
+            document.getElementById('outAh').innerText = Math.round(Capacidad_Ah) + " Ah";
+
+            // Lógica de Bloqueo (Si el cable pesa más de 5kg, el sistema alerta)
+            let boxArea = document.getElementById('boxArea');
+            let boxMass = document.getElementById('boxMass');
+            let globalAlert = document.getElementById('globalAlert');
+
+            if(Masa_total_cable_kg > 5 || Area_mm2 > 5) {
+                boxArea.classList.add('alert-danger');
+                boxMass.classList.add('alert-danger');
+                globalAlert.style.display = "block";
+            } else {
+                boxArea.classList.remove('alert-danger');
+                boxMass.classList.remove('alert-danger');
+                globalAlert.style.display = "none";
+            }
+        }
+
+        // Inicializar cálculos
+        window.onload = updateAll;
+    </script>
+</body>
+</html>
