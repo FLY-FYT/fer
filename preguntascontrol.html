@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora de Design Thinking - Ecosistema NEXO - MGET UAI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap');
+
+        :root {
+            --primary: #2c3e50;
+            --accent: #18bc9c;
+            --terracotta: #e67e22; /* Inspirado en la paleta Nido */
+            --lino: #fcfbfa;       /* Fondo suave y cálido */
+            --madera: #8e44ad;
+            --dark: #1a252f;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f4f0; /* Tono lino de fondo */
+            color: var(--dark);
+            line-height: 1.7;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 35px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a252f 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(24,188,156,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .uai-badge {
+            float: right;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            font-weight: 800;
+            padding: 8px 20px;
+            border-radius: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            color: #bdc3c7;
+            margin-top: 10px;
+            max-width: 800px;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 25px;
+            font-size: 0.85rem;
+            color: #bdc3c7;
+        }
+
+        section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border-left: 6px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 2px solid #f1f2f6;
+            padding-bottom: 12px;
+        }
+
+        h2 span {
+            background-color: var(--accent);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        h3 {
+            color: var(--terracotta);
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Bloque Sobremesa */
+        .lunch-card {
+            background: linear-gradient(to right, #fff9f5, #fff);
+            border: 1px dashed var(--terracotta);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .lunch-icon {
+            font-size: 3rem;
+        }
+
+        /* Grid de Arquetipos */
+        .arch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .arch-card {
+            background: #faf9f6;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .arch-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .arch-avatar {
+            font-size: 2.2rem;
+            background: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .tag-terracotta { background-color: #fdebd0; color: var(--terracotta); }
+        .tag-mint { background-color: #d1f2eb; color: var(--accent); }
+        .tag-blue { background-color: #d6eaf8; color: #2980b9; }
+
+        /* Mapa de Empatía */
+        .empathy-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: 1px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .empathy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .quadrant {
+            background: #fafaf9;
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .quadrant h4 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 6px;
+        }
+
+        .quadrant ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .quadrant li {
+            position: relative;
+            padding-left: 15px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .quadrant li::before {
+            content: "•";
+            color: var(--terracotta);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* AEIOU */
+        .aeiou-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+
+        .aeiou-table th, .aeiou-table td {
+            border: 1px solid var(--border);
+            padding: 15px;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        .aeiou-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .aeiou-letter {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--terracotta);
+            text-align: center;
+            width: 60px;
+        }
+
+        /* Comparación de Controles (Antes vs Después) */
+        .comparison-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: #2c3e50;
+            padding: 40px;
+            border-radius: 20px;
+            color: white;
+            align-items: center;
+        }
+
+        .remote-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* SAMSUNG BN59 CONTROL (ANTES) */
+        .samsung-remote {
+            background: #1e1e1e;
+            width: 110px;
+            height: 380px;
+            border-radius: 20px;
+            border: 4px solid #333;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .samsung-top {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 5px;
+        }
+
+        .samsung-power {
+            background: #e74c3c;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #c0392b;
+        }
+
+        .samsung-source {
+            background: #333;
+            width: 20px;
+            height: 14px;
+            border-radius: 3px;
+            border: 1px solid #555;
+        }
+
+        .samsung-numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .samsung-btn {
+            background: #2a2a2a;
+            height: 14px;
+            border-radius: 2px;
+            border: 1px solid #444;
+        }
+
+        .samsung-mid {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+            padding: 0 5px;
+        }
+
+        .samsung-rocker {
+            background: #333;
+            width: 22px;
+            height: 50px;
+            border-radius: 5px;
+            border: 1px solid #444;
+        }
+
+        .samsung-sea-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3px;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .samsung-tiny-btn {
+            background: #1c1c1c;
+            height: 10px;
+            border: 1px solid #2d2d2d;
+            border-radius: 1px;
+        }
+
+        /* NEXO HÁPTICO CONTROL (DESPUÉS) */
+        .nexo-remote {
+            background: #fff;
+            width: 130px;
+            height: 380px;
+            border-radius: 35px;
+            border: 5px solid #dcdde1;
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05), 0 15px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .nexo-power {
+            background: var(--terracotta);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #b35300;
+        }
+
+        .nexo-voice-bubble {
+            background: var(--accent);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            position: absolute;
+            top: -45px;
+            width: 160px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(24,188,156,0.3);
+            animation: bounce 2s infinite;
+        }
+
+        .nexo-voice-bubble::after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px 6px 0;
+            border-style: solid;
+            border-color: var(--accent) transparent;
+        }
+
+        .nexo-speaker-grille {
+            width: 45px;
+            height: 10px;
+            background: repeating-linear-gradient(90deg, #7f8c8d, #7f8c8d 2px, transparent 2px, transparent 4px);
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .nexo-panic-btn {
+            background: #3498db;
+            border: none;
+            width: 100%;
+            height: 48px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 800;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            box-shadow: 0 4px 0 #217dbb;
+            cursor: pointer;
+        }
+
+        .nexo-news-btn {
+            background: #2ecc71;
+            border: none;
+            width: 100%;
+            height: 42px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 800;
+            font-size: 0.75rem;
+            box-shadow: 0 4px 0 #219d53;
+            cursor: pointer;
+        }
+
+        .nexo-rocker-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            gap: 15px;
+        }
+
+        .nexo-rocker {
+            background: #f1f2f6;
+            flex: 1;
+            height: 85px;
+            border-radius: 15px;
+            border: 2px solid #ced6e0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .nexo-novela-btn {
+            background: #f39c12;
+            border: none;
+            width: 100%;
+            height: 42px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 800;
+            font-size: 0.75rem;
+            box-shadow: 0 4px 0 #c27d0e;
+            cursor: pointer;
+        }
+
+        /* Base Inteligente TONY */
+        .tony-base-visual {
+            background: radial-gradient(circle at 50% 30%, #34495e 0%, #2c3e50 100%);
+            width: 140px;
+            height: 90px;
+            border-radius: 50% / 15%;
+            border-bottom: 8px solid #1a252f;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .tony-light-ring {
+            width: 110px;
+            height: 10px;
+            background: rgba(24,188,156,0.5);
+            border-radius: 50%;
+            position: absolute;
+            top: 5px;
+            box-shadow: 0 0 12px var(--accent);
+            animation: pulse-ring 2s infinite;
+        }
+
+        /* Especificaciones */
+        .tech-spec {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tech-spec li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .tech-spec li strong {
+            color: var(--primary);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, -8px); }
+        }
+
+        @keyframes pulse-ring {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        @media (max-width: 768px) {
+            .empathy-grid, .comparison-wrapper, .meta-grid {
+                grid-template-columns: 1fr;
+            }
+            header {
+                padding: 30px;
+            }
+            .uai-badge {
+                float: none;
+                display: inline-block;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ENCABEZADO -->
+        <header>
+            <div class="uai-badge">MGET UAI</div>
+            <h1>Bitácora de Diseño: Ecosistema NEXO</h1>
+            <p class="header-subtitle">Rediseño del control remoto de TV para adultos mayores autovalentes centrado en la usabilidad, reducción de carga cognitiva y resiliencia emocional.</p>
+            
+            <div class="meta-grid">
+                <div><strong>Asignatura:</strong> Transformación Digital / Design Thinking</div>
+                <div><strong>Profesor:</strong> Allan Urban</div>
+                <div><strong>Fecha:</strong> 6 de julio de 2026</div>
+                <div><strong>Rigor del Proceso:</strong> Taza de Empatía Cruzada (3 Perfiles)</div>
+            </div>
+        </header>
+
+        <!-- SECCIÓN 1: EL ENTORNO DE EMPATÍA -->
+        <section id="entorno">
+            <h2><span>1</span> El Contexto de Empatía Extrema: Una Sobremesa Chilena</h2>
+            <p>La investigación de campo no se realizó en una sala de pruebas fría, sino mediante un ejercicio de <strong>Empatía Extrema</strong> inserto en la cotidianeidad del usuario. El equipo visitó el departamento de Gladys y Jorge durante la <strong>hora del almuerzo</strong>. Tras terminar de comer, en una atmósfera relajada, cercana y de confianza, les consultamos sobre el control remoto actual. Ambos se mostraron <strong>absolutamente fascinados de responder</strong>, abriendo un espacio lúdico de co-diseño donde se dedicaron a <strong>soñar juntos cuál sería su control remoto ideal</strong>.</p>
+            
+            <div class="lunch-card">
+                <div class="lunch-icon">☕</div>
+                <div>
+                    <strong>Hallazgo Metodológico clave:</strong> La calidez de la sobremesa eliminó las barreras de vergüenza o timidez típicas de los adultos mayores al hablar de tecnología. Al "soñar sin restricciones", revelaron que no odian la tecnología, sino el diseño excluyente que los hace sentir incompetentes en su propio hogar.
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: TRES PERFILES DE CANDIDATOS -->
+        <section id="arquetipos">
+            <h2><span>2</span> Tres Arquetipos de Usuario Comparados</h2>
+            <p>Para lograr un diseño verdaderamente universal y robusto, consolidamos un análisis cruzado en base a tres candidatos de estudio con realidades espaciales y físicas distintas:</p>
+            
+            <div class="arch-grid">
+                <!-- DON RENÉ -->
+                <div class="arch-card">
+                    <div class="arch-card-header">
+                        <div class="arch-avatar">👴</div>
+                        <div>
+                            <h4 style="font-weight:600;">Don René (79)</h4>
+                            <span class="tag tag-terracotta">Fisiológico Extremo</span>
+                        </div>
+                    </div>
+                    <p style="font-size:0.85rem; color:#555;"><strong>Fisiología:</strong> Presbicia avanzada y artrosis leve en las manos. Falta de precisión para botones pequeños.<br><br><strong>Entorno:</strong> Casa espaciosa y despejada. Temor profundo a desconfigurar el televisor y molestar a sus hijos por vergüenza.</p>
+                </div>
+
+                <!-- GLADYS CARRASCO -->
+                <div class="arch-card">
+                    <div class="arch-card-header">
+                        <div class="arch-avatar">👩</div>
+                        <div>
+                            <h4 style="font-weight:600;">Gladys Carrasco (63)</h4>
+                            <span class="tag tag-mint">Espacial / Manos Libres</span>
+                        </div>
+                    </div>
+                    <p style="font-size:0.85rem; color:#555;"><strong>Fisiología:</strong> Buena motricidad, pero prefiere no depender de botones táctiles.<br><br><strong>Entorno:</strong> Departamento saturado por la mudanza de su hija. Caja sobre cajas, mesas y sillas apiladas con plantas tapan la vista fluida hacia la TV. El control se pierde todo el tiempo entre el desorden y sus dos perritas.</p>
+                </div>
+
+                <!-- JORGE -->
+                <div class="arch-card">
+                    <div class="arch-card-header">
+                        <div class="arch-avatar">👨</div>
+                        <div>
+                            <h4 style="font-weight:600;">Jorge (57)</h4>
+                            <span class="tag tag-blue">Tecnológico / Práctico</span>
+                        </div>
+                    </div>
+                    <p style="font-size:0.85rem; color:#555;"><strong>Fisiología:</strong> Visión y motricidad en perfectas condiciones.<br><br><strong>Entorno:</strong> Convive con Gladys en el departamento saturado. Suele quedarse dormido en el sillón de la sala de estar y sueña con automatizar su TV para que no quede encendida innecesariamente.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: MAPAS DE EMPATÍA INTERACTIVOS -->
+        <section id="mapas">
+            <h2><span>3</span> Mapas de Empatía de la Sobremesa</h2>
+            <p style="margin-bottom: 15px;">Selecciona el perfil para ver el mapa de empatía derivado directamente de la entrevista del almuerzo:</p>
+            
+            <div class="empathy-tabs">
+                <button class="tab-btn active" onclick="verUsuario('rene')">Don René</button>
+                <button class="tab-btn" onclick="verUsuario('gladys')">Gladys Carrasco</button>
+                <button class="tab-btn" onclick="verUsuario('jorge')">Jorge</button>
+            </div>
+
+            <!-- RENÉ -->
+            <div id="user-rene" class="empathy-grid user-tab-content">
+                <div class="quadrant">
+                    <h4>¿Qué piensa y siente?</h4>
+                    <ul>
+                        <li>"Me asusta presionar un botón equivocado y descomponer el televisor".</li>
+                        <li>Siente frustración al ver que los aparatos modernos no respetan sus limitaciones visuales.</li>
+                    </ul>
+                </div>
+                <div class="quadrant">
+                    <h4>¿Qué ve?</h4>
+                    <ul>
+                        <li>Un control remoto negro y gomoso con botones ilegibles.</li>
+                        <li>Entradas complejas ("Source/HDMI") que dejan la pantalla azul.</li>
+                    </ul>
+                </div>
+                <div class="quadrant">
+                    <h4>¿Qué oye?</h4>
+                    <ul>
+                        <li>A sus nietos diciendo que la tecnología es fácil, aumentando su parálisis.</li>
+                    </ul>
+                </div>
+                <div class="quadrant">
+                    <h4>¿Qué dice y hace?</h4>
+                    <ul>
+                        <li>Oculta sus dificultades por orgullo.</li>
+                        <li>Deja el control apoyado en la mesa para apuntarle firmemente con el dedo índice.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- GLADYS -->
+            <div id="user-gladys" class="empathy-grid user-tab-content" style="display:none;">
+                <div class="quadrant">
+                    <h4>¿Qué piensa y siente?</h4>
+                    <ul>
+                        <li>"No me gustan los robots ni el exceso de cables o aparatos invasivos".</li>
+                        <li>Se frustra de buscar físicamente el control entre las cajas de la mudanza.</li>
+                    </ul>
+                </div>
+                <div class="quadrant">
+                    <h4>¿Qué ve?</h4>
+                    <ul>
+                        <li>Sillas, mesas y plantas apiladas sobre cajas que obstruyen el mueble de la TV.</li>
+                        <li>Sus dos perritas corriendo y botando el control debajo del sofá.</li>
+                    </ul>
+                </div>
+                <div class="quadrant">
+                    <h4>¿Qué oye?</h4>
+                    <ul>
+                        <li>El audio de la tele a la distancia mientras cocina en la cocina semi-separada.</li>
+                    </ul>
+                </div>
+                <div class="quadrant">
+                    <h4>¿Qué dice y hace?</h4>
+                    <ul>
+                        <li>Le habla a viva voz a la TV: "¡Tony, prende la tele!".</li>
+                        <li>Prefiere una interfaz por voz para no tener que esquivar los muebles y cajas cada vez.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- JORGE -->
+            <div id="user-jorge" class="empathy-grid user-tab-content" style="display:none;">
+                <div class="quadrant">
+                    <h4>¿Qué piensa y siente?</h4>
+                    <ul>
+                        <li>Quiere un control estético, moderno, que no parezca un "aparato de hospital".</li>
+                        <li>Le molesta quedarse dormido y que la tele quede transmitiendo toda la madrugada.</li>
+                    </ul>
+                </div>
+                <div class="quadrant">
+                    <h4>¿Qué ve?</h4>
+                    <ul>
+                        <li>Las luces y focos inteligentes que programa mediante su smartphone.</li>
+                    </ul>
+                </div>
+                <div class="quadrant">
+                    <h4>¿Qué oye?</h4>
+                    <ul>
+                        <li>Programas culturales y de fútbol que disfruta durante la noche.</li>
+                    </ul>
+                </div>
+                <div class="quadrant">
+                    <h4>¿Qué dice y hace?</h4>
+                    <ul>
+                        <li><strong>Su gran idea: "Quiero que el control me hable de vuelta si se me pierde".</strong></li>
+                        <li>Exige un control que tenga un sensor de presencia que sepa si realmente está en la habitación.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: AEIOU DE LA ACTIVIDAD -->
+        <section id="aeiou">
+            <h2><span>4</span> Matriz de Análisis del Entorno (AEIOU)</h2>
+            <table class="aeiou-table">
+                <thead>
+                    <tr>
+                        <th>Dimensión</th>
+                        <th>Don René (79)</th>
+                        <th>Gladys (63) y Jorge (57)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="aeiou-letter">A</td>
+                        <td><strong>Actividades:</strong> Sintoniza noticias por el canal clásico y teleseries junto a su esposa. Manejo 100% físico e individual.</td>
+                        <td><strong>Actividades:</strong> Mudanza en progreso, cocina en espacio semi-separado, Jorge se queda dormido viendo partidos de fútbol.</td>
+                    </tr>
+                    <tr>
+                        <td class="aeiou-letter">E</td>
+                        <td><strong>Entorno:</strong> Living despejado pero con baja iluminación nocturna, lo que castiga la lectura del botón.</td>
+                        <td><strong>Entorno:</strong> Living saturado de cajas de mudanza, mesas apiladas con maceteros tapando el televisor. Dos perritas activas.</td>
+                    </tr>
+                    <tr>
+                        <td class="aeiou-letter">I</td>
+                        <td><strong>Interacciones:</strong> Presión imprecisa con índice por artrosis; pánico a desconfigurar el sistema al presionar "Source".</td>
+                        <td><strong>Interacciones:</strong> Jorge llama al control por voz para encontrarlo. Gladys interactúa manos libres mientras cocina.</td>
+                    </tr>
+                    <tr>
+                        <td class="aeiou-letter">O</td>
+                        <td><strong>Objetos:</strong> Smart TV. Control Samsung BN59 con 45 botones de nulo relieve táctil.</td>
+                        <td><strong>Objetos:</strong> Cajas de mudanza, plantas, luces domóticas controladas por smartphone.</td>
+                    </tr>
+                    <tr>
+                        <td class="aeiou-letter">U</td>
+                        <td><strong>Usuarios:</strong> Adultos mayores con presbicia y ansiedad frente al colapso digital (pérdida de señal).</td>
+                        <td><strong>Usuarios:</strong> Gladys (63, resolutiva, culinaria, activa) y Jorge (57, pragmático, tecnológico).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SECCIÓN 5: EL ANTES Y DESPUÉS (MAQUETA DIGITAL) -->
+        <section id="maqueta">
+            <h2><span>5</span> Propuesta de Prototipo: El Ecosistema "NEXO"</h2>
+            <p style="margin-bottom: 25px;">Comparamos visualmente el dolor del control tradicional de la foto del taller (Samsung BN59-01199F) frente a la solución de nuestra propuesta de valor unificada (Mando NEXO + Base de Voz TONY):</p>
+            
+            <div class="comparison-wrapper">
+                
+                <!-- CONTROL ANTES -->
+                <div class="remote-container">
+                    <h4 style="color:#bdc3c7; font-size:0.9rem;">ANTES: Samsung BN59</h4>
+                    <div class="samsung-remote">
+                        <div class="samsung-top">
+                            <div class="samsung-power"></div>
+                            <div class="samsung-source"></div>
+                        </div>
+                        <div class="samsung-numpad">
+                            <div class="samsung-btn"></div><div class="samsung-btn"></div><div class="samsung-btn"></div>
+                            <div class="samsung-btn"></div><div class="samsung-btn"></div><div class="samsung-btn"></div>
+                            <div class="samsung-btn"></div><div class="samsung-btn"></div><div class="samsung-btn"></div>
+                        </div>
+                        <div class="samsung-mid">
+                            <div class="samsung-rocker"></div>
+                            <div class="samsung-rocker" style="background:#555;"></div>
+                        </div>
+                        <div class="samsung-sea-buttons">
+                            <div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div>
+                            <div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div>
+                            <div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div>
+                            <div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div><div class="samsung-tiny-btn"></div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.75rem; color:#bdc3c7; text-align:center; max-width:200px; margin-top:10px;"><strong>Dolor:</strong> 45 botones gomosos idénticos, nulo feedback físico y exceso de funciones inútiles.</p>
+                </div>
+
+                <!-- CONTROL DESPUÉS -->
+                <div class="remote-container">
+                    <h4 style="color:var(--accent); font-size:0.9rem;">DESPUÉS: Ecosistema NEXO</h4>
+                    <div class="nexo-remote">
+                        <div class="nexo-voice-bubble">
+                            "¡Jorge, estoy por acá, me caí detrás del sillón!"
+                        </div>
+                        <div class="nexo-speaker-grille"></div>
+                        <button class="nexo-power" title="Botón de encendido texturizado"></button>
+                        <button class="nexo-panic-btn">🔒 Botón Seguridad</button>
+                        <button class="nexo-news-btn">📰 Noticias chilenas</button>
+                        <div class="nexo-rocker-row">
+                            <div class="nexo-rocker">
+                                <span>▲</span><span style="font-size:0.5rem;">VOL</span><span>▼</span>
+                            </div>
+                            <div class="nexo-rocker">
+                                <span>▲</span><span style="font-size:0.5rem;">CH</span><span>▼</span>
+                            </div>
+                        </div>
+                        <button class="nexo-novela-btn">📺 Teleseries</button>
+                    </div>
+                    <p style="font-size:0.75rem; color:var(--accent); text-align:center; max-width:200px; margin-top:10px;"><strong>Ecosistema NEXO:</strong> Reducción al 10% de funciones, relieves hápticos, botón de pánico y localizador por voz activa.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: ESPECIFICACIONES Y JUSTIFICACIÓN -->
+        <section id="specs">
+            <h2><span>6</span> Ficha Gráfica de la Solución e Interacción</h2>
+            <div class="empathy-grid">
+                <div>
+                    <h3>Innovaciones Co-Diseñadas en la Sobremesa</h3>
+                    <ul class="tech-spec">
+                        <li><strong>1. El "¡Aquí Estoy!" por Voz (Para Jorge):</strong> Cuando el control se pierde bajo las cajas de mudanza, el usuario exclama *"¿Dónde está el control?"*. El sensor acústico interno del mando responde a viva voz sintetizada: *"¡Aquí estoy, Jorge, me deslicé al lado de la maceta!"*, facilitando la localización sin necesidad de agacharse ni mover muebles de valor.</li>
+                        <li><strong>2. Control por Voz de Campo Lejano "TONY" (Para Gladys):</strong> Mediante la base de carga inalámbrica TONY, Gladys puede cambiar de canal o apagar la tele hablándole de forma manos libres a la distancia mientras cocina, superando el obstáculo físico de las cajas acumuladas en su comedor.</li>
+                        <li><strong>3. El Botón de Seguridad (Para René):</strong> El gran botón azul (lock) de NEXO actúa como reset de hardware. Si René comete un error táctil o cambia de entrada, presionar este botón devuelve automáticamente la TV al canal nacionalclásico, borrando la frustración del error.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Ficha Técnica del Prototipo Final</h3>
+                    <ul class="tech-spec">
+                        <li><strong>Dimensiones:</strong> 165 mm x 60 mm x 20 mm (Ergonomía optimizada para manos con artrosis).</li>
+                        <li><strong>Materiales:</strong> Plástico ABS de alto contraste (botones blancos mate sobre fondo gris oscuro) y base con revestimiento de <strong>silicona texturizada rugosa</strong> (inspirada en la biomímesis de la piel de geco) para evitar caídas y deslizamientos.</li>
+                        <li><strong>Alimentación:</strong> Batería recargable magnéticamente al depositarse sobre la base "TONY" (elimina el dolor de Gladys y Jorge del cambio constante de pilas AAA).</li>
+                        <li><strong>Conectividad:</strong> Emisión de señal infrarroja omnidireccional con amplificador de ángulo (funciona sin importar que las plantas de la mudanza obstruyan la TV).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- SCRIPT DE INTERACCIÓN DE LOS MAPAS DE EMPATÍA -->
+    <script>
+        function verUsuario(userId) {
+            // Desactivar todos los botones
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            // Ocultar todos los mapas
+            document.querySelectorAll('.user-tab-content').forEach(content => content.style.display = 'none');
+            
+            // Activar botón seleccionado
+            event.target.classList.add('active');
+            // Mostrar mapa de empatía seleccionado
+            document.getElementById('user-' + userId).style.display = 'grid';
+        }
+    </script>
+</body>
+</html>
