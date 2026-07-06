@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tony - Bitácora Académica de Diseño y Prototipos | MGET UAI</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FDFBF7',
+                            100: '#F5F2EB',
+                            200: '#EAE5D9',
+                        },
+                        sage: {
+                            50: '#F1F6F4',
+                            100: '#E2ECE9',
+                            500: '#6FA98E',
+                            600: '#5A8F76',
+                        },
+                        clay: {
+                            500: '#C48A54',
+                            600: '#A7713E',
+                        },
+                        charcoal: '#2D3748',
+                        alertRed: '#DF4B4B'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7;
+            color: #2D3748;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-full {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                background: white !important;
+            }
+            .print-page-break {
+                page-break-before: always;
+            }
+            body {
+                background-color: white !important;
+                color: black !important;
+            }
+            .tab-content {
+                display: block !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                margin-bottom: 3rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header / Navbar Principal (no-print) -->
+    <header class="bg-charcoal text-white py-4 px-6 shadow-md no-print">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">🛋️</span>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">SISTEMA TONY</h1>
+                    <p class="text-xs text-gray-400">Bitácora Individual de Innovación y Prototipos — Magíster MGET UAI</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="window.print()" class="bg-sage-500 hover:bg-sage-600 text-white font-medium py-2 px-4 rounded-lg text-sm transition-all shadow flex items-center gap-2">
+                    <span>🖨️</span> Guardar Bitácora Completa (PDF)
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner Introductorio (no-print) -->
+    <section class="bg-gradient-to-r from-cream-100 to-sage-50 py-8 px-6 border-b border-cream-200 no-print">
+        <div class="max-w-7xl mx-auto">
+            <span class="bg-clay-500 text-white text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">Bitácora de Evaluación Individual</span>
+            <h2 class="text-3xl font-bold mt-2 text-charcoal">Rediseño de Interacción de TV para Adultos Mayores Autovalentes</h2>
+            <p class="text-gray-600 mt-2 max-w-3xl leading-relaxed">
+                Este dossier interactivo unifica de manera científica toda la investigación etnográfica, benchmarking y desarrollo técnico del sistema <strong>"Tony"</strong>. Diseñado rigurosamente para resolver las fricciones de Gladys, Jorge y Beli, estructurado estrictamente según los requisitos evaluativos de la rúbrica de la UAI.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contenedor Principal -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 md:px-6 py-8 flex flex-col lg:flex-row gap-8 print-full">
+        
+        <!-- Sidebar de Navegación (no-print) -->
+        <aside class="w-full lg:w-64 shrink-0 no-print">
+            <div class="bg-white p-4 rounded-xl border border-cream-200 shadow-sm sticky top-6">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider px-3 mb-3">Requisitos de Evaluación</h3>
+                <nav class="space-y-1">
+                    <button onclick="switchTab('tab-hmw')" id="btn-tab-hmw" class="tab-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all bg-sage-500 text-white shadow-sm flex items-center gap-2.5">
+                        <span>🎯</span> 1. El Desafío (HMW)
+                    </button>
+                    <button onclick="switchTab('tab-arquetipos')" id="btn-tab-arquetipos" class="tab-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-600 hover:bg-cream-100 flex items-center gap-2.5">
+                        <span>👥</span> 2. Segmento y Arquetipos
+                    </button>
+                    <button onclick="switchTab('tab-dolores')" id="btn-tab-dolores" class="tab-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-600 hover:bg-cream-100 flex items-center gap-2.5">
+                        <span>⚡</span> 3. Resumen y Dolores
+                    </button>
+                    <button onclick="switchTab('tab-accion')" id="btn-tab-accion" class="tab-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-600 hover:bg-cream-100 flex items-center gap-2.5">
+                        <span>📐</span> 4. Área de Acción y Concepto
+                    </button>
+                    <button onclick="switchTab('tab-referentes')" id="btn-tab-referentes" class="tab-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-600 hover:bg-cream-100 flex items-center gap-2.5">
+                        <span>🔍</span> 5. Análisis de Referentes
+                    </button>
+                    <button onclick="switchTab('tab-ideacion')" id="btn-tab-ideacion" class="tab-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-600 hover:bg-cream-100 flex items-center gap-2.5">
+                        <span>💡</span> 6. Proceso de Ideación
+                    </button>
+                    <button onclick="switchTab('tab-solucion')" id="btn-tab-solucion" class="tab-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-600 hover:bg-cream-100 flex items-center gap-2.5">
+                        <span>🛠️</span> 7. Solución Final y Fichas
+                    </button>
+                    <button onclick="switchTab('tab-simulador')" id="btn-tab-simulador" class="tab-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-600 hover:bg-cream-100 flex items-center gap-2.5">
+                        <span>🎮</span> Simulador de Prototipos
+                    </button>
+                    <button onclick="switchTab('tab-validacion')" id="btn-tab-validacion" class="tab-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-600 hover:bg-cream-100 flex items-center gap-2.5">
+                        <span>📊</span> 8. Validación (Test Cards)
+                    </button>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Contenido de las Secciones -->
+        <div class="flex-grow bg-white p-6 md:p-8 rounded-xl border border-cream-200 shadow-sm print-full">
+            
+            <!-- SECCIÓN 1: EL DESAFÍO (HMW) -->
+            <section id="tab-hmw" class="tab-content block">
+                <div class="border-b border-cream-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold text-clay-500 uppercase tracking-wider">Requisito 1 de Rúbrica</span>
+                    <h3 class="text-2xl font-bold text-charcoal">Definición y Evolución del Desafío Estratégico (HMW)</h3>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="bg-cream-50 border-l-4 border-clay-500 p-4 rounded-r-lg">
+                        <h4 class="text-xs font-bold text-clay-600 uppercase tracking-wider">Pregunta de Diseño Definitiva (How Might We)</h4>
+                        <p class="text-lg font-semibold text-charcoal mt-1 italic">
+                            "¿Cómo podríamos rediseñar la interacción con el entretenimiento del hogar para adultos mayores con movilidad y visión decrecientes, de modo de devolverles la autonomía cognitiva y operativa sin generarles parálisis tecnológica?" [6]
+                        </p>
+                    </div>
+
+                    <div class="prose max-w-none text-gray-600 space-y-4">
+                        <p>
+                            En el diseño estratégico del Taller de Innovación y Prototipos, un error común consiste en predefinir la solución dentro del desafío. El primer borrador del proyecto mezclaba dolores del orden de la cocina con la solución de televisión, lo que provocaba un salto metodológico erróneo [7]. 
+                        </p>
+                        <p>
+                            La reformulación definitiva de la pregunta rectora elimina cualquier indicio de la solución (como "diseñar un control remoto de un color específico") para abrir el espectro creativo a soluciones asistenciales híbridas de hardware y software local [6].
+                        </p>
+                        <h4 class="font-bold text-charcoal text-sm uppercase mt-4">Justificación Metodológica de la Pregunta:</h4>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li><strong>Erradicación del Esfuerzo de Pinza:</strong> El desafío aborda la rigidez y fatiga articular muscular de los usuarios, buscando un flujo operativo que no dependa de sostener un dispositivo en suspensión en el aire [8].</li>
+                            <li><strong>Alineación del Ecosistema del Living:</strong> El entorno físico influye directamente en la experiencia. La pregunta contempla la obstrucción espacial típica de living-comedor sobreamueblados chilenos [9, 10].</li>
+                            <li><strong>Resguardo de la Autonomía Cognitiva:</strong> El HMW prioriza la dignidad y la capacidad de control del adulto mayor, previniendo el pánico o frustración frente a términos en inglés y menús de sistemas ambiguos [11, 12].</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 2: SEGMENTO Y ARQUETIPOS -->
+            <section id="tab-arquetipos" class="tab-content hidden print-page-break">
+                <div class="border-b border-cream-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold text-clay-500 uppercase tracking-wider">Requisito 2 de Rúbrica</span>
+                    <h3 class="text-2xl font-bold text-charcoal">Segmento y Ficha Básica de Arquetipos</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Gladys -->
+                    <div class="bg-cream-50 p-4 rounded-xl border border-cream-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="text-base font-bold text-charcoal">Gladys (65 años)</h4>
+                                    <p class="text-[10px] text-clay-500 font-semibold uppercase">"La Buscadora de Certeza"</p>
+                                </div>
+                                <span class="text-xl">👩‍🍳</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-3">Trabajadora de casa particular. Retorna exhausta tras dobles jornadas de esfuerzo doméstico. Ingreso: $1.200.000. Vive con Jorge en Santiago Centro [13, 14].</p>
+                            
+                            <div class="bg-white p-2.5 rounded-lg border border-cream-100 mb-3">
+                                <p class="text-[10px] italic text-gray-600">"Los robots no me gustan... son mudos y fríos... que me responda de todas maneras, porque si no yo no voy a saber si la aprendí." [1, 15]</p>
+                            </div>
+
+                            <ul class="text-[10px] space-y-1 text-gray-600">
+                                <li>• <strong>Hábitos:</strong> Envía audios por WhatsApp y enlaza el celular por Bluetooth para ver películas [13, 14].</li>
+                                <li>• <strong>Metas:</strong> Sentir calidez, tranquilidad, descanso rápido y certidumbre operativa inmediata [16, 17].</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Jorge -->
+                    <div class="bg-cream-50 p-4 rounded-xl border border-cream-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="text-base font-bold text-charcoal">Jorge (62 años)</h4>
+                                    <p class="text-[10px] text-clay-500 font-semibold uppercase">"El Pragmático Conductor"</p>
+                                </div>
+                                <span class="text-xl">🚖</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-3">Conductor de taxi en Santiago. Directo, pragmático y con nula tolerancia a retrasos o procesos interactivos ambiguos. Ingreso: $800.000 [18, 19].</p>
+                            
+                            <div class="bg-white p-2.5 rounded-lg border border-cream-100 mb-3">
+                                <p class="text-[10px] italic text-gray-600">"Te estoy diciendo que me prendas la tele ahora. ¡Retutú también! Si no hay nadie aquí, ¿cómo va a prender?" [20, 21]</p>
+                            </div>
+
+                            <ul class="text-[10px] space-y-1 text-gray-600">
+                                <li>• <strong>Hábitos:</strong> Acostumbrado al tacto e inmediatez de botones mecánicos duros de su taxi [22, 23].</li>
+                                <li>• <strong>Metas:</strong> Sintonizar fútbol e información al instante y evitar el desperdicio eléctrico del hogar [22, 24].</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Beli -->
+                    <div class="bg-cream-50 p-4 rounded-xl border border-cream-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="text-base font-bold text-charcoal">Beli (62 años)</h4>
+                                    <p class="text-[10px] text-clay-500 font-semibold uppercase">"La Autonomía Silenciosa"</p>
+                                </div>
+                                <span class="text-xl">👓</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-3">Guardia de seguridad. Conviviente en San Bernardo. Sufre de pérdida progresiva de visión por presbicia avanzada. Prioriza no depender de nadie [25, 26].</p>
+                            
+                            <div class="bg-white p-2.5 rounded-lg border border-cream-100 mb-3">
+                                <p class="text-[10px] italic text-gray-600">"Prefiero hacerlo yo solo porque a veces molesta a la gente que le estén pidiendo el favor..." [5, 27]</p>
+                            </div>
+
+                            <ul class="text-[10px] space-y-1 text-gray-600">
+                                <li>• <strong>Hábitos:</strong> Aplica agarre bimanual adaptativo. Usa accesos rápidos de Netflix y prefiere la voz [25, 26].</li>
+                                <li>• <strong>Metas:</strong> Diferenciar teclas por alto contraste visual y tacto físico sin desconfigurar la pantalla [28, 29].</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 3: RESUMEN Y DOLORES -->
+            <section id="tab-dolores" class="tab-content hidden print-page-break">
+                <div class="border-b border-cream-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold text-clay-500 uppercase tracking-wider">Requisito 3 de Rúbrica</span>
+                    <h3 class="text-2xl font-bold text-charcoal">Resumen de Entrevistas y Dolores Críticos (AEIOU)</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-sage-50 p-4 rounded-lg border border-sage-100">
+                            <h4 class="font-bold text-sage-600 text-sm uppercase mb-2">Fricción Física y Ergonómica (Gladys y Beli)</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                La artrosis severa y fatiga imposibilitan sostener un control alargado tradicional en suspensión en el aire y apretar botones pequeños con el pulgar. Beli se ve forzado a aplicar un agarre bimanual incómodo, mientras que Gladys debe depositar el control en la mesa y golpearlo rígido con el dedo índice, usando el peso del brazo por gravedad [30-32].
+                            </p>
+                        </div>
+                        <div class="bg-sage-50 p-4 rounded-lg border border-sage-100">
+                            <h4 class="font-bold text-sage-600 text-sm uppercase mb-2">Fricción Cognitiva y Semántica (Beli y Gladys)</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Botoneras repletas de más de 40 teclas inútiles. Terminologías de sistema abreviadas en inglés (<em>'Source', 'Input', 'CC', 'Smart Hub'</em>) que no se comprenden y gatillan pánico patológico a desconfigurar el televisor, dejando la pantalla en negro [5, 33, 34].
+                            </p>
+                        </div>
+                        <div class="bg-sage-50 p-4 rounded-lg border border-sage-100">
+                            <h4 class="font-bold text-sage-600 text-sm uppercase mb-2">Fricción de Entorno y Espacio (Jorge y Gladys)</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                En departamentos pequeños sobreamueblados de Santiago, la gran densidad de helechos y maceteros de Gladys tapan de forma física el sensor infrarrojo (IR) de la base de la TV. Esto exige a Jorge estirar el brazo de lado o realizar incómodas contorsiones físicas con el cuerpo para lograr sintonizar [13, 35, 36].
+                            </p>
+                        </div>
+                        <div class="bg-sage-50 p-4 rounded-lg border border-sage-100">
+                            <h4 class="font-bold text-sage-600 text-sm uppercase mb-2">Fricción Operativa, Visual y de Pérdida</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Controles remotos negros y lisos que se mimetizan en la penumbra del living, perdiéndose bajo tejidos o boletas. Falta de contraste de botones oscuros sobre chasis oscuros que agrava la presbicia de Beli y Gladys [30, 37, 38]. Frustración con el gasto incesante en pilas que inutilizan el control sin aviso [39].
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Mapeo de Citas de Dolores Reales -->
+                    <div class="bg-cream-50 p-4 rounded-lg border border-cream-200 text-xs">
+                        <h4 class="font-bold text-charcoal uppercase mb-2">Evidencias Etnográficas de Campo (MGET UAI)</h4>
+                        <div class="space-y-2 text-gray-600">
+                            <p>🗣️ <strong>Gladys:</strong> <em>"De este color, nada negro, nada de ningún otro color, ni rojo, ni nada."</em> [2, 40] (Dolor: Pérdida del control en la oscuridad). <em>"Que cuando se pierda tú le hables y si el control te diga, 'Aquí estoy'."</em> [41]</p>
+                            <p>🚖 <strong>Jorge:</strong> <em>"La luz no tiene nada que ver con la tele... separado, la tele por un lado y las luces por otro."</em> [20] (Dolor: Rechazo a la centralización compleja de domótica). <em>"Si uno no está aquí, no tiene que prenderse... ¿cómo va a prender a las 3?"</em> [20] (Dolor: Gasto de luz inútil).</p>
+                            <p>👓 <strong>Beli:</strong> <em>"Es muy difícil distinguirse el fondo y las teclas son oscuras ya que se asemejan... no hay un realce."</em> [12, 28] (Dolor: Nulo contraste visual por presbicia).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 4: ÁREA DE ACCIÓN AND CONCEPTO -->
+            <section id="tab-accion" class="tab-content hidden print-page-break">
+                <div class="border-b border-cream-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold text-clay-500 uppercase tracking-wider">Requisito 4 de Rúbrica</span>
+                    <h3 class="text-2xl font-bold text-charcoal">Selección de Área de Acción y Definición Conceptual</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="prose max-w-none text-gray-600 leading-relaxed">
+                        <p>
+                            El área de acción del proyecto se delimita en el **desarrollo de un dispositivo físico asistencial de sobremesa unificado** denominado <strong>"Tony"</strong> [2, 15]. Se descarta la creación de una aplicación de celular debido a las severas barreras cognitivas, táctiles y operativas del segmento estudiado.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="border border-cream-200 p-5 rounded-xl bg-white shadow-sm">
+                            <h4 class="font-bold text-charcoal text-sm uppercase mb-3 text-alertRed flex items-center gap-1.5">
+                                <span>❌</span> El Fracaso de una App Móvil de Celular
+                            </h4>
+                            <ul class="space-y-2 text-xs text-gray-600">
+                                <li>• <strong>Ausencia de Respuesta Háptica:</strong> Las pantallas capacitivas lisas de vidrio carecen de volumen, bordes o relieves físicos, lo que desencadena pulsaciones erróneas y enojo visual en Beli [12, 34].</li>
+                                <li>• <strong>Barrera y Dependencia de Red:</strong> Las apps de domótica dependen de redes Wi-Fi estables. Gladys carece de internet fijo en su hogar, usando un plan de datos móviles inestable [42, 43].</li>
+                                <li>• <strong>Fuerza de Pinza y Fatiga:</strong> Sostener un smartphone plano e intentar digitar con rigidez y dolor muscular articular incrementa la fatiga motriz en las manos [32].</li>
+                            </ul>
+                        </div>
+
+                        <div class="border border-cream-200 p-5 rounded-xl bg-sage-50/40 shadow-sm">
+                            <h4 class="font-bold text-charcoal text-sm uppercase mb-3 text-sage-600 flex items-center gap-1.5">
+                                <span>✔</span> El Valor de un Dispositivo de Sobremesa
+                            </h4>
+                            <ul class="space-y-2 text-xs text-gray-600">
+                                <li>• <strong>Ergonomía de Apoyo Plano:</strong> El control se instala fijo en la mesa de centro. Gladys y Beli operan el pulsador descansando el brazo entero y presionando por la gravedad natural del cuerpo, eliminando el dolor [2, 44].</li>
+                                <li>• <strong>Procesamiento Local (NLP Offline):</strong> El reconocimiento conversacional se aloja localmente en un ESP32, sin depender de redes de internet, logrando latencia cero para Jorge [40, 45].</li>
+                                <li>• <strong>Unificación Un Botón:</strong> Consolida de forma nativa la TV y el decodificador de cable en un solo botón, reduciendo drásticamente la botonera [5, 46].</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 5: ANÁLISIS DE REFERENTES -->
+            <section id="tab-referentes" class="tab-content hidden print-page-break">
+                <div class="border-b border-cream-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold text-clay-500 uppercase tracking-wider">Requisito 5 de Rúbrica</span>
+                    <h3 class="text-2xl font-bold text-charcoal">Selección y Análisis de Referentes Directos e Indirectos</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Referentes Directos -->
+                    <div>
+                        <h4 class="text-xs font-bold text-clay-600 uppercase tracking-wider mb-4">Referentes Directos (Mismo Rubro - Acceso a TV)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-cream-50 p-4 rounded-lg border border-cream-200 flex flex-col justify-between">
+                                <div>
+                                    <span class="font-bold text-charcoal text-xs uppercase block mb-1">Flipper Big Button Remote [47, 48]</span>
+                                    <p class="text-xs text-gray-600 leading-relaxed">
+                                        Remueve botones técnicos (Source, Input, Setup) bajo una compuerta atornillable, dejando solo encendido, canal y volumen [47]. <strong>Falla con el segmento:</strong> Su formato alargado de mano sigue forzando el agarre de pinza doloroso en Gladys y transmite por infrarrojo (IR), bloqueándose con los helechos [32, 47].
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="bg-cream-50 p-4 rounded-lg border border-cream-200 flex flex-col justify-between">
+                                <div>
+                                    <span class="font-bold text-charcoal text-xs uppercase block mb-1">Roku Voice Remote Pro [47, 48]</span>
+                                    <p class="text-xs text-gray-600 leading-relaxed">
+                                        Incluye un localizador acústico Hands-free al decir "¿Dónde está mi control?" [47]. <strong>Falla con el segmento:</strong> Es de color negro liso que se mimetiza en el living, posee botones diminutos juntos y exige red Wi-Fi ininterrumpida [37, 47].
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Referentes Indirectos -->
+                    <div>
+                        <h4 class="text-xs font-bold text-clay-600 uppercase tracking-wider mb-4">Referentes Indirectos (Otros Rubros - Innovación Cruzada)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-cream-50 p-4 rounded-lg border border-cream-200 flex flex-col justify-between">
+                                <div>
+                                    <span class="font-bold text-charcoal text-xs uppercase block mb-1">Pulsadores Arcade Japoneses Sanwa (OBSF-30) [3, 6]</span>
+                                    <p class="text-xs text-gray-600 leading-relaxed">
+                                        Pulsadores de 30 mm de diámetro que se accionan con leve presión, emitiendo un recorrido mecánico exacto y un "clic" acústico [6, 49]. <strong>Transferencia a Tony:</strong> Su ergonomía de golpe directo proporciona la inmediatez háptica táctil que Jorge exige y da certeza auditiva a Beli sin pulsar botones contiguos [6, 49].
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="bg-cream-50 p-4 rounded-lg border border-cream-200 flex flex-col justify-between">
+                                <div>
+                                    <span class="font-bold text-charcoal text-xs uppercase block mb-1">Google Nest Audio (Filosofía "Soft Tech") [6, 48]</span>
+                                    <p class="text-xs text-gray-600 leading-relaxed">
+                                        Dispositivos que camuflan la tecnología mediante carcasas con telas acústicas, colores cálidos (Tiza/Arena) e interfaces por voz [6, 48]. <strong>Transferencia de Valor a Tony:</strong> Inspira el diseño de un control beige crema cálido y humano, alejándose de la frialdad de los "robots negros" que Gladys rechaza [6, 50].
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 6: PROCESO DE IDEACIÓN -->
+            <section id="tab-ideacion" class="tab-content hidden print-page-break">
+                <div class="border-b border-cream-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold text-clay-500 uppercase tracking-wider">Requisito 6 de Rúbrica</span>
+                    <h3 class="text-2xl font-bold text-charcoal">Proceso de Ideación, Alternativas y Trade-offs</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="prose max-w-none text-gray-600 text-xs leading-relaxed">
+                        <p>
+                            El proceso creativo del taller contempló la exploración de tres alternativas conceptuales para restituir el control del entretenimiento a Gladys, Jorge y Beli, evaluándolas mediante un riguroso análisis de trade-offs [51, 52]:
+                        </p>
+                    </div>
+
+                    <!-- Tabla Comparativa -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs border border-cream-200">
+                            <thead>
+                                <tr class="bg-cream-100 border-b border-cream-200">
+                                    <th class="p-3 font-semibold text-charcoal">Alternativa de Diseño</th>
+                                    <th class="p-3 font-semibold text-charcoal">Foco UX / Interacción</th>
+                                    <th class="p-3 font-semibold text-charcoal">Criterio Usabilidad Motriz</th>
+                                    <th class="p-3 font-semibold text-charcoal">Criterio Calma Cognitiva</th>
+                                    <th class="p-3 font-semibold text-charcoal">Resultado de Selección</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-cream-100 text-gray-600">
+                                <tr>
+                                    <td class="p-3 font-bold">A: App Celular "EasyTV" [51, 52]</td>
+                                    <td class="p-3">Teclas virtuales en pantalla capacitiva.</td>
+                                    <td class="p-3 text-alertRed font-semibold">Deficiente (3) - Exige pinza fina</td>
+                                    <td class="p-3 text-alertRed font-semibold">Deficiente (2) - Loops, red inestable</td>
+                                    <td class="p-3 font-bold text-alertRed">Descartada [51]</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold">B: Control Universal Gigante [51, 53]</td>
+                                    <td class="p-3">Control manual alargado de plástico.</td>
+                                    <td class="p-3 text-clay-600 font-semibold">Regular (2) - Requiere agarre</td>
+                                    <td class="p-3 text-clay-600 font-semibold">Regular (3) - Botonera compleja</td>
+                                    <td class="p-3 font-bold text-clay-600">Descartada [51]</td>
+                                </tr>
+                                <tr class="bg-sage-50/50">
+                                    <td class="p-3 font-bold text-sage-600">C: Control de Sobremesa "Tony" [51, 53]</td>
+                                    <td class="p-3">Ecosistema físico-conversacional estable de mesa.</td>
+                                    <td class="p-3 text-sage-600 font-semibold">Excelente (5) - Operado por gravedad</td>
+                                    <td class="p-3 text-sage-600 font-semibold">Excelente (5) - 3 botones y voz local</td>
+                                    <td class="p-3 font-bold text-sage-600">Seleccionada (Ganadora) [51]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Evolución de Modelos -->
+                    <div class="bg-cream-50 p-4 rounded-lg border border-cream-200">
+                        <h4 class="font-bold text-charcoal text-xs uppercase mb-2">Evolución Volumétrica de Prototipos de Sobremesa</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-gray-600">
+                            <div>
+                                <h5 class="font-semibold text-charcoal mb-1">Prototipo v1: Diseño Cilíndrico [54]</h5>
+                                Diseñado para ser sostenido con ambas manos. Se descartó al constatar que seguía exigiendo fuerza de pinza en los pulgares, perpetuando el dolor muscular articular [54].
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-charcoal mb-1">Prototipo v2: Formato Caja Plana [44]</h5>
+                                Estructura de sobremesa horizontal. Se descartó porque forzaba al usuario a levantar los hombros o ponerse de pie para presionar los botones desde arriba con comodidad [44].
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-charcoal mb-1">Prototipo v3: Cuña Ergonómica de 15° [44]</h5>
+                                Chasis inclinado a 15 grados y base pesada. Permite apoyar el carpo en la mesa de centro y accionar por la gravedad natural del brazo, aliviando la artrosis de Gladys [44].
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-clay-500 bg-cream-50 p-4 rounded-r-lg text-xs">
+                        <h4 class="font-bold text-clay-600 uppercase tracking-wider">Renuncia Estratégica Declarada (Trade-off)</h4>
+                        <p class="text-gray-600 italic leading-relaxed mt-1">
+                            "Como equipo asumimos de forma deliberada que la Alternativa C (Tony) de sobremesa demanda una mayor complejidad técnica de integración de hardware y un costo unitario de fabricación más elevado que el desarrollo inmediato de una app móvil tradicional [51, 55]. Sin embargo, esta renuncia económica se justifica plenamente al ser la única solución física de sobremesa capaz de suprimir de raíz el dolor articular de Gladys, atravesar físicamente los helechos de su living mediante Radiofrecuencia (RF) y garantizar un canal de voz chilenizado y local sin depender de un Wi-Fi doméstico inestable." [51, 55]
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 7: SOLUCIÓN Y FICHA TÉCNICA -->
+            <section id="tab-solucion" class="tab-content hidden print-page-break">
+                <div class="border-b border-cream-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold text-clay-500 uppercase tracking-wider">Requisito 7 de Rúbrica</span>
+                    <h3 class="text-2xl font-bold text-charcoal">Ficha Gráfica: Diseño, Medidas y Características Generales</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Especificaciones en Tabla -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs border border-cream-200">
+                            <thead>
+                                <tr class="bg-cream-100 border-b border-cream-200">
+                                    <th class="p-3 font-semibold text-charcoal">Componente de Diseño</th>
+                                    <th class="p-3 font-semibold text-charcoal">Medida y Especificación Técnica</th>
+                                    <th class="p-3 font-semibold text-charcoal">Justificación Antropométrica y UX</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-cream-100 text-gray-600">
+                                <tr>
+                                    <td class="p-3 font-bold text-charcoal">Dimensiones de la Carcasa [2, 56]</td>
+                                    <td class="p-3"><strong>Ancho: 160 mm | Profundidad: 120 mm | Ángulo: Inclinación en cuña de 15° (Frontal: 12 mm, Trasera: 45 mm)</strong></td>
+                                    <td class="p-3">La pendiente de 15° permite el apoyo natural del carpo y antebrazo en la mesa, operando mediante el peso del brazo y eliminando la pinza del pulgar con artrosis [2, 56].</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-charcoal">Color de Carcasa y Acabado [2, 56]</td>
+                                    <td class="p-3">Plástico ABS reciclado posconsumo con acabado <strong>Crema Claro Mate (Hex #F5F2EB)</strong></td>
+                                    <td class="p-3">Cumple con la exigencia de Gladys de evitar el negro, logrando un contraste del 85% sobre el mobiliario oscuro para ubicarlo con visión nublada [2, 56]. La textura rugosa resiste la suciedad diaria.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-charcoal">Estabilidad y Peso</td>
+                                    <td class="p-3"><strong>450 gramos</strong> (Base lastrada interiormente con placas de acero reciclado)</td>
+                                    <td class="p-3">Garantiza estabilidad física y evita deslizamientos del chasis sobre manteles de tela al presionar los pulsadores.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-charcoal">Botonera Mecánica Arcade [3, 56]</td>
+                                    <td class="p-3"><strong>Diámetro de botones: 30 mm | Distancia libre entre bordes: 20 mm - 25 mm</strong></td>
+                                    <td class="p-3">Pulsadores masivos industriales. La holgura libre entre bordes responde a la Ley de Fitts, impidiendo que temblores seniles o rigidez muscular de Gladys y Beli activen dos botones vecinos [4, 56].</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-charcoal">Recorrido y Fuerza de Clic [56]</td>
+                                    <td class="p-3"><strong>Recorrido táctil: 3.5 mm | Fuerza de activación: 0.5 N | Confirmación sonora: Clic de 50 dB</strong></td>
+                                    <td class="p-3">Emula los interruptores mecánicos de precisión del taxi de Jorge, entregando certeza acústica y de recorrido inmediato al pulsar a Beli [3, 56].</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-charcoal">Banda Cromática de Teclas [2, 56]</td>
+                                    <td class="p-3"><strong>Botón Encendido: Rojo brillante (#DF4B4B) | Botón Voz: Verde sabio (#6FA98E) | Dial Volumen: Azul cobalto (#4A90E2)</strong></td>
+                                    <td class="p-3">Código de alto contraste cromático y relieves físicos para guiar el tacto sin demandar agudeza visual, suprimiendo leyendas complejas en inglés [4, 56].</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Eco-Diseño y Sustentabilidad -->
+                    <div class="bg-sage-50 border border-sage-200 p-5 rounded-xl">
+                        <h4 class="font-bold text-sage-600 text-sm uppercase mb-3">Eco-Diseño y Sustentabilidad Ambiental [57, 58]</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-600">
+                            <div>
+                                <h5 class="font-bold text-charcoal mb-1">🔋 Cero Pilas Químicas [57, 59]</h5>
+                                Sustituye el consumo de pilas AA/AAA mediante una <strong>celda fotovoltaica de silicio amorfo</strong> [57, 59]. La energía se almacena en un supercondensador de grafeno (libre de litio) de ciclo de vida infinito, erradicando residuos químicos [59].
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-charcoal mb-1">🌿 Chasis "Zero-Waste" y Sensor PIR [57, 59]</h5>
+                                Carcasa de plástico ABS 100% reciclado posconsumo certificado [57, 58]. Incorpora un sensor de presencia infrarrojo pasivo (PIR) que valida si hay espectadores en el living antes de mantener encendida la TV, satisfaciendo el pavor al desperdicio eléctrico de Jorge [57, 59].
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Software e Interacción -->
+                    <div class="bg-cream-50 p-5 rounded-xl border border-cream-200 text-xs text-gray-600">
+                        <h4 class="font-bold text-charcoal text-sm uppercase mb-3">Características de Software y Modos de Uso (Procesamiento Local Offline) [9, 60]</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-bold text-charcoal mb-1">🎙️ Interfaz Conversacional "Tony" (NLP Local ESP32) [9, 60]</h5>
+                                El procesamiento de voz se ejecuta de forma local en el microcontrolador sin internet [40]. El asistente responde de inmediato usando voz humana, cálida y en lenguaje coloquial chilenizado (ej. <em>"Al tiro, Señora Gladys, ya le puse la radio"</em>) [60]. Mitiga el loop de error del "no te entiendo" y aplaca la ira de Jorge [60, 61].
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-charcoal mb-1">📢 Buscador Acústico Bidireccional [41, 60]</h5>
+                                Gladys o Beli llaman en voz alta: <em>"¡Tony, dónde estás!"</em>, y el control remoto responde de vuelta emitiendo una melodía fuerte a través de su parlante piezoeléctrico de 40 mm integrado en el chasis, revelando su ubicación bajo mantas o diarios [41, 60].
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-charcoal mb-1">📶 Transmisión por Radiofrecuencia (RF 2.4 GHz) [3, 60]</h5>
+                                Sustituye la transmisión infrarroja clásica. Las ondas omnidireccionales atraviesan físicamente los helechos y plantas de Gladys, permitiendo que Jorge controle la televisión desde su sillón favorito sin necesidad de apuntar ni pararse [3, 60].
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-charcoal mb-1">🛡️ Separación Crítica de Sistemas [20, 62]</h5>
+                                Siguiendo la exigencia de Jorge, se justifica técnicamente por qué el control de iluminación se mantiene 100% separado del televisor para asegurar la seguridad de la red doméstica y evitar apagones nocturnos imprevistos [20, 62].
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Offering -->
+                    <div class="border border-cream-200 p-4 rounded-lg bg-cream-100 text-xs">
+                        <span class="font-bold text-charcoal uppercase block mb-1">Offering Comercial del Sistema: Precios por Beneficios [63, 64]</span>
+                        <p class="text-gray-600">
+                            <strong>Precio de Venta:</strong> $49.990 CLP (Pago único por el hardware "Tony" y el receptor RF USB universal) [63, 64]. Estratégicamente, no se cobra por el volumen de plástico inyectado, sino por el valor de la <strong>"Autonomía y la Dignidad Familiar"</strong> [63, 64]. El retorno de inversión para el hogar es directo al erradicar las visitas familiares de emergencia de soporte técnico y eliminar el destructivo "reseteo bruto" de Gladys (desenchufar el televisor directo de la pared cuando entra en pánico de desconfiguración), prolongando de manera radical la vida útil de los electrodomésticos [64].
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SIMULADOR INTERACTIVO DE CONEXIÓN CON EL CLIENTE -->
+            <section id="tab-simulador" class="tab-content hidden print-page-break">
+                <div class="border-b border-cream-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold text-clay-500 uppercase tracking-wider">Demostración del Prototipo</span>
+                    <h3 class="text-2xl font-bold text-charcoal">Simulador de Interacción y Características de "Tony"</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Experimenta de manera interactiva el comportamiento de la solución final. Selecciona el perfil personalizado para redibujar el hardware de "Tony", demostrando que cada diseño cuenta con características físicas y de uso diferentes para mitigar los dolores específicos de cada usuario:
+                    </p>
+
+                    <!-- Selector de Modelo -->
+                    <div class="flex gap-2 p-1 bg-cream-100 rounded-lg max-w-md">
+                        <button onclick="setSimModel('G')" id="sim-btn-G" class="flex-1 py-2 text-xs font-bold rounded-md bg-sage-500 text-white shadow-sm transition-all">Modelo G (Gladys)</button>
+                        <button onclick="setSimModel('J')" id="sim-btn-J" class="flex-1 py-2 text-xs font-bold rounded-md text-gray-600 hover:bg-cream-200 transition-all">Modelo J (Jorge)</button>
+                        <button onclick="setSimModel('B')" id="sim-btn-B" class="flex-1 py-2 text-xs font-bold rounded-md text-gray-600 hover:bg-cream-200 transition-all">Modelo B (Beli)</button>
+                    </div>
+
+                    <!-- Representación Gráfica Interactiva -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-cream-50 p-6 rounded-xl border border-cream-200">
+                        
+                        <!-- Lado del Dispositivo -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs font-bold text-gray-400 mb-4 uppercase tracking-wider" id="sim-device-title">TONY MODELO G: ERGONOMÍA DE GUIJARRO CREMA (GLADYS)</span>
+                            
+                            <!-- Contenedor dinámico del hardware (SVG diferente por usuario) -->
+                            <div class="relative w-64 h-72 flex flex-col justify-center items-center transition-all duration-300" id="sim-device-container">
+                                <!-- SVG cargado dinámicamente -->
+                            </div>
+
+                            <button onclick="pressSimButton('locate')" class="mt-4 bg-charcoal text-white hover:bg-black font-semibold text-xs py-2 px-4 rounded-lg shadow active:scale-95 transition-all">
+                                📢 Llamar: "¡Tony, dónde estás!"
+                            </button>
+                        </div>
+
+                        <!-- Lado de la Respuesta Lógica (Pantalla del Living) -->
+                        <div class="bg-charcoal text-green-400 p-5 rounded-lg font-mono text-xs h-72 overflow-y-auto flex flex-col justify-between border-4 border-neutral-600 shadow-2xl">
+                            <div>
+                                <span class="text-gray-400 block border-b border-neutral-700 pb-1 mb-2 uppercase text-[9px]">Consola de Respuesta Lógica y Confirmación</span>
+                                <div id="sim-console-text">
+                                    <p class="text-gray-500">&gt; Cargando simulador... selecciona un modelo arriba.</p>
+                                </div>
+                            </div>
+                            <div class="text-right border-t border-neutral-700 pt-2 text-[10px] text-gray-400" id="sim-feedback-type">
+                                CONFIRMACIÓN: COGNITIVA ACTIVA
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 8: PLAN DE VALIDACIÓN (TEST CARDS) -->
+            <section id="tab-validacion" class="tab-content hidden print-page-break">
+                <div class="border-b border-cream-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold text-clay-500 uppercase tracking-wider">Plan de Validación</span>
+                    <h3 class="text-2xl font-bold text-charcoal">Plan de Validación Científico (Test Cards)</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Test Card 1 -->
+                    <div class="border border-cream-200 p-5 rounded-xl bg-cream-50 shadow-sm">
+                        <div class="flex justify-between items-center border-b border-cream-200 pb-2 mb-3">
+                            <span class="text-xs font-bold text-clay-600 uppercase">Test Card 1: Usabilidad Física (Gravedad vs Artrosis) [5]</span>
+                            <span class="text-xs font-semibold bg-sage-500 text-white px-2 py-0.5 rounded">Fase de Contacto</span>
+                        </div>
+                        <ul class="text-xs space-y-2 text-gray-600">
+                            <li><strong>1. Hipótesis:</strong> Creemos que los adultos mayores con artrosis severa en las manos pueden encender y sintonizar la televisión de forma autónoma empleando un chasis inclinado a 15° apoyado en la mesa, utilizando la gravedad de su brazo y anulando la fuerza de pinza del pulgar [2, 5].</li>
+                            <li><strong>2. Prueba:</strong> Realizaremos un testeo de usabilidad física directa con 5 adultos mayores de nuestro segmento arquetípico (ej: Gladys y Beli) utilizando la maqueta de sobremesa lastrada de plomo [5, 65].</li>
+                            <li><strong>3. Métrica:</strong> Mediremos el Tiempo en Tarea (en segundos) y la Tasa de Éxito en la pulsación al primer intento sin deslizamientos involuntarios del chasis [5].</li>
+                            <li><strong>4. Criterio de Éxito:</strong> Estaremos en lo correcto si el 100% de los usuarios probados logra pulsar los comandos en menos de 6 segundos de manera de forma estable y reporta una baja del esfuerzo articular en la escala de dolor de Borg [5].</li>
+                        </ul>
+                    </div>
+
+                    <!-- Test Card 2 -->
+                    <div class="border border-cream-200 p-5 rounded-xl bg-cream-50 shadow-sm">
+                        <div class="flex justify-between items-center border-b border-cream-200 pb-2 mb-3">
+                            <span class="text-xs font-bold text-clay-600 uppercase">Test Card 2: Deseabilidad Cognitiva (Confianza de la Voz) [5]</span>
+                            <span class="text-xs font-semibold bg-sage-500 text-white px-2 py-0.5 rounded">Fase de Interacción</span>
+                        </div>
+                        <ul class="text-xs space-y-2 text-gray-600">
+                            <li><strong>1. Hipótesis:</strong> Creemos que la retroalimentación conversacional por voz humana local chilenizada elimina el pavor de Gladys y Beli a haber desconfigurado el televisor por equivocación y reduce el enojo por latencia de Jorge [1, 5, 60].</li>
+                            <li><strong>2. Prueba:</strong> Simularemos la interacción por voz local utilizando el método experimental del "Mago de Oz" (con respuestas del prototipo pregrabadas en jerga de hogar chilenizada) [5].</li>
+                            <li><strong>3. Métrica:</strong> Evaluaremos la Tasa de Confianza autopercibida a través de un cuestionario de escala subjetiva de usabilidad (escala UMUX/SUS de 1 a 5) tras simular un error involuntario de desconfiguración [5].</li>
+                            <li><strong>4. Criterio de Éxito:</strong> Estaremos en lo correcto si la media de usabilidad y confianza percibida de los evaluados es superior a 4.5/5 y se extingue la conducta reactiva de desconectar el televisor de la pared [5].</li>
+                        </ul>
+                    </div>
+
+                    <!-- Test Card 3 -->
+                    <div class="border border-cream-200 p-5 rounded-xl bg-cream-50 shadow-sm">
+                        <div class="flex justify-between items-center border-b border-cream-200 pb-2 mb-3">
+                            <span class="text-xs font-bold text-clay-600 uppercase">Test Card 3: Utilidad Operativa (El Desafío de la Separación) [5]</span>
+                            <span class="text-xs font-semibold bg-sage-500 text-white px-2 py-0.5 rounded">Fase de Campo</span>
+                        </div>
+                        <ul class="text-xs space-y-2 text-gray-600">
+                            <li><strong>1. Hipótesis:</strong> Creemos que los usuarios exigen la separación técnica absoluta de los de sistemas de iluminación de la televisión para resguardar la seguridad del hogar ante fallas de cortes imprevistos de luz nocturna [5, 20].</li>
+                            <li><strong>2. Prueba:</strong> Entrevistaremos a Gladys y Jorge sometiéndolos a un escenario de uso simulado de corte de luz con prototipos de sistemas integrados de control frente a sistemas separados [5, 20].</li>
+                            <li><strong>3. Métrica:</strong> Mediremos la Tasa de Elección cualitativa y el descarte voluntario del módulo de luces en el control [5].</li>
+                            <li><strong>4. Criterio de Éxito:</strong> Estaremos en lo correcto si al menos el 80% de los evaluados descarta unificar la iluminación con la televisión de forma explícita argumentando seguridad operativa en su espacio doméstico [5].</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer Académico (no-print) -->
+    <footer class="bg-charcoal text-gray-400 text-xs py-6 text-center border-t border-cream-200 mt-12 no-print">
+        <p>© 2026 Taller de Innovación y Prototipos — Universidad Adolfo Ibáñez</p>
+        <p class="mt-1">Desarrollado para la Defensa Individual del Caso "Tony" (Gladys, Jorge y Beli)</p>
+    </footer>
+
+    <!-- Vanilla JavaScript para Navegación y Simulador Dinámico -->
+    <script>
+        // Estado del Simulador
+        let currentModel = 'G'; // G, J, or B
+
+        // SVG Templates según Características Físicas Reales
+        const deviceTemplates = {
+            G: `
+                <!-- MODEL O_G: GLADYS (Smooth organic pebble, Single Voice Button, Crema/Salvia) -->
+                <svg viewBox="0 0 200 240" class="w-full h-full max-h-60">
+                    <!-- Smooth pebble body -->
+                    <rect x="15" y="10" width="170" height="220" rx="55" ry="55" fill="#FDFBF7" stroke="#6FA98E" stroke-width="4" />
+                    <!-- Fabric texture indicator ring -->
+                    <rect x="25" y="20" width="150" height="200" rx="45" ry="45" fill="#FDFBF7" stroke="#F1EDE2" stroke-width="2" />
+                    
+                    <!-- Solar Cell built-in -->
+                    <rect x="55" y="32" width="90" height="16" rx="3" fill="#1C1A17" />
+                    <line x1="77" y1="32" x2="77" y2="48" stroke="#333" />
+                    <line x1="100" y1="32" x2="100" y2="48" stroke="#333" />
+                    <line x1="123" y1="32" x2="123" y2="48" stroke="#333" />
+                    
+                    <!-- Micro-mesh Speaker Pattern (Voz Local) -->
+                    <circle cx="100" cy="72" r="1.5" fill="#C48A54" opacity="0.6"/>
+                    <circle cx="92" cy="72" r="1" fill="#C48A54" opacity="0.6"/>
+                    <circle cx="108" cy="72" r="1" fill="#C48A54" opacity="0.6"/>
+                    <circle cx="100" cy="65" r="1" fill="#C48A54" opacity="0.6"/>
+                    <circle cx="100" cy="79" r="1" fill="#C48A54" opacity="0.6"/>
+                    
+                    <!-- Single Massive Voice Button (Sanwa style, 30mm equivalent) -->
+                    <g class="cursor-pointer group" onclick="pressSimButton('voice')">
+                        <circle cx="100" cy="132" r="34" fill="#6FA98E" stroke="#5A8F76" stroke-width="3" class="transition-all active:scale-90" />
+                        <circle cx="100" cy="132" r="28" fill="#7BB49A" />
+                        <text x="100" y="132" font-family="'Inter', sans-serif" font-size="9" font-weight="extrabold" fill="#FFF" text-anchor="middle">PULSAR Y</text>
+                        <text x="100" y="143" font-family="'Inter', sans-serif" font-size="9" font-weight="extrabold" fill="#FFF" text-anchor="middle">HABLAR</text>
+                    </g>
+
+                    <!-- Minimalist Power Button (Red) -->
+                    <g class="cursor-pointer group" onclick="pressSimButton('power')">
+                        <circle cx="100" cy="198" r="12" fill="#DF4B4B" stroke="#B83A3A" stroke-width="1.5" class="transition-all active:scale-95" />
+                        <path d="M97,196 A4,4 0 1,1 103,196 M100,193 L100,197" stroke="#FFF" stroke-width="1.5" stroke-linecap="round" fill="none" />
+                    </g>
+                </svg>
+            `,
+            J: `
+                <!-- MODEL O_J: JORGE (Rugged carbon chassis, 3 mechanical Sanwa Buttons, PIR Window) -->
+                <svg viewBox="0 0 200 240" class="w-full h-full max-h-60">
+                    <!-- Hard body with rubber grips -->
+                    <rect x="15" y="10" width="170" height="220" rx="14" fill="#2D3748" stroke="#1A202C" stroke-width="4" />
+                    
+                    <!-- Tactile rubber borders (Grip lines) -->
+                    <path d="M15,45 L10,50 L15,55 M15,75 L10,80 L15,85 M15,105 L10,110 L15,115 M15,135 L10,140 L15,145" stroke="#1A202C" stroke-width="3" fill="none"/>
+                    <path d="M185,45 L190,50 L185,55 M185,75 L190,80 L185,85 M185,105 L190,110 L185,115 M185,135 L190,140 L185,145" stroke="#1A202C" stroke-width="3" fill="none"/>
+                    
+                    <!-- Dark PIR sensor lens at the top -->
+                    <rect x="65" y="20" width="70" height="15" rx="7" fill="#111" stroke="#444" stroke-width="1.5" />
+                    <circle cx="100" cy="27" r="4" fill="#DF4B4B" opacity="0.8" />
+                    <text x="100" y="17" font-family="'Inter', sans-serif" font-size="6" font-weight="extrabold" fill="#718096" text-anchor="middle">VENTANA SENSOR PIR</text>
+
+                    <!-- Row 1: 3 Arcade Sanwa Buttons (30mm) -->
+                    <!-- Power Button (Red) -->
+                    <g class="cursor-pointer group" onclick="pressSimButton('power')">
+                        <circle cx="60" cy="75" r="20" fill="#DF4B4B" stroke="#A82D2D" stroke-width="2" class="transition-all active:scale-95" />
+                        <circle cx="60" cy="75" r="16" fill="#EA5A5A" />
+                        <text x="60" y="78" font-family="'Inter', sans-serif" font-size="8" font-weight="extrabold" fill="#FFF" text-anchor="middle">ON/OFF</text>
+                    </g>
+
+                    <!-- Voice Button (Green) -->
+                    <g class="cursor-pointer group" onclick="pressSimButton('voice')">
+                        <circle cx="140" cy="75" r="20" fill="#48BB78" stroke="#2F855A" stroke-width="2" class="transition-all active:scale-95" />
+                        <circle cx="140" cy="75" r="16" fill="#68D391" />
+                        <text x="140" y="78" font-family="'Inter', sans-serif" font-size="8" font-weight="extrabold" fill="#FFF" text-anchor="middle">VOZ</text>
+                    </g>
+
+                    <!-- Mechanical Rotary Volume Dial -->
+                    <g class="cursor-pointer group" onclick="pressSimButton('volume')">
+                        <circle cx="100" cy="155" r="26" fill="#4A5568" stroke="#1A202C" stroke-width="3" class="transition-all active:scale-95" />
+                        <circle cx="100" cy="155" r="21" fill="#1A202C" />
+                        <!-- Indicator notch -->
+                        <path d="M100,134 L100,142" stroke="#FFF" stroke-width="2" stroke-linecap="round"/>
+                        <text x="100" y="200" font-family="'Inter', sans-serif" font-size="8" font-weight="bold" fill="#CBD5E0" text-anchor="middle">RODILLO DE VOLUMEN</text>
+                    </g>
+                </svg>
+            `,
+            B: `
+                <!-- MODEL B: BELI (White & Black pure contrast, Elongated Pill, 25mm Fitts separation, Relief icons) -->
+                <svg viewBox="0 0 200 240" class="w-full h-full max-h-60">
+                    <!-- Elongated Pill Shape for bimanual grip -->
+                    <rect x="30" y="10" width="140" height="220" rx="70" ry="70" fill="#FFFFFF" stroke="#000000" stroke-width="5" />
+                    
+                    <!-- Massive Black Macro button (TV + Deco) -->
+                    <g class="cursor-pointer group" onclick="pressSimButton('power')">
+                        <rect x="50" y="40" width="100" height="46" rx="23" fill="#000000" stroke="#333" stroke-width="2" class="transition-all active:scale-95" />
+                        <text x="100" y="62" font-family="'Inter', sans-serif" font-size="8" font-weight="extrabold" fill="#FFF" text-anchor="middle">ON UNIFICADO</text>
+                        <text x="100" y="73" font-family="'Inter', sans-serif" font-size="7" font-weight="bold" fill="#A0AEC0" text-anchor="middle">(TV + DECO)</text>
+                    </g>
+
+                    <!-- Fitts' Law Spacing line -->
+                    <line x1="45" y1="110" x2="155" y2="110" stroke="#CBD5E0" stroke-width="1.5" stroke-dasharray="3,3" />
+                    <text x="100" y="106" font-family="'Inter', sans-serif" font-size="6" font-weight="bold" fill="#718096" text-anchor="middle">SEPARACIÓN FITTS DE 25MM</text>
+
+                    <!-- Macro Volume Selector with 3mm embossed icons -->
+                    <g class="cursor-pointer group" onclick="pressSimButton('volume')">
+                        <rect x="50" y="130" width="100" height="64" rx="14" fill="#000000" stroke="#333" stroke-width="2" class="transition-all active:scale-95" />
+                        
+                        <!-- High Relief Plus (+ symbol) -->
+                        <path d="M72,154 L72,170 M64,162 L80,162" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" />
+                        
+                        <!-- High Relief Minus (- symbol) -->
+                        <path d="M118,162 L134,162" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" />
+                        
+                        <text x="100" y="184" font-family="'Inter', sans-serif" font-size="8" font-weight="extrabold" fill="#A0AEC0" text-anchor="middle">RELIEVE TÁCTIL 3MM</text>
+                    </g>
+                </svg>
+            `
+        };
+
+        function switchTab(tabId) {
+            // Ocultar todos los bloques de contenido
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.add('hidden');
+                content.classList.remove('block');
+            });
+
+            // Mostrar el bloque seleccionado
+            const activeContent = document.getElementById(tabId);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+                activeContent.classList.add('block');
+            }
+
+            // Quitar estilos activos de todos los botones de la navegación
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-sage-500', 'text-white', 'shadow-sm');
+                btn.classList.add('text-gray-600', 'hover:bg-cream-100');
+            });
+
+            // Añadir estilos activos al botón presionado
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-sage-500', 'text-white', 'shadow-sm');
+                activeBtn.classList.remove('text-gray-600', 'hover:bg-cream-100');
+            }
+
+            // Si se cambia al simulador, inicializar
+            if (tabId === 'tab-simulador') {
+                setSimModel(currentModel);
+            } else {
+                window.scrollTo({
+                    top: 250,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Simulador Lógico Dinámico
+        function setSimModel(model) {
+            currentModel = model;
+            
+            // Actualizar botones del selector de simulador
+            document.querySelectorAll('[id^="sim-btn-"]').forEach(btn => {
+                btn.classList.remove('bg-sage-500', 'text-white', 'shadow-sm');
+                btn.classList.add('text-gray-600', 'hover:bg-cream-200');
+            });
+            document.getElementById('sim-btn-' + model).classList.add('bg-sage-500', 'text-white', 'shadow-sm');
+            document.getElementById('sim-btn-' + model).classList.remove('text-gray-600', 'hover:bg-cream-200');
+
+            // Cargar el chasis correspondiente en el contenedor
+            const deviceContainer = document.getElementById('sim-device-container');
+            deviceContainer.innerHTML = deviceTemplates[model];
+
+            const simTitle = document.getElementById('sim-device-title');
+            const feedbackType = document.getElementById('sim-feedback-type');
+            const consoleText = document.getElementById('sim-console-text');
+
+            if (model === 'G') {
+                simTitle.innerText = "TONY MODELO G: ERGONOMÍA DE GUIJARRO CREMA (GLADYS)";
+                feedbackType.innerText = "CONFIRMACIÓN: COGNITIVA ACTIVA / HUMANA";
+                consoleText.innerHTML = `
+                    <p class="text-gray-500">&gt; Modelo G cargado para Gladys.</p>
+                    <p class="text-gray-400">&gt; Chasis de material mate suave sin botones numéricos.</p>
+                    <p class="text-sage-500">&gt; Estado: Esperando orden de voz o encendido.</p>
+                `;
+            } else if (model === 'J') {
+                simTitle.innerText = "TONY MODELO J: GRIS CARBÓN DE ALTO IMPACTO (JORGE)";
+                feedbackType.innerText = "CONFIRMACIÓN: TÁCTICA / LATENCIA CERO";
+                consoleText.innerHTML = `
+                    <p class="text-gray-500">&gt; Modelo J cargado para Jorge.</p>
+                    <p class="text-gray-400">&gt; Botonera Sanwa con sensor PIR de presencia física de ahorro energético.</p>
+                    <p class="text-sage-500">&gt; Estado: Listo para entrada háptica.</p>
+                `;
+            } else if (model === 'B') {
+                simTitle.innerText = "TONY MODELO B: BLANCO/NEGRO DE ALTO CONTRASTE (BELI)";
+                feedbackType.innerText = "CONFIRMACIÓN: CONTRASTE VISUAL LEY DE FITTS";
+                consoleText.innerHTML = `
+                    <p class="text-gray-500">&gt; Modelo B cargado para Beli.</p>
+                    <p class="text-gray-400">&gt; Botón unificado y relieve de 3mm. Separación extrema de teclas.</p>
+                    <p class="text-sage-500">&gt; Estado: Listo para sintonización sin error.</p>
+                `;
+            }
+        }
+
+        function pressSimButton(action) {
+            const consoleText = document.getElementById('sim-console-text');
+            let res = '';
+
+            if (currentModel === 'G') {
+                if (action === 'power') {
+                    res = `
+                        <p class="text-red-400">&gt; [Pulsación de Palma] Emisión de encendido por RF.</p>
+                        <p class="text-green-300">&gt; Voz de Tony: "¡Al tiro, Gladys, le prendí la tele!"</p>
+                        <p class="text-gray-400">&gt; Se evita el pánico a desconfiguraciones.</p>
+                    `;
+                } else if (action === 'voice') {
+                    res = `
+                        <p class="text-green-400">&gt; [NLP Local ESP32] Escuchando comando de Gladys...</p>
+                        <p class="text-white">&gt; Orden: "Tony, pon el canal de música."</p>
+                        <p class="text-green-300">&gt; Voz de Tony: "Sintonizando el canal de la radio de inmediato, Gladys."</p>
+                    `;
+                } else if (action === 'volume') {
+                    res = `
+                        <p class="text-sky-400">&gt; [Rodillo Lateral] Dial ajustado.</p>
+                        <p class="text-green-300">&gt; Voz de Tony: "Subiendo el volumen de su teleserie."</p>
+                    `;
+                } else if (action === 'locate') {
+                    res = `
+                        <p class="text-yellow-400">&gt; Gladys exclama: "¡Tony, dónde estás!"</p>
+                        <p class="text-white">&gt; [Detección acústica de campo lejano activada]</p>
+                        <p class="text-green-300">&gt; Melodía: Parlante emite timbre claro de 50 dB.</p>
+                        <p class="text-green-300">&gt; Voz de Tony: "¡Aquí estoy, Gladys, en la mesa de centro!"</p>
+                    `;
+                }
+            } else if (currentModel === 'J') {
+                if (action === 'power') {
+                    res = `
+                        <p class="text-red-400">&gt; [Clic Mecánico Arcade - 50 dB] Encendido instantáneo sin latencia.</p>
+                        <p class="text-gray-400">&gt; Transmisión omnidireccional de 2.4 GHz atraviesa helechos.</p>
+                        <p class="text-green-400">&gt; Sensor PIR: "Usuario detectado en sillón". TV activa.</p>
+                    `;
+                } else if (action === 'voice') {
+                    res = `
+                        <p class="text-green-400">&gt; [Acceso Directo] Jorge: "Préndeme el fútbol ahora!"</p>
+                        <p class="text-white">&gt; [NLP local de respuesta ultra rápida - Latencia cero]</p>
+                        <p class="text-green-300">&gt; Canal sintonizado al primer intento sin loops de error.</p>
+                    `;
+                } else if (action === 'volume') {
+                    res = `
+                        <p class="text-sky-400">&gt; [Rodillo Táctil de Goma] Ajuste por resistencia física (0.5N).</p>
+                        <p class="text-white">&gt; Control de audio de precisión, similar al tablero de su taxi.</p>
+                    `;
+                } else if (action === 'locate') {
+                    res = `
+                        <p class="text-yellow-400">&gt; Jorge: "¡Tony!"</p>
+                        <p class="text-green-300">&gt; [Zumbador piezoeléctrico emite pulso táctico de alta frecuencia].</p>
+                    `;
+                }
+            } else if (currentModel === 'B') {
+                if (action === 'power') {
+                    res = `
+                        <p class="text-red-400">&gt; [Macro Botón Negro sobre Chasis Blanco - Ley de Fitts]</p>
+                        <p class="text-white">&gt; Señal unificada: Encendiendo TV y Decodificador simultáneamente.</p>
+                        <p class="text-green-300">&gt; Éxito: Se evitan pantallas en negro o menús de 'Source' en inglés.</p>
+                    `;
+                } else if (action === 'voice') {
+                    res = `
+                        <p class="text-green-400">&gt; Beli: "Quiero ver las noticias de la tarde."</p>
+                        <p class="text-white">&gt; Sintonizando canal nacional de televisión abierta.</p>
+                        <p class="text-gray-400">&gt; Autonomía lograda sin necesidad de pedir soporte a familiares.</p>
+                    `;
+                } else if (action === 'volume') {
+                    res = `
+                        <p class="text-sky-400">&gt; [Dedo sobre el relieve gigante de 3mm de espesor]</p>
+                        <p class="text-white">&gt; Ajustando nivel. El usuario percibe la acción táctil de volumen por contraste visual.</p>
+                    `;
+                } else if (action === 'locate') {
+                    res = `
+                        <p class="text-yellow-400">&gt; Beli: "Tony, ¿dónde estás?"</p>
+                        <p class="text-green-300">&gt; [Emisor de sonido de alta fidelidad emite pitido penetrante].</p>
+                    `;
+                }
+            }
+
+            consoleText.innerHTML = res;
+        }
+
+        // Cargar por defecto el Modelo G al iniciar la página
+        window.onload = function() {
+            setSimModel('G');
+        };
+    </script>
+</body>
+</html>
