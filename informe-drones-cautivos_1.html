@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drones Cautivos · Mercado y Estado del Arte 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A1412;
+    --bg-alt:#0D1A17;
+    --panel:#101E1B;
+    --panel-2:#132420;
+    --line:#20362F;
+    --copper:#E08A4C;
+    --copper-dim:#7A4B2C;
+    --fiber:#4FD8C4;
+    --fiber-dim:#245650;
+    --ink:#EDEAE2;
+    --muted:#8AA39B;
+    --muted-2:#5C726B;
+    --warn:#E4574A;
+    --serif-mono:'IBM Plex Mono', monospace;
+    --display:'Space Grotesk', sans-serif;
+    --body:'IBM Plex Sans', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    font-size:16px;
+  }
+  ::selection{background:var(--copper);color:#0A1412;}
+
+  a{color:var(--fiber);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible, button:focus-visible, .tick:focus-visible{outline:2px solid var(--fiber);outline-offset:3px;}
+
+  h1,h2,h3,h4{font-family:var(--display);font-weight:600;margin:0 0 .5em;letter-spacing:-0.01em;}
+  p{margin:0 0 1em;color:var(--ink);}
+  .muted{color:var(--muted);}
+  .mono{font-family:var(--serif-mono);}
+
+  /* ===== Tether rail (signature nav) ===== */
+  .rail{
+    position:fixed;
+    left:0; top:0; bottom:0;
+    width:64px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:24px 0;
+    z-index:50;
+    background:linear-gradient(180deg, var(--bg) 0%, transparent 6%, transparent 94%, var(--bg) 100%);
+  }
+  .rail-cable{
+    position:relative;
+    flex:1;
+    width:3px;
+    background:linear-gradient(180deg, var(--copper-dim), var(--line) 8%, var(--line) 92%, var(--fiber-dim));
+    border-radius:2px;
+  }
+  .rail-cable::before{
+    content:"";
+    position:absolute; left:-2px; top:0; bottom:0; width:7px;
+    background-image: repeating-linear-gradient(180deg, rgba(79,216,196,.55) 0 6px, transparent 6px 22px);
+    animation: flow 2.4s linear infinite;
+    opacity:.55;
+    mix-blend-mode: screen;
+  }
+  @keyframes flow{ from{background-position-y:0;} to{background-position-y:56px;} }
+  @media (prefers-reduced-motion: reduce){ .rail-cable::before{animation:none;} }
+
+  .tick{
+    position:absolute; left:50%; transform:translate(-50%,-50%);
+    width:13px; height:13px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--muted-2);
+    cursor:pointer; transition:.2s;
+  }
+  .tick.active{border-color:var(--fiber); background:var(--fiber); box-shadow:0 0 0 4px rgba(79,216,196,.18);}
+  .tick .label{
+    position:absolute; left:22px; top:50%; transform:translateY(-50%);
+    white-space:nowrap; font-family:var(--serif-mono); font-size:10.5px; letter-spacing:.06em;
+    color:var(--muted-2); text-transform:uppercase; opacity:0; pointer-events:none;
+    transition:opacity .2s; background:var(--panel); padding:3px 8px; border:1px solid var(--line); border-radius:3px;
+  }
+  .tick:hover .label, .tick.active .label{opacity:1; color:var(--ink);}
+  .rail-node{font-family:var(--serif-mono); font-size:10px; color:var(--muted-2); letter-spacing:.08em;}
+
+  @media (max-width: 880px){
+    .rail{display:none;}
+  }
+
+  .wrap{margin-left:88px; max-width:1040px; padding:0 28px 120px;}
+  @media (max-width: 880px){ .wrap{margin-left:0;} }
+
+  /* ===== Hero ===== */
+  .hero{padding:90px 0 40px; border-bottom:1px solid var(--line);}
+  .eyebrow{
+    font-family:var(--serif-mono); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--fiber); display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--fiber);}
+  .hero h1{font-size:clamp(2.2rem, 5vw, 3.6rem); line-height:1.05; max-width:820px;}
+  .hero .sub{font-size:1.15rem; color:var(--muted); max-width:640px; margin-top:18px;}
+
+  .stat-strip{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); margin-top:48px; border:1px solid var(--line);}
+  @media (max-width:720px){.stat-strip{grid-template-columns:repeat(2,1fr);}}
+  .stat{background:var(--panel); padding:22px 20px;}
+  .stat .num{font-family:var(--display); font-size:1.9rem; color:var(--copper); font-weight:700;}
+  .stat .cap{font-size:12.5px; color:var(--muted); margin-top:6px; line-height:1.4;}
+
+  /* ===== cable cross-section diagram ===== */
+  .cable-fig{margin:56px 0 8px; display:flex; gap:36px; align-items:center; flex-wrap:wrap;}
+  .cable-fig svg{flex-shrink:0;}
+  .cable-legend{flex:1; min-width:240px;}
+  .cable-legend .row{display:flex; gap:12px; align-items:flex-start; margin-bottom:14px;}
+  .swatch{width:14px;height:14px;border-radius:3px;margin-top:3px;flex-shrink:0;}
+  .cable-legend b{display:block; font-size:14px;}
+  .cable-legend span{font-size:13.5px; color:var(--muted);}
+
+  /* ===== Section chrome ===== */
+  section{padding:74px 0; border-bottom:1px solid var(--line); scroll-margin-top:40px;}
+  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:8px;}
+  .sec-num{font-family:var(--serif-mono); color:var(--copper-dim); font-size:14px;}
+  section h2{font-size:clamp(1.5rem,3vw,2.1rem);}
+  .sec-intro{color:var(--muted); max-width:700px; margin-bottom:36px; font-size:1.02rem;}
+
+  /* ===== Tables ===== */
+  .tbl-wrap{overflow-x:auto; margin:24px 0; border:1px solid var(--line); border-radius:6px;}
+  table{width:100%; border-collapse:collapse; font-size:14px; min-width:560px;}
+  thead th{
+    background:var(--panel-2); color:var(--muted); text-align:left; font-family:var(--serif-mono);
+    font-weight:500; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; padding:12px 14px;
+    border-bottom:1px solid var(--line);
+  }
+  tbody td{padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:rgba(79,216,196,.04);}
+  td.num, th.num{font-family:var(--serif-mono); color:var(--copper); white-space:nowrap;}
+
+  /* ===== Cards ===== */
+  .grid-cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-top:28px;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:22px;}
+  .card h4{font-size:16px; margin-bottom:4px;}
+  .card .tag{font-family:var(--serif-mono); font-size:11px; color:var(--fiber); text-transform:uppercase; letter-spacing:.06em; margin-bottom:10px; display:block;}
+  .card p{font-size:14px; color:var(--muted); margin-bottom:10px;}
+  .card .specs{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+  .chip{font-family:var(--serif-mono); font-size:11px; background:var(--panel-2); border:1px solid var(--line); color:var(--ink); padding:4px 8px; border-radius:4px;}
+
+  /* ===== Dronetry framework: worksheets, TRL, Jolly matrix ===== */
+  .card.worksheet{border:1px dashed var(--muted-2); background:rgba(224,138,76,.035);}
+  .badge-todo{
+    display:inline-block; font-family:var(--serif-mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase;
+    color:#0A1412; background:var(--copper); padding:3px 9px; border-radius:3px; margin-bottom:12px; font-weight:600;
+  }
+  ul.checklist{list-style:none; padding:0; margin:0;}
+  ul.checklist li{display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; font-size:14.5px; color:var(--ink);}
+  ul.checklist li::before{content:"☐"; color:var(--copper); font-family:var(--serif-mono); flex-shrink:0; margin-top:1px; font-size:15px;}
+
+  .trl-scale{display:flex; gap:4px; margin:22px 0; flex-wrap:wrap;}
+  .trl-cell{flex:1; min-width:78px; text-align:center; padding:12px 4px; font-family:var(--serif-mono); font-size:11px;
+    border-radius:5px; background:var(--panel-2); color:var(--muted-2); border:1px solid var(--line); line-height:1.3;}
+  .trl-cell .n{display:block; font-size:16px; margin-bottom:4px; font-weight:600;}
+  .trl-cell.active{background:var(--fiber); color:#0A1412; border-color:var(--fiber); font-weight:600;}
+  .trl-cell.active .n{color:#0A1412;}
+
+  .jolly-matrix{display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--line); border:1px solid var(--line);
+    border-radius:8px; overflow:hidden; margin:26px auto; max-width:640px;}
+  .jolly-cell{background:var(--panel); padding:20px; font-size:13.5px; color:var(--muted); min-height:140px;}
+  .jolly-cell b{display:block; font-family:var(--display); font-size:15px; margin-bottom:8px; color:var(--ink);}
+
+  .formula{
+    font-family:var(--serif-mono); background:var(--panel-2); border:1px solid var(--line); border-radius:6px;
+    padding:14px 20px; margin:10px 0 20px; font-size:15px; overflow-x:auto; color:var(--fiber); text-align:center;
+  }
+
+  /* ===== Two column layout ===== */
+  .cols{display:grid; grid-template-columns:1.1fr .9fr; gap:40px;}
+  @media (max-width:820px){.cols{grid-template-columns:1fr;}}
+
+  /* ===== callouts ===== */
+  .callout{border-left:3px solid var(--fiber); background:var(--panel); padding:18px 22px; border-radius:0 6px 6px 0; margin:24px 0;}
+  .callout.warn{border-left-color:var(--warn);}
+  .callout p:last-child{margin-bottom:0;}
+  .callout .k{font-family:var(--serif-mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--fiber); display:block; margin-bottom:8px;}
+  .callout.warn .k{color:var(--warn);}
+
+  ul.list{padding-left:0; list-style:none; margin:0 0 1em;}
+  ul.list li{padding-left:22px; position:relative; margin-bottom:10px; font-size:14.5px; color:var(--ink);}
+  ul.list li::before{content:"—"; position:absolute; left:0; color:var(--copper); font-family:var(--serif-mono);}
+
+  /* progress bars for market share */
+  .bar-row{display:grid; grid-template-columns:140px 1fr 56px; gap:12px; align-items:center; margin-bottom:14px; font-size:13.5px;}
+  .bar-track{height:8px; background:var(--panel-2); border-radius:4px; overflow:hidden;}
+  .bar-fill{height:100%; background:linear-gradient(90deg,var(--copper-dim),var(--copper));}
+  .bar-row .pct{font-family:var(--serif-mono); color:var(--copper); text-align:right;}
+
+  /* timeline for regulatory */
+  .timeline{position:relative; padding-left:28px; border-left:1px solid var(--line); margin-top:28px;}
+  .tl-item{position:relative; padding-bottom:28px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{content:""; position:absolute; left:-33px; top:4px; width:9px; height:9px; border-radius:50%; background:var(--fiber);}
+  .tl-item .yr{font-family:var(--serif-mono); font-size:12px; color:var(--copper);}
+
+  footer{padding:60px 0 40px; color:var(--muted-2); font-size:13px;}
+  .refs{columns:2; column-gap:40px; font-size:13px; color:var(--muted);}
+  @media (max-width:700px){.refs{columns:1;}}
+  .refs li{margin-bottom:8px; break-inside:avoid;}
+
+  .top-btn{position:fixed; right:24px; bottom:24px; background:var(--panel); border:1px solid var(--line); color:var(--ink); width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:40; font-family:var(--serif-mono);}
+  .top-btn:hover{border-color:var(--fiber); color:var(--fiber);}
+</style>
+</head>
+<body>
+
+<nav class="rail" aria-label="Navegación del informe (representación del cable de amarre)">
+  <div class="rail-node">0 m</div>
+  <div class="rail-cable" id="railCable"></div>
+  <div class="rail-node">316 m</div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero" id="s0">
+    <div class="eyebrow">Informe técnico-comercial · Julio 2026</div>
+    <h1>Drones cautivos (tethered):<br>mercado y estado del arte para vigilancia aérea persistente</h1>
+    <p class="sub">Un análisis del ecosistema industrial, la arquitectura de potencia y datos por cable, y la investigación de vanguardia detrás de los sistemas UAV alimentados desde tierra que eliminan el límite de batería en misiones de vigilancia continua. Incluye, en las secciones 08 a 16, el dossier de trabajo del proyecto <strong style="color:var(--copper);">Dronetry</strong>: equipo, encuadre estratégico (JTBD y Porter), física de potencia HVDC, estudio de materiales, plan de prototipado de 4 semanas, arquitectura cloud/SaaS, matriz de Jolly, propiedad intelectual y Go-to-Market.</p>
+
+    <div class="stat-strip">
+      <div class="stat"><div class="num">300–830 M$</div><div class="cap">Estimaciones de tamaño de mercado global 2025–2026, según consultora</div></div>
+      <div class="stat"><div class="num">5–38%</div><div class="cap">Rango de CAGR proyectado según fuente y horizonte temporal</div></div>
+      <div class="stat"><div class="num">24 h+</div><div class="cap">Autonomía de vuelo continuo demostrada por los sistemas líderes</div></div>
+      <div class="stat"><div class="num">400–850 V</div><div class="cap">Tensión DC de la nueva generación de cables de alimentación</div></div>
+    </div>
+
+    <div class="cable-fig">
+      <svg width="230" height="230" viewBox="0 0 230 230" role="img" aria-label="Sección transversal de un cable de amarre típico">
+        <circle cx="115" cy="115" r="108" fill="none" stroke="#7A4B2C" stroke-width="10"/>
+        <circle cx="115" cy="115" r="92" fill="none" stroke="#E08A4C" stroke-width="16" stroke-dasharray="2 3"/>
+        <circle cx="115" cy="115" r="92" fill="none" stroke="#C87F4A" stroke-width="2"/>
+        <circle cx="115" cy="115" r="66" fill="none" stroke="#4FD8C4" stroke-width="10"/>
+        <circle cx="115" cy="115" r="66" fill="none" stroke="#245650" stroke-width="1"/>
+        <circle cx="115" cy="115" r="42" fill="#132420" stroke="#EDEAE2" stroke-width="1.4" stroke-dasharray="3 3"/>
+        <text x="115" y="120" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#8AA39B">KEVLAR</text>
+      </svg>
+      <div class="cable-legend">
+        <div class="row"><span class="swatch" style="background:#7A4B2C"></span><div><b>Vaina exterior fluoroplástica</b><span>Protección ambiental, resistencia UV, abrasión y temperatura (-20 °C a +50 °C típico).</span></div></div>
+        <div class="row"><span class="swatch" style="background:#E08A4C"></span><div><b>Conductores de cobre de alta tensión</b><span>Cada uno con aislamiento individual; transportan la potencia hacia el dron (hasta 850 V DC en diseños recientes).</span></div></div>
+        <div class="row"><span class="swatch" style="background:#4FD8C4"></span><div><b>Módulo de fibra óptica</b><span>Una o varias líneas para vídeo y datos de alto ancho de banda, inmunes a interferencia electromagnética.</span></div></div>
+        <div class="row"><span class="swatch" style="background:#EDEAE2"></span><div><b>Núcleo de Kevlar</b><span>Miembro de resistencia a tracción; hasta 20 veces más resistente que el acero al mismo peso.</span></div></div>
+      </div>
+    </div>
+    <p class="muted" style="font-size:13px;">Composición estándar de un cable de amarre para UAV, según la revisión técnica de Fattori &amp; Cocuzza (2025, <em>Drones</em>, MDPI).</p>
+  </header>
+
+  <!-- 1. MERCADO -->
+  <section id="s1">
+    <div class="sec-head"><span class="sec-num">01 / 15 m</span><h2>El mercado global de drones cautivos</h2></div>
+    <p class="sec-intro">No existe una cifra única de consenso: las consultoras difieren notablemente en metodología y alcance. Presentamos el rango completo de estimaciones publicadas para dar una imagen honesta del tamaño y la velocidad de crecimiento del sector.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Fuente</th><th class="num">Año base</th><th class="num">Valor</th><th class="num">Año objetivo</th><th class="num">Valor proyectado</th><th class="num">CAGR</th></tr></thead>
+        <tbody>
+          <tr><td>Fortune Business Insights</td><td class="num">2025</td><td class="num">398,9 M$</td><td class="num">2034</td><td class="num">705,5 M$</td><td class="num">6,6%</td></tr>
+          <tr><td>Coherent Market Insights</td><td class="num">2025</td><td class="num">535,8 M$</td><td class="num">2032</td><td class="num">2.517,6 M$</td><td class="num">24,7%</td></tr>
+          <tr><td>Future Market Insights</td><td class="num">2025</td><td class="num">301,4 M$</td><td class="num">2036</td><td class="num">560,4 M$</td><td class="num">5,8%</td></tr>
+          <tr><td>360 Research Reports</td><td class="num">2026</td><td class="num">833,1 M$</td><td class="num">2035</td><td class="num">7.797,4 M$</td><td class="num">28,2%</td></tr>
+          <tr><td>Straits Research</td><td class="num">2024</td><td class="num">299,3 M$</td><td class="num">2033</td><td class="num">464,2 M$</td><td class="num">5,0%</td></tr>
+          <tr><td>Expert Market Research</td><td class="num">2024</td><td class="num">140,4 M$</td><td class="num">2034</td><td class="num">3.618,9 M$</td><td class="num">38,4%</td></tr>
+          <tr><td>Allied Market Research</td><td class="num">2021</td><td class="num">257,3 M$</td><td class="num">2031</td><td class="num">404,9 M$</td><td class="num">4,9%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="font-size:13px;">Cifras en millones de USD. La dispersión refleja diferencias de alcance (algunos informes incluyen solo el dron, otros también las estaciones y el hardware asociado) y de metodología de proyección.</p>
+
+    <div class="cols" style="margin-top:44px;">
+      <div>
+        <h3 style="font-size:1.15rem;">Distribución regional (2025–2026)</h3>
+        <div class="bar-row"><div>Norteamérica</div><div class="bar-track"><div class="bar-fill" style="width:37%"></div></div><div class="pct">~35–37%</div></div>
+        <div class="bar-row"><div>Europa</div><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><div class="pct">~28%</div></div>
+        <div class="bar-row"><div>Asia-Pacífico</div><div class="bar-track"><div class="bar-fill" style="width:22%"></div></div><div class="pct">~22% <span class="muted">(mayor crecimiento)</span></div></div>
+        <div class="bar-row"><div>Resto del mundo</div><div class="bar-track"><div class="bar-fill" style="width:13%"></div></div><div class="pct">~13%</div></div>
+        <p class="muted" style="font-size:13px; margin-top:10px;">Norteamérica domina por presupuesto de defensa, ecosistema regulatorio maduro (FAA) y presencia de fabricantes líderes; Asia-Pacífico crece más rápido por inversión gubernamental e industrial.</p>
+      </div>
+      <div>
+        <h3 style="font-size:1.15rem;">Segmentación por componente</h3>
+        <ul class="list">
+          <li><b>Estaciones de amarre (tethered stations):</b> mayor cuota en 2025–2026 (~16%); incluyen unidades de potencia en tierra, carretes inteligentes y gestión de tensión.</li>
+          <li><b>Cámaras y sensores:</b> segmento de mayor demanda (~19,3% en 2026) gracias a la exigencia de evidencia multiespectral y cobertura día/noche.</li>
+          <li><b>Configuración de rotor:</b> el cuadricóptero domina (~60%) por su equilibrio entre estabilidad, maniobrabilidad y simplicidad de mantenimiento.</li>
+          <li><b>Hardware general:</b> representa cerca del 48,5% del valor total (chasis, propulsión, cables, sensores).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:36px;">
+      <span class="k">Motores de crecimiento identificados</span>
+      <p>Modernización de la seguridad nacional y protección fronteriza, digitalización de servicios de emergencia, monitorización de infraestructuras críticas (energía, telecomunicaciones), sustitución de torres de comunicación temporales tras desastres naturales, y maduración del marco regulatorio que favorece a los sistemas cautivos frente a los drones de vuelo libre en espacios aéreos sensibles.</p>
+    </div>
+  </section>
+
+  <!-- 2. PANORAMA COMPETITIVO -->
+  <section id="s2">
+    <div class="sec-head"><span class="sec-num">02 / 40 m</span><h2>Panorama competitivo</h2></div>
+    <p class="sec-intro">El mercado combina especialistas puros en amarre (Elistair, Fotokite, Hoverfly), integradores que adaptan drones comerciales existentes (kits para la familia DJI Matrice), y grandes contratistas de defensa que incorporan la tecnología a soluciones ISR más amplias.</p>
+
+    <div class="grid-cards">
+      <div class="card">
+        <span class="tag">Francia / EE.UU.</span>
+        <h4>Elistair</h4>
+        <p>Fundada en 2014; se autodenomina "la compañía del dron cautivo". Fabrica tanto drones propios (familia Orion) como estaciones de potencia compatibles con más de 40 drones de terceros. Desplegada en más de 60–70 países con fuerzas armadas, policía y seguridad privada.</p>
+        <div class="specs">
+          <span class="chip">Orion 2 · 24 h garantizadas (50 h en prueba)</span>
+          <span class="chip">Tether 100 m Kevlar</span>
+          <span class="chip">Payload 2 kg</span>
+          <span class="chip">Opción fibra óptica 4G/5G</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="tag">Suiza / EE.UU.</span>
+        <h4>Fotokite</h4>
+        <p>Pionera en "amarre activo": el propio cable participa en el control de vuelo, permitiendo operación sin GPS y sin piloto con licencia. Enfocada en bomberos, policía y búsqueda y rescate, con integración directa en el techo del vehículo.</p>
+        <div class="specs">
+          <span class="chip">Sigma+ · 24 h continuas</span>
+          <span class="chip">Altura 45 m</span>
+          <span class="chip">IP55 · viento 40 km/h</span>
+          <span class="chip">Exento de Parte 107 (EE.UU.)</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="tag">Estados Unidos</span>
+        <h4>Hoverfly Technologies</h4>
+        <p>El proveedor con más horas de vuelo y despliegues militares en EE.UU. de esta categoría, según la propia empresa. Su Spectre 2.0 es el primer sistema cautivo incluido en las listas Blue UAS y Green UAS del Departamento de Defensa.</p>
+        <div class="specs">
+          <span class="chip">Sentry / Spectre / NEXUS</span>
+          <span class="chip">Altura ~200 ft (61 m)</span>
+          <span class="chip">Payload hasta 8 lb</span>
+          <span class="chip">IP54 / MIL-STD-810</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="tag">China / ecosistema abierto</span>
+        <h4>DJI + integradores terceros</h4>
+        <p>DJI no vende un dron cautivo nativo, pero su dominio del mercado comercial (Matrice 30/300/350, FlyCart 30) impulsó un ecosistema de estaciones de amarre de terceros (Elistair, Volarious, G35-M30 de fabricantes chinos) que convierten estas plataformas en sistemas de vigilancia persistente.</p>
+        <div class="specs">
+          <span class="chip">Módulo Elistair: 500 g · 1000 W · 70 m</span>
+          <span class="chip">G35-M30: 600–850 V DC</span>
+          <span class="chip">Hasta 24 h+</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="tag">Estados Unidos</span>
+        <h4>Drone Aviation / Volarious / Blue Vigil</h4>
+        <p>Especialistas en kits de amarre retroadaptables para plataformas comerciales (M30, M300, M350, Inspire). Volarious V-Line Pro añade iluminación de hasta 20.000 lúmenes y velocidades de ascenso de 5 m/s.</p>
+        <div class="specs">
+          <span class="chip">Tether hasta 100 m</span>
+          <span class="chip">Ascenso 5 m/s</span>
+          <span class="chip">Multi-payload (luz, red mesh)</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="tag">Otros actores relevantes</span>
+        <h4>Ecosistema ampliado</h4>
+        <p>Sky Sapience, Novadem, Acecore Technologies, ECA Group, Yuneec/Advanced Technology Labs, AeroVironment, Teledyne FLIR, Exail, COMSovereign, y el fabricante chino Nanjing Rosefinch (estaciones 3–6 kW orientadas a exportación y aplicaciones industriales).</p>
+        <div class="specs">
+          <span class="chip">Defensa</span>
+          <span class="chip">Industrial</span>
+          <span class="chip">Telecom</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ARQUITECTURA TÉCNICA -->
+  <section id="s3">
+    <div class="sec-head"><span class="sec-num">03 / 65 m</span><h2>Arquitectura técnica: potencia, datos y gestión del cable</h2></div>
+    <p class="sec-intro">Un sistema TUAV (Tethered Unmanned Aerial Vehicle) se organiza en tres niveles: la plataforma aérea, la conexión (cable + módulo de potencia embarcado) y la estación de control en tierra. El diseño del cable es la pieza central de todo el sistema.</p>
+
+    <h3 style="font-size:1.2rem;">La disyuntiva peso-potencia del cable</h3>
+    <p>Cuanto más fino es el conductor, menor es el peso que el dron debe sostener, pero mayor es la resistencia eléctrica y, por tanto, las pérdidas de energía (proporcionales al cuadrado de la corriente). La solución que ha adoptado la industria es transmitir a alta tensión y convertir la energía a bordo del dron: al subir el voltaje se reduce la corriente necesaria para la misma potencia, permitiendo conductores más delgados y ligeros.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Generación</th><th>Tensión típica</th><th>Consecuencia práctica</th></tr></thead>
+        <tbody>
+          <tr><td>Sistemas tradicionales</td><td class="num">≤ 43,2 V</td><td>Cables más gruesos y pesados; longitud de amarre limitada a decenas de metros.</td></tr>
+          <tr><td>Generación actual comercial</td><td class="num">400 – 850 V DC</td><td>Cables ligeros de bajo arrastre aerodinámico; vuelos de 24 h a 70–100 m de altura.</td></tr>
+          <tr><td>Frontera de investigación</td><td class="num">2 – 3 kV</td><td>Cálculos teóricos sugieren viabilidad de altitudes superiores a 1.000 m con este nivel de tensión.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:1.2rem; margin-top:40px;">Transmisión de datos: por qué domina la fibra óptica</h3>
+    <p>Aunque existen alternativas —Power Line Communication (PLC), que comparte el mismo par de cables para energía y datos, o pares trenzados tipo Ethernet—, la fibra óptica es la opción preferida en sistemas de alto rendimiento. Su inmunidad total a la interferencia electromagnética, su latencia mínima y su enorme capacidad de transmisión la hacen idónea para vídeo HD en tiempo real, telemetría y, cada vez más, para actuar como enlace de retorno (backhaul) de redes 5G/6G.</p>
+
+    <div class="cols">
+      <div>
+        <h3 style="font-size:1.15rem;">Sistema de gestión del amarre (TMS)</h3>
+        <ul class="list">
+          <li><b>Carrete y motor automatizado:</b> almacena y despliega el cable sobrante con respuesta rápida al movimiento del dron.</li>
+          <li><b>Anillos colectores (slip rings):</b> permiten la rotación del carrete sin retorcer el cable.</li>
+          <li><b>Sensores de tensión y ángulo:</b> mediante brazos de palanca con resorte o juntas universales, controlan la tensión del cable en tiempo real.</li>
+          <li><b>Plataforma de aterrizaje integrada:</b> fija, elevada o autonivelante según el modelo.</li>
+          <li><b>Módulo de potencia embarcado:</b> convierte la alta tensión del cable en la tensión regulada que necesitan motores y aviónica; incluye batería de respaldo para aterrizaje seguro ante un corte de suministro.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:1.15rem;">Ventajas estructurales frente al dron de vuelo libre</h3>
+        <ul class="list">
+          <li><b>Autonomía prácticamente ilimitada:</b> elimina el cuello de botella de la batería (típicamente 30–40 min en drones comerciales).</li>
+          <li><b>Enlace de datos jam-proof:</b> al ser un canal físico, resiste la interferencia y la interceptación de radiofrecuencia.</li>
+          <li><b>Mayor capacidad de carga útil:</b> sin baterías pesadas a bordo, se puede destinar más peso a cámaras EO/IR, radar o repetidores.</li>
+          <li><b>Contención física como medida de seguridad:</b> el cable limita el volumen de vuelo alcanzable, lo que en muchas jurisdicciones simplifica los requisitos regulatorios y de certificación.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ESTADO DEL ARTE ACADEMICO -->
+  <section id="s4">
+    <div class="sec-head"><span class="sec-num">04 / 90 m</span><h2>Estado del arte académico</h2></div>
+    <p class="sec-intro">La investigación reciente —sintetizada en la revisión de Fattori &amp; Cocuzza (Universidad de Padua, revista <em>Drones</em>, MDPI, junio 2025)— consolida décadas de trabajo disperso desde los primeros experimentos con helicópteros cautivos en la década de 1960 hasta los sistemas multirrotor actuales.</p>
+
+    <div class="callout">
+      <span class="k">El cable como elemento multifuncional</span>
+      <p>La literatura reciente enfatiza que el cable no es solo un conducto físico: actúa simultáneamente como fuente de energía, canal de comunicación, sensor (arrays de temperatura a lo largo del cable para perfiles meteorológicos verticales) y mecanismo de seguridad pasiva que restringe el volumen de vuelo alcanzable.</p>
+    </div>
+
+    <h3 style="font-size:1.15rem; margin-top:32px;">Líneas de aplicación documentadas en la investigación</h3>
+    <div class="grid-cards">
+      <div class="card"><span class="tag">Defensa y seguridad</span><p>Vigilancia y reconocimiento (ISR) persistentes, enjambres cautivos para asegurar perímetros, puestos de control y cobertura urbana con riesgo reducido para el personal.</p></div>
+      <div class="card"><span class="tag">Redes celulares</span><p>Estaciones base aéreas (ABS) y nodos de retransmisión para redes 5G/6G, especialmente útiles cuando las estaciones terrestres están saturadas o inoperativas.</p></div>
+      <div class="card"><span class="tag">Inspección estructural</span><p>Puentes, minas subterráneas sin GNSS ni radiocomunicación, centrales nucleares y aeródromos, aprovechando la resistencia y estabilidad que aporta el amarre.</p></div>
+      <div class="card"><span class="tag">Robótica multi-agente</span><p>Equipos TUAV-UGV (vehículo terrestre como ancla móvil), TUAV-USV (para operaciones marítimas), y enjambres de multicópteros cautivos en serie (STeM) para transporte de carga.</p></div>
+    </div>
+
+    <h3 style="font-size:1.15rem; margin-top:36px;">Modelado matemático y desafíos de control</h3>
+    <p>El acoplamiento dinámico entre el dron y el cable —modelado mediante representaciones de catenaria y modelos discretos de resorte, Kelvin-Voigt o de sólido lineal estándar (SLS)— introduce una complejidad de control ausente en los drones libres. La gestión de la tensión, el riesgo de enredo con las hélices en condiciones de cable flojo, y la planificación segura del aterrizaje figuran entre los focos activos de investigación, junto con estrategias de navegación colaborativa para evitar colisiones en entornos urbanos o vegetados.</p>
+
+    <div class="callout warn">
+      <span class="k">Brecha identificada por los investigadores</span>
+      <p>Los propios autores señalan que, mientras la investigación académica se centra en modelado y control, los sistemas comerciales disponibles priorizan la robustez mecánica y la eficiencia de transmisión de potencia, dos aspectos que reciben comparativamente poca atención en la literatura científica. Esto sugiere un margen de colaboración entre ambos mundos.</p>
+    </div>
+  </section>
+
+  <!-- 5. REGULATORIO -->
+  <section id="s5">
+    <div class="sec-head"><span class="sec-num">05 / 110 m</span><h2>Marco regulatorio</h2></div>
+    <p class="sec-intro">La naturaleza física del amarre ha llevado a los reguladores a tratar a estos sistemas de forma diferenciada frente a los drones de vuelo libre, generalmente con menos restricciones operativas.</p>
+
+    <div class="timeline">
+      <div class="tl-item"><div class="yr">EE.UU. · 14 CFR Parte 107</div><p>Marco general para UAS de menos de 55 lb: línea de vista visual, techo de 400 ft y certificación de piloto remoto. Los sistemas cautivos para seguridad pública han obtenido crecientes exenciones de estos requisitos, incluida la operación en zonas sin cobertura de red ("0 grid"), antes no permitida.</p></div>
+      <div class="tl-item"><div class="yr">EE.UU. · Sección 44807</div><p>Vía de exención específica para plataformas que superan los límites de peso o requisitos no dispensables de la Parte 107, mediante un enfoque de evaluación de riesgo caso por caso.</p></div>
+      <div class="tl-item"><div class="yr">EE.UU. · Parte 108 (en desarrollo, 2026)</div><p>Nueva propuesta normativa para vuelos más allá de la línea de vista (BVLOS), con permisos y certificados que permitirían drones de hasta 1.320 lb y operación sobre personas, sin las restricciones de la Parte 107.</p></div>
+      <div class="tl-item"><div class="yr">Unión Europea · EASA</div><p>Marco armonizado con clases de aeronave no tripulada (C0–C6); los drones cautivos, por su perfil de riesgo reducido, entran típicamente en las categorías C2, C3 y C5. La actualización SORA 2.5 incorpora módulos de riesgo para IA y sistemas autónomos, con servicios U-Space obligatorios para operaciones urbanas y una vía de certificación para aeronaves de hasta 600 kg.</p></div>
+    </div>
+
+    <p class="muted" style="margin-top:28px; font-size:13.5px;">El panorama regulatorio evoluciona con rapidez; los datos aquí reflejan el estado conocido hasta julio de 2026 y conviene verificarlos contra las fuentes oficiales (FAA, EASA) antes de cualquier decisión de despliegue operativo.</p>
+  </section>
+
+  <!-- 6. TENDENCIAS -->
+  <section id="s6">
+    <div class="sec-head"><span class="sec-num">06 / 130 m</span><h2>Tendencias y fronteras de investigación</h2></div>
+    <p class="sec-intro">La próxima generación de sistemas cautivos se está definiendo en torno a cinco frentes tecnológicos.</p>
+
+    <div class="grid-cards">
+      <div class="card"><span class="tag">01</span><h4>Transmisión a mayor tensión</h4><p>El paso de decenas de voltios a 400–850 V DC ya en producción, con investigación activa en el rango de 2–3 kV para alcanzar altitudes superiores a 1.000 m sin penalizar el peso del cable.</p></div>
+      <div class="card"><span class="tag">02</span><h4>Vuelo autónomo sin GPS</h4><p>Control de vuelo basado en la propia tensión y ángulo del cable (amarre "activo"), permitiendo operar en entornos urbanos o subterráneos donde la señal GNSS es débil o inexistente.</p></div>
+      <div class="card"><span class="tag">03</span><h4>Sistemas multi-robot y enjambres</h4><p>Equipos cooperativos TUAV-UGV, TUAV-USV y enjambres en serie (STeM) que comparten el punto de anclaje o se coordinan para tareas de carga, inspección y vigilancia distribuida.</p></div>
+      <div class="card"><span class="tag">04</span><h4>Integración ISR + guerra electrónica</h4><p>Paquetes combinados de vigilancia, antena de altura variable (VHA) para extender redes tácticas, y contramedidas contra drones enemigos (counter-UAS) en una misma plataforma cautiva.</p></div>
+      <div class="card"><span class="tag">05</span><h4>Materiales y aerodinámica del cable</h4><p>Fibras sintéticas más ligeras que el Kevlar convencional, revestimientos de menor arrastre y diseños híbridos que combinan cobre y fibra óptica en un solo conducto de sección mínima.</p></div>
+      <div class="card"><span class="tag">06</span><h4>Movilidad "on-the-move"</h4><p>Estaciones de amarre montadas sobre vehículos o embarcaciones que permiten desplegar y recuperar el dron sin detener la marcha, ampliando su uso en escoltas de convoyes y patrullaje móvil.</p></div>
+    </div>
+  </section>
+
+  <!-- 7. DESAFIOS -->
+  <section id="s7">
+    <div class="sec-head"><span class="sec-num">07 / 145 m</span><h2>Desafíos y limitaciones actuales</h2></div>
+    <p class="sec-intro">Ningún sistema resuelve simultáneamente todos los compromisos de diseño; estos son los límites que persisten en 2026.</p>
+    <ul class="list">
+      <li><b>Techo de altitud práctico:</b> la mayoría de sistemas comerciales operan entre 45 y 100 metros; superar esa cifra exige cables más ligeros y tensiones más altas, con el consiguiente aumento de complejidad y coste.</li>
+      <li><b>Arrastre aerodinámico del cable:</b> el viento sobre el propio cable genera fuerzas adicionales sobre el dron que deben compensarse mediante sistemas de tensión activa, especialmente en configuraciones de gran longitud.</li>
+      <li><b>Riesgo de enredo:</b> en condiciones de cable flojo o maniobras bruscas, existe riesgo de contacto entre el cable y las hélices; se mitiga con protectores de hélice, hélices ducted o brazos giratorios.</li>
+      <li><b>Gestión térmica embarcada:</b> los convertidores de potencia a bordo deben disipar calor en un volumen y peso mínimos, normalmente mediante ventilación forzada o disipadores de aluminio.</li>
+      <li><b>Fragmentación regulatoria internacional:</b> pese a la tendencia favorable, cada jurisdicción define de forma distinta qué exenciones aplican a los sistemas cautivos, complicando el despliegue de soluciones globales.</li>
+      <li><b>Coste total de propiedad:</b> las estaciones de tierra de gama alta (varios kW, gestión de tensión inteligente) representan una inversión inicial considerable frente a un dron de batería convencional.</li>
+    </ul>
+  </section>
+
+  <!-- 8. EQUIPO Y ETAPA -->
+  <section id="s8">
+    <div class="sec-head"><span class="sec-num">08 / 155 m</span><h2>Proyecto Dronetry: equipo, etapa actual y contexto</h2></div>
+    <p class="sec-intro">A partir de aquí, el informe deja de ser solo un estudio de mercado y pasa a ser un dossier de trabajo para el proyecto <strong>Dronetry</strong>, aplicado sobre lo discutido en la reunión de trabajo colaborativo con la carrera de Ingeniería Aeroespacial de la Universidad de Concepción.</p>
+
+    <h3 style="font-size:1.15rem;">Equipo fundador</h3>
+    <div class="grid-cards">
+      <div class="card">
+        <span class="tag">Electrónica de potencia · sustentabilidad</span>
+        <h4>Bruno Osses</h4>
+        <p>Ingeniero eléctrico. CEO de una empresa dedicada a la conversión de motores tradicionales a eléctricos. Aporta el conocimiento de electrónica de potencia y propulsión eléctrica que exige el diseño de la Caja Y (ver <a href="#s10">§10</a>).</p>
+      </div>
+      <div class="card">
+        <span class="tag">Dominio forestal · IA</span>
+        <h4>Julio Hofflinger</h4>
+        <p>Ingeniero forestal. Director de Operaciones en Jhedai, empresa de inteligencia artificial. Une el conocimiento de campo del cliente objetivo (CONAF, faenas forestales) con la capacidad de construir el pipeline de IA de la capa cloud (ver <a href="#s13">§13</a>).</p>
+      </div>
+      <div class="card">
+        <span class="tag">Transferencia tecnológica · PI</span>
+        <h4>Fernanda Mesa</h4>
+        <p>Física e ingeniera, con experiencia en transferencia tecnológica y propiedad intelectual. Su rol cubre directamente el análisis de madurez tecnológica, la matriz de Jolly y la estrategia de PI de este documento (ver <a href="#s14">§14</a> y <a href="#s15">§15</a>).</p>
+      </div>
+    </div>
+    <p class="muted" style="font-size:13px;">Composición del equipo tal como fue compartida por el equipo Dronetry.</p>
+
+    <h3 style="font-size:1.15rem; margin-top:36px;">Etapa actual: idea temprana, previa al hardware</h3>
+    <p>Dronetry se encuentra en la fase de <strong>búsqueda bibliográfica y validación matemática</strong>, antes de construir cualquier prototipo físico. Esto lo ubica en un nivel de madurez muy distinto al del concepto genérico de dron cautivo, que ya es un producto comercial maduro en otras empresas (ver <a href="#s2">§02 Panorama competitivo</a>).</p>
+
+    <div class="trl-scale">
+      <div class="trl-cell active"><span class="n">1</span>Principio básico observado</div>
+      <div class="trl-cell active"><span class="n">2</span>Concepto formulado</div>
+      <div class="trl-cell"><span class="n">3</span>Prueba de concepto</div>
+      <div class="trl-cell"><span class="n">4</span>Validación en laboratorio</div>
+      <div class="trl-cell"><span class="n">5</span>Validación en entorno relevante</div>
+      <div class="trl-cell"><span class="n">6</span>Demostración en entorno relevante</div>
+      <div class="trl-cell"><span class="n">7</span>Demostración en entorno operacional</div>
+      <div class="trl-cell"><span class="n">8</span>Sistema completo y certificado</div>
+      <div class="trl-cell"><span class="n">9</span>Probado en operación real</div>
+    </div>
+    <p class="muted" style="font-size:13px;">Dronetry hoy: TRL 1-2 (revisión bibliográfica y modelo físico, ver <a href="#s10">§10</a>). El plan de 4 semanas de <a href="#s12">§12</a> apunta a TRL 3-4 (prueba de concepto y validación en laboratorio) con el primer vuelo cautivo de baja altura.</p>
+
+    <div class="callout">
+      <span class="k">Por qué importa la alianza con la Universidad de Concepción</span>
+      <p>Resuelve de un solo golpe dos preguntas que en un proyecto en etapa idea suelen quedar sin respuesta (ver checklist de competitividad en <a href="#s14">§14.B</a>): acceso a infraestructura de pruebas (banco de empuje, campo de vuelo) y validación técnica independiente ante futuros inversionistas.</p>
+    </div>
+  </section>
+
+  <!-- 9. ENCUADRE ESTRATEGICO -->
+  <section id="s9">
+    <div class="sec-head"><span class="sec-num">09 / 172 m</span><h2>Encuadre estratégico: a qué trabajo se contrata a Dronetry</h2></div>
+    <p class="sec-intro">Antes de diseñar el producto, conviene fijar qué "trabajo" (Job-to-be-Done) contrata realmente el cliente, y de qué manera Dronetry elige diferenciarse en vez de competir en precio.</p>
+
+    <h3 style="font-size:1.15rem;">El trabajo que el cliente contrata (Job-to-be-Done)</h3>
+    <p>Un cliente corporativo o estatal —CONAF, una forestal, una minera— no compra "un dron". Contrata la resolución de una tarea crítica en un contexto hostil:</p>
+    <div class="grid-cards">
+      <div class="card"><span class="tag">Job funcional</span><p>Obtener monitoreo y vigilancia aérea de alta resolución de forma ininterrumpida (24/7) en zonas de desastre, fronteras o faenas industriales, sin depender de redes de telecomunicación terrestres que pueden caer durante la emergencia.</p></div>
+      <div class="card"><span class="tag">Job emocional</span><p>Sentir tranquilidad y certidumbre operativa: que no habrá puntos ciegos ni pérdidas de señal por desgaste de batería en medio de una emergencia activa.</p></div>
+      <div class="card"><span class="tag">Job social</span><p>Proyectar ante el directorio, la comunidad y los reguladores un estándar superior de seguridad humana, sustentabilidad y gestión proactiva de riesgos socioambientales.</p></div>
+    </div>
+    <p class="muted" style="font-size:13.5px;">Este marco reordena el resto del documento: la arquitectura técnica de <a href="#s3">§03</a>, los materiales de <a href="#s11">§11</a> y la propuesta de valor de <a href="#s16">§16</a> existen para servir a estos tres trabajos.</p>
+
+    <h3 style="font-size:1.15rem; margin-top:36px;">Posicionamiento: ser distinto, no mejor (Michael Porter)</h3>
+    <p>Frente a competidores internacionales cerrados y de alto costo —el caso de referencia es el suizo Fotokite, ver <a href="#s2">§02</a>—, la estrategia de Dronetry no es competir por precio en un juego de suma cero. Se diferencia mediante tres elecciones exclusivas, cada una con su propio trade-off:</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Elección estratégica</th><th>En qué consiste</th><th>Qué se sacrifica a cambio</th></tr></thead>
+        <tbody>
+          <tr><td>Apertura y modularidad</td><td>Hardware y software de arquitectura abierta que permite integrar sensores ambientales de bajo costo (CO₂, calidad de aire, gases) según la vertical del cliente.</td><td>Mayor complejidad de integración frente a un sistema cerrado y optimizado como el de un competidor único.</td></tr>
+          <tr><td>Soberanía de datos y costo local</td><td>Fabricación y ensamblaje de baterías modulares en Chile (ver <a href="#s11">§11</a>), reduciendo costos de internación, soporte y mantenimiento frente a tecnología europea.</td><td>Ecosistema de proveedores locales aún inmaduro; exige construir la cadena de suministro en paralelo al producto.</td></tr>
+          <tr><td>Modelo de servicio, no de producto</td><td>Transición de la venta transaccional a ingresos recurrentes: arriendo mensual (leasing) más plataforma SaaS de monitoreo (ver <a href="#s13">§13</a>).</td><td>Flujo de caja inicial más lento que una venta directa; exige capital de trabajo para financiar el parque de equipos en arriendo.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 10. FISICA E INGENIERIA -->
+  <section id="s10">
+    <div class="sec-head"><span class="sec-num">10 / 190 m</span><h2>Física e ingeniería de potencia: del modelo al diseño de la Caja Y</h2></div>
+    <p class="sec-intro">Para que el modelo de potencia de la Caja Y (tierra) y el Dron X (aire) sea físicamente viable, el diseño debe regirse por las leyes de la electrodinámica. Esta sección formaliza el modelo y demuestra por qué la alta tensión (HVDC) es, en la práctica, la única opción viable — el mismo principio que ya adopta la industria (ver <a href="#s3">§03</a>).</p>
+
+    <h3 style="font-size:1.1rem;">Variables de entrada</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Variable</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td class="num">P<sub>hover</sub></td><td>Potencia eléctrica constante consumida por el dron en vuelo estacionario (W).</td></tr>
+          <tr><td class="num">P<sub>peak</sub></td><td>Consumo de potencia pico durante maniobras de aceleración o ráfagas de viento (W).</td></tr>
+          <tr><td class="num">V<sub>drone</sub></td><td>Voltaje nominal de operación de la electrónica interna del dron (V).</td></tr>
+          <tr><td class="num">L<sub>cable</sub></td><td>Longitud total del cable conductor (m).</td></tr>
+          <tr><td class="num">r<sub>lineal</sub></td><td>Resistencia eléctrica lineal del cable conductor (Ω/m).</td></tr>
+          <tr><td class="num">α</td><td>Coeficiente térmico de resistencia del cobre (≈ 0,00393 °C⁻¹ a 20 °C, estándar IACS).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:1.1rem; margin-top:32px;">Ecuaciones fundamentales del MVP</h3>
+
+    <p><b>A. Resistencia del cable en función del largo y la temperatura.</b> Aumenta linealmente con la longitud y con el incremento térmico por radiación solar y calentamiento interno (el factor 2 se debe a que la corriente recorre el cable de ida y de vuelta):</p>
+    <div class="formula">R<sub>cable</sub>(T) = (2 · L<sub>cable</sub> · r<sub>lineal</sub>) · [1 + α(T − T₀)]</div>
+
+    <p><b>B. Corriente de operación en el cable.</b> Se calcula sobre la potencia pico, para que el conductor nunca trabaje al límite de fusión del aislamiento:</p>
+    <div class="formula">I = P<sub>peak</sub> / V<sub>drone</sub></div>
+
+    <p><b>C. Caída de tensión por efecto de línea (Ley de Ohm):</b></p>
+    <div class="formula">ΔV = I · R<sub>cable</sub></div>
+    <div class="callout">
+      <span class="k">Regla de oro de ingeniería</span>
+      <p>Para un diseño eficiente y seguro, la caída de tensión en el cable no debe superar el 10% del voltaje emitido desde tierra: <b class="mono">ΔV ≤ 0,10 · V<sub>ground</sub></b>.</p>
+    </div>
+
+    <p><b>D. Voltaje de salida requerido en tierra.</b> El regulador en tierra debe compensar activamente la caída, para que la controladora de vuelo reciba siempre su voltaje nominal:</p>
+    <div class="formula">V<sub>ground</sub> = V<sub>drone</sub> + ΔV = V<sub>drone</sub> + (I · R<sub>cable</sub>)</div>
+
+    <p><b>E. Pérdida de potencia por efecto Joule.</b> Toda la corriente que atraviesa la resistencia del cable se disipa inevitablemente en forma de calor:</p>
+    <div class="formula">P<sub>loss</sub> = I² · R<sub>cable</sub></div>
+
+    <p><b>F. Balance de potencia total del sistema.</b> Considera las pérdidas del cable y la eficiencia del conversor (η<sub>system</sub> ≈ 0,90–0,95):</p>
+    <div class="formula">P<sub>total</sub> = (P<sub>drone</sub> + P<sub>loss</sub>) / η<sub>system</sub></div>
+
+    <h3 style="font-size:1.1rem; margin-top:36px;">Caso de estudio: por qué HVDC es la única opción a 50 m</h3>
+    <p>Vuelo de 50 m a potencia constante de 1.000 W, con R<sub>cable</sub> = 2 Ω:</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th></th><th>Escenario A — Batería directa 22,2 V (6S LiPo)</th><th>Escenario B — HVDC 400 V con conversión local</th></tr></thead>
+        <tbody>
+          <tr><td>Corriente en el cable</td><td class="num">45,05 A</td><td class="num">2,5 A</td></tr>
+          <tr><td>Caída de tensión (ΔV)</td><td class="num">90,1 V</td><td class="num">5 V (1,25%)</td></tr>
+          <tr><td>Pérdida por calor (P<sub>loss</sub>)</td><td class="num">≈ 4,06 kW</td><td class="num">12,5 W</td></tr>
+          <tr><td>Resultado</td><td>ΔV (90,1 V) supera el propio voltaje nominal (22,2 V) y la pérdida por calor por sí sola cuadriplica la potencia útil buscada: el sistema colapsa y exigiría un cable de cobre demasiado grueso y pesado para que el dron lo levante.</td><td>Eficiencia de transmisión ≈98,75%. Permite un cable ultradelgado y liviano, maximizando la carga útil disponible.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <span class="k">La razón física, en una frase</span>
+      <p>Al elevar el voltaje de transmisión de 22,2 V a 400 V (factor ≈18×), la corriente cae en la misma proporción, y como la pérdida por calor depende del cuadrado de la corriente (P<sub>loss</sub> = I²R), esa pérdida se reduce en un factor de 324 veces. Es la misma lógica de alta tensión que ya emplean Elistair y los kits G35-M30 para DJI en sus estaciones comerciales (ver <a href="#s3">§03</a>), aquí formalizada para el caso específico de Dronetry.</p>
+    </div>
+    <p class="muted" style="font-size:13px;">Esta pauta matemática es exactamente el tipo de evidencia que un comité de evaluación de inversionistas o la Universidad de Concepción esperará ver antes de aprobar el paso al hardware.</p>
+  </section>
+
+  <!-- 11. MATERIALES -->
+  <section id="s11">
+    <div class="sec-head"><span class="sec-num">11 / 208 m</span><h2>Estudio de materiales para el prototipo (MVP)</h2></div>
+    <p class="sec-intro">Cinco familias de materiales determinan si el prototipo de 15 m planteado para el MVP es viable: el conductor del cable, su aislamiento, su miembro de resistencia, la estructura del dron y la química de la batería de respaldo. En cada una, la recomendación está calibrada al contexto real de Dronetry: equipo en etapa idea, presupuesto acotado, y un caso de uso —monitoreo forestal e incendios— que impone sus propias exigencias térmicas.</p>
+
+    <h3 style="font-size:1.15rem;">1. Conductor eléctrico del cable</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Material</th><th>Ventaja</th><th>Riesgo para Dronetry</th></tr></thead>
+        <tbody>
+          <tr><td>Cobre (estándar)</td><td>Máxima conductividad (100% IACS); dúctil, resiste miles de ciclos de flexión sin fatiga; ecosistema de conectores y soldadura ya maduro.</td><td>Es el más pesado de los tres; a mayor L<sub>cable</sub>, mayor peso muerto que el Dron X debe levantar (ver <a href="#s10">§10</a>).</td></tr>
+          <tr><td>Aluminio</td><td>A igual resistencia eléctrica, un conductor de aluminio pesa aproximadamente la mitad que uno de cobre — el propio banco de pruebas de la Semana 1 (ver <a href="#s12">§12</a>) se beneficiaría directamente.</td><td>Más propenso a fatiga por flexión repetida (relevante para el carrete activo de la Semana 3) y requiere conectores específicos para evitar corrosión galvánica en la unión Cu-Al.</td></tr>
+          <tr><td>Cobre plateado</td><td>Reduce la oxidación superficial y mejora la fiabilidad de la conexión en uso industrial continuo.</td><td>Sobrecosto frente al cobre estándar, sin beneficio claro en la escala de un primer MVP.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="k">Recomendación para el MVP de 15 m</span>
+      <p>Cobre estándar. A 15 m de altura la penalización de peso del cobre es manejable, y evita introducir dos riesgos nuevos a la vez (fatiga del aluminio + validación de conectores bimetálicos) en el mismo prototipo que ya debe validar el modelo HVDC de <a href="#s10">§10</a>. El aluminio queda como la optimización natural de una segunda iteración, una vez que el banco de pruebas Joule (Semana 2) confirme el comportamiento térmico base.</p>
+    </div>
+
+    <h3 style="font-size:1.15rem; margin-top:36px;">2. Aislamiento y chaqueta del cable</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Material</th><th>Cuándo usarlo</th></tr></thead>
+        <tbody>
+          <tr><td>PVC</td><td>Opción económica de referencia para los primeros ensayos de banco (Semana 2); rigidez dieléctrica suficiente para validar el modelo a 400 V en laboratorio.</td></tr>
+          <tr><td>Poliuretano (PU)</td><td>Resiste millones de ciclos de flexión y abrasión: es el estándar de la industria para el tramo del cable que pasa por el carrete activo (Semana 3), donde el roce y el enrollado repetido son constantes.</td></tr>
+          <tr><td>Fluoropolímero (FEP/PTFE)</td><td>Máximo desempeño dieléctrico y térmico; es lo que usan cables de referencia como los de Gore para aplicaciones militares/comerciales de alta tensión. Sobredimensionado para el MVP, pero es la especificación a evaluar antes de exponer el sistema a un incendio forestal real.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:1.15rem; margin-top:36px;">3. Miembro de resistencia (núcleo tensor)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th></th><th>Kevlar (aramida)</th><th>Dyneema / UHMWPE</th></tr></thead>
+        <tbody>
+          <tr><td>Resistencia a la tracción</td><td class="num">≈3,6 GPa</td><td class="num">≈3,2 GPa</td></tr>
+          <tr><td>Densidad</td><td class="num">1,44 g/cm³</td><td class="num">0,97 g/cm³ (30-40% más liviano)</td></tr>
+          <tr><td>Comportamiento al calor</td><td>No se derrite; se carboniza a temperaturas muy altas. Estable cerca de fuentes de calor.</td><td>Se degrada y pierde resistencia a temperaturas mucho más bajas que el Kevlar.</td></tr>
+          <tr><td>Exposición UV / humedad</td><td>Pierde hasta 25% de su resistencia tras dos días de exposición UV sin protección; absorbe humedad.</td><td>Pérdida de solo ≈5% en el mismo ensayo; no absorbe agua.</td></tr>
+          <tr><td>Carga constante ("creep")</td><td>Prácticamente sin deformación aunque quede tensado durante meses.</td><td>Sufre deformación plástica lenta bajo carga estática prolongada.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <span class="k">Por qué esta decisión no es solo de peso, en el caso de Dronetry</span>
+      <p>El Job-to-be-Done de <a href="#s9">§09</a> es monitoreo forestal y de incendios. Un núcleo tensor que pierde resistencia cerca del calor es un riesgo operativo, no solo un dato técnico: la ventaja de peso de Dyneema pierde valor si el cable va a operar cerca de un frente de fuego. Kevlar, pese a ser más pesado, es la opción más consistente con el caso de uso principal; una funda protectora reduce su punto débil (degradación UV) sin sacrificar su estabilidad térmica.</p>
+    </div>
+
+    <h3 style="font-size:1.15rem; margin-top:36px;">4. Estructura del Dron X (chasis)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Material</th><th>Costo aprox. por pieza</th><th>Rol en el roadmap de Dronetry</th></tr></thead>
+        <tbody>
+          <tr><td>PETG impreso en 3D</td><td class="num">US$ 2–8</td><td>Ideal para las primeras iteraciones de la Semana 4 (primer vuelo): permite reimprimir un brazo roto en menos de una hora y ajustar la geometría sin comprometer capital.</td></tr>
+          <tr><td>Nylon-fibra de carbono (PA-CF) 3D</td><td class="num">US$ 15–25</td><td>Punto intermedio: rigidez cercana al aluminio una vez que el diseño geométrico ya está validado con PETG, todavía sin el costo de un molde o corte CNC.</td></tr>
+          <tr><td>Fibra de carbono (CNC/laminado)</td><td class="num">US$ 30–80</td><td>Reservar para el prototipo final "presentable" ante inversionistas, una vez cerrada la geometría — no para las iteraciones de diseño.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="k">Recomendación de secuencia</span>
+      <p>PETG para las semanas 1 a 4 del plan de <a href="#s12">§12</a> (barato, rápido de reimprimir, suficiente para validar empuje y primer vuelo a 2 m); PA-CF o fibra de carbono recién para la versión que se muestre fuera del equipo — ante la Universidad de Concepción o ante inversionistas.</p>
+    </div>
+
+    <h3 style="font-size:1.15rem; margin-top:36px;">5. Química de la batería de respaldo</h3>
+    <p>A diferencia de un dron de batería convencional, en un sistema cautivo la batería a bordo <b>no es la fuente principal de energía</b> —esa es la Caja Y, vía el cable— sino una batería de seguridad que solo debe garantizar un aterrizaje controlado si se corta el suministro. Ese matiz cambia por completo qué química conviene:</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th></th><th>LiPo</th><th>LiFePO₄ (LFP)</th></tr></thead>
+        <tbody>
+          <tr><td>Densidad energética</td><td class="num">200–260 Wh/kg</td><td class="num">150–180 Wh/kg</td></tr>
+          <tr><td>Vida útil</td><td class="num">300–1.000 ciclos</td><td class="num">2.000–5.000+ ciclos</td></tr>
+          <tr><td>Seguridad térmica</td><td>Requiere circuitos de protección; riesgo de fuga térmica si se perfora, sobrecarga o aplasta.</td><td>Estructura de cátodo que resiste la liberación de oxígeno; no es propensa a fuga térmica.</td></tr>
+          <tr><td>Rol natural</td><td>Batería principal de vuelo en un dron sin cable, donde cada gramo cuenta.</td><td>Batería de respaldo que permanece mayormente inactiva y debe responder de forma fiable, sin añadir riesgo de incendio a un sistema que monitorea incendios.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <span class="k">La conexión con la "soberanía de costo local" de §09</span>
+      <p>Chile es el mayor productor mundial de cobre —el material del conductor del cable— y, en paralelo, impulsa activamente una industria local de baterías de litio centrada en la química LFP: la Universidad Católica del Norte ya opera una primera línea de ensamblaje de celdas cilíndricas en Antofagasta, y el CELIMIN de la Universidad de Antofagasta desarrolla materiales catódicos LFP a partir de salmuera local, evitando la dependencia de cobalto importado que sí exige la química NMC/LiPo. Elegir LiFePO₄ para la batería de respaldo no es solo la decisión de ingeniería más segura: es también la que mejor conecta con un futuro ensamblaje nacional, reforzando el trade-off de posicionamiento descrito en <a href="#s9">§09</a>.</p>
+    </div>
+  </section>
+
+  <!-- 12. PLAN DE PROTOTIPADO -->
+  <section id="s12">
+    <div class="sec-head"><span class="sec-num">12 / 226 m</span><h2>Plan de prototipado y validación (4 semanas)</h2></div>
+    <p class="sec-intro">Siguiendo un método de prototipado rápido y validación sistemática por hitos, el plan valida primero el hardware antes de invertir capital en el software de IA de <a href="#s13">§13</a>.</p>
+
+    <div class="timeline">
+      <div class="tl-item"><div class="yr">Semana 1 · Auditoría de empuje (Thrust-to-Weight)</div><p>Evaluar si la relación de empuje de los motores del Dron X soporta el peso muerto del chasis, más la carga útil de las cámaras, más el peso dinámico del cable tensor a la altura máxima del MVP (15 m). Usa el chasis en PETG de <a href="#s11">§11</a> para iterar rápido.</p></div>
+      <div class="tl-item"><div class="yr">Semana 2 · Banco de pruebas en tierra (Efecto Joule)</div><p>Montar la Caja Y en un entorno estático sin vuelo para medir experimentalmente las pérdidas por calor y la elevación de temperatura del cable bajo corriente de trabajo, validando en la práctica el modelo de <a href="#s10">§10</a> y el aislamiento elegido en <a href="#s11">§11</a>.</p></div>
+      <div class="tl-item"><div class="yr">Semana 3 · Simulación de carga in-car (carrete activo)</div><p>Instalar el sistema en la camioneta de pruebas y conducir en terreno irregular para testear el carrete activo frente a aceleraciones y frenados bruscos, verificando que el tensor mantenga el cable alineado sin riesgo de enredo — la prueba de fatiga real para la elección de conductor y chaqueta de <a href="#s11">§11</a>.</p></div>
+      <div class="tl-item"><div class="yr">Semana 4 · Integración física y primer vuelo (First Flight)</div><p>Vuelo cautivo inicial a baja altura (2 m), sin carga de procesamiento de IA. Validar la estabilidad del centro de gravedad y ajustar las ganancias PID del controlador de vuelo ante el momento de inercia y el arrastre dinámico que ejerce el cable anclado.</p></div>
+    </div>
+    <p class="muted" style="font-size:13px;">Al cierre de la Semana 4, Dronetry debería tener evidencia empírica para avanzar de TRL 1-2 a TRL 3-4 (ver <a href="#s8">§08</a>) — el nivel que un socio como la Universidad de Concepción o un primer inversionista esperará ver antes de comprometer recursos adicionales.</p>
+  </section>
+
+  <!-- 13. CLOUD Y SAAS -->
+  <section id="s13">
+    <div class="sec-head"><span class="sec-num">13 / 244 m</span><h2>Arquitectura cloud y modelo SaaS</h2></div>
+    <p class="sec-intro">Para que el modelo de negocio sea escalable, Dronetry debe estructurarse como un orquestador de ecosistema digital, no como un simple proveedor de hardware — el tercer trade-off de posicionamiento de <a href="#s9">§09</a>.</p>
+
+    <div class="grid-cards">
+      <div class="card">
+        <span class="tag">Edge · Dronetry</span>
+        <h4>Ingesta en el dron</h4>
+        <p>El procesador embarcado extrae la señal de vídeo digital directa (HDMI/MIPI) sin compresión, y empaqueta los metadatos de telemetría (GPS, altura, pitch, yaw) vía protocolo MAVLink a través de la fibra óptica del cable — inmune a la interferencia electromagnética del entorno (ver <a href="#s3">§03</a>).</p>
+      </div>
+      <div class="card">
+        <span class="tag">Cloud · plataforma SaaS</span>
+        <h4>Procesamiento de vídeo e IA</h4>
+        <p>El vídeo RGB y térmico se inyecta directamente a la nube en vez de procesar modelos de visión pesados a bordo, evitando el consumo eléctrico y el peso adicional que eso impondría sobre el Dron X. Un pipeline de inferencia en tiempo real detecta focos de fuego, humo, personas o vehículos — la capa donde encaja la experiencia de Julio Hofflinger en Jhedai (ver <a href="#s8">§08</a>).</p>
+      </div>
+      <div class="card">
+        <span class="tag">B2B · integración</span>
+        <h4>Data marketplace</h4>
+        <p>La base de datos unificada se expone mediante APIs seguras para que municipios, forestales o instituciones de emergencia —CONAF, SENAPRED— integren la alerta temprana de Dronetry directamente en sus centrales de comando y control.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="k">El activo intangible que se construye con el tiempo</span>
+      <p>Consolidar la telemetría y el histórico de vuelos en la nube crea, con el tiempo, una base de datos de comportamiento forestal y de incendios en Chile — un activo que abre espacio a valor adyacente (modelos predictivos) y que refuerza la lógica de ingresos recurrentes del modelo SaaS/leasing descrito en <a href="#s9">§09</a>.</p>
+    </div>
+  </section>
+
+  <!-- 14. JOLLY -->
+  <section id="s14">
+    <div class="sec-head"><span class="sec-num">14 / 262 m</span><h2>Atractivo y competitividad del portafolio (modelo de Jolly)</h2></div>
+    <p class="sec-intro">El modelo de Jolly cruza el atractivo tecnológico externo (que Dronetry no controla) con su competitividad interna (que sí controla) para ubicar el proyecto en uno de cuatro cuadrantes.</p>
+
+    <h3 style="font-size:1.15rem;">A. Atractivo tecnológico (factores exógenos)</h3>
+    <div class="grid-cards">
+      <div class="card"><span class="tag">Potencial técnico</span><p>Sector en crecimiento temprano-medio: el concepto base es maduro (TRL 9, ver <a href="#s2">§02</a>) pero persisten brechas activas de rendimiento — altitud, peso del cable, autonomía sin GPS (ver <a href="#s6">§06</a>).</p></div>
+      <div class="card"><span class="tag">Situación competitiva</span><p>Mercado concentrado en tres especialistas de referencia (Elistair, Fotokite, Hoverfly). Fotokite, el punto de comparación explícito de Dronetry (ver <a href="#s9">§09</a>), es cerrado y de alto costo — el espacio de diferenciación que Dronetry busca ocupar.</p></div>
+      <div class="card"><span class="tag">Potencial de mercado</span><p>Entre 300 M$ y 830 M$ según la consultora, CAGR de 5% a 38% (ver <a href="#s1">§01</a>). Chile y Latinoamérica no tienen hoy un proveedor local de referencia.</p></div>
+      <div class="card"><span class="tag">Situación normativa</span><p>Tendencia regulatoria favorable en EE.UU./UE (ver <a href="#s5">§05</a>); en Chile, la aplicación forestal/estatal (CONAF, SENAPRED) suele gozar de mejor percepción social que la vigilancia policial pura.</p></div>
+    </div>
+
+    <h3 style="font-size:1.15rem; margin-top:36px;">B. Competitividad tecnológica (factores endógenos) — con el equipo ya definido</h3>
+    <div class="grid-cards">
+      <div class="card"><span class="tag">Competencias de I+D</span><p>Cubiertas de forma inusualmente completa para una etapa idea: electrónica de potencia y motores (Bruno Osses), dominio forestal + IA/cloud (Julio Hofflinger), transferencia tecnológica y PI (Fernanda Mesa). La brecha abierta es control de vuelo/aeroespacial puro — el motivo natural de la alianza con la Universidad de Concepción.</p></div>
+      <div class="card"><span class="tag">Infraestructura</span><p>Aún por confirmar de forma exclusiva; la colaboración con la carrera aeroespacial de la Universidad de Concepción es la vía más probable de acceso a banco de pruebas y campo de vuelo (ver <a href="#s8">§08</a>).</p></div>
+      <div class="card"><span class="tag">Familiaridad con el sector</span><p>Alta en los dominios adyacentes (motores eléctricos, IA aplicada, forestal), aún no probada en UAV/aeroespacial como tal — se construye durante el plan de 4 semanas de <a href="#s12">§12</a>.</p></div>
+      <div class="card"><span class="tag">Doability</span><p>Favorable: hay ruta de PI clara (ver <a href="#s15">§15</a>), un plan de validación de bajo costo (ver <a href="#s12">§12</a>) y un caso de negocio con demanda potencial ya identificada (CONAF, forestales, mineras).</p></div>
+    </div>
+
+    <h3 style="font-size:1.15rem; margin-top:36px;">Matriz de clasificación del portafolio</h3>
+    <div class="jolly-matrix">
+      <div class="jolly-cell" style="background:rgba(224,138,76,.08); border:1px dashed var(--copper); color:var(--ink);"><b>Tecnología Estrella</b>Alto atractivo + alta competitividad.<br><span class="mono" style="font-size:11.5px; color:var(--copper);">★ Posición hacia la que apunta Dronetry: atractivo externo ya favorable y equipo con competencias complementarias — condicionado a cerrar la brecha de validación en vuelo real.</span></div>
+      <div class="jolly-cell"><b>Tecnología Inestable</b>Alto atractivo + baja competitividad. Posición por defecto de la mayoría de proyectos idea sin equipo multidisciplinario.</div>
+      <div class="jolly-cell"><b>Tecnología Sobrante</b>Bajo atractivo + alta competitividad. Explotar sin sobreinvertir.</div>
+      <div class="jolly-cell"><b>Tecnología Sin Salida</b>Bajo atractivo + baja competitividad. Candidata a descarte.</div>
+    </div>
+    <p class="muted" style="font-size:13px; text-align:center;">Lectura preliminar basada en lo compartido por el equipo; conviene revisarla conforme avance la validación técnica.</p>
+  </section>
+
+  <!-- 15. PI Y EMPAQUETAMIENTO -->
+  <section id="s15">
+    <div class="sec-head"><span class="sec-num">15 / 280 m</span><h2>Propiedad intelectual, marca y empaquetamiento tecnológico</h2></div>
+    <p class="sec-intro">El equipo ya identificó su prioridad: primero un prototipo base para inversionistas, y solo después el registro de marca de "Dronetry". Esta sección ordena esa decisión dentro de una estrategia de PI completa.</p>
+
+    <div class="callout">
+      <span class="k">Sobre la secuencia elegida (marca después del prototipo)</span>
+      <p>Es una secuencia razonable: una marca protege el <b>nombre</b> comercial, mientras que una patente o un secreto industrial protegen la <b>invención</b> — y es la invención, no el nombre, lo que se expone al mostrar el prototipo a inversionistas o a la Universidad de Concepción. Dicho esto, una búsqueda de disponibilidad de la marca "Dronetry" (no el registro completo, solo una verificación de que nadie más la usa) es una tarea de bajo costo que puede avanzar en paralelo sin competir por recursos con el prototipo.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Mecanismo</th><th>Cuándo conviene</th><th>Ejemplo en el sector</th></tr></thead>
+        <tbody>
+          <tr><td>Patente de invención</td><td>Innovación novedosa, con nivel inventivo y aplicación industrial demostrable.</td><td>Fotokite protege su control de vuelo basado en la tensión del propio cable.</td></tr>
+          <tr><td>Modelo de utilidad</td><td>Mejora incremental de forma o disposición de un componente ya conocido.</td><td>Variantes del carrete activo o del conector rápido de la Caja Y.</td></tr>
+          <tr><td>Secreto industrial</td><td>Know-how difícil de replicar por ingeniería inversa.</td><td>Parámetros finos de control de tensión del carrete, calibración térmica del modelo de <a href="#s10">§10</a>.</td></tr>
+          <tr><td>Derecho de autor</td><td>Código fuente del software de control o del pipeline de IA.</td><td>El pipeline de detección de fuego de <a href="#s13">§13</a>.</td></tr>
+          <tr><td>Marca</td><td>Identidad comercial del producto — el paso que el equipo ya decidió postergar.</td><td>"Dronetry" y sus eventuales líneas de producto (Dron X, Caja Y).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <span class="k">Libertad de operación (freedom to operate)</span>
+      <p>Antes de proteger cualquier desarrollo propio, conviene revisar qué ya está patentado: Elistair protege su sistema de aterrizaje de precisión y frenado del cable (Khronos); Fotokite protege su control de vuelo basado en el propio cable. Un análisis de FTO evita que Dronetry invierta esfuerzo en una innovación ya reivindicada por un competidor — encaja de forma natural con la experiencia de Fernanda Mesa en el equipo (ver <a href="#s8">§08</a>).</p>
+    </div>
+
+    <h3 style="font-size:1.1rem; margin-top:32px;">Empaquetamiento tecnológico: los tres pilares</h3>
+    <ul class="list">
+      <li><b>Informes técnicos:</b> el modelo físico de <a href="#s10">§10</a>, la selección de materiales de <a href="#s11">§11</a>, y los registros del plan de 4 semanas de <a href="#s12">§12</a> conforme se vayan generando.</li>
+      <li><b>Acuerdos legales:</b> el convenio de colaboración con la Universidad de Concepción, y los NDA que correspondan con proveedores de cable o de celdas de batería.</li>
+      <li><b>Informes comerciales:</b> el análisis de mercado de <a href="#s1">§01</a>, la vigilancia de competidores de <a href="#s2">§02</a>, y el encuadre de Job-to-be-Done de <a href="#s9">§09</a>.</li>
+    </ul>
+  </section>
+
+  <!-- 16. MARKET FIT Y GTM -->
+  <section id="s16">
+    <div class="sec-head"><span class="sec-num">16 / 298 m</span><h2>Market fit y estrategia de Go-to-Market</h2></div>
+    <p class="sec-intro">Con el Job-to-be-Done ya definido en <a href="#s9">§09</a>, esta sección ubica a Dronetry frente a su competencia y traza la ruta de comercialización.</p>
+
+    <div class="cols">
+      <div>
+        <h3 style="font-size:1.1rem;">Competidores directos e indirectos</h3>
+        <ul class="list">
+          <li><b>Directos:</b> Elistair, Fotokite, Hoverfly y los kits de amarre de terceros para DJI (ver <a href="#s2">§02</a>).</li>
+          <li><b>Indirectos:</b> drones de batería con equipos de relevo, helicópteros tripulados, torres de CCTV fijas, imágenes satelitales de baja frecuencia.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:1.1rem;">Mapa de actores</h3>
+        <ul class="list">
+          <li><b>Adoptadores tempranos:</b> CONAF, forestales y mineras — los mismos actores del Job-to-be-Done de <a href="#s9">§09</a>.</li>
+          <li><b>Socios estratégicos:</b> Universidad de Concepción (validación técnica), proveedores de cable/fibra.</li>
+          <li><b>Reguladores:</b> DGAC (Chile), y a futuro FAA/EASA si Dronetry exporta (ver <a href="#s5">§05</a>).</li>
+          <li><b>Integradores B2B:</b> SENAPRED, municipios, a través de la capa API de <a href="#s13">§13</a>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:1.1rem; margin-top:32px;">Vehículo de transferencia y modelo de ingresos</h3>
+    <p>El modelo elegido en <a href="#s9">§09</a> —arriendo mensual (leasing) más plataforma SaaS— favorece que Dronetry mantenga el control del producto completo en vez de licenciarlo a un tercero, al menos mientras construye el primer historial de despliegues con CONAF o una forestal ancla.</p>
+
+    <h3 style="font-size:1.1rem; margin-top:32px;">Hitos del roadmap</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="yr">Hito 1 · Validación técnica</div><p>Completar el plan de 4 semanas de <a href="#s12">§12</a> y alcanzar TRL 3-4 (ver <a href="#s8">§08</a>).</p></div>
+      <div class="tl-item"><div class="yr">Hito 2 · Alianza académica formal</div><p>Convertir la reunión de trabajo con la Universidad de Concepción en un convenio de colaboración o I+D conjunta.</p></div>
+      <div class="tl-item"><div class="yr">Hito 3 · Protección de la invención</div><p>Análisis de libertad de operación y primera solicitud de patente o secreto industrial sobre el componente diferencial (ver <a href="#s15">§15</a>).</p></div>
+      <div class="tl-item"><div class="yr">Hito 4 · Prototipo para inversionistas</div><p>Migrar el chasis de PETG a PA-CF o fibra de carbono (ver <a href="#s11">§11</a>) una vez cerrada la geometría, y preparar la demo con el pipeline de IA de <a href="#s13">§13</a>.</p></div>
+      <div class="tl-item"><div class="yr">Hito 5 · Registro de marca</div><p>Búsqueda de disponibilidad y registro de "Dronetry", en paralelo a los hitos anteriores y sin competir por recursos con ellos.</p></div>
+      <div class="tl-item"><div class="yr">Hito 6 · Primer cliente ancla</div><p>Piloto con CONAF o una forestal, apalancando el Job-to-be-Done de <a href="#s9">§09</a> para el primer caso de uso documentado.</p></div>
+    </div>
+  </section>
+
+  <!-- 17. CONCLUSIONES -->
+  <section id="s17">
+    <div class="sec-head"><span class="sec-num">17 / 316 m</span><h2>Conclusiones y fuentes</h2></div>
+    <p class="sec-intro">El sector de drones cautivos combina un mercado comercial ya consolidado en vigilancia y seguridad pública con un frente de investigación académica todavía activo en modelado, control y materiales (secciones 01 a 07). Sobre esa base, Dronetry parte con una posición inusual para una idea en etapa bibliográfica: un equipo con competencias complementarias ya identificadas, un modelo físico de potencia correctamente planteado, un Job-to-be-Done claro frente a un competidor de referencia (Fotokite), y una vía concreta de validación a través de la Universidad de Concepción. El siguiente paso natural es ejecutar las cuatro semanas del plan de prototipado de <a href="#s12">§12</a> con los materiales recomendados en <a href="#s11">§11</a>, dejando el registro de marca y la migración a fibra de carbono para después de esa validación, tal como el propio equipo ya decidió.</p>
+
+    <h3 style="font-size:1rem; margin-top:36px;">Fuentes consultadas</h3>
+    <ul class="refs">
+      <li>Fortune Business Insights — Tethered Drones Market Report</li>
+      <li>Coherent Market Insights — Tethered Drones Market Size &amp; Share</li>
+      <li>Future Market Insights / ACCESS Newswire (abril 2026)</li>
+      <li>360 Research Reports — Tethered Drones Market Forecast</li>
+      <li>Straits Research — Tethered Drones Market</li>
+      <li>Expert Market Research — Tethered Drone Market</li>
+      <li>Allied Market Research — Tethered Drone Market</li>
+      <li>Elistair — recursos técnicos y notas de prensa (Orion 2, Khronos, Ligh-T/Safe-T)</li>
+      <li>Fotokite — Sigma / Sigma+, especificaciones técnicas</li>
+      <li>Hoverfly Technologies — Sentry, Spectre, NEXUS, HIVE</li>
+      <li>Commercial UAV News — entrevista sobre estaciones Elistair</li>
+      <li>Defense News — reportaje sobre Hoverfly y el Ejército de EE. UU.</li>
+      <li>UAVMODEL — guía G35-M30 Tethered Power Station</li>
+      <li>Drone Nerds Enterprise — soluciones de amarre (Volarious, Blue Vigil)</li>
+      <li>Fattori, F. &amp; Cocuzza, S. (2025). <em>Tethered Drones: A Comprehensive Review of Technologies, Challenges, and Applications</em>. Drones, MDPI.</li>
+      <li>Vicor Power — Tethered UAV Power Design Guide</li>
+      <li>Linden Photonics — Tethers for Aerial Drones</li>
+      <li>Socol, Y. (2026, preprint) — High-altitude tethered cable-powered drones, TechRxiv</li>
+      <li>ResearchGate — Tethered Drone Power Supply System with High-Voltage Intermediate Link</li>
+      <li>arXiv (2025) — Cable Optimization and Drag Estimation for Tether-Powered Multirotor UAVs</li>
+      <li>FAA — 14 CFR Part 107, Sección 44807, propuesta Parte 108</li>
+      <li>Zenatech / Drone U — resúmenes de regulación 2026 (FAA/EASA)</li>
+      <li>Gore — Tethered Drone Cables for Commercial &amp; Defense (datasheet)</li>
+      <li>Cable Harness Assembly — Copper vs Aluminum Wire Comparison</li>
+      <li>Sino-Conn — Drone Fiber Optic Cable Guide</li>
+      <li>Steele Industries / TMG Webbing / OTEX / Knowing Fabric — comparativas Kevlar vs Dyneema (UHMWPE)</li>
+      <li>3D on Demand / FPV Drone Frame / UAVMODEL Insights — materiales de impresión 3D para chasis de drones</li>
+      <li>HereWin Power / KKLIPO / LiFePO4 Battery Blog — comparativas LiPo vs LiFePO4 para drones industriales</li>
+      <li>Universidad Católica del Norte (Lithium I+D+i) / CELIMIN Universidad de Antofagasta / ICCT-CMS — cadena de valor del litio y baterías LFP en Chile</li>
+      <li>Documento de trabajo Fases 1–4 del equipo Dronetry (Job-to-be-Done, posicionamiento de Porter, plan de prototipado, modelo físico HVDC, arquitectura cloud/SaaS) — aportado por el equipo y aplicado en §08–§16</li>
+    </ul>
+
+    <footer>
+      Informe elaborado a partir de fuentes públicas disponibles hasta julio de 2026, más el material de trabajo aportado por el equipo Dronetry. Las cifras de mercado varían significativamente entre consultoras; las cifras de materiales son referenciales y requieren validación propia en el banco de pruebas de la Semana 2. Se recomienda contrastar con las fuentes originales antes de tomar decisiones de inversión o de ingeniería definitivas.
+    </footer>
+  </section>
+
+</div>
+
+<button class="top-btn" id="topBtn" aria-label="Volver arriba">↑</button>
+
+<script>
+  // Build rail ticks aligned with sections
+  const sections = [
+    {id:'s0', label:'PORTADA'},
+    {id:'s1', label:'EL MERCADO'},
+    {id:'s2', label:'COMPETIDORES'},
+    {id:'s3', label:'ARQUITECTURA'},
+    {id:'s4', label:'ESTADO DEL ARTE'},
+    {id:'s5', label:'REGULACIÓN'},
+    {id:'s6', label:'TENDENCIAS'},
+    {id:'s7', label:'DESAFÍOS'},
+    {id:'s8', label:'EQUIPO Y ETAPA'},
+    {id:'s9', label:'JTBD Y PORTER'},
+    {id:'s10', label:'FÍSICA HVDC'},
+    {id:'s11', label:'MATERIALES'},
+    {id:'s12', label:'PROTOTIPADO'},
+    {id:'s13', label:'CLOUD Y SAAS'},
+    {id:'s14', label:'MATRIZ DE JOLLY'},
+    {id:'s15', label:'PI Y MARCA'},
+    {id:'s16', label:'MARKET FIT / GTM'},
+    {id:'s17', label:'CONCLUSIONES'}
+  ];
+  const cable = document.getElementById('railCable');
+  const ticks = [];
+  sections.forEach((s, i) => {
+    const t = document.createElement('div');
+    t.className = 'tick';
+    t.style.top = (i/(sections.length-1)*100) + '%';
+    t.tabIndex = 0;
+    t.innerHTML = '<span class="label">'+s.label+'</span>';
+    t.addEventListener('click', () => document.getElementById(s.id).scrollIntoView({behavior:'smooth'}));
+    t.addEventListener('keypress', (e) => { if(e.key === 'Enter') document.getElementById(s.id).scrollIntoView({behavior:'smooth'}); });
+    cable.appendChild(t);
+    ticks.push(t);
+  });
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const idx = sections.findIndex(s => s.id === e.target.id);
+        ticks.forEach((t,i) => t.classList.toggle('active', i===idx));
+      }
+    });
+  }, {threshold:0.3, rootMargin:'-10% 0px -60% 0px'});
+  sections.forEach(s => obs.observe(document.getElementById(s.id)));
+
+  const topBtn = document.getElementById('topBtn');
+  window.addEventListener('scroll', () => {
+    topBtn.style.display = window.scrollY > 500 ? 'flex' : 'none';
+  });
+  topBtn.style.display = 'none';
+  topBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+</body>
+</html>
