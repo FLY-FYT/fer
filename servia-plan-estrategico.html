@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SERVIA · Plan Estratégico Completo</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-base:#080D1B; --bg-surface:#0F1729; --bg-card:#141E33;
+  --bg-elevated:#1A2840; --bg-hover:#1E3050;
+  --teal:#00C896; --teal-dim:rgba(0,200,150,.12); --teal-glow:rgba(0,200,150,.25);
+  --orange:#FF6B35; --orange-dim:rgba(255,107,53,.12);
+  --blue:#3B82F6; --blue-dim:rgba(59,130,246,.12);
+  --purple:#8B5CF6; --purple-dim:rgba(139,92,246,.12);
+  --yellow:#F59E0B; --yellow-dim:rgba(245,158,11,.12);
+  --text-primary:#F0F4FF; --text-secondary:#94A3B8; --text-muted:#4A5568;
+  --border:#1E3A5F; --border-active:#00C896;
+  --r:10px; --r-sm:6px; --r-lg:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg-base);color:var(--text-primary);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;display:flex;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:240px;min-height:100vh;background:var(--bg-surface);border-right:1px solid var(--border);position:fixed;top:0;left:0;display:flex;flex-direction:column;z-index:100;overflow-y:auto}
+.sb-logo{padding:24px 20px 16px;border-bottom:1px solid var(--border)}
+.sb-logo h1{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--teal);letter-spacing:-0.5px}
+.sb-logo p{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.sb-nav{padding:12px 0;flex:1}
+.sb-nav a{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;color:var(--text-secondary);text-decoration:none;transition:.2s;cursor:pointer;border-left:3px solid transparent}
+.sb-nav a:hover{color:var(--text-primary);background:var(--bg-card)}
+.sb-nav a.active{color:var(--teal);background:var(--teal-dim);border-left-color:var(--teal);font-weight:600}
+.sb-nav a .icon{font-size:16px;width:20px;text-align:center}
+.sb-footer{padding:16px 20px;border-top:1px solid var(--border)}
+.sb-footer p{font-size:11px;color:var(--text-muted)}
+.sb-footer strong{color:var(--text-secondary)}
+
+/* MAIN */
+#main{margin-left:240px;flex:1;min-width:0}
+.section{display:none;padding:36px 40px;min-height:100vh;animation:fadeIn .3s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{position:relative;background:linear-gradient(135deg,var(--bg-surface) 0%,var(--bg-card) 100%);border-radius:var(--r-lg);padding:48px 48px 40px;margin-bottom:32px;overflow:hidden;border:1px solid var(--border)}
+.hero-pulse{position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,var(--teal-dim) 0%,transparent 70%);animation:pulse-ring 3s ease-in-out infinite}
+.hero-pulse2{position:absolute;top:-30px;right:-30px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,150,.08) 0%,transparent 70%);animation:pulse-ring 3s ease-in-out infinite .8s}
+.hero-dot{position:absolute;top:80px;right:80px;width:12px;height:12px;border-radius:50%;background:var(--teal);box-shadow:0 0 20px var(--teal-glow);animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-ring{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.15);opacity:.4}}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 8px var(--teal-glow)}50%{box-shadow:0 0 24px var(--teal-glow),0 0 40px var(--teal-glow)}}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--teal-dim);border:1px solid rgba(0,200,150,.3);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+.hero h2{font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:700;line-height:1.1;letter-spacing:-1px;margin-bottom:12px}
+.hero h2 span{color:var(--teal)}
+.hero p{color:var(--text-secondary);font-size:16px;max-width:580px;margin-bottom:24px}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap}
+.hero-stat{text-align:left}
+.hero-stat .val{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--teal)}
+.hero-stat .lbl{font-size:12px;color:var(--text-muted);margin-top:2px}
+
+/* TYPOGRAPHY */
+.sec-header{margin-bottom:28px}
+.sec-header h2{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
+.sec-header p{color:var(--text-secondary);font-size:14px}
+.eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--teal);margin-bottom:8px}
+
+/* CARDS */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:24px;transition:.2s}
+.card:hover{border-color:#2A4470;background:var(--bg-elevated)}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.card-icon{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.card-icon.teal{background:var(--teal-dim)}
+.card-icon.orange{background:var(--orange-dim)}
+.card-icon.blue{background:var(--blue-dim)}
+.card-icon.purple{background:var(--purple-dim)}
+.card-icon.yellow{background:var(--yellow-dim)}
+.card h3{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;letter-spacing:-.2px}
+.card p{color:var(--text-secondary);font-size:13.5px;line-height:1.65}
+.card ul{list-style:none;padding:0}
+.card ul li{color:var(--text-secondary);font-size:13.5px;padding:5px 0;border-bottom:1px solid rgba(30,58,95,.5);display:flex;align-items:flex-start;gap:8px}
+.card ul li:last-child{border-bottom:none}
+.card ul li::before{content:'›';color:var(--teal);font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* GRIDS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.col-span-2{grid-column:span 2}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge.teal{background:var(--teal-dim);color:var(--teal);border:1px solid rgba(0,200,150,.25)}
+.badge.orange{background:var(--orange-dim);color:var(--orange);border:1px solid rgba(255,107,53,.25)}
+.badge.blue{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.25)}
+.badge.purple{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(139,92,246,.25)}
+.badge.yellow{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(245,158,11,.25)}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--bg-elevated)}
+th{padding:12px 16px;text-align:left;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);border-bottom:1px solid var(--border)}
+td{padding:12px 16px;font-size:13.5px;color:var(--text-secondary);border-bottom:1px solid rgba(30,58,95,.5)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg-elevated);color:var(--text-primary)}
+td strong{color:var(--text-primary)}
+
+/* CODE BLOCKS */
+.code-block{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:8px}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:var(--bg-elevated);border-bottom:1px solid var(--border)}
+.code-header span{font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text-muted)}
+.code-header .dot-row{display:flex;gap:5px}
+.code-header .dot{width:10px;height:10px;border-radius:50%}
+.code-header .dot.r{background:#FF5F57}.code-header .dot.y{background:#FEBC2E}.code-header .dot.g{background:#28C840}
+pre{padding:16px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;color:#A8D8B9}
+.kw{color:var(--teal)}.cm{color:#4A5568}.str{color:#FCA5A5}.fn{color:var(--blue)}.num{color:var(--orange)}
+.pkg-tag{display:inline-flex;align-items:center;gap:4px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:4px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#A8D8B9;margin:3px}
+
+/* DIVIDERS */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:28px 0}
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-muted);padding:16px 0 8px;border-bottom:1px solid var(--border);margin-bottom:16px}
+
+/* FODA */
+.foda-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:var(--r);overflow:hidden}
+.foda-cell{padding:20px;position:relative}
+.foda-cell.f{background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.2)}
+.foda-cell.o{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2)}
+.foda-cell.d{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)}
+.foda-cell.a{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2)}
+.foda-cell h3{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px}
+.foda-cell.f h3{color:var(--teal)} .foda-cell.o h3{color:var(--blue)}
+.foda-cell.d h3{color:var(--yellow)} .foda-cell.a h3{color:#EF4444}
+.foda-cell ul{list-style:none}
+.foda-cell ul li{font-size:13px;color:var(--text-secondary);padding:4px 0;display:flex;align-items:flex-start;gap:6px}
+.foda-cell.f li::before{content:'✓';color:var(--teal)} .foda-cell.o li::before{content:'+';color:var(--blue)}
+.foda-cell.d li::before{content:'!';color:var(--yellow)} .foda-cell.a li::before{content:'×';color:#EF4444}
+
+/* ROADMAP */
+.roadmap-h{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.rh-card{border-radius:var(--r);padding:20px;border:1px solid var(--border)}
+.rh-card.h1{background:linear-gradient(135deg,rgba(0,200,150,.06),rgba(0,200,150,.02));border-color:rgba(0,200,150,.3)}
+.rh-card.h2{background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(59,130,246,.02));border-color:rgba(59,130,246,.3)}
+.rh-card.h3{background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(139,92,246,.02));border-color:rgba(139,92,246,.3)}
+.rh-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px}
+.rh-card.h1 .rh-title{color:var(--teal)} .rh-card.h2 .rh-title{color:var(--blue)} .rh-card.h3 .rh-title{color:var(--purple)}
+.rh-period{font-size:11px;color:var(--text-muted);margin-bottom:14px;font-weight:500}
+.rh-item{font-size:13px;color:var(--text-secondary);padding:5px 0;border-bottom:1px solid rgba(30,58,95,.4);display:flex;gap:8px}
+.rh-item:last-child{border:none}
+.rh-item .tag{font-size:10px;font-weight:700;text-transform:uppercase;padding:1px 6px;border-radius:3px;flex-shrink:0;margin-top:3px}
+.tag.est{background:rgba(0,200,150,.15);color:var(--teal)}
+.tag.tec{background:rgba(59,130,246,.15);color:var(--blue)}
+.tag.per{background:rgba(139,92,246,.15);color:var(--purple)}
+
+/* RISK MATRIX */
+.risk-row{display:flex;align-items:flex-start;gap:12px;padding:14px;border-radius:var(--r-sm);background:var(--bg-card);border:1px solid var(--border);margin-bottom:10px}
+.risk-level{width:48px;height:48px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;text-align:center;line-height:1.2}
+.risk-level.high{background:rgba(239,68,68,.15);color:#EF4444;border:1px solid rgba(239,68,68,.3)}
+.risk-level.med{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(245,158,11,.3)}
+.risk-level.low{background:var(--teal-dim);color:var(--teal);border:1px solid rgba(0,200,150,.3)}
+.risk-content h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.risk-content p{font-size:13px;color:var(--text-secondary)}
+
+/* KPI CARDS */
+.kpi-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px}
+.kpi-card .kpi-val{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700}
+.kpi-card .kpi-lbl{font-size:12px;color:var(--text-muted);margin-top:4px}
+.kpi-card .kpi-target{font-size:12px;color:var(--text-secondary);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.kpi-card.teal .kpi-val{color:var(--teal)} .kpi-card.orange .kpi-val{color:var(--orange)}
+.kpi-card.blue .kpi-val{color:var(--blue)} .kpi-card.purple .kpi-val{color:var(--purple)}
+
+/* MILESTONES */
+.milestone-list{position:relative;padding-left:28px}
+.milestone-list::before{content:'';position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--teal),var(--blue),var(--purple))}
+.milestone{position:relative;padding:12px 0 12px 20px;border-bottom:1px solid rgba(30,58,95,.5)}
+.milestone:last-child{border:none}
+.milestone::before{content:'';position:absolute;left:-18px;top:18px;width:10px;height:10px;border-radius:50%;background:var(--bg-base);border:2px solid var(--teal)}
+.milestone.m2::before{border-color:var(--blue)} .milestone.m3::before{border-color:var(--purple)}
+.milestone-time{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.6px}
+.milestone.m2 .milestone-time{color:var(--blue)} .milestone.m3 .milestone-time{color:var(--purple)}
+.milestone h4{font-size:14px;font-weight:600;margin:2px 0}
+.milestone p{font-size:13px;color:var(--text-secondary)}
+
+/* COMPETITOR */
+.comp-bar{height:6px;border-radius:3px;background:var(--bg-elevated);margin-top:6px;overflow:hidden}
+.comp-bar-fill{height:100%;border-radius:3px;transition:.5s}
+
+/* PESTEL */
+.pestel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.pestel-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.pestel-item .pestel-letter{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;line-height:1;margin-bottom:4px}
+.pestel-item h4{font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text-secondary)}
+.pestel-item p{font-size:12.5px;color:var(--text-muted);line-height:1.6}
+.pestel-item .impact{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
+.pestel-item .imp-pos{background:var(--teal-dim);color:var(--teal)} .pestel-item .imp-neg{background:rgba(239,68,68,.1);color:#EF4444} .pestel-item .imp-neu{background:var(--yellow-dim);color:var(--yellow)}
+
+/* CANVAS */
+.canvas-grid{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:2px;margin-top:8px}
+.canvas-cell{background:var(--bg-card);border:1px solid var(--border);padding:16px;border-radius:var(--r-sm)}
+.canvas-cell h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:10px}
+.canvas-cell ul{list-style:none}
+.canvas-cell ul li{font-size:12.5px;color:var(--text-secondary);padding:3px 0}
+
+/* PORTER */
+.porter-row{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-sm);margin-bottom:8px}
+.porter-score{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;width:48px;text-align:center;flex-shrink:0}
+.porter-bar-wrap{flex:1}
+.porter-label{font-size:13px;font-weight:600;margin-bottom:4px}
+.porter-bar{height:5px;background:var(--bg-elevated);border-radius:3px;overflow:hidden}
+.porter-bar-fill{height:100%;border-radius:3px}
+
+/* PRICE TIERS */
+.price-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.price-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;text-align:center;position:relative}
+.price-card.featured{border-color:var(--teal);background:linear-gradient(135deg,rgba(0,200,150,.06),var(--bg-card))}
+.price-card.featured .feat-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--teal);color:#000;font-size:11px;font-weight:700;padding:2px 12px;border-radius:20px;white-space:nowrap}
+.price-card h3{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin-bottom:4px}
+.price-card .price{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;color:var(--teal);margin:12px 0}
+.price-card .price span{font-size:13px;color:var(--text-muted);font-family:'Inter',sans-serif;font-weight:400}
+.price-card ul{list-style:none;text-align:left;margin-top:16px}
+.price-card ul li{font-size:13px;color:var(--text-secondary);padding:5px 0;display:flex;align-items:flex-start;gap:8px}
+.price-card ul li::before{content:'✓';color:var(--teal);font-weight:700;flex-shrink:0}
+
+/* FLOW */
+.journey-step{display:flex;align-items:flex-start;gap:16px;padding:16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;position:relative}
+.journey-step::after{content:'↓';position:absolute;bottom:-16px;left:28px;color:var(--text-muted);font-size:14px}
+.journey-step:last-child::after{display:none}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--teal-dim);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--teal);flex-shrink:0}
+.step-content h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.step-content p{font-size:13px;color:var(--text-secondary)}
+
+/* IP */
+.ip-card{display:flex;align-items:flex-start;gap:14px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px}
+.ip-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.ip-content h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.ip-content p{font-size:13px;color:var(--text-secondary)}
+.ip-content .ip-meta{font-size:11px;color:var(--teal);font-weight:600;margin-top:6px}
+
+/* NLP ARCH */
+.arch-node{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;text-align:center;font-size:12.5px;font-weight:600}
+.arch-arrow{text-align:center;color:var(--teal);font-size:18px;padding:4px 0}
+
+/* FINANCIAL */
+.fin-row{display:grid;grid-template-columns:120px 1fr 120px;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(30,58,95,.4)}
+.fin-row:last-child{border:none;padding-top:14px}
+.fin-row .fin-label{font-size:13px;color:var(--text-secondary)} .fin-row .fin-bar-wrap{flex:1}
+.fin-bar{height:8px;background:var(--bg-elevated);border-radius:4px;overflow:hidden}
+.fin-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--blue))}
+.fin-row .fin-val{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--text-primary);text-align:right}
+
+/* PARTNER */
+.partner-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.partner-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;align-items:flex-start;gap:12px}
+.partner-logo{width:40px;height:40px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--bg-elevated);flex-shrink:0}
+.partner-info h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.partner-info p{font-size:12px;color:var(--text-muted)}
+.partner-info .partner-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--teal)}
+
+/* KEYWORDS */
+.kw-cloud{display:flex;flex-wrap:wrap;gap:8px;padding:16px}
+.kw-tag{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500}
+.kw-primary{background:var(--teal-dim);color:var(--teal);border:1px solid rgba(0,200,150,.3);font-weight:700}
+.kw-secondary{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.3)}
+.kw-longtail{background:var(--bg-elevated);color:var(--text-secondary);border:1px solid var(--border)}
+
+/* CANVAS 2 */
+.canvas-2{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:auto auto;gap:2px}
+.c2-cell{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:14px}
+.c2-cell.c-rev{background:linear-gradient(135deg,rgba(0,200,150,.05),var(--bg-card));border-color:rgba(0,200,150,.3)}
+.c2-cell.c-cost{background:linear-gradient(135deg,rgba(255,107,53,.05),var(--bg-card));border-color:rgba(255,107,53,.3)}
+.c2-cell .c2-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:8px}
+.c2-cell ul{list-style:none}
+.c2-cell ul li{font-size:12px;color:var(--text-secondary);padding:3px 0}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  #sidebar{width:56px;overflow:hidden}
+  #sidebar .sb-logo p,.sb-nav a span,.sb-footer p{display:none}
+  .sb-logo h1{font-size:14px} .sb-nav a{justify-content:center;padding:14px}
+  .sb-nav a .icon{width:auto}
+  #main{margin-left:56px}
+  .section{padding:24px 20px}
+  .grid-2,.grid-3,.grid-4,.roadmap-h,.pestel-grid,.price-grid{grid-template-columns:1fr}
+  .foda-grid,.canvas-grid,.canvas-2{grid-template-columns:1fr}
+  .col-span-2{grid-column:span 1}
+  .hero{padding:28px 24px}
+  .hero h2{font-size:26px}
+  .hero-stats{gap:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sb-logo">
+    <h1>SERVIA</h1>
+    <p>Plan Estratégico</p>
+  </div>
+  <nav class="sb-nav">
+    <a onclick="showSection('vision')" id="nav-vision" class="active"><span class="icon">🏠</span><span>Visión General</span></a>
+    <a onclick="showSection('estrategia')" id="nav-estrategia"><span class="icon">⚡</span><span>Propuesta de Valor</span></a>
+    <a onclick="showSection('mercado')" id="nav-mercado"><span class="icon">📊</span><span>Análisis de Mercado</span></a>
+    <a onclick="showSection('negocio')" id="nav-negocio"><span class="icon">🧩</span><span>Modelo de Negocio</span></a>
+    <a onclick="showSection('tecnologia')" id="nav-tecnologia"><span class="icon">🤖</span><span>Tecnología & IA</span></a>
+    <a onclick="showSection('roadmap')" id="nav-roadmap"><span class="icon">🗺️</span><span>Roadmap & Hitos</span></a>
+    <a onclick="showSection('riesgos')" id="nav-riesgos"><span class="icon">🛡️</span><span>Riesgos, PI & Alianzas</span></a>
+    <a onclick="showSection('kpis')" id="nav-kpis"><span class="icon">📈</span><span>KPIs, FODA & Métricas</span></a>
+  </nav>
+  <div class="sb-footer">
+    <p>Equipo: <strong>Fer · Nano · Julio · Rene</strong></p>
+    <p style="margin-top:4px">MGET UAI · 2025</p>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main id="main">
+
+<!-- ============================== SECCIÓN 1: VISIÓN GENERAL ============================== -->
+<section id="vision" class="section active">
+  <div class="hero">
+    <div class="hero-pulse"></div><div class="hero-pulse2"></div><div class="hero-dot"></div>
+    <div class="hero-badge">🔥 Urgencia · Confianza · IA 24/7</div>
+    <h2>Conectando urgencias<br>con <span>soluciones certificadas</span></h2>
+    <p>Marketplace de servicios clasificados de alta confianza con validación preventiva de proveedores y asistencia virtual humanizada 24/7 mediante NLP y análisis de sentimiento.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="val">$2.3B</div><div class="lbl">USD · TAM Chile servicios</div></div>
+      <div class="hero-stat"><div class="val">88%</div><div class="lbl">Penetración internet Chile</div></div>
+      <div class="hero-stat"><div class="val">2.8M</div><div class="lbl">Proveedores informales</div></div>
+      <div class="hero-stat"><div class="val">&lt;2min</div><div class="lbl">Meta tiempo respuesta bot</div></div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="eyebrow">Misión</div>
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:17px;margin-bottom:10px">Apoyo en la vinculación de confianza</h3>
+      <p>Apoyar la vinculación del que quiere un servicio con el que lo ofrece, en un entorno de confianza certificada, evaluando alianzas con ChileValora para brindar mayor conexión laboral formal e informal.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Visión</div>
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:17px;margin-bottom:10px">Abrir oportunidades tecnológicas</h3>
+      <p>Ser la plataforma líder de servicios certificados urgentes en Chile y Latinoamérica, abriendo oportunidades tecnológicas a servicios aún no calificados y aumentando las oportunidades laborales inclusivas.</p>
+    </div>
+  </div>
+
+  <div class="section-label">JOB-TO-BE-DONE (JTBD) — ¿Qué problema resuelve SERVIA?</div>
+  <div class="grid-3" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><div class="card-icon teal">⚙️</div><h3>Job Funcional</h3></div>
+      <p>"Necesito resolver un problema práctico urgente de forma inmediata, segura y certificada, optimizando mi tiempo de búsqueda ante una emergencia doméstica o profesional."</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon orange">❤️</div><h3>Job Emocional</h3></div>
+      <p>Sentir tranquilidad, alivio y certidumbre de que el proveedor tiene las capacidades reales y éticas para ingresar a mi espacio privado. Eliminar la ansiedad de la urgencia.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon blue">🌐</div><h3>Job Social</h3></div>
+      <p>Proyectarse ante su entorno como un tomador de decisiones eficiente y resolutivo en el hogar o negocio. Compartir reseñas como señal de pertenencia a una comunidad.</p>
+    </div>
+  </div>
+
+  <div class="section-label">EQUIPO FUNDADOR</div>
+  <div class="grid-4">
+    <div class="card" style="text-align:center;padding:20px">
+      <div style="width:50px;height:50px;background:var(--teal-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px">👩</div>
+      <h3>Fer</h3><p style="font-size:12px;color:var(--teal);margin-top:4px">Estrategia & Producto</p>
+    </div>
+    <div class="card" style="text-align:center;padding:20px">
+      <div style="width:50px;height:50px;background:var(--orange-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px">👨</div>
+      <h3>Nano</h3><p style="font-size:12px;color:var(--orange);margin-top:4px">UX & Operaciones</p>
+    </div>
+    <div class="card" style="text-align:center;padding:20px">
+      <div style="width:50px;height:50px;background:var(--blue-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px">👨</div>
+      <h3>Julio</h3><p style="font-size:12px;color:var(--blue);margin-top:4px">Negocio & Finanzas</p>
+    </div>
+    <div class="card" style="text-align:center;padding:20px">
+      <div style="width:50px;height:50px;background:var(--purple-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px">👨‍💻</div>
+      <h3>Rene</h3><p style="font-size:12px;color:var(--purple);margin-top:4px">IA / NLP / CTO</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SECCIÓN 2: PROPUESTA DE VALOR ============================== -->
+<section id="estrategia" class="section">
+  <div class="sec-header"><h2>Propuesta de Valor & Estrategia Competitiva</h2><p>Diferenciación radical basada en confianza certificada + velocidad IA</p></div>
+
+  <div class="card col-span-2" style="margin-bottom:16px;background:linear-gradient(135deg,rgba(0,200,150,.07),var(--bg-card))">
+    <div class="eyebrow">Propuesta de Valor Oficial</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:12px">
+      <div><p style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:4px">Dirigido a</p><p>Personas naturales, emprendedores y pequeñas empresas</p></div>
+      <div><p style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:4px">Necesidad de</p><p>Resolver urgencias prácticas cotidianas de forma inmediata, segura y con calidad garantizada</p></div>
+      <div><p style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:4px">Adquiriendo</p><p>Marketplace centralizado de anuncios clasificados y calificados <span class="badge teal">Nano</span></p></div>
+      <div><p style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:4px">A diferencia de</p><p>Redes sociales dispersas y directorios informales sin certificación ni IA</p></div>
+    </div>
+  </div>
+
+  <div class="section-label">¿Qué innovación genera SERVIA? — Activo Estratégico</div>
+  <div class="grid-2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><div class="card-icon teal">💡</div><h3>La Innovación Central</h3></div>
+      <ul>
+        <li><strong>Tiempo ahorrado:</strong> El recurso más valioso entregado al cliente y al proveedor</li>
+        <li><strong>Servicio centralizado:</strong> De lo más básico a lo más complejo en un solo lugar</li>
+        <li><strong>Validación preventiva:</strong> Único marketplace con certificación obligatoria de antecedentes</li>
+        <li><strong>IA humanizada 24/7:</strong> Bots conversacionales que hablan como personas (NLP)</li>
+        <li><strong>Co-creación continua:</strong> La plataforma evoluciona con la experiencia real del usuario</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon orange">🏆</div><h3>Ventaja Competitiva</h3></div>
+      <ul>
+        <li><strong>Confianza certificada:</strong> 100% proveedores con documentación verificada (barrera de entrada)</li>
+        <li><strong>Velocidad:</strong> Respuesta <2 minutos vía bot NLP humanizado</li>
+        <li><strong>Gobernanza algorítmica:</strong> Sistema de barrido automático (Regla 2 estrellas)</li>
+        <li><strong>Network effects:</strong> Más datos → mejor IA → mejor experiencia → más usuarios</li>
+        <li><strong>Switching costs:</strong> Reviews históricas y bot entrenado para cada proveedor</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">PLAYING TO WIN — Marco Estratégico (Roger Martin)</div>
+  <div class="grid-2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="eyebrow">Aspiración</div>
+      <p>Ser el marketplace líder de servicios certificados urgentes en Chile al año 3, con expansión a Colombia, Perú y México al año 5.</p>
+      <div class="divider"></div>
+      <div class="eyebrow">Dónde Jugar · Geografía</div>
+      <ul>
+        <li>Inicio: Gran Santiago (6M habitantes, alta concentración urgencias)</li>
+        <li>H2: Regiones V (Valparaíso) y VIII (Biobío)</li>
+        <li>H3: Todo Chile + primera expansión LATAM</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Cómo Ganar · Estrategia Competitiva</div>
+      <ul>
+        <li><strong>Porter: Diferenciación</strong> — No competimos en precio sino en confianza certificada + velocidad IA</li>
+        <li><strong>Blue Ocean:</strong> Espacio sin rival directo (certificación + IA + urgencia)</li>
+        <li><strong>Freemium a suscripción:</strong> 30 días gratis → conversión a membresía mensual</li>
+        <li><strong>Modelo de plataforma:</strong> Network effects de dos lados (clientes ↔ proveedores)</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="eyebrow">Know-How Propietario</div>
+      <ul>
+        <li>Algoritmo de gobernanza de calidad (Regla 2 estrellas)</li>
+        <li>Fine-tuning NLP en español chileno coloquial</li>
+        <li>Motor de análisis de sentimiento en tiempo real</li>
+        <li>Pipeline de validación documental automatizada</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">REGLA 70/20/10 DE McKINSEY — Inversión Tecnológica</div>
+  <div class="grid-3">
+    <div class="card" style="border-left:3px solid var(--teal)">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;color:var(--teal)">70%</div>
+      <h3>Personas & Procesos</h3>
+      <p>Cambio cultural y formación de proveedores para adoptar la plataforma. Entender métricas de estrellas y confiar en la atención delegada de sus bots.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--blue)">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;color:var(--blue)">20%</div>
+      <h3>Tecnología & Cloud</h3>
+      <p>Arquitectura modular en la nube (AWS/GCP) para base de datos de credenciales, API gateway de anuncios y persistencia de reseñas.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--purple)">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;color:var(--purple)">10%</div>
+      <h3>Modelos & Algoritmos</h3>
+      <p>Fine-tuning de SLMs y frameworks NLP para el procesamiento de chat. Motor heurístico de análisis de sentimiento y recomendación predictiva.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SECCIÓN 3: MERCADO ============================== -->
+<section id="mercado" class="section">
+  <div class="sec-header"><h2>Análisis de Mercado</h2><p>Chile: mercado fragmantado de servicios urgentes sin certificación ni IA, listo para disrupción</p></div>
+
+  <div class="section-label">TAM / SAM / SOM — Tamaño del Mercado Chile</div>
+  <div class="grid-3" style="margin-bottom:20px">
+    <div class="card" style="text-align:center">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:var(--teal)">$2.3B</div>
+      <div style="font-size:12px;color:var(--text-muted);margin:4px 0 12px">USD / año</div>
+      <h3>TAM</h3><p style="font-size:13px">Mercado total de servicios domésticos y profesionales en Chile (gasfíteres, electricistas, cerrajeros, limpieza, etc.)</p>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:var(--blue)">$320M</div>
+      <div style="font-size:12px;color:var(--text-muted);margin:4px 0 12px">USD / año</div>
+      <h3>SAM</h3><p style="font-size:13px">Segmento digitalizable de urgencias en zonas urbanas (usuarios con smartphone y disposición a contratar online)</p>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:var(--orange)">$3.2M</div>
+      <div style="font-size:12px;color:var(--text-muted);margin:4px 0 12px">USD / año</div>
+      <h3>SOM Año 1</h3><p style="font-size:13px">1% del SAM capturables en el primer año operando en Santiago con 2.000 proveedores activos</p>
+    </div>
+  </div>
+
+  <div class="section-label">SEGMENTOS DE CLIENTE · Necesidades y Precio Relativo</div>
+  <div class="table-wrap" style="margin-bottom:20px">
+    <table>
+      <thead><tr><th>Segmento</th><th>Necesidad Principal</th><th>Precio Relativo</th><th>Canal</th><th>Tamaño</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Persona Natural Urbana</strong></td><td>Urgencia doméstica resuelta hoy, sin riesgo de seguridad</td><td>Sensible al precio, paga por confianza</td><td>App móvil, Web</td><td>⭐⭐⭐⭐⭐</td></tr>
+        <tr><td><strong>Emprendedor / PYME</strong></td><td>Mantención rápida que no detenga operaciones</td><td>Dispuesto a pagar premium por velocidad</td><td>Web, B2B directo</td><td>⭐⭐⭐⭐</td></tr>
+        <tr><td><strong>Propietario inmobiliario</strong></td><td>Pool confiable de proveedores recurrentes</td><td>Paga por calidad y permanencia</td><td>Web, API corporativa</td><td>⭐⭐⭐</td></tr>
+        <tr><td><strong>Proveedor de servicios (B2S)</strong></td><td>Más clientes, atención 24/7 sin perder trabajo</td><td>Suscripción mensual accesible</td><td>Web, Onboarding</td><td>⭐⭐⭐⭐⭐</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-label">ANÁLISIS COMPETITIVO — ¿Cuál es el nicho sin competencia?</div>
+  <div class="table-wrap" style="margin-bottom:20px">
+    <table>
+      <thead><tr><th>Plataforma</th><th>Tráfico Mensual</th><th>Certificación</th><th>IA 24/7</th><th>Urgencias</th><th>Diferenciador SERVIA</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Yapo.cl</strong></td><td>4.7M visitas</td><td><span style="color:#ef4444">✗ No</span></td><td><span style="color:#ef4444">✗ No</span></td><td><span style="color:#ef4444">✗ No</span></td><td>Validación obligatoria + bot NLP</td></tr>
+        <tr><td><strong>MercadoLibre Svs.</strong></td><td>12M visitas</td><td><span style="color:#ef4444">✗ No</span></td><td><span style="color:#ef4444">✗ No</span></td><td><span style="color:#f59e0b">⚡ Parcial</span></td><td>Certificación + gobernanza algorítmica</td></tr>
+        <tr><td><strong>Zolvers</strong></td><td>320K visitas</td><td><span style="color:#f59e0b">⚡ Parcial</span></td><td><span style="color:#ef4444">✗ No</span></td><td><span style="color:#ef4444">✗ No</span></td><td>Todos los oficios + sentimiento IA</td></tr>
+        <tr><td><strong>Workana</strong></td><td>2.1M visitas</td><td><span style="color:#f59e0b">⚡ Parcial</span></td><td><span style="color:#ef4444">✗ No</span></td><td><span style="color:#ef4444">✗ No</span></td><td>Urgencias 24/7 + proveedores locales</td></tr>
+        <tr><td><strong>Buscalist</strong></td><td>80K visitas</td><td><span style="color:#ef4444">✗ No</span></td><td><span style="color:#ef4444">✗ No</span></td><td><span style="color:#ef4444">✗ No</span></td><td>IA humanizada + barrido automático calidad</td></tr>
+        <tr><td><strong>SERVIA 🎯</strong></td><td>Meta: 500K M12</td><td><span style="color:var(--teal)">✓ 100%</span></td><td><span style="color:var(--teal)">✓ Sí</span></td><td><span style="color:var(--teal)">✓ Sí</span></td><td><strong>Primer mover en este nicho exacto</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="background:var(--teal-dim);border:1px solid rgba(0,200,150,.25);border-radius:var(--r);padding:14px 18px;margin-bottom:20px">
+    <p style="font-size:13px">🎯 <strong>Nicho de menor competencia:</strong> Servicios de urgencia doméstica certificados con asistencia IA humanizada. Ningún competidor actual combina los tres elementos: <strong>certificación + urgencia + IA 24/7</strong>. Es una propuesta de Blue Ocean real.</p>
+  </div>
+
+  <div class="section-label">ANÁLISIS PESTEL</div>
+  <div class="pestel-grid" style="margin-bottom:20px">
+    <div class="pestel-item">
+      <div class="pestel-letter" style="color:var(--teal)">P</div>
+      <h4>Político</h4>
+      <p>Ley 21.327 Modernización Laboral. Regulación de plataformas tipo riders (Ley Uber). ChileValora como actor estatal aliado. Programa Digital del Gobierno.</p>
+      <div class="impact imp-pos">▲ Favorable</div>
+    </div>
+    <div class="pestel-item">
+      <div class="pestel-letter" style="color:var(--blue)">E</div>
+      <h4>Económico</h4>
+      <p>Desempleo Chile Q1 2024: 8.7%. 2.8M trabajadores informales potenciales proveedores. Crecimiento economía gig +35% anual. PIB servicios crece 4.2% anual.</p>
+      <div class="impact imp-pos">▲ Oportunidad</div>
+    </div>
+    <div class="pestel-item">
+      <div class="pestel-letter" style="color:var(--purple)">S</div>
+      <h4>Social</h4>
+      <p>Alta desconfianza en plataformas informales post-estallido social. Crecimiento consciencia sobre seguridad doméstica. Demanda de trabajo flexible.</p>
+      <div class="impact imp-pos">▲ Alta demanda</div>
+    </div>
+    <div class="pestel-item">
+      <div class="pestel-letter" style="color:var(--orange)">T</div>
+      <h4>Tecnológico</h4>
+      <p>Internet penetración 88%. Smartphones: 79.2%. 5G en expansión. E-commerce crecimiento +22% 2023. LLMs baratos y accesibles para startups.</p>
+      <div class="impact imp-pos">▲ Habilitador</div>
+    </div>
+    <div class="pestel-item">
+      <div class="pestel-letter" style="color:var(--teal)">A</div>
+      <h4>Ambiental</h4>
+      <p>Servicios locales reducen huella de carbono vs. grandes corporaciones. Tendencia hacia economía circular y consumo responsable local.</p>
+      <div class="impact imp-pos">▲ Positivo</div>
+    </div>
+    <div class="pestel-item">
+      <div class="pestel-letter" style="color:#EF4444">L</div>
+      <h4>Legal</h4>
+      <p>Ley 19.628 de Datos Personales (y nueva Ley 21.719). Regulación de trabajadores de plataforma en proceso. Responsabilidad civil de marketplaces.</p>
+      <div class="impact imp-neg">▽ Vigilar</div>
+    </div>
+  </div>
+
+  <div class="section-label">LAS 5 FUERZAS DE PORTER — ¿Qué tan fácil entran sustitutos?</div>
+  <div style="max-width:600px">
+    <div class="porter-row"><div class="porter-score" style="color:#f59e0b">3/5</div><div class="porter-bar-wrap"><div class="porter-label">Rivalidad entre competidores</div><div class="porter-bar"><div class="porter-bar-fill" style="width:60%;background:var(--yellow)"></div></div></div><span class="badge yellow">Media-Alta</span></div>
+    <div class="porter-row"><div class="porter-score" style="color:#f59e0b">2/5</div><div class="porter-bar-wrap"><div class="porter-label">Amenaza de nuevos entrantes</div><div class="porter-bar"><div class="porter-bar-fill" style="width:40%;background:var(--teal)"></div></div></div><span class="badge teal">Media-Baja</span></div>
+    <div class="porter-row"><div class="porter-score" style="color:var(--teal)">1/5</div><div class="porter-bar-wrap"><div class="porter-label">Poder de negociación de proveedores</div><div class="porter-bar"><div class="porter-bar-fill" style="width:20%;background:var(--teal)"></div></div></div><span class="badge teal">Baja (favorable)</span></div>
+    <div class="porter-row"><div class="porter-score" style="color:#f59e0b">3/5</div><div class="porter-bar-wrap"><div class="porter-label">Poder de negociación de compradores</div><div class="porter-bar"><div class="porter-bar-fill" style="width:60%;background:var(--yellow)"></div></div></div><span class="badge yellow">Media</span></div>
+    <div class="porter-row"><div class="porter-score" style="color:#f59e0b">2/5</div><div class="porter-bar-wrap"><div class="porter-label">Amenaza de sustitutos</div><div class="porter-bar"><div class="porter-bar-fill" style="width:40%;background:var(--teal)"></div></div></div><span class="badge teal">Media-Baja</span></div>
+  </div>
+  <div style="background:var(--blue-dim);border:1px solid rgba(59,130,246,.2);border-radius:var(--r);padding:12px 16px;margin-top:12px">
+    <p style="font-size:13px">💡 <strong>Lectura estratégica:</strong> Las barreras de entrada son medias, pero la combinación de certificación + IA humanizada + gobernanza algorítmica crea un moat que Yapo o MercadoLibre tardarían 18-24 meses en replicar. El poder de proveedores es bajo porque son individuales y no organizados.</p>
+  </div>
+</section>
+
+<!-- ============================== SECCIÓN 4: MODELO DE NEGOCIO ============================== -->
+<section id="negocio" class="section">
+  <div class="sec-header"><h2>Modelo de Negocio</h2><p>Suscripción B2B2C con monetización de bots y datos de mercado</p></div>
+
+  <div class="section-label">BUSINESS MODEL CANVAS</div>
+  <div class="canvas-2" style="margin-bottom:20px">
+    <div class="c2-cell"><div class="c2-title">Socios Clave</div><ul><li>• ChileValora</li><li>• AWS/GCP</li><li>• INAPI</li><li>• Registro Civil</li><li>• MercadoPago</li><li>• UAI Innova</li></ul></div>
+    <div class="c2-cell"><div class="c2-title">Actividades Clave</div><ul><li>• Validación documental</li><li>• Desarrollo y mantenimiento IA/NLP</li><li>• Gobernanza algorítmica</li><li>• Onboarding de proveedores</li><li>• Análisis de sentimiento</li></ul></div>
+    <div class="c2-cell" style="background:linear-gradient(135deg,rgba(0,200,150,.08),var(--bg-card));border-color:rgba(0,200,150,.25)"><div class="c2-title" style="color:var(--teal)">Propuesta de Valor</div><ul><li>• Urgencia resuelta en minutos</li><li>• 100% proveedores certificados</li><li>• Bot humanizado 24/7</li><li>• Gobernanza de calidad automática</li><li>• Co-creación con usuarios</li></ul></div>
+    <div class="c2-cell"><div class="c2-title">Relación con Clientes</div><ul><li>• Bot NLP autónomo 24/7</li><li>• Reviews incentivadas</li><li>• Comunidad co-diseño</li><li>• Sorteos entre primeros 100</li></ul></div>
+    <div class="c2-cell"><div class="c2-title">Segmentos</div><ul><li>• Personas naturales urbanas</li><li>• Emprendedores y PYMEs</li><li>• Proveedores individuales</li><li>• Propietarios inmobiliarios</li></ul></div>
+    <div class="c2-cell"><div class="c2-title">Recursos Clave</div><ul><li>• Algoritmo NLP propietario</li><li>• Base de datos certificados</li><li>• Reputación del ecosistema</li><li>• Capital humano (Fer/Nano/Julio/Rene)</li></ul></div>
+    <div class="c2-cell"><div class="c2-title">Canales</div><ul><li>• Web app (Next.js)</li><li>• App móvil (React Native)</li><li>• Google Ads / SEO</li><li>• Redes sociales</li><li>• B2B directo</li></ul></div>
+    <div class="c2-cell c-cost"><div class="c2-title" style="color:var(--orange)">Estructura de Costos</div><ul><li>• Infraestructura cloud (AWS)</li><li>• Desarrollo y mantención</li><li>• CAC (adquisición usuarios)</li><li>• Soporte y auditoría humana</li></ul></div>
+    <div class="c2-cell c-rev col-span-2" style="grid-column:span 3"><div class="c2-title" style="color:var(--teal)">Fuentes de Ingresos</div><ul style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><li>• Suscripción mensual proveedores ($14.990 - $49.990 CLP)</li><li>• Venta de bots NLP a proveedores ($9.990 CLP/mes)</li><li>• Datos de mercado agregados (B2B, H3)</li></ul></div>
+  </div>
+
+  <div class="section-label">PLANES DE SUSCRIPCIÓN</div>
+  <div class="price-grid" style="margin-bottom:20px">
+    <div class="price-card">
+      <h3>Básico</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:4px">Para comenzar</p>
+      <div class="price">$14.990 <span>CLP/mes</span></div>
+      <ul>
+        <li>1 anuncio activo</li>
+        <li>Perfil verificado con badge</li>
+        <li>Sistema de calificaciones</li>
+        <li>Atención de clientes vía plataforma</li>
+        <li style="opacity:.4;text-decoration:line-through">Bot NLP 24/7</li>
+        <li style="opacity:.4;text-decoration:line-through">Posición VIP</li>
+      </ul>
+    </div>
+    <div class="price-card featured">
+      <div class="feat-badge">⭐ Más Elegido</div>
+      <h3>Profesional</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:4px">El equilibrio perfecto</p>
+      <div class="price">$29.990 <span>CLP/mes</span></div>
+      <ul>
+        <li>3 anuncios activos</li>
+        <li>Perfil VIP verificado</li>
+        <li>Bot NLP básico incluido</li>
+        <li>Análisis de sentimiento de reviews</li>
+        <li>Estadísticas de visitas</li>
+        <li style="opacity:.4;text-decoration:line-through">Bot avanzado con emociones</li>
+      </ul>
+    </div>
+    <div class="price-card">
+      <h3>Premium VIP</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:4px">Máxima visibilidad</p>
+      <div class="price">$49.990 <span>CLP/mes</span></div>
+      <ul>
+        <li>Anuncios ilimitados</li>
+        <li>Posición VIP destacada #1</li>
+        <li>Bot NLP avanzado con emoción</li>
+        <li>Análisis de sentimiento en caliente</li>
+        <li>Reportes mensuales de rendimiento</li>
+        <li>Soporte prioritario humano</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">PROYECCIÓN FINANCIERA & CAPTURA DE VALOR</div>
+  <div class="grid-2" style="margin-bottom:20px">
+    <div class="card">
+      <h3 style="margin-bottom:16px">Proyección de Ingresos Mensuales (MRR)</h3>
+      <div class="fin-row"><div class="fin-label">H1 · Mes 3</div><div class="fin-bar-wrap"><div class="fin-bar"><div class="fin-bar-fill" style="width:2%"></div></div></div><div class="fin-val" style="color:var(--text-muted)">$0 CLP</div></div>
+      <div class="fin-row"><div class="fin-label">H2 · Mes 6</div><div class="fin-bar-wrap"><div class="fin-bar"><div class="fin-bar-fill" style="width:15%"></div></div></div><div class="fin-val">$13.5M</div></div>
+      <div class="fin-row"><div class="fin-label">H2 · Mes 9</div><div class="fin-bar-wrap"><div class="fin-bar"><div class="fin-bar-fill" style="width:40%"></div></div></div><div class="fin-val">$30M</div></div>
+      <div class="fin-row"><div class="fin-label">H3 · Mes 12</div><div class="fin-bar-wrap"><div class="fin-bar"><div class="fin-bar-fill" style="width:70%"></div></div></div><div class="fin-val">$65M</div></div>
+      <div class="fin-row"><div class="fin-label">H3 · Mes 18</div><div class="fin-bar-wrap"><div class="fin-bar"><div class="fin-bar-fill" style="width:100%"></div></div></div><div class="fin-val" style="color:var(--teal)">$120M</div></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:16px">Unit Economics</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="text-align:center;padding:12px;background:var(--bg-elevated);border-radius:var(--r-sm)">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--orange)">$8.000</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px">CAC proveedor (CLP)</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:var(--bg-elevated);border-radius:var(--r-sm)">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--teal)">$450K</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px">LTV estimado 18M (CLP)</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:var(--bg-elevated);border-radius:var(--r-sm)">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--blue)">56x</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Ratio LTV/CAC (excelente >3x)</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:var(--bg-elevated);border-radius:var(--r-sm)">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--purple)">Mes 14</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Break-even operacional</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:12px;background:var(--teal-dim);border-radius:var(--r-sm);border:1px solid rgba(0,200,150,.2)">
+        <p style="font-size:12.5px">🎯 <strong>Aspiración de venta año 2:</strong> 2.000 proveedores activos × $35.000 CLP/mes = <strong>$840M CLP/año</strong> (~$840K USD)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">JOURNEY DEL CLIENTE — Flujo de Urgencia</div>
+  <div class="grid-2">
+    <div>
+      <div class="journey-step"><div class="step-num">1</div><div class="step-content"><h4>Descubrimiento de Urgencia</h4><p>Cliente entra a la web con un problema crítico. Filtro rápido por tipo de urgencia, cercanía y reputación.</p></div></div>
+      <div class="journey-step"><div class="step-num">2</div><div class="step-content"><h4>Búsqueda & Clasificación</h4><p>Filtra por estrella, cercanía GPS, precio estimado. Ve el badge de certificación y reviews verificadas.</p></div></div>
+      <div class="journey-step"><div class="step-num">3</div><div class="step-content"><h4>Interacción con Bot NLP</h4><p>El bot responde inmediatamente en lenguaje natural. Coordina precio, tiempo de arribo y confirma la visita.</p></div></div>
+      <div class="journey-step"><div class="step-num">4</div><div class="step-content"><h4>Ejecución del Servicio</h4><p>Proveedor resuelve la urgencia. Cierre de ticket en plataforma con confirmación de ambas partes.</p></div></div>
+      <div class="journey-step"><div class="step-num">5</div><div class="step-content"><h4>Feedback Co-creado</h4><p>Cliente califica. Motor heurístico analiza sentimiento. Sorteo especial entre primeros 100 contratantes.</p></div></div>
+    </div>
+    <div>
+      <div class="card" style="height:100%">
+        <h3 style="margin-bottom:12px">Estrategia de Sostenibilidad Competitiva</h3>
+        <p style="font-size:13px;margin-bottom:12px">¿Por qué SERVIA se mantiene en el mercado?</p>
+        <ul>
+          <li><strong>Network Effects de dos lados:</strong> Más clientes atraen más proveedores y viceversa. El valor crece exponencialmente.</li>
+          <li><strong>Data Moat:</strong> Cada conversación de bot y cada reseña entrena un modelo más preciso que nadie puede replicar sin los datos.</li>
+          <li><strong>Switching costs proveedor:</strong> Reviews históricas, bot entrenado con su negocio, clientes habituales en la plataforma.</li>
+          <li><strong>Desintermediación bloqueada:</strong> El bot 24/7 y la visibilidad premium se ofrecen solo a quienes transaccionan dentro de la plataforma.</li>
+          <li><strong>Gobernanza de calidad:</strong> La Regla 2 Estrellas genera una reputación de ecosistema de calidad que los informales no pueden igualar.</li>
+          <li><strong>Comunidad co-creadora:</strong> Los usuarios que co-diseñan la plataforma tienen alta fidelidad y advocacy orgánico.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SECCIÓN 5: TECNOLOGÍA & IA ============================== -->
+<section id="tecnologia" class="section">
+  <div class="sec-header"><h2>Arquitectura Tecnológica & IA</h2><p>Stack completo, modelos de IA y paquetes fundamentales para la ejecución de la web</p></div>
+
+  <div class="section-label">MODELOS ANALÍTICOS — Descriptivo · Predictivo · Prescriptivo</div>
+  <div class="grid-3" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-header"><div class="card-icon blue">📊</div><h3>Modelo Descriptivo</h3></div>
+      <ul>
+        <li>Análisis histórico de calificaciones por proveedor y oficio</li>
+        <li>Dashboard de tendencias de urgencias por hora y zona geográfica</li>
+        <li>Segmentación de usuarios según comportamiento de contratación</li>
+        <li>Análisis de sentimiento retrospectivo en reviews</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon orange">🔮</div><h3>Modelo Predictivo</h3></div>
+      <ul>
+        <li>Predicción de churn del proveedor (señales de riesgo de abandono)</li>
+        <li>Predicción de demanda de servicios por zona y hora del día</li>
+        <li>Score de probabilidad de reseña positiva post-servicio</li>
+        <li>Detección temprana de proveedores con riesgo de llegar a 2 estrellas</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon teal">⚙️</div><h3>Modelo Prescriptivo</h3></div>
+      <ul>
+        <li>Recomendación óptima de proveedor en tiempo real (ML matching)</li>
+        <li>Sugerencia de precio dinámico según demanda y urgencia</li>
+        <li>Acciones automáticas de gobernanza (degradar a sección regular, suspender)</li>
+        <li>Recomendación personalizada de bot para cada tipo de oficio</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">ARQUITECTURA NLP — Motor Rene (Análisis Sentimiento & Bots)</div>
+  <div class="grid-2" style="margin-bottom:20px">
+    <div>
+      <div class="arch-node" style="background:var(--teal-dim);border-color:var(--teal)">📱 Mensaje del Cliente</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-node">🔤 Tokenización · spaCy es_core_news_lg</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-node">🧠 BETO (BERT Español) — Embeddings Semánticos</div>
+      <div class="arch-arrow" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;color:inherit;text-align:center;font-size:12px;padding:8px 0">
+        <span>↙ Intent Classification</span><span>↘ Sentiment Analysis</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div class="arch-node">🎯 Clasificación de Urgencia</div>
+        <div class="arch-node">❤️ Emoción: Ansioso / Enojado / Aliviado</div>
+      </div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-node">⚡ LangChain + LLM → Respuesta Humanizada</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-node" style="background:var(--orange-dim);border-color:var(--orange)">🚨 Alta urgencia → Derivación inmediata al proveedor</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">Guardrails Éticos del Bot</h3>
+      <ul>
+        <li><strong>Agenda solo visitas:</strong> El bot NO puede comprometer precios ni plazos definitivos. El proveedor confirma en un clic.</li>
+        <li><strong>Transparencia de identidad:</strong> El bot se identifica como asistente de [Nombre Proveedor] pero no finge ser humano si se pregunta directamente.</li>
+        <li><strong>Privacidad de datos:</strong> No almacena datos sensibles del cliente más de 30 días. Cumple Ley 19.628.</li>
+        <li><strong>Escalada humana:</strong> Si el bot detecta 3 ciclos de confusión, escala automáticamente al proveedor humano.</li>
+        <li><strong>No promete calidades:</strong> Solo informa certificaciones verificadas, no garantiza resultados del servicio.</li>
+      </ul>
+      <div style="margin-top:14px;padding:10px;background:var(--teal-dim);border-radius:var(--r-sm);border:1px solid rgba(0,200,150,.2)">
+        <p style="font-size:12px">⚖️ <strong>Guardrail legal:</strong> El presupuesto final siempre requiere confirmación explícita del proveedor humano, limitando la responsabilidad civil de la plataforma.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">STACK TECNOLÓGICO COMPLETO — Lenguajes, Paquetes & Frameworks</div>
+  <div class="grid-2" style="margin-bottom:16px">
+    <div>
+      <div class="code-block">
+        <div class="code-header"><div class="dot-row"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span>Frontend Stack</span></div>
+        <pre><span class="cm"># Framework principal</span>
+<span class="kw">next.js</span>        <span class="str">^14.2.0</span>   <span class="cm"># SSR + SSG + App Router</span>
+<span class="kw">react</span>          <span class="str">^18.3.0</span>
+<span class="kw">typescript</span>     <span class="str">^5.4.0</span>
+
+<span class="cm"># Estilos</span>
+<span class="kw">tailwindcss</span>    <span class="str">^3.4.0</span>
+<span class="kw">shadcn/ui</span>      <span class="str">latest</span>    <span class="cm"># Componentes accesibles</span>
+
+<span class="cm"># Estado y datos</span>
+<span class="kw">zustand</span>        <span class="str">^4.5.0</span>    <span class="cm"># State management ligero</span>
+<span class="kw">react-query</span>    <span class="str">^5.0.0</span>    <span class="cm"># Server state + caché</span>
+<span class="kw">axios</span>          <span class="str">^1.7.0</span>
+
+<span class="cm"># Mapas y geolocalización</span>
+<span class="kw">leaflet</span>        <span class="str">^1.9.0</span>    <span class="cm"># Mapa de proveedores</span>
+<span class="kw">react-leaflet</span>  <span class="str">^4.2.0</span>
+
+<span class="cm"># Real-time chat</span>
+<span class="kw">socket.io-client</span> <span class="str">^4.7.0</span>
+
+<span class="cm"># Formularios y validación</span>
+<span class="kw">react-hook-form</span> <span class="str">^7.51.0</span>
+<span class="kw">zod</span>            <span class="str">^3.23.0</span>    <span class="cm"># Validación de esquemas</span></pre>
+      </div>
+    </div>
+    <div>
+      <div class="code-block">
+        <div class="code-header"><div class="dot-row"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span>Backend Stack</span></div>
+        <pre><span class="cm"># Runtimes principales</span>
+<span class="kw">node.js</span>        <span class="str">v20 LTS</span>   <span class="cm"># API Gateway + servicios</span>
+<span class="kw">python</span>         <span class="str">3.11+</span>     <span class="cm"># Motor IA/NLP</span>
+
+<span class="cm"># Frameworks API</span>
+<span class="kw">express.js</span>     <span class="str">^4.19.0</span>   <span class="cm"># REST API principal</span>
+<span class="kw">fastapi</span>        <span class="str">^0.111.0</span>  <span class="cm"># Microservicio IA (Python)</span>
+<span class="kw">uvicorn</span>        <span class="str">^0.30.0</span>   <span class="cm"># ASGI server</span>
+
+<span class="cm"># ORM y base de datos</span>
+<span class="kw">prisma</span>         <span class="str">^5.14.0</span>   <span class="cm"># ORM Node.js</span>
+<span class="kw">sqlalchemy</span>     <span class="str">^2.0.0</span>   <span class="cm"># ORM Python</span>
+
+<span class="cm"># Colas y tareas asíncronas</span>
+<span class="kw">bullmq</span>         <span class="str">^5.4.0</span>    <span class="cm"># Queue de validación docs</span>
+<span class="kw">celery</span>         <span class="str">^5.4.0</span>    <span class="cm"># Tasks IA asíncronos</span>
+
+<span class="cm"># Autenticación</span>
+<span class="kw">auth0</span> / <span class="kw">nextauth.js</span> <span class="str">^4.24</span>
+<span class="kw">jsonwebtoken</span>   <span class="str">^9.0.0</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:16px">
+    <div>
+      <div class="code-block">
+        <div class="code-header"><div class="dot-row"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span>IA / NLP Stack (Python)</span></div>
+        <pre><span class="cm"># Modelos y transformers</span>
+<span class="kw">torch</span>          <span class="str">^2.3.0</span>    <span class="cm"># PyTorch base</span>
+<span class="kw">transformers</span>   <span class="str">^4.41.0</span>  <span class="cm"># HuggingFace</span>
+
+<span class="cm"># Modelo principal en español</span>
+<span class="str">"dccuchile/bert-base-spanish-wwm-cased"</span>
+<span class="cm"># BETO: BERT entrenado en texto español</span>
+
+<span class="cm"># NLP y análisis de texto</span>
+<span class="kw">spacy</span>          <span class="str">^3.7.0</span>
+<span class="kw">es-core-news-lg</span> <span class="str">^3.7.0</span>  <span class="cm"># Modelo español grande</span>
+<span class="kw">nltk</span>           <span class="str">^3.8.0</span>
+
+<span class="cm"># Análisis de sentimiento en español</span>
+<span class="kw">pysentimiento</span>  <span class="str">^0.7.0</span>
+<span class="cm"># pysentimiento.create_analyzer(task="sentiment",lang="es")</span>
+
+<span class="cm"># Orquestación LLM y chatbot</span>
+<span class="kw">langchain</span>      <span class="str">^0.2.0</span>
+<span class="kw">langchain-openai</span> <span class="str">^0.1.0</span>
+<span class="kw">openai</span>         <span class="str">^1.30.0</span>   <span class="cm"># API calls LLM</span>
+
+<span class="cm"># Embeddings y vectores</span>
+<span class="kw">pinecone-client</span> <span class="str">^3.2.0</span>  <span class="cm"># Vector DB</span>
+<span class="kw">sentence-transformers</span> <span class="str">^3.0.0</span>
+
+<span class="cm"># ML clásico</span>
+<span class="kw">scikit-learn</span>   <span class="str">^1.5.0</span>
+<span class="kw">pandas</span>         <span class="str">^2.2.0</span>
+<span class="kw">numpy</span>          <span class="str">^1.26.0</span></pre>
+      </div>
+    </div>
+    <div>
+      <div class="code-block">
+        <div class="code-header"><div class="dot-row"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span>Cloud, DBs & DevOps</span></div>
+        <pre><span class="cm"># Bases de datos</span>
+<span class="kw">postgresql</span>     <span class="str">v15</span>      <span class="cm"># Relacional (usuarios, subs)</span>
+<span class="kw">mongodb</span>        <span class="str">v7</span>       <span class="cm"># Docs (reviews, chats, logs)</span>
+<span class="kw">redis</span>          <span class="str">v7.2</span>    <span class="cm"># Caché, sesiones, rate limit</span>
+<span class="kw">pinecone</span>       <span class="str">-</span>        <span class="cm"># Vector embeddings NLP</span>
+
+<span class="cm"># Cloud AWS</span>
+<span class="kw">ec2</span>            <span class="str">t3.medium</span>  <span class="cm"># App servers</span>
+<span class="kw">rds</span>            <span class="str">postgres</span>   <span class="cm"># Managed DB</span>
+<span class="kw">elasticache</span>    <span class="str">redis</span>      <span class="cm"># Caché gestionado</span>
+<span class="kw">s3</span>             <span class="str">-</span>          <span class="cm"># Documentos de acreditación</span>
+<span class="kw">cloudfront</span>     <span class="str">-</span>          <span class="cm"># CDN global</span>
+<span class="kw">textract</span>       <span class="str">-</span>          <span class="cm"># OCR validación documentos</span>
+<span class="kw">lambda</span>         <span class="str">-</span>          <span class="cm"># Funciones serverless</span>
+<span class="kw">sagemaker</span>      <span class="str">-</span>          <span class="cm"># Fine-tuning modelos NLP</span>
+
+<span class="cm"># DevOps</span>
+<span class="kw">docker</span>         <span class="str">^25.0</span>
+<span class="kw">docker-compose</span> <span class="str">^2.27</span>
+<span class="kw">github-actions</span> <span class="str">-</span>     <span class="cm"># CI/CD pipeline</span>
+<span class="kw">terraform</span>      <span class="str">^1.8</span>  <span class="cm"># IaC (Infrastructure as Code)</span>
+
+<span class="cm"># Pagos y autenticación</span>
+<span class="kw">mercadopago-sdk</span> <span class="str">^2.0</span> <span class="cm"># Pagos Chile</span>
+<span class="kw">auth0</span>          <span class="str">-</span>     <span class="cm"># Identity & Access</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">PALABRAS CLAVE — SEO & ASO Strategy</div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="grid-3">
+      <div><h4 style="font-size:12px;color:var(--teal);margin-bottom:10px;font-weight:700;text-transform:uppercase">Primarias (alto volumen)</h4>
+        <div class="kw-cloud" style="padding:0">
+          <span class="kw-tag kw-primary">servicios urgentes Chile</span>
+          <span class="kw-tag kw-primary">marketplace certificado</span>
+          <span class="kw-tag kw-primary">cerrajero urgente</span>
+          <span class="kw-tag kw-primary">gasfíter 24 horas</span>
+          <span class="kw-tag kw-primary">electricista certificado</span>
+        </div>
+      </div>
+      <div><h4 style="font-size:12px;color:var(--blue);margin-bottom:10px;font-weight:700;text-transform:uppercase">Secundarias (intención alta)</h4>
+        <div class="kw-cloud" style="padding:0">
+          <span class="kw-tag kw-secondary">plataforma servicios confianza</span>
+          <span class="kw-tag kw-secondary">contratar técnico online</span>
+          <span class="kw-tag kw-secondary">proveedor verificado hogar</span>
+          <span class="kw-tag kw-secondary">bot asistente servicios</span>
+          <span class="kw-tag kw-secondary">gig economy Chile</span>
+        </div>
+      </div>
+      <div><h4 style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:700;text-transform:uppercase">Long-tail (baja comp.)</h4>
+        <div class="kw-cloud" style="padding:0">
+          <span class="kw-tag kw-longtail">cerrajero con antecedentes limpios Santiago</span>
+          <span class="kw-tag kw-longtail">plataforma servicios clasificados seguros Chile</span>
+          <span class="kw-tag kw-longtail">contratar plomero de urgencia con calificación</span>
+          <span class="kw-tag kw-longtail">proveedor doméstico certificado sec</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">MONITOREO & ANALYTICS</div>
+  <div class="grid-4">
+    <div class="card"><div class="card-icon teal" style="width:32px;height:32px;font-size:14px;margin-bottom:10px">📊</div><h3 style="font-size:13px">Google Analytics 4</h3><p style="font-size:12px">Tráfico, conversión, embudo</p></div>
+    <div class="card"><div class="card-icon blue" style="width:32px;height:32px;font-size:14px;margin-bottom:10px">🔄</div><h3 style="font-size:13px">Mixpanel</h3><p style="font-size:12px">Eventos de usuario, retención</p></div>
+    <div class="card"><div class="card-icon orange" style="width:32px;height:32px;font-size:14px;margin-bottom:10px">🌡️</div><h3 style="font-size:13px">Hotjar</h3><p style="font-size:12px">Heatmaps y grabaciones</p></div>
+    <div class="card"><div class="card-icon purple" style="width:32px;height:32px;font-size:14px;margin-bottom:10px">📈</div><h3 style="font-size:13px">Metabase</h3><p style="font-size:12px">Dashboard BI interno</p></div>
+  </div>
+</section>
+
+<!-- ============================== SECCIÓN 6: ROADMAP ============================== -->
+<section id="roadmap" class="section">
+  <div class="sec-header"><h2>Roadmap & Hitos Clave</h2><p>Implementación adaptativa en 3 horizontes con validación de hipótesis progresiva</p></div>
+
+  <div class="section-label">CONTEXTO DE LANZAMIENTO</div>
+  <div class="grid-2" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-header"><div class="card-icon teal">🇨🇱</div><h3>¿En qué contexto se lanzaría SERVIA?</h3></div>
+      <ul>
+        <li><strong>Post-pandemia:</strong> Chile aceleró su adopción digital. Los consumidores ya contratan servicios online sin fricción.</li>
+        <li><strong>Alta desconfianza:</strong> El mercado informal crea demanda reprimida de servicios certificados y seguros.</li>
+        <li><strong>Economía gig en alza:</strong> +35% crecimiento anual. 2.8M trabajadores informales buscan plataformas para formalizarse.</li>
+        <li><strong>Ventana regulatoria:</strong> Antes de que la regulación de plataformas endurezca las condiciones de entrada, hay un primer-mover advantage.</li>
+        <li><strong>Temporada óptima de lanzamiento:</strong> Septiembre-Octubre (vuelta a la actividad laboral, alta demanda de mantenciones post-invierno).</li>
+        <li><strong>Base de operaciones:</strong> Gran Santiago primero (6M+ habitantes, concentración de demanda y oferta).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon orange">🎯</div><h3>Evaluación de Transformación Digital</h3></div>
+      <div style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px">Madurez Digital Actual</span><span class="badge orange">Nivel 2 / 5</span></div>
+        <div class="porter-bar"><div class="porter-bar-fill" style="width:40%;background:var(--orange)"></div></div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:4px">Digitalización básica, procesos manuales dominantes</p>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px">Objetivo H3 (18 meses)</span><span class="badge teal">Nivel 4 / 5</span></div>
+        <div class="porter-bar"><div class="porter-bar-fill" style="width:80%;background:var(--teal)"></div></div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:4px">Optimización digital: IA autónoma, gobernanza algorítmica</p>
+      </div>
+      <ul>
+        <li>% procesos automatizados: 0% → 75%</li>
+        <li>Tiempo de respuesta al cliente: horas → &lt;2 min</li>
+        <li>Validación documental: manual → OCR automatizado</li>
+        <li>Análisis de calidad: humano → heurístico en caliente</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">ROADMAP A 3 HORIZONTES</div>
+  <div class="roadmap-h" style="margin-bottom:20px">
+    <div class="rh-card h1">
+      <div class="rh-title">Horizonte 1 · Fundación</div>
+      <div class="rh-period">Meses 0 — 3</div>
+      <div class="rh-item"><span class="tag est">EST</span>Taller de alineamiento y diseño del MVP</div>
+      <div class="rh-item"><span class="tag est">EST</span>Definición KPIs de tracción y plan de cuentas</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>Despliegue Landing Web en Cloud (AWS/Vercel)</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>Módulo de listado básico y sistema de estrellas</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>Carga manual de documentos de acreditación</div>
+      <div class="rh-item"><span class="tag per">PER</span>Pilotear con 100 proveedores locales</div>
+      <div class="rh-item"><span class="tag per">PER</span>7 días gratis y 30 días gratis activos</div>
+      <div class="rh-item"><span class="tag per">PER</span>Constitución legal empresa (SpA)</div>
+    </div>
+    <div class="rh-card h2">
+      <div class="rh-title">Horizonte 2 · Escalamiento</div>
+      <div class="rh-period">Meses 3 — 9</div>
+      <div class="rh-item"><span class="tag est">EST</span>Lanzamiento suscripción mensual paga</div>
+      <div class="rh-item"><span class="tag est">EST</span>Análisis CAC y LTV. Pivote si necesario</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>Automatización validación documental (AWS Textract)</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>Backend Regla 2 Estrellas + barrido automático</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>Despliegue motor NLP bot conversacional básico</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>App móvil MVP (React Native)</div>
+      <div class="rh-item"><span class="tag per">PER</span>Campaña sorteos para motivar reseñas (primeros 100)</div>
+      <div class="rh-item"><span class="tag per">PER</span>Capacitación proveedores en gestión de chat con bot</div>
+    </div>
+    <div class="rh-card h3">
+      <div class="rh-title">Horizonte 3 · Diferenciación</div>
+      <div class="rh-period">Meses 9 — 18</div>
+      <div class="rh-item"><span class="tag est">EST</span>Expansión geográfica Valparaíso y Biobío</div>
+      <div class="rh-item"><span class="tag est">EST</span>Orquestación datos de mercado B2B</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>Motor análisis emociones en caliente integrado</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>Sistema enrutamiento y recomendación predictiva</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>Fine-tuning BETO en español chileno coloquial</div>
+      <div class="rh-item"><span class="tag tec">TEC</span>Kubernetes + auto-scaling para escala nacional</div>
+      <div class="rh-item"><span class="tag per">PER</span>Autonomía plena bots con guardrails éticos estrictos</div>
+      <div class="rh-item"><span class="tag per">PER</span>Comunidad activa de co-diseño del ecosistema</div>
+    </div>
+  </div>
+
+  <div class="section-label">HITOS CRÍTICOS DETALLADOS</div>
+  <div class="grid-2">
+    <div class="milestone-list">
+      <div class="milestone"><div class="milestone-time">Semana 1-2</div><h4>Constitución Legal & Registro de Marca</h4><p>SpA constituida. "SERVIA" y "Nano" registrados en INAPI Clase 35 y 42. NDAs firmados por el equipo fundador.</p></div>
+      <div class="milestone"><div class="milestone-time">Mes 1</div><h4>MVP Landing + Onboarding Proveedores</h4><p>Landing web deployada en Vercel. Formulario de onboarding con carga de documentos. Primeros 10 proveedores beta.</p></div>
+      <div class="milestone"><div class="milestone-time">Mes 2</div><h4>Sistema de Calificaciones Activo</h4><p>Reviews verificadas funcionando. Pipeline básico de validación documental. Sistema de estrellas visible al cliente.</p></div>
+      <div class="milestone m2"><div class="milestone-time">Mes 3</div><h4>100 Proveedores Piloto</h4><p>Primera cohorte completa. Métricas de retención analizadas. Decisión de pivot o proceed basada en datos.</p></div>
+      <div class="milestone m2"><div class="milestone-time">Mes 6</div><h4>Lanzamiento Suscripción Paga</h4><p>Primer MRR real. Campaña sorteo primeros 100 contratantes. Bot NLP básico en producción.</p></div>
+    </div>
+    <div class="milestone-list">
+      <div class="milestone m2"><div class="milestone-time">Mes 9</div><h4>500 Proveedores + Análisis Sentimiento</h4><p>Regla 2 estrellas automatizada. Motor de análisis emocional en caliente. App móvil en App Store y Play Store.</p></div>
+      <div class="milestone m2"><div class="milestone-time">Mes 12</div><h4>Expansión Geográfica</h4><p>Valparaíso y Concepción operativos. Primera alianza formal con ChileValora activa. Aceleración growth.</p></div>
+      <div class="milestone m3"><div class="milestone-time">Mes 14</div><h4>Break-even Operacional</h4><p>Ingresos cubren costos operativos totales. Inicio de expansión LATAM (análisis Colombia y Perú).</p></div>
+      <div class="milestone m3"><div class="milestone-time">Mes 18</div><h4>2.000+ Proveedores · Autonomía IA</h4><p>Bots con autonomía plena. Modelo NLP fine-tuned en español chileno. Orquestación datos B2B activa. $120M CLP/mes MRR.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SECCIÓN 7: RIESGOS, PI & ALIANZAS ============================== -->
+<section id="riesgos" class="section">
+  <div class="sec-header"><h2>Riesgos, Propiedad Intelectual & Alianzas</h2><p>Blindaje legal, IP y ecosistema de socios para resguardar el éxito de SERVIA</p></div>
+
+  <div class="section-label">MATRIZ DE RIESGOS & MITIGACIÓN</div>
+  <div style="margin-bottom:20px">
+    <div class="risk-row"><div class="risk-level high">ALTO<br>⚠️</div><div class="risk-content"><h4>Riesgo de Desintermediación (Hold-Up)</h4><p>Una vez que el cliente conoce al proveedor, las contrataciones futuras se hacen por fuera de la app. <strong>Mitigación:</strong> Bot 24/7 y visibilidad VIP disponible solo dentro de la plataforma. Reviews históricas como activo exclusivo del proveedor que se pierden al salir.</p></div></div>
+    <div class="risk-row"><div class="risk-level high">ALTO<br>⚠️</div><div class="risk-content"><h4>Riesgo Legal y Civil</h4><p>Fraude o daños causados por un proveedor mal calificado que coloca a SERVIA como responsable. <strong>Mitigación:</strong> Responsabilidad compartida atenuada via términos y condiciones. Verificación rigurosa de certificados en onboarding. Seguro de responsabilidad civil como servicio premium.</p></div></div>
+    <div class="risk-row"><div class="risk-level med">MED<br>〰️</div><div class="risk-content"><h4>Riesgo de Sesgo en NLP (Deriva de Modelo)</h4><p>El bot compromete precios o plazos que el proveedor no puede cumplir, generando conflictos. <strong>Mitigación:</strong> Guardrails técnicos estrictos: el bot SOLO agenda visitas y pre-diagnostica. El presupuesto final siempre requiere confirmación humana del proveedor en un clic.</p></div></div>
+    <div class="risk-row"><div class="risk-level med">MED<br>〰️</div><div class="risk-content"><h4>Problema de Gallina y Huevo</h4><p>Sin proveedores no hay clientes, sin clientes no hay proveedores. <strong>Mitigación:</strong> 30 días gratis para primeros proveedores. Estrategia de captación de oferta primero (provider-first). Piloto cerrado con 100 proveedores antes del lanzamiento público.</p></div></div>
+    <div class="risk-row"><div class="risk-level med">MED<br>〰️</div><div class="risk-content"><h4>Competencia de Yapo o MercadoLibre</h4><p>Grandes actores copian el modelo de certificación con sus recursos superiores. <strong>Mitigación:</strong> Velocidad de ejecución. Datos propietarios de NLP en español chileno coloquial. Comunidad co-creadora que genera switching costs culturales.</p></div></div>
+    <div class="risk-row"><div class="risk-level low">BAJO<br>✓</div><div class="risk-content"><h4>Fraude Documental en Onboarding</h4><p>Proveedor presenta documentos falsos para ingresar a la plataforma. <strong>Mitigación:</strong> Integración con Registro Civil (validación RUT). OCR + revisión humana de documentos sospechosos. Verificación en 24-48h con auditor humano en el loop.</p></div></div>
+  </div>
+
+  <div class="section-label">ESTRATEGIA DE PROPIEDAD INTELECTUAL</div>
+  <div class="grid-2" style="margin-bottom:20px">
+    <div>
+      <div class="ip-card"><div class="ip-icon">™️</div><div class="ip-content"><h4>Marca Comercial</h4><p>Registrar "SERVIA" y "Nano" en INAPI Chile. Clase 35 (publicidad y servicios de negocios) y Clase 42 (servicios tecnológicos). Extensión PCT para Latinoamérica al año 2.</p><div class="ip-meta">INAPI · Ley 19.039 · Costo estimado: ~$250 USD</div></div></div>
+      <div class="ip-card"><div class="ip-icon">©️</div><div class="ip-content"><h4>Derecho de Autor sobre Software</h4><p>El código fuente está protegido automáticamente como obra literaria bajo la Ley 17.336 de Propiedad Intelectual desde el momento de su creación. Documentar versiones con timestamps en Git.</p><div class="ip-meta">Automático en Chile · Sin necesidad de registro previo</div></div></div>
+      <div class="ip-card"><div class="ip-icon">🔒</div><div class="ip-content"><h4>Secreto Industrial (Trade Secret)</h4><p>Proteger con NDAs: (1) Algoritmo de gobernanza Regla 2 Estrellas, (2) Modelo NLP fine-tuned en español chileno, (3) Motor de análisis de sentimiento. No revelar en papers ni pitches sin NDA.</p><div class="ip-meta">Ley 19.039 Art. 86 · NDAs con equipo y partners</div></div></div>
+    </div>
+    <div>
+      <div class="ip-card"><div class="ip-icon">📋</div><div class="ip-content"><h4>Patente de Invención</h4><p>Analizar la patentabilidad del método de gobernanza algorítmica combinado con análisis de sentimiento para plataformas de servicios (método único). Presentar ante INAPI con asesor de PI. Solicitud PCT para expansión LATAM.</p><div class="ip-meta">Proceso 18-24 meses · Costo estimado: ~$3.000 USD</div></div></div>
+      <div class="ip-card"><div class="ip-icon">🔐</div><div class="ip-content"><h4>Datos Personales y Privacidad</h4><p>Cumplimiento estricto Ley 19.628 (actual) y nueva Ley 21.719 (en tramitación, más restrictiva). Política de privacidad, consentimiento explícito y derecho al olvido implementados en onboarding.</p><div class="ip-meta">Multas hasta 5.000 UTM por incumplimiento</div></div></div>
+      <div class="card" style="background:var(--teal-dim);border-color:rgba(0,200,150,.25)">
+        <h3 style="font-size:13px;margin-bottom:10px">📚 Checklist Legal de Lanzamiento</h3>
+        <ul>
+          <li>SpA constituida y RUT obtenido</li>
+          <li>Marca registrada en INAPI (solicitud)</li>
+          <li>Términos y condiciones + Política privacidad redactados</li>
+          <li>NDAs firmados por equipo fundador y primeros partners</li>
+          <li>Denuncia de obra ante Registro de PI (código fuente)</li>
+          <li>Contrato de licencia de software para proveedores</li>
+          <li>Política anti-fraude y responsabilidad compartida documentada</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">ECOSISTEMA DE ALIANZAS ESTRATÉGICAS</div>
+  <div class="partner-grid">
+    <div class="partner-card"><div class="partner-logo">🏛️</div><div class="partner-info"><div class="partner-type">Certificación</div><h4>ChileValora</h4><p>Validación de competencias laborales y acreditación de oficios</p></div></div>
+    <div class="partner-card"><div class="partner-logo">☁️</div><div class="partner-info"><div class="partner-type">Infraestructura</div><h4>AWS Activate</h4><p>Créditos cloud para startups ($5.000 - $25.000 USD)</p></div></div>
+    <div class="partner-card"><div class="partner-logo">🔍</div><div class="partner-info"><div class="partner-type">Identidad</div><h4>Registro Civil</h4><p>Validación de identidad y antecedentes de proveedores</p></div></div>
+    <div class="partner-card"><div class="partner-logo">💳</div><div class="partner-info"><div class="partner-type">Pagos</div><h4>Mercado Pago</h4><p>Pasarela de pagos líder en Chile con split de cobros</p></div></div>
+    <div class="partner-card"><div class="partner-logo">🏦</div><div class="partner-info"><div class="partner-type">Financiamiento</div><h4>CORFO · Sercotec</h4><p>Subsidios y capital semilla para startups tecnológicas</p></div></div>
+    <div class="partner-card"><div class="partner-logo">🎓</div><div class="partner-info"><div class="partner-type">Incubación</div><h4>UAI Innova</h4><p>Respaldo académico, mentorías y red de contactos MGET</p></div></div>
+    <div class="partner-card"><div class="partner-logo">⚖️</div><div class="partner-info"><div class="partner-type">PI</div><h4>INAPI</h4><p>Registro de marcas, patentes y gestión de propiedad intelectual</p></div></div>
+    <div class="partner-card"><div class="partner-logo">🤖</div><div class="partner-info"><div class="partner-type">IA</div><h4>OpenAI / HuggingFace</h4><p>Acceso a modelos LLM y infraestructura de fine-tuning</p></div></div>
+  </div>
+</section>
+
+<!-- ============================== SECCIÓN 8: KPIs, FODA & MÉTRICAS ============================== -->
+<section id="kpis" class="section">
+  <div class="sec-header"><h2>KPIs, FODA & Métricas Estratégicas</h2><p>Cuantificación de la aspiración con métricas SMART y análisis FODA completo</p></div>
+
+  <div class="section-label">KPIs SMART — Métricas de Tracción</div>
+  <div class="grid-4" style="margin-bottom:20px">
+    <div class="kpi-card teal"><div class="kpi-val">2.000</div><div class="kpi-lbl">Proveedores activos al M18</div><div class="kpi-target">✅ Específico, Alcanzable, Temporal</div></div>
+    <div class="kpi-card orange"><div class="kpi-val">&lt;2min</div><div class="kpi-lbl">Tiempo respuesta bot (90% casos M6)</div><div class="kpi-target">✅ Medible, Relevante, Temporal</div></div>
+    <div class="kpi-card blue"><div class="kpi-val">&gt;70</div><div class="kpi-lbl">NPS meta al mes 12</div><div class="kpi-target">✅ Específico, Medible, Relevante</div></div>
+    <div class="kpi-card purple"><div class="kpi-val">&lt;5%</div><div class="kpi-lbl">Churn mensual al mes 12</div><div class="kpi-target">✅ Medible, Alcanzable, Temporal</div></div>
+  </div>
+
+  <div class="section-label">TABLA COMPLETA DE KPIs Y KSFs</div>
+  <div class="table-wrap" style="margin-bottom:20px">
+    <table>
+      <thead><tr><th>Métrica</th><th>Meta M3</th><th>Meta M9</th><th>Meta M18</th><th>SMART</th><th>Tipo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Proveedores activos</strong></td><td>100</td><td>500</td><td>2.000</td><td>S·M·A·R·T ✅</td><td><span class="badge teal">KPI</span></td></tr>
+        <tr><td><strong>Clientes únicos mensuales</strong></td><td>500</td><td>5.000</td><td>25.000</td><td>S·M·A·R·T ✅</td><td><span class="badge teal">KPI</span></td></tr>
+        <tr><td><strong>MRR (CLP)</strong></td><td>$0</td><td>$30M</td><td>$120M</td><td>S·M·A·R·T ✅</td><td><span class="badge orange">KPI Fin.</span></td></tr>
+        <tr><td><strong>Churn mensual proveedores</strong></td><td>&lt;15%</td><td>&lt;8%</td><td>&lt;5%</td><td>S·M·A·R·T ✅</td><td><span class="badge teal">KPI</span></td></tr>
+        <tr><td><strong>Conversión free → pago</strong></td><td>—</td><td>&gt;35%</td><td>&gt;45%</td><td>S·M·A·R·T ✅</td><td><span class="badge orange">KPI Fin.</span></td></tr>
+        <tr><td><strong>NPS de clientes</strong></td><td>&gt;50</td><td>&gt;65</td><td>&gt;75</td><td>S·M·A·R·T ✅</td><td><span class="badge blue">KPI Exp.</span></td></tr>
+        <tr><td><strong>% reseñas completadas</strong></td><td>&gt;40%</td><td>&gt;55%</td><td>&gt;65%</td><td>S·M·A·R·T ✅</td><td><span class="badge blue">KPI Exp.</span></td></tr>
+        <tr><td><strong>Tiempo respuesta bot (P90)</strong></td><td>—</td><td>&lt;3min</td><td>&lt;90s</td><td>S·M·A·R·T ✅</td><td><span class="badge purple">KPI IA</span></td></tr>
+        <tr><td><strong>CAC proveedor (CLP)</strong></td><td>&lt;$15.000</td><td>&lt;$10.000</td><td>&lt;$8.000</td><td>S·M·A·R·T ✅</td><td><span class="badge orange">KPI Fin.</span></td></tr>
+        <tr><td><strong>Ratio LTV/CAC</strong></td><td>—</td><td>&gt;10x</td><td>&gt;50x</td><td>S·M·A·R·T ✅</td><td><span class="badge orange">KPI Fin.</span></td></tr>
+        <tr><td><strong>Proveedores con 2★ eliminados</strong></td><td>Proceso definido</td><td>Automatizado</td><td>&lt;2% / mes</td><td>S·M·A·R·T ✅</td><td><span class="badge purple">KPI Calidad</span></td></tr>
+        <tr><td><strong>Acurácia bot en clasificación urgencia</strong></td><td>—</td><td>&gt;85%</td><td>&gt;92%</td><td>S·M·A·R·T ✅</td><td><span class="badge purple">KPI IA</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-label">FACTORES CLAVE DE ÉXITO (KSFs)</div>
+  <div class="grid-3" style="margin-bottom:20px">
+    <div class="card"><div class="card-header"><div class="card-icon teal">⚡</div><h3>Velocidad de Respuesta</h3></div><p>El bot debe responder en &lt;2 min en el 90% de los casos. La urgencia no tolera demoras. Es el KSF #1 de percepción de valor.</p></div>
+    <div class="card"><div class="card-header"><div class="card-icon orange">🛡️</div><h3>Confianza del Ecosistema</h3></div><p>100% de proveedores con documentación verificada. Un solo incidente grave puede destruir la reputación de toda la plataforma.</p></div>
+    <div class="card"><div class="card-header"><div class="card-icon blue">📝</div><h3>Engagement de Reseñas</h3></div><p>&gt;60% de usuarios dejan reseña. Sin reviews, la gobernanza algorítmica y el barrido de 2 estrellas no tienen datos suficientes para funcionar.</p></div>
+    <div class="card"><div class="card-header"><div class="card-icon purple">🔄</div><h3>Retención de Proveedores</h3></div><p>&gt;80% de proveedores renuevan suscripción cada mes. Un proveedor retenido vale 56x su costo de adquisición.</p></div>
+    <div class="card"><div class="card-header"><div class="card-icon yellow">📣</div><h3>Virality Orgánica</h3></div><p>&gt;30% de clientes llegan por recomendación boca a boca. El sorteo y la experiencia co-creada son el motor de adquisición orgánica.</p></div>
+    <div class="card"><div class="card-header"><div class="card-icon teal">🤖</div><h3>Autonomía del Bot NLP</h3></div><p>El bot debe resolver el 80% de las consultas sin intervención humana, siendo percibido como natural y no robótico por el cliente.</p></div>
+  </div>
+
+  <div class="section-label">ANÁLISIS FODA COMPLETO</div>
+  <div class="foda-grid" style="margin-bottom:20px">
+    <div class="foda-cell f">
+      <h3>💪 Fortalezas</h3>
+      <ul>
+        <li>Único marketplace con validación preventiva de antecedentes en Chile</li>
+        <li>IA humanizada 24/7 de bajo costo para el proveedor</li>
+        <li>Gobernanza algorítmica en tiempo real (Regla 2 estrellas)</li>
+        <li>Equipo fundador interdisciplinario (Fer/Nano/Julio/Rene)</li>
+        <li>Respaldo académico MGET UAI + red de contactos</li>
+        <li>Modelo de co-creación: comunidad como activo de mejora continua</li>
+        <li>Modelo freemium que reduce fricción de entrada</li>
+      </ul>
+    </div>
+    <div class="foda-cell o">
+      <h3>🚀 Oportunidades</h3>
+      <ul>
+        <li>2.8M trabajadores informales que buscan formalizarse en plataformas</li>
+        <li>Gig economy en Chile creciendo +35% anual</li>
+        <li>Sin competidor directo que combine certificación + urgencia + IA</li>
+        <li>Post-pandemia: digitalización acelerada de contrataciόn de servicios</li>
+        <li>ChileValora como aliado estatal para legitimidad y certificación</li>
+        <li>Créditos AWS Activate y CORFO para startups tech</li>
+        <li>Expansión natural a Colombia, Perú y México (mismo idioma, problemas similares)</li>
+      </ul>
+    </div>
+    <div class="foda-cell d">
+      <h3>⚠️ Debilidades</h3>
+      <ul>
+        <li>Plataforma nueva sin red establecida (chicken-egg problem)</li>
+        <li>Dependencia de validación documental manual en H1</li>
+        <li>Inversión inicial en IA/NLP significativa antes del primer ingreso</li>
+        <li>Riesgo de fraude documental en onboarding</li>
+        <li>Equipo pequeño: puede ser cuello de botella en crecimiento rápido</li>
+        <li>Curva de aprendizaje del proveedor para usar el bot</li>
+      </ul>
+    </div>
+    <div class="foda-cell a">
+      <h3>🔴 Amenazas</h3>
+      <ul>
+        <li>Yapo o MercadoLibre copian el modelo con recursos superiores</li>
+        <li>Regulación de plataformas gig (Ley Riders) aumenta costos operativos</li>
+        <li>Desaceleración económica reduce gasto en servicios domésticos</li>
+        <li>Baja adopción tecnológica en proveedores mayores de 45 años</li>
+        <li>Nueva Ley 21.719 de datos personales puede requerir rediseño</li>
+        <li>LLMs cada vez más accesibles: competidores pueden implementar bots fácilmente</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">DISEÑO DEL DASHBOARD DE CONTROL</div>
+  <div class="card">
+    <h3 style="margin-bottom:16px">Métricas en Tiempo Real — Dashboard Operativo</h3>
+    <div class="grid-4" style="margin-bottom:20px">
+      <div style="padding:14px;background:var(--bg-elevated);border-radius:var(--r-sm);border:1px solid var(--border)">
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:6px">MRR Hoy</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--teal)">$XX.XXX.XXX</div>
+        <div style="font-size:11px;color:var(--text-muted)">↑ +12% vs mes anterior</div>
+      </div>
+      <div style="padding:14px;background:var(--bg-elevated);border-radius:var(--r-sm);border:1px solid var(--border)">
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:6px">Proveedores Activos</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--blue)">XXX</div>
+        <div style="font-size:11px;color:var(--text-muted)">Riesgo 2★: <span style="color:#EF4444">3 alertas</span></div>
+      </div>
+      <div style="padding:14px;background:var(--bg-elevated);border-radius:var(--r-sm);border:1px solid var(--border)">
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:6px">Conversaciones Bot (hoy)</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--purple)">XXX</div>
+        <div style="font-size:11px;color:var(--text-muted)">Resolución autónoma: <span style="color:var(--teal)">83%</span></div>
+      </div>
+      <div style="padding:14px;background:var(--bg-elevated);border-radius:var(--r-sm);border:1px solid var(--border)">
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:6px">NPS Rolling 30d</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--orange)">XX</div>
+        <div style="font-size:11px;color:var(--text-muted)">Promotores: 62% · Detractores: 11%</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div>
+        <h4 style="font-size:13px;margin-bottom:10px;color:var(--text-muted)">Capas del Dashboard (Metabase)</h4>
+        <ul style="list-style:none">
+          <li style="font-size:13px;padding:5px 0;display:flex;gap:8px;align-items:center"><span class="badge teal">Real-time</span> Mapa de calor de urgencias por zona Santiago</li>
+          <li style="font-size:13px;padding:5px 0;display:flex;gap:8px;align-items:center"><span class="badge orange">Alertas</span> Proveedores con calificación próxima a 2 estrellas</li>
+          <li style="font-size:13px;padding:5px 0;display:flex;gap:8px;align-items:center"><span class="badge blue">Análisis</span> Sentimiento promedio de reviews últimas 24h</li>
+          <li style="font-size:13px;padding:5px 0;display:flex;gap:8px;align-items:center"><span class="badge purple">Finanzas</span> Evolución MRR, ARR, CAC, LTV, churn</li>
+          <li style="font-size:13px;padding:5px 0;display:flex;gap:8px;align-items:center"><span class="badge yellow">IA</span> Uptime y acurácia del motor NLP en tiempo real</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size:13px;margin-bottom:10px;color:var(--text-muted)">¿Cómo cerrar la brecha?</h4>
+        <ul style="list-style:none">
+          <li style="font-size:13px;color:var(--text-secondary);padding:5px 0;display:flex;gap:8px"><span style="color:var(--teal)">›</span>OKRs trimestrales ligados a cada KPI clave</li>
+          <li style="font-size:13px;color:var(--text-secondary);padding:5px 0;display:flex;gap:8px"><span style="color:var(--teal)">›</span>Reunión semanal del equipo revisando dashboard Metabase</li>
+          <li style="font-size:13px;color:var(--text-secondary);padding:5px 0;display:flex;gap:8px"><span style="color:var(--teal)">›</span>Alertas automáticas vía Slack si KPI se desvía >10%</li>
+          <li style="font-size:13px;color:var(--text-secondary);padding:5px 0;display:flex;gap:8px"><span style="color:var(--teal)">›</span>Ciclo de feedback mensual con proveedores y clientes piloto</li>
+          <li style="font-size:13px;color:var(--text-secondary);padding:5px 0;display:flex;gap:8px"><span style="color:var(--teal)">›</span>Retro de sprint cada 2 semanas con el equipo técnico</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.sb-nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  document.getElementById('main').scrollTop=0;
+  window.scrollTo(0,0);
+}
+// Keyboard nav
+document.addEventListener('keydown',function(e){
+  const sections=['vision','estrategia','mercado','negocio','tecnologia','roadmap','riesgos','kpis'];
+  const cur=sections.findIndex(s=>document.getElementById(s).classList.contains('active'));
+  if(e.key==='ArrowRight'&&cur<sections.length-1) showSection(sections[cur+1]);
+  if(e.key==='ArrowLeft'&&cur>0) showSection(sections[cur-1]);
+});
+</script>
+</body>
+</html>
