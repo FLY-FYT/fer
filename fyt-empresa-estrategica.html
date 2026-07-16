@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FYT · Empresa de Base Científica y Tecnológica — Fernanda Mesa</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#030C1C; --bg-s:#071828; --bg-c:#0C2040; --bg-e:#112850;
+  --fyt:#00D8FF; --fyt-d:rgba(0,216,255,.1); --fyt-g:rgba(0,216,255,.25);
+  --dry:#00C896; --dry-d:rgba(0,200,150,.1);
+  --fly:#A855F7; --fly-d:rgba(168,85,247,.1);
+  --warn:#FF6B35; --warn-d:rgba(255,107,53,.1);
+  --ok:#22C55E; --ok-d:rgba(34,197,94,.1);
+  --t1:#EEF2FF; --t2:#7B9DC8; --t3:#3A5A7A;
+  --bd:#1A3A5C; --r:10px; --r-s:6px; --r-l:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;font-size:14.5px;line-height:1.65;display:flex;min-height:100vh;overflow-x:hidden}
+
+/* STARS */
+#stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle linear infinite}
+@keyframes twinkle{0%,100%{opacity:.1}50%{opacity:.8}}
+
+/* SIDEBAR */
+#sb{width:230px;min-height:100vh;background:rgba(7,24,40,.95);backdrop-filter:blur(12px);border-right:1px solid var(--bd);position:fixed;top:0;left:0;z-index:100;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:22px 18px 16px;border-bottom:1px solid var(--bd)}
+.sb-logo .brand{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;background:linear-gradient(135deg,var(--fyt),#60A5FA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px}
+.sb-logo .sub{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-top:1px}
+.sb-ceo{padding:14px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.sb-ceo .av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--fyt),#60A5FA);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.sb-ceo .info p{font-size:12px;font-weight:600;color:var(--t1)}
+.sb-ceo .info span{font-size:10px;color:var(--t2)}
+nav{padding:8px 0;flex:1}
+nav a{display:flex;align-items:center;gap:10px;padding:9px 18px;font-size:12.5px;color:var(--t2);text-decoration:none;cursor:pointer;border-left:3px solid transparent;transition:.18s;white-space:nowrap}
+nav a:hover{color:var(--t1);background:rgba(255,255,255,.04)}
+nav a.active{color:var(--fyt);background:var(--fyt-d);border-left-color:var(--fyt);font-weight:600}
+nav a .ic{width:18px;text-align:center;font-size:15px;flex-shrink:0}
+.sb-tags{padding:12px 18px;border-top:1px solid var(--bd);display:flex;flex-direction:column;gap:5px}
+.proj-tag{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600}
+.proj-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* MAIN */
+#main{margin-left:230px;flex:1;position:relative;z-index:1}
+.sec{display:none;padding:32px 36px;min-height:100vh;animation:fi .28s ease}
+.sec.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--bg-c),var(--bg-s));border:1px solid var(--bd);border-radius:var(--r-l);padding:44px 48px 36px;margin-bottom:28px;position:relative;overflow:hidden}
+.orbit-ring{position:absolute;right:-40px;top:-40px;width:240px;height:240px;border:2px solid rgba(0,216,255,.12);border-radius:50%;animation:orbit-spin 12s linear infinite}
+.orbit-ring::after{content:'✈';position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:18px;color:var(--fyt);filter:drop-shadow(0 0 8px var(--fyt))}
+.orbit-ring2{position:absolute;right:-80px;top:-80px;width:320px;height:320px;border:1px solid rgba(0,216,255,.06);border-radius:50%;animation:orbit-spin 20s linear infinite reverse}
+@keyframes orbit-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--fyt-d);border:1px solid rgba(0,216,255,.3);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;color:var(--fyt);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;letter-spacing:-1.5px;line-height:1.05;margin-bottom:10px}
+.hero h1 span{background:linear-gradient(90deg,var(--fyt),#60A5FA);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--t2);font-size:15px;max-width:600px;margin-bottom:20px}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.chip{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600}
+.chip-fyt{background:var(--fyt-d);color:var(--fyt);border:1px solid rgba(0,216,255,.25)}
+.chip-dry{background:var(--dry-d);color:var(--dry);border:1px solid rgba(0,200,150,.25)}
+.chip-fly{background:var(--fly-d);color:var(--fly);border:1px solid rgba(168,85,247,.25)}
+.chip-warn{background:var(--warn-d);color:var(--warn);border:1px solid rgba(255,107,53,.25)}
+.chip-ok{background:var(--ok-d);color:var(--ok);border:1px solid rgba(34,197,94,.25)}
+.hero-stats{display:flex;gap:28px;flex-wrap:wrap}
+.hs{text-align:left}
+.hs .v{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--fyt)}
+.hs .l{font-size:11px;color:var(--t3);margin-top:2px}
+
+/* CARDS */
+.card{background:var(--bg-c);border:1px solid var(--bd);border-radius:var(--r);padding:20px;transition:.2s}
+.card:hover{border-color:#2A5A7A;background:var(--bg-e)}
+.card h3{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:8px}
+.card p{color:var(--t2);font-size:13px;line-height:1.65}
+.card ul{list-style:none}
+.card ul li{color:var(--t2);font-size:13px;padding:4px 0;border-bottom:1px solid rgba(26,58,92,.5);display:flex;align-items:flex-start;gap:7px}
+.card ul li:last-child{border:none}
+.card ul li b{color:var(--t1)}
+.ci{width:32px;height:32px;border-radius:var(--r-s);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-bottom:10px}
+.ci-fyt{background:var(--fyt-d)} .ci-dry{background:var(--dry-d)} .ci-fly{background:var(--fly-d)} .ci-warn{background:var(--warn-d)}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.g12{display:grid;grid-template-columns:1fr 2fr;gap:14px}
+.cs2{grid-column:span 2} .cs3{grid-column:span 3}
+
+/* TYPOGRAPHY */
+.sh{margin-bottom:24px}
+.sh h2{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.5px;margin-bottom:4px}
+.sh p{color:var(--t2);font-size:13px}
+.slabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--t3);padding:14px 0 7px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+.ey{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--fyt);margin-bottom:7px}
+.div{height:1px;background:linear-gradient(90deg,transparent,var(--bd),transparent);margin:20px 0}
+
+/* BADGES */
+.b{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:20px;font-size:10.5px;font-weight:700}
+.b-fyt{background:var(--fyt-d);color:var(--fyt);border:1px solid rgba(0,216,255,.2)}
+.b-dry{background:var(--dry-d);color:var(--dry);border:1px solid rgba(0,200,150,.2)}
+.b-fly{background:var(--fly-d);color:var(--fly);border:1px solid rgba(168,85,247,.2)}
+.b-ok{background:var(--ok-d);color:var(--ok)} .b-warn{background:var(--warn-d);color:var(--warn)}
+.trl-bar{height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin-top:5px}
+.trl-fill{height:100%;border-radius:3px}
+
+/* TABLES */
+.tw{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bd);margin:12px 0}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--bg-e)}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--t3);border-bottom:1px solid var(--bd)}
+td{padding:10px 14px;font-size:13px;color:var(--t2);border-bottom:1px solid rgba(26,58,92,.5)}
+tr:last-child td{border:none}
+tr:hover td{background:var(--bg-e);color:var(--t1)}
+td b,td strong{color:var(--t1)}
+
+/* CODE */
+.cb{background:var(--bg-s);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.cb-h{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;background:var(--bg-e);border-bottom:1px solid var(--bd)}
+.cb-h span{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--t3)}
+.dots{display:flex;gap:4px}
+.dot{width:9px;height:9px;border-radius:50%}
+pre{padding:14px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;overflow-x:auto;color:#7FCFB0}
+.kw{color:var(--fyt)}.cm{color:#3A5A7A}.str{color:#FCA5A5}.fn{color:#60A5FA}.num{color:var(--warn)}
+
+/* TIMELINE */
+.tl{position:relative;padding-left:24px}
+.tl::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--fyt),var(--fly),var(--dry))}
+.tl-item{position:relative;padding:0 0 18px 18px}
+.tl-item::before{content:'';position:absolute;left:-18px;top:6px;width:10px;height:10px;border-radius:50%;border:2px solid var(--fyt);background:var(--bg)}
+.tl-item.e2::before{border-color:var(--fly)} .tl-item.e3::before{border-color:var(--dry)}
+.tl-year{font-size:10px;font-weight:700;color:var(--fyt);text-transform:uppercase;letter-spacing:.6px}
+.tl-item.e2 .tl-year{color:var(--fly)} .tl-item.e3 .tl-year{color:var(--dry)}
+.tl-item h4{font-size:13px;font-weight:600;margin:2px 0}
+.tl-item p{font-size:12.5px;color:var(--t2)}
+
+/* VEHICLE CARDS */
+.vc-scroll{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px;margin-bottom:4px}
+.vc-scroll::-webkit-scrollbar{height:4px} .vc-scroll::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.vc{min-width:210px;max-width:210px;background:var(--bg-c);border:1px solid var(--bd);border-radius:var(--r);padding:14px;flex-shrink:0}
+.vc-era{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.vc-era.e1{color:var(--fyt)} .vc-era.e2{color:var(--fly)} .vc-era.e3{color:var(--dry)} .vc-era.e4{color:var(--warn)} .vc-era.e5{color:var(--ok)}
+.vc h4{font-size:13px;font-weight:700;margin-bottom:3px}
+.vc .vc-year{font-size:11px;color:var(--t3);margin-bottom:6px}
+.vc p{font-size:12px;color:var(--t2);line-height:1.5}
+.vc .vc-prob{font-size:11px;margin-top:8px;padding:5px 8px;background:rgba(239,68,68,.08);border-radius:5px;color:#EF4444;border:1px solid rgba(239,68,68,.15)}
+.vc .vc-ok{font-size:11px;margin-top:8px;padding:5px 8px;background:var(--ok-d);border-radius:5px;color:var(--ok);border:1px solid rgba(34,197,94,.2)}
+
+/* STEPS */
+.step{display:flex;align-items:flex-start;gap:14px;padding:14px;background:var(--bg-c);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;transition:.2s}
+.step:hover{border-color:#2A5A7A}
+.step-n{width:36px;height:36px;border-radius:50%;background:var(--fyt-d);border:2px solid rgba(0,216,255,.4);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--fyt);flex-shrink:0}
+.step-c h4{font-size:13.5px;font-weight:600;margin-bottom:4px}
+.step-c p{font-size:12.5px;color:var(--t2)}
+.step-c .tool{font-size:11px;color:var(--fyt);margin-top:5px;font-family:'JetBrains Mono',monospace}
+
+/* RISK */
+.risk-lv{width:44px;height:44px;border-radius:var(--r-s);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;text-align:center;line-height:1.2;flex-shrink:0}
+.lv-h{background:rgba(239,68,68,.15);color:#EF4444;border:1px solid rgba(239,68,68,.3)}
+.lv-m{background:var(--warn-d);color:var(--warn);border:1px solid rgba(255,107,53,.3)}
+.lv-l{background:var(--ok-d);color:var(--ok);border:1px solid rgba(34,197,94,.3)}
+
+/* FODA */
+.foda-g{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:var(--r);overflow:hidden}
+.fc{padding:18px}
+.fc h3{font-size:13px;font-weight:700;margin-bottom:10px}
+.fc ul{list-style:none}
+.fc ul li{font-size:12.5px;color:var(--t2);padding:3px 0;display:flex;align-items:flex-start;gap:6px}
+.fc-f{background:rgba(0,216,255,.06);border:1px solid rgba(0,216,255,.15)} .fc-f h3{color:var(--fyt)} .fc-f li::before{content:'✓';color:var(--fyt)}
+.fc-o{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15)} .fc-o h3{color:var(--ok)} .fc-o li::before{content:'+';color:var(--ok)}
+.fc-d{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15)} .fc-d h3{color:#F59E0B} .fc-d li::before{content:'!';color:#F59E0B}
+.fc-a{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15)} .fc-a h3{color:#EF4444} .fc-a li::before{content:'×';color:#EF4444}
+
+/* SCENARIO CARDS */
+.scenario{background:var(--bg-c);border:1px solid var(--bd);border-radius:var(--r-l);padding:20px;margin-bottom:12px}
+.sc-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sc-letter{width:48px;height:48px;border-radius:var(--r-s);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;flex-shrink:0}
+.sc-a{background:var(--ok-d);color:var(--ok);border:1px solid rgba(34,197,94,.3)}
+.sc-b{background:var(--warn-d);color:var(--warn);border:1px solid rgba(255,107,53,.3)}
+.sc-c{background:var(--fyt-d);color:var(--fyt);border:1px solid rgba(0,216,255,.3)}
+.sc-verdict{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;margin-top:10px}
+.vd-100{background:var(--ok-d);color:var(--ok)} .vd-shared{background:var(--warn-d);color:var(--warn)} .vd-100b{background:var(--fyt-d);color:var(--fyt)}
+
+/* PROJECT MANAGER */
+.pm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.pm-btn{padding:8px 16px;border-radius:var(--r-s);font-size:12.5px;font-weight:600;cursor:pointer;border:none;transition:.2s}
+.pm-btn-primary{background:var(--fyt);color:#000}
+.pm-btn-primary:hover{background:#00AACC}
+.pm-btn-sec{background:var(--bg-e);color:var(--t1);border:1px solid var(--bd)}
+.pm-btn-sec:hover{background:var(--bg-c)}
+#task-form{background:var(--bg-c);border:1px solid var(--bd);border-radius:var(--r);padding:20px;margin-bottom:18px;display:none}
+#task-form h3{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:14px;color:var(--fyt)}
+.fm-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.fm-col{display:flex;flex-direction:column;gap:5px}
+.fm-col label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--t3)}
+.fm-col input,.fm-col select,.fm-col textarea{background:var(--bg-e);border:1px solid var(--bd);border-radius:var(--r-s);padding:8px 12px;color:var(--t1);font-family:'Inter',sans-serif;font-size:13px;outline:none;transition:.2s;width:100%}
+.fm-col input:focus,.fm-col select:focus,.fm-col textarea:focus{border-color:var(--fyt);box-shadow:0 0 0 2px var(--fyt-d)}
+select option{background:var(--bg-e);color:var(--t1)}
+.fm-full{grid-column:span 2}
+.fm-actions{display:flex;gap:10px;margin-top:12px}
+.task-list{display:flex;flex-direction:column;gap:8px}
+.task-item{background:var(--bg-c);border:1px solid var(--bd);border-radius:var(--r);padding:14px 16px;display:flex;align-items:flex-start;gap:12px;transition:.2s;position:relative}
+.task-item:hover{border-color:#2A5A7A}
+.task-item.done{opacity:.5}
+.task-item.done .task-title{text-decoration:line-through}
+.task-cb{width:18px;height:18px;border-radius:4px;border:2px solid var(--bd);cursor:pointer;flex-shrink:0;margin-top:2px;transition:.2s;display:flex;align-items:center;justify-content:center;font-size:11px}
+.task-cb.checked{background:var(--fyt);border-color:var(--fyt);color:#000}
+.task-info{flex:1}
+.task-title{font-size:13.5px;font-weight:600;margin-bottom:4px}
+.task-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.task-del{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;transition:.2s;padding:2px 6px;border-radius:4px}
+.task-del:hover{color:#EF4444;background:rgba(239,68,68,.1)}
+.pri-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.pri-crit{background:#EF4444} .pri-high{background:var(--warn)} .pri-med{background:#F59E0B} .pri-low{background:var(--ok)}
+.points-badge{background:var(--fyt-d);color:var(--fyt);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px}
+#pm-score{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--fyt)}
+.pm-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.pm-filter-btn{padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--bg-e);color:var(--t2);transition:.2s}
+.pm-filter-btn.active,.pm-filter-btn:hover{background:var(--fyt-d);color:var(--fyt);border-color:rgba(0,216,255,.3)}
+
+/* SCHEDULE */
+.schedule-grid{display:grid;grid-template-columns:80px repeat(7,1fr);gap:2px;font-size:11px}
+.sch-header{background:var(--bg-e);padding:6px 4px;text-align:center;font-weight:700;color:var(--t2);border-radius:4px}
+.sch-time{padding:4px 6px;text-align:right;color:var(--t3);font-family:'JetBrains Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:flex-end}
+.sch-cell{padding:3px;border-radius:3px;min-height:22px}
+.sch-blocked{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.2)} .sch-mget{background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.2)} .sch-free{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15)} .sch-sleep{background:rgba(255,255,255,.02);border:1px solid transparent}
+.sch-label{font-size:9px;font-weight:700;text-align:center;color:inherit;padding:1px}
+
+/* ROADMAP */
+.rh-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px}
+.rh{border-radius:var(--r);padding:18px;border:1px solid var(--bd)}
+.rh1{background:linear-gradient(135deg,rgba(0,216,255,.05),var(--bg-c));border-color:rgba(0,216,255,.25)}
+.rh2{background:linear-gradient(135deg,rgba(168,85,247,.05),var(--bg-c));border-color:rgba(168,85,247,.25)}
+.rh3{background:linear-gradient(135deg,rgba(34,197,94,.05),var(--bg-c));border-color:rgba(34,197,94,.25)}
+.rh-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;margin-bottom:3px}
+.rh1 .rh-title{color:var(--fyt)} .rh2 .rh-title{color:var(--fly)} .rh3 .rh-title{color:var(--ok)}
+.rh-period{font-size:10px;color:var(--t3);margin-bottom:12px;font-weight:500}
+.rh-item{font-size:12.5px;color:var(--t2);padding:4px 0;border-bottom:1px solid rgba(26,58,92,.4);display:flex;gap:7px;align-items:flex-start}
+.rh-item:last-child{border:none}
+.rtag{font-size:9px;font-weight:700;text-transform:uppercase;padding:1px 5px;border-radius:3px;flex-shrink:0;margin-top:2px}
+.rt-tec{background:rgba(0,216,255,.15);color:var(--fyt)} .rt-est{background:rgba(34,197,94,.15);color:var(--ok)} .rt-pi{background:rgba(168,85,247,.15);color:var(--fly)} .rt-fin{background:rgba(255,107,53,.15);color:var(--warn)}
+
+/* TRL TRACKER */
+.trl-tracker{display:grid;grid-template-columns:repeat(9,1fr);gap:6px;margin:14px 0}
+.trl-node{text-align:center;padding:10px 4px;border-radius:var(--r-s);border:1px solid var(--bd);background:var(--bg-c);transition:.2s;cursor:default}
+.trl-node.active{background:var(--fyt-d);border-color:rgba(0,216,255,.4)}
+.trl-node.partial{background:rgba(0,216,255,.04);border-color:rgba(0,216,255,.2)}
+.trl-node .trl-n{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--t3)}
+.trl-node.active .trl-n{color:var(--fyt)} .trl-node.partial .trl-n{color:rgba(0,216,255,.5)}
+.trl-node .trl-l{font-size:10px;color:var(--t3);margin-top:3px;line-height:1.3}
+
+/* BUDGET TABLE */
+.bud-cat{background:var(--bg-e);padding:8px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--fyt);border-bottom:1px solid var(--bd)}
+
+/* MARKETING */
+.mkt-card{background:var(--bg-c);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:10px}
+.mkt-card h4{font-size:13.5px;font-weight:600;margin-bottom:8px}
+.mkt-tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:600;margin-right:5px;margin-bottom:5px}
+.mkt-ok{background:var(--ok-d);color:var(--ok)} .mkt-no{background:rgba(239,68,68,.1);color:#EF4444}
+
+/* COI GRID */
+.coi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0}
+.coi-day{text-align:center}
+.coi-day .day-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--t3);margin-bottom:6px}
+.coi-slot{border-radius:4px;padding:4px 2px;font-size:9.5px;text-align:center;margin-bottom:3px;font-weight:600}
+.coi-block{background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.2)}
+.coi-mget{background:var(--fly-d);color:var(--fly);border:1px solid rgba(168,85,247,.2)}
+.coi-free{background:var(--ok-d);color:var(--ok);border:1px solid rgba(34,197,94,.2)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  #sb{width:50px}
+  #sb .sb-logo .sub,nav a span,#sb .sb-ceo .info,.sb-tags .proj-tag span{display:none}
+  .sb-logo .brand{font-size:16px}
+  .sb-ceo .av{width:28px;height:28px;font-size:12px}
+  nav a{justify-content:center;padding:12px}
+  nav a .ic{width:auto}
+  #main{margin-left:50px}
+  .sec{padding:20px 16px}
+  .g2,.g3,.g4,.rh-grid,.fm-row{grid-template-columns:1fr}
+  .cs2,.cs3,.fm-full{grid-column:span 1}
+  .foda-g{grid-template-columns:1fr}
+  .hero{padding:24px 20px}
+  .hero h1{font-size:26px}
+  .coi-grid{grid-template-columns:repeat(3,1fr)}
+  .trl-tracker{grid-template-columns:repeat(3,1fr)}
+  .schedule-grid{grid-template-columns:60px repeat(4,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- STARS -->
+<div id="stars"></div>
+
+<!-- SIDEBAR -->
+<aside id="sb">
+  <div class="sb-logo"><div class="brand">FYT</div><div class="sub">EBCT · Fernanda Mesa</div></div>
+  <div class="sb-ceo"><div class="av">👩‍🔬</div><div class="info"><p>Fernanda Mesa</p><span>CEO & Fundadora · TRL 2</span></div></div>
+  <nav>
+    <a onclick="show('dash')" id="n-dash" class="active"><span class="ic">🚀</span><span>Dashboard FYT</span></a>
+    <a onclick="show('eco')" id="n-eco"><span class="ic">🌐</span><span>Ecosistema</span></a>
+    <a onclick="show('est')" id="n-est"><span class="ic">⚔️</span><span>Estrategia Competitiva</span></a>
+    <a onclick="show('pi')" id="n-pi"><span class="ic">🛡️</span><span>PI & Contratos</span></a>
+    <a onclick="show('hist')" id="n-hist"><span class="ic">✈️</span><span>Historia del Vuelo</span></a>
+    <a onclick="show('bud')" id="n-bud"><span class="ic">💰</span><span>Presupuesto</span></a>
+    <a onclick="show('mkt')" id="n-mkt"><span class="ic">📣</span><span>Marketing sin COI</span></a>
+    <a onclick="show('pm')" id="n-pm"><span class="ic">🤖</span><span>Gestor IA</span></a>
+    <a onclick="show('road')" id="n-road"><span class="ic">🗺️</span><span>Hoja de Ruta</span></a>
+    <a onclick="show('aic')" id="n-aic"><span class="ic">📄</span><span>Contexto para IA</span></a>
+  </nav>
+  <div class="sb-tags">
+    <div class="proj-tag"><div class="proj-dot" style="background:var(--fyt)"></div><span style="font-size:11px;color:var(--fyt)">FYT · AirCar CO₂</span></div>
+    <div class="proj-tag"><div class="proj-dot" style="background:var(--dry)"></div><span style="font-size:11px;color:var(--dry)">DRONETRY · Cable</span></div>
+    <div class="proj-tag"><div class="proj-dot" style="background:var(--fly)"></div><span style="font-size:11px;color:var(--fly)">FLY · eVTOL Enlace</span></div>
+  </div>
+</aside>
+
+<main id="main">
+
+<!-- ======================== DASHBOARD FYT ======================== -->
+<section id="dash" class="sec active">
+  <div class="hero">
+    <div class="orbit-ring"></div><div class="orbit-ring2"></div>
+    <div class="hero-badge">🌍 Empresa de Base Científica y Tecnológica · TRL 2</div>
+    <h1>El vehículo aéreo que<br><span>descontamina el planeta</span></h1>
+    <p>FYT es la empresa privada de Fernanda Mesa: un AirCar eléctrico que integra en su estructura un sistema activo de aspiración y captura de CO₂ para reducir la huella de carbono global mientras vuela.</p>
+    <div class="hero-chips">
+      <span class="chip chip-fyt">✈️ AirCar sin cable</span>
+      <span class="chip chip-dry">🔌 DRONETRY · Drone con cable</span>
+      <span class="chip chip-fly">🏙️ FLY · eVTOL market linkage</span>
+      <span class="chip chip-warn">🌿 ODS 9 · 13 · 3</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="v">TRL 2</div><div class="l">Estado actual FYT</div></div>
+      <div class="hs"><div class="v">45%</div><div class="l">Dedicación activa Fernanda</div></div>
+      <div class="hs"><div class="v">100%</div><div class="l">IP propiedad de Fernanda</div></div>
+      <div class="hs"><div class="v">3</div><div class="l">Proyectos en sinergia</div></div>
+    </div>
+  </div>
+
+  <div class="slabel">PERFIL CEO — Fernanda Mesa Carrasco</div>
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+        <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--fyt),#60A5FA);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">👩‍🔬</div>
+        <div>
+          <h3 style="font-size:16px;margin:0">Fernanda Mesa Carrasco</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px">
+            <span class="chip chip-fyt">CEO & Fundadora FYT</span>
+            <span class="chip chip-ok">Física · Ingeniera</span>
+          </div>
+        </div>
+      </div>
+      <ul>
+        <li><b>Formación:</b> Física e Ingeniería, Universidad de Concepción</li>
+        <li><b>Magíster:</b> MGET UAI · Gestión y Emprendimiento Tecnológico</li>
+        <li><b>Diploma:</b> Transferencia Tecnológica e Innovación</li>
+        <li><b>Experticia IP:</b> Gestora de Propiedad Intelectual aplicada a Ciencia</li>
+        <li><b>Rol DroneTRY:</b> Coordinadora R&D y Apoyo Hardware</li>
+        <li><b>Rol FLY:</b> Investigación de mercado, patentes y portafolio eVTOL</li>
+        <li><b>Visión:</b> Primera mujer en implementar tecnología AirCar en Chile</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">Estado de Proyectos</h3>
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span style="font-size:13px;font-weight:600;color:var(--fyt)">FYT · AirCar CO₂</span><span class="b b-fyt">TRL 2</span></div>
+        <div class="trl-bar"><div class="trl-fill" style="width:22%;background:var(--fyt)"></div></div>
+        <p style="font-size:12px;color:var(--t3);margin-top:3px">Investigación técnica, estado del arte, búsqueda de laboratorio</p>
+      </div>
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span style="font-size:13px;font-weight:600;color:var(--dry)">DRONETRY · Drone Cable</span><span class="b b-dry">TRL 2-3</span></div>
+        <div class="trl-bar"><div class="trl-fill" style="width:30%;background:var(--dry)"></div></div>
+        <p style="font-size:12px;color:var(--t3);margin-top:3px">Sistema HVDC + fibra óptica en prototipado con UdeC/Tomás</p>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span style="font-size:13px;font-weight:600;color:var(--fly)">FLY · eVTOL Enlace</span><span class="b b-fly">TRL 2</span></div>
+        <div class="trl-bar"><div class="trl-fill" style="width:20%;background:var(--fly)"></div></div>
+        <p style="font-size:12px;color:var(--t3);margin-top:3px">Mapeo regulatorio DGAC, enlace con fabricantes internacionales</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slabel">POR QUÉ FYT TIENE SENTIDO — El hilo conductor de Fernanda</div>
+  <div class="g3">
+    <div class="card">
+      <div class="ci ci-dry">🔌</div>
+      <h3>DroneTRY → FYT</h3>
+      <p>FYT <b>licenciará la tecnología de transmisión HVDC</b> de DroneTRY para dar al AirCar autonomía ilimitada y seguridad anticaída como línea de vida. Sin esta tech, el AirCar depende de baterías limitadas.</p>
+    </div>
+    <div class="card">
+      <div class="ci ci-fly">🏙️</div>
+      <h3>FLY → FYT</h3>
+      <p>Cuando el AirCar esté listo para entrar al mercado, el equipo de <b>FLY se convierte en el brazo de ingeniería</b> de FYT bajo condiciones de vesting. FLY hoy mapea el campo regulatorio que FYT necesitará mañana.</p>
+    </div>
+    <div class="card">
+      <div class="ci ci-fyt">🌍</div>
+      <h3>FYT · La síntesis</h3>
+      <p>FYT no parte de cero: <b>hereda conocimiento, redes y tecnología</b> de dos proyectos en marcha. El recorrido de Fernanda antes de ponerle nombre a su empresa ya construyó los cimientos del AirCar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== ECOSISTEMA ======================== -->
+<section id="eco" class="sec">
+  <div class="sh"><h2>Ecosistema de Proyectos</h2><p>Tres proyectos independientes con sinergia cuidadosamente diseñada</p></div>
+
+  <!-- FYT -->
+  <div class="slabel">FYT · EMPRESA PRINCIPAL (solo de Fernanda)</div>
+  <div style="background:linear-gradient(135deg,rgba(0,216,255,.07),var(--bg-c));border:1px solid rgba(0,216,255,.3);border-radius:var(--r-l);padding:20px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="background:var(--fyt-d);border:2px solid rgba(0,216,255,.4);border-radius:var(--r);padding:10px;font-size:24px">🛸</div>
+      <div><div class="ey">FYT · EBCT Privada</div><h3 style="font-size:18px;font-family:'Space Grotesk',sans-serif;color:var(--fyt)">AirCar con Captura de CO₂</h3></div>
+    </div>
+    <div class="g3">
+      <div><h4 style="font-size:12px;color:var(--t3);margin-bottom:6px;text-transform:uppercase;font-weight:700;letter-spacing:.5px">Naturaleza</h4><p style="font-size:13px;color:var(--t2)">Empresa de Base Científica y Tecnológica (EBCT). Vehículo comercial privado y exclusivo de Fernanda Mesa.</p></div>
+      <div><h4 style="font-size:12px;color:var(--t3);margin-bottom:6px;text-transform:uppercase;font-weight:700;letter-spacing:.5px">Tecnología Core</h4><p style="font-size:13px;color:var(--t2)">AirCar eléctrico que integra en su chasis una estructura activa de <b style="color:var(--fyt)">aspiración y captura de CO₂</b>. Idea original de Fernanda en clase de Transformación Digital UAI.</p></div>
+      <div><h4 style="font-size:12px;color:var(--t3);margin-bottom:6px;text-transform:uppercase;font-weight:700;letter-spacing:.5px">Objetivo</h4><p style="font-size:13px;color:var(--t2)">Descontaminar el planeta, reducir la huella de carbono y bajar la temperatura de la Tierra mientras el vehículo opera.</p></div>
+    </div>
+    <div class="div"></div>
+    <div class="g3">
+      <div><p style="font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;margin-bottom:5px">Alineación ODS</p><span class="chip chip-fyt">ODS 9 Industria</span><span class="chip chip-fyt" style="margin-left:4px">ODS 13 Clima</span><span class="chip chip-fyt" style="margin-left:4px">ODS 3 Salud</span></div>
+      <div><p style="font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;margin-bottom:5px">IP Status</p><span class="chip chip-ok">100% Fernanda Mesa</span></div>
+      <div><p style="font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;margin-bottom:5px">TRL Actual → Meta</p><span class="chip chip-fyt">TRL 2 → TRL 6 (36M)</span></div>
+    </div>
+  </div>
+
+  <!-- DRONETRY -->
+  <div class="slabel">DRONETRY · Proyecto Colaborativo UdeC (independiente de FYT)</div>
+  <div style="background:linear-gradient(135deg,rgba(0,200,150,.07),var(--bg-c));border:1px solid rgba(0,200,150,.3);border-radius:var(--r-l);padding:20px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="background:var(--dry-d);border:2px solid rgba(0,200,150,.4);border-radius:var(--r);padding:10px;font-size:24px">🔌</div>
+      <div><div style="font-size:10px;font-weight:700;color:var(--dry);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px">DroneTRY · TRL 2-3</div><h3 style="font-size:18px;font-family:'Space Grotesk',sans-serif;color:var(--dry)">Drone Cautivo HVDC para Seguridad 24/7</h3></div>
+    </div>
+    <div class="g2">
+      <ul style="list-style:none">
+        <li style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid rgba(26,58,92,.5);font-size:13px;color:var(--t2)"><b style="color:var(--dry)">Bruno Osses</b> · Ing. Eléctrico, CEO electromovilidad, experto en energía portátil</li>
+        <li style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid rgba(26,58,92,.5);font-size:13px;color:var(--t2)"><b style="color:var(--dry)">Julio Hofflinger</b> · Ing. Forestal, Director JHEDAI (IA y Visión Computacional)</li>
+        <li style="display:flex;gap:8px;padding:5px 0;font-size:13px;color:var(--t2)"><b style="color:var(--dry)">Tomás</b> · Memorista UdeC · <b style="color:var(--dry)">Fernanda</b> · Coordinadora R&D + Hardware</li>
+      </ul>
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:8px"><b style="color:var(--t1)">Tecnología:</b> Drone tethered para camiones/camionetas. Cable HVDC para energía ilimitada + fibra óptica para comunicación sin interferencias. Monitoreo RGB + térmico + IA para vigilancia forestal e industrial.</p>
+        <p style="font-size:13px;color:var(--t2)"><b style="color:var(--dry)">Sinergia FYT:</b> FYT licenciará la tecnología de transmisión HVDC para dar autonomía ilimitada y seguridad anticaída al AirCar.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLY -->
+  <div class="slabel">FLY · Proyecto de Enlace Estratégico (descongestión + regulación)</div>
+  <div style="background:linear-gradient(135deg,rgba(168,85,247,.07),var(--bg-c));border:1px solid rgba(168,85,247,.3);border-radius:var(--r-l);padding:20px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="background:var(--fly-d);border:2px solid rgba(168,85,247,.4);border-radius:var(--r);padding:10px;font-size:24px">🏙️</div>
+      <div><div style="font-size:10px;font-weight:700;color:var(--fly);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px">FLY · TRL 2</div><h3 style="font-size:18px;font-family:'Space Grotesk',sans-serif;color:var(--fly)">Descongestionamiento de Tráfico · eVTOL Enlace Industrial</h3></div>
+    </div>
+    <div class="g2">
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:10px"><b style="color:var(--t1)">Foco actual:</b> Mapear y negociar alianzas con fabricantes internacionales de eVTOL/Flying Taxis que ya poseen tecnología certificada, para implementación en Chile a un único público objetivo (logística crítica o transporte ejecutivo premium).</p>
+        <p style="font-size:13px;color:var(--t2)"><b style="color:var(--fly)">Sinergia FYT:</b> FLY descongestiona el tránsito y construye el ecosistema regulatorio que FYT necesitará. Además, cuando el AirCar esté listo, el equipo de FLY puede convertirse en socios de FYT bajo vesting.</p>
+      </div>
+      <div>
+        <p style="font-size:11px;color:var(--t3);font-weight:700;text-transform:uppercase;margin-bottom:8px">Lo que FLY NO hace</p>
+        <ul style="list-style:none">
+          <li style="display:flex;gap:7px;padding:4px 0;font-size:12.5px;color:var(--t2);border-bottom:1px solid rgba(26,58,92,.4)"><span style="color:#EF4444">✗</span> No realiza prototipos físicos de hardware</li>
+          <li style="display:flex;gap:7px;padding:4px 0;font-size:12.5px;color:var(--t2);border-bottom:1px solid rgba(26,58,92,.4)"><span style="color:#EF4444">✗</span> No interfiere con los desarrollos de I+D de FYT</li>
+          <li style="display:flex;gap:7px;padding:4px 0;font-size:12.5px;color:var(--t2)"><span style="color:#EF4444">✗</span> No tiene IP propia de AirCar (eso es solo FYT)</li>
+        </ul>
+        <div class="slabel" style="padding-top:10px">Condiciones de Vesting FLY → FYT</div>
+        <ul style="list-style:none">
+          <li style="display:flex;gap:7px;padding:4px 0;font-size:12.5px;color:var(--t2);border-bottom:1px solid rgba(26,58,92,.4)"><span style="color:var(--fly)">✓</span> Cliff 12 meses: sin cumplimiento = 0% acciones</li>
+          <li style="display:flex;gap:7px;padding:4px 0;font-size:12.5px;color:var(--t2);border-bottom:1px solid rgba(26,58,92,.4)"><span style="color:var(--fly)">✓</span> Hito 1: firmware autónomo validado</li>
+          <li style="display:flex;gap:7px;padding:4px 0;font-size:12.5px;color:var(--t2)"><span style="color:var(--fly)">✓</span> Hito 2: certificación DGAC experimental</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slabel">EQUIPO · Roles y Valuación de Rendimiento</div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Persona</th><th>Cargo</th><th>Proyecto</th><th>% Avance Global</th><th>% Hito Específico</th><th>Actividades</th></tr></thead>
+      <tbody>
+        <tr><td><b>Fernanda Mesa</b></td><td>CEO & Fundadora</td><td><span class="b b-fyt">FYT</span> <span class="b b-dry">DRONETRY</span> <span class="b b-fly">FLY</span></td><td><b style="color:var(--fyt)">45%</b></td><td>Integración total del ecosistema</td><td>Estrategia, IP, relaciones UdeC, inversores, negociación, gobernanza</td></tr>
+        <tr><td><b>Matías Tapia</b></td><td>Director Vigilancia Tecnológica e I+D</td><td><span class="b b-fyt">FYT</span></td><td><b style="color:var(--dry)">15%</b></td><td><b style="color:var(--ok)">90%</b> de Fase Factibilidad</td><td>Estado del Arte, búsqueda de patentes (FTO), evaluación laboratorio de prototipado</td></tr>
+        <tr><td><b>Bruno Osses</b></td><td>Director de Energía y Propulsión</td><td><span class="b b-dry">DRONETRY</span></td><td>—</td><td>HVDC cable + baterías</td><td>Diseño sistema de potencia, conversión de motores eléctricos</td></tr>
+        <tr><td><b>Julio Hofflinger</b></td><td>Director de IA y Visión Computacional</td><td><span class="b b-dry">DRONETRY</span></td><td>—</td><td>IA monitoreo + incendios</td><td>Visión computacional, modelos de detección de incendios forestales</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ======================== ESTRATEGIA COMPETITIVA ======================== -->
+<section id="est" class="sec">
+  <div class="sh"><h2>Estrategia Competitiva</h2><p>12 pasos para levantar una empresa de base científica y tecnológica exitosa · Teoría MGET UAI</p></div>
+
+  <div class="step">
+    <div class="step-n">01</div>
+    <div class="step-c">
+      <h4>Definición del Problema de Raíz (Enamorarse del Problema)</h4>
+      <p>Antes de la solución, define con precisión el Job-to-be-Done (JTBD). Para FYT: "Las ciudades necesitan movilidad aérea que simultáneamente reduzca el CO₂ atmosférico." No construyas un AirCar; construye la solución al problema climático con movilidad integrada.</p>
+      <div class="tool">📚 Herramienta: Jobs Theory (Christensen) · Design Thinking (IDEO) · Problem Statement</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">02</div>
+    <div class="step-c">
+      <h4>Análisis del Entorno — PESTEL + Porter's 5 Forces</h4>
+      <p>Mapea el ecosistema externo. Para FYT: ¿Qué regulaciones de la DGAC afectan el lanzamiento? ¿Qué competidores globales (Joby, Lilium, EHang) podrían llegar a Chile? ¿Qué oportunidades climaticas abre el Green New Deal y ODS?</p>
+      <div class="tool">📚 Herramienta: PESTEL · 5 Fuerzas de Porter · JTBD · Blue Ocean (Kim & Mauborgne)</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">03</div>
+    <div class="step-c">
+      <h4>Propuesta de Valor Única y Diferenciada</h4>
+      <p>¿Por qué FYT y no Joby? La captura de CO₂ integrada es el diferenciador radical. Un AirCar que además limpia el aire no es un taxi volador, es infraestructura ambiental. Esa distinción es la propuesta de valor que ningún competidor tiene hoy.</p>
+      <div class="tool">📚 Herramienta: Value Proposition Canvas (Osterwalder) · Proposición de Valor Única</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">04</div>
+    <div class="step-c">
+      <h4>Protección de la Innovación (IP First — antes de hablar con nadie)</h4>
+      <p>Antes de mostrar el prototipo o presentar en un concurso, asegura la novedad. Búsqueda FTO (Freedom to Operate) en Espacenet, Google Patents y INAPI. Presentar una solicitud provisional de patente en Chile (protege por 12 meses a bajo costo). Registrar la marca FYT.</p>
+      <div class="tool">📚 Herramienta: INAPI Chile · Espacenet (EPO) · Google Patents · PCT (WIPO) · Ley 19.039</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">05</div>
+    <div class="step-c">
+      <h4>Modelo de Negocio y Captura de Valor</h4>
+      <p>¿Cómo FYT gana dinero? Posibles fuentes: (1) venta de AirCars, (2) bonos de carbono por CO₂ capturado, (3) servicios de monitoreo ambiental en vuelo, (4) licencias de la tecnología de captura a terceros. El Business Model Canvas debe mostrar todas las fuentes de ingreso.</p>
+      <div class="tool">📚 Herramienta: Business Model Canvas (Osterwalder) · Lean Canvas · Porter Value Chain</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">06</div>
+    <div class="step-c">
+      <h4>Estrategia Competitiva — Posicionamiento y Playing to Win</h4>
+      <p>FYT juega en <b>diferenciación radical</b> (Porter), no en costos. Primero en Chile (primer mover advantage). El Playing to Win define: Aspiración = ser la primera empresa de AirCar con CO₂ capture en Latam. Dónde jugar = Chile primero, grandes ciudades contaminadas. Cómo ganar = CO₂ capture + autonomía ilimitada (DroneTRY tech).</p>
+      <div class="tool">📚 Herramienta: Porter Generic Strategies · Playing to Win (Roger Martin) · Blue Ocean</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">07</div>
+    <div class="step-c">
+      <h4>Hoja de Ruta Tecnológica (TRL 1 → 9)</h4>
+      <p>Estructurar el camino de madurez tecnológica con hitos verificables: TRL 1-2 (investigación básica), TRL 3-4 (prueba de concepto), TRL 5-6 (prototipo real), TRL 7-8 (piloto y validación), TRL 9 (mercado). Cada TRL define el financiamiento requerido y el tipo de validación necesaria.</p>
+      <div class="tool">📚 Herramienta: NASA TRL Framework · Technology Roadmapping (Phaal, Farrukh) · Lean Startup</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">08</div>
+    <div class="step-c">
+      <h4>Constitución Legal de la EBCT</h4>
+      <p>Constituir la SpA (Sociedad por Acciones) como vehículo legal de FYT. En Chile, la Ley 20.241 y la Ley EBCT (si aplica) permiten estructuras especiales para spin-offs de investigación. Registrar: RUT empresarial, marca FYT en INAPI, contratos de IP con todos los colaboradores ANTES de que escriban una línea de código.</p>
+      <div class="tool">📚 Herramienta: Ley 20.241 · SpA Chile · CORFO · INAPI · Notaría</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">09</div>
+    <div class="step-c">
+      <h4>Equipo y Gobernanza (Cap Table + Vesting)</h4>
+      <p>Define quién puede ser socio, cuándo y bajo qué condiciones. El Cap Table inicial es 100% Fernanda. Los socios futuros (equipo FLY) entran solo al cumplir hitos técnicos documentados. Cliff de 12 meses: si se van antes, no reciben nada. Proteger con pacto de socios ante notario.</p>
+      <div class="tool">📚 Herramienta: Cap Table Management · Pacto de Socios · Vesting Schedule · NDAs</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">10</div>
+    <div class="step-c">
+      <h4>Financiamiento por Etapas (Bootstrapping → VC)</h4>
+      <p>TRL 2-3: CORFO Capital Semilla (~$25-50M CLP), Startup Chile, concursos universitarios UAI. TRL 4-5: Fondos FONDEF I+D, InvestChile, angels especializados en cleantech. TRL 6+: VC de impacto (Acumen, Breakthrough Energy). Los bonos de carbono pueden ser fuente de ingreso temprano antes del producto final.</p>
+      <div class="tool">📚 Herramienta: CORFO · Startup Chile · FONDEF · InvestChile · Pitch Deck</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">11</div>
+    <div class="step-c">
+      <h4>Go-to-Market y Adopción Cultural (Crossing the Chasm)</h4>
+      <p>El miedo a los autos voladores es real. La estrategia de Fernanda: charlas regionales con prototipos educativos, el cable como "línea de vida" (DroneTRY synergy), interfaz "One-Button Fly", alianza con municipios para crear las primeras zonas de prueba en Chile. Adoptar primero a innovadores y early adopters antes de masificar.</p>
+      <div class="tool">📚 Herramienta: Geoffrey Moore (Crossing the Chasm) · Rogers (Diffusion of Innovation) · Design for Adoption</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">12</div>
+    <div class="step-c">
+      <h4>Métricas, KPIs y Dashboard de Control (Playing to Win SMART)</h4>
+      <p>KPIs para FYT TRL 2→4: (1) Papers de estado del arte compilados, (2) Patentes encontradas en búsqueda FTO, (3) Laboratorio habilitado Mes 3, (4) Primer prototipo funcional Mes 12, (5) Primera presentación pública Mes 6, (6) Inversión semilla asegurada Mes 9.</p>
+      <div class="tool">📚 Herramienta: OKRs · KPIs SMART · Balanced Scorecard · Metabase Dashboard</div>
+    </div>
+  </div>
+
+  <div class="slabel">ANÁLISIS FODA — FYT</div>
+  <div class="foda-g">
+    <div class="fc fc-f"><h3>💪 Fortalezas</h3><ul><li>Única empresa en Chile y Latam con CO₂ capture + AirCar</li><li>CEO con perfil dual: Física + IP Manager (muy raro)</li><li>Sinergia real con DroneTRY (tech HVDC) y FLY (regulación)</li><li>Idea protegible con patente (materialización técnica real)</li><li>Formación MGET UAI: acceso a red de contactos e inversores</li></ul></div>
+    <div class="fc fc-o"><h3>🚀 Oportunidades</h3><ul><li>Mercado eVTOL global valuado en $1.5 Trillion al 2040</li><li>Chile: regulación DGAC aún moldeable (first mover)</li><li>Bonos de carbono como fuente de ingreso antes del producto</li><li>CORFO, FONDEF, Startup Chile disponibles para EBCT</li><li>ODS 13 como narrativa de impacto para fundraising global</li></ul></div>
+    <div class="fc fc-d"><h3>⚠️ Debilidades</h3><ul><li>TRL muy bajo: aún sin prototipo físico construido</li><li>Financiamiento inicial limitado</li><li>Sin laboratorio de prototipado habilitado aún</li><li>Poca visibilidad pública en Chile en el sector aeroespacial</li><li>Tiempo limitado: trabajo + magíster + tres proyectos</li></ul></div>
+    <div class="fc fc-a"><h3>🔴 Amenazas</h3><ul><li>Joby Aviation o EHang pueden llegar a Chile antes</li><li>Regulación DGAC puede ser restrictiva para nuevos actores</li><li>Costo de certificación aeronáutica muy alto (>$10M USD)</li><li>Captura CO₂ integrada en vuelo: física aún muy compleja</li><li>Conflicto de interés con trabajo actual si no se gestiona bien</li></ul></div>
+  </div>
+</section>
+
+<!-- ======================== PI & CONTRATOS ======================== -->
+<section id="pi" class="sec">
+  <div class="sh"><h2>Propiedad Intelectual & Contratos</h2><p>Análisis legal completo bajo Ley 19.039 (INAPI) y Ley 17.336 Chile</p></div>
+
+  <div class="slabel">ESCENARIOS DE TITULARIDAD — ¿Quién es dueño del AirCar CO₂?</div>
+
+  <div class="scenario">
+    <div class="sc-head">
+      <div class="sc-letter sc-a">A</div>
+      <div><h3 style="font-size:15px;margin-bottom:3px">Escenario A: Fernanda desarrolla el AirCar completamente sola</h3><p style="font-size:13px;color:var(--t2)">Investigación, documentación, prototipo y patente realizados íntegramente por Fernanda</p></div>
+    </div>
+    <div class="g2">
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:10px"><b style="color:var(--t1)">Análisis legal (Ley 19.039 + 17.336):</b> Si Fernanda realiza la investigación, documentación de la patente y los prototipos por su cuenta, ella es la <b style="color:var(--ok)">Autora e Inventora Única.</b></p>
+        <p style="font-size:13px;color:var(--t2)">El 100% de los derechos morales y patrimoniales de la patente y del software pertenecen exclusivamente a Fernanda Mesa (o a su EBCT FYT). No existe ninguna obligación de compartir regalías o acciones con terceros, a menos que utilice infraestructura universitaria bajo un contrato de trabajo que estipule lo contrario.</p>
+      </div>
+      <div>
+        <div class="sc-verdict vd-100">✅ Fernanda Mesa = 100% Dueña exclusiva · Sin obligación de compartir</div>
+        <div style="margin-top:12px;padding:12px;background:var(--ok-d);border-radius:var(--r-s);border:1px solid rgba(34,197,94,.2)">
+          <p style="font-size:12.5px;color:var(--ok)">💡 <b>Acción recomendada:</b> Llevar un registro de inventora con fechas (bitácora firmada y timbrada), guardar todos los borradores con timestamp de Git/drive. Esto fortalece la fecha de invención ante INAPI.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-head">
+      <div class="sc-letter sc-b">B</div>
+      <div><h3 style="font-size:15px;margin-bottom:3px">Escenario B: Fernanda recibe ayuda operativa y técnica directa</h3><p style="font-size:13px;color:var(--t2)">Un colaborador escribe código, monta electrónica, hace planos del chasis o diseña el sistema de CO₂</p></div>
+    </div>
+    <div class="g2">
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:10px"><b style="color:var(--t1)">Análisis legal:</b> Si un tercero escribe el firmware de vuelo, monta la electrónica, o realiza planos de ingeniería del chasis de CO₂, realiza una <b style="color:var(--warn)">contribución inventiva o técnica real.</b></p>
+        <p style="font-size:13px;color:var(--t2)">Legalmente se consideran <b>Co-inventores</b> (para patente ante INAPI) o <b>Co-autores</b> (para software ante DDI). La propiedad del activo intangible sería conjunta si no se firma un contrato previo.</p>
+      </div>
+      <div>
+        <div class="sc-verdict vd-shared" style="display:block;padding:8px 12px">⚠️ Riesgo: Co-propiedad no deseada si no hay contrato previo</div>
+        <div style="margin-top:12px;padding:12px;background:var(--warn-d);border-radius:var(--r-s);border:1px solid rgba(255,107,53,.2)">
+          <p style="font-size:12.5px;color:var(--warn)">⚡ <b>Mitigación MGET:</b> Antes de que CUALQUIER persona escriba código o toque hardware, debe firmar un <b>Contrato de Cesión de Derechos de PI Futuros</b> en favor de FYT. Este contrato transfiere automáticamente toda contribución técnica a la empresa de Fernanda.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-head">
+      <div class="sc-letter sc-c">C</div>
+      <div><h3 style="font-size:15px;margin-bottom:3px">Escenario C: Ayuda solo conceptual/verbal (opiniones en clase, sugerencias)</h3><p style="font-size:13px;color:var(--t2)">Compañeros del MGET o clase de Transformación Digital UAI opinaron sobre el concepto del AirCar CO₂</p></div>
+    </div>
+    <div class="g2">
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:10px"><b style="color:var(--t1)">La Regla de Oro de la PI:</b> Las ideas, comentarios verbales y sugerencias conceptuales <b style="color:var(--fyt)">NO son protegibles por ley.</b></p>
+        <p style="font-size:13px;color:var(--t2)">El Art. 1 de la Ley 19.039 y jurisprudencia INAPI/OMPI estipulan que la propiedad industrial protege <b>la solución técnica materializada, implementada y detallada en reivindicaciones</b>, no la idea abstracta de "un auto que aspire CO₂".</p>
+        <p style="font-size:13px;color:var(--t2);margin-top:8px">El hecho de que los compañeros opinaran en clase <b style="color:var(--fyt)">no les otorga ningún derecho de propiedad, co-inventoría ni participación</b> en FYT.</p>
+      </div>
+      <div>
+        <div class="sc-verdict vd-100b">✅ Fernanda = 100% dueña exclusiva · Opinadores = 0% derecho</div>
+        <div style="margin-top:12px;padding:12px;background:var(--fyt-d);border-radius:var(--r-s);border:1px solid rgba(0,216,255,.2)">
+          <p style="font-size:12.5px;color:var(--fyt)">📋 <b>Para ser co-inventor</b> se requiere participar en la formulación de la <b>solución técnica detallada y de sus reivindicaciones específicas</b>, no en la conversación conceptual previa. Los comentarios de clase no califican.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slabel">ESTRATEGIA DE IP PORTFOLIO — Acciones a tomar ahora</div>
+  <div class="g2" style="margin-bottom:16px">
+    <div class="tl">
+      <div class="tl-item"><div class="tl-year">Semana 1-2 · URGENTE</div><h4>Solicitud de Marca "FYT" en INAPI</h4><p>Clase 12 (vehículos), Clase 42 (tecnología), Clase 35 (servicios empresariales). Costo ~$150-250 USD. Protege la identidad de la empresa inmediatamente.</p></div>
+      <div class="tl-item"><div class="tl-year">Mes 1 · IP CRÍTICA</div><h4>Búsqueda de Prior Art y FTO</h4><p>Matías Tapia realiza búsqueda exhaustiva en Espacenet, Google Patents, INAPI, USPTO, JPO. Determina Freedom to Operate y espacio de patentabilidad para el sistema de CO₂ + AirCar.</p></div>
+      <div class="tl-item e2"><div class="tl-year">Mes 2-3 · PROTECCIÓN</div><h4>Solicitud Provisional de Patente</h4><p>Presentar ante INAPI una solicitud provisional (protege por 12 meses a muy bajo costo). Documenta la invención con reivindicaciones detalladas del sistema de aspiración CO₂.</p></div>
+      <div class="tl-item e2"><div class="tl-year">Mes 6+ · EXPANSIÓN</div><h4>Patente PCT (WIPO) para Latam</h4><p>Usar el sistema PCT para extender protección a Colombia, Perú, México, Brasil. Una sola solicitud protege en 153 países. Esencial antes de mostrar el prototipo públicamente.</p></div>
+      <div class="tl-item e3"><div class="tl-year">Continuo</div><h4>Secreto Industrial y NDAs</h4><p>Mantener como secreto industrial: firmware de vuelo, cálculos del cable cautivo, diseño del absorbedor CO₂. Todos los colaboradores firman NDA antes de ver cualquier documentación técnica.</p></div>
+    </div>
+    <div>
+      <div class="cb">
+        <div class="cb-h"><div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FEBC2E"></div><div class="dot" style="background:#28C840"></div></div><span>Estructura NDA + IP Assignment</span></div>
+        <pre><span class="cm">/* ACUERDO DE CONFIDENCIALIDAD Y CESIÓN DE PI */</span>
+
+<span class="kw">OBJETO:</span>
+  Colaboración en [FYT / FLY / DroneTRY]
+  Separada pero sinérgica con EBCT FYT
+
+<span class="kw">CLÁUSULA 1 · NDA:</span>
+  Prohibición absoluta de divulgar:
+  - Firmware de vuelo
+  - Cálculos del cable cautivo HVDC
+  - Diseño del absorbedor de CO₂
+  → Protege Novedad Internacional
+
+<span class="kw">CLÁUSULA 2 · IP ASSIGNMENT:</span>
+  Todo código, plano, maqueta y mejora
+  desarrollada en el proyecto →
+  se cede automáticamente a FYT S.p.A.
+
+<span class="kw">CLÁUSULA 3 · NO COMPETE:</span>
+  36 meses post-colaboración:
+  No puede participar en proyectos de:
+  - Vehículos aéreos cautivos similares
+  - Sistemas de captura CO₂ aéreos
+
+<span class="kw">CLÁUSULA 4 · VESTING (para socios):</span>
+  Cliff: 12 meses
+  Vesting: 36 meses trimestral
+  Condición: Hitos técnicos verificados</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== HISTORIA DEL VUELO ======================== -->
+<section id="hist" class="sec">
+  <div class="sh"><h2>Historia de los Vehículos Voladores</h2><p>Desde Leonardo da Vinci (1485) hasta Joby Aviation (2024) · Problemas globales y oportunidades para FYT</p></div>
+
+  <div class="slabel">ERA 1 · PIONEROS (1485 – 1939) · scroll horizontal →</div>
+  <div class="vc-scroll">
+    <div class="vc"><div class="vc-era e1">Era Pionera</div><h4>Ornithopter · da Vinci</h4><div class="vc-year">1485</div><p>Bocetos de máquina voladora con alas batientes. Nunca construida pero sentó bases del vuelo mecanizado.</p><div class="vc-prob">Problema: Sin motor. Sin materiales livianos.</div></div>
+    <div class="vc"><div class="vc-era e1">Era Pionera</div><h4>Globo Montgolfier</h4><div class="vc-year">1783</div><p>Primer vuelo humano tripulado. Aire caliente. Sin dirección controlable.</p><div class="vc-prob">Problema: Vuelo a merced del viento.</div></div>
+    <div class="vc"><div class="vc-era e1">Era Pionera</div><h4>Flyer · Wright Brothers</h4><div class="vc-year">1903</div><p>Primer vuelo motorizado y controlado. 59 segundos, 260 metros. Motor de 12 HP, 274 kg.</p><div class="vc-ok">Logro: Principio de control de tres ejes.</div></div>
+    <div class="vc"><div class="vc-era e1">Era Pionera</div><h4>Helicóptero · Paul Cornu</h4><div class="vc-year">1907</div><p>Primer vuelo vertical libre humano. 2 metros de altura por 20 segundos.</p><div class="vc-prob">Problema: Inestable, difícil de controlar.</div></div>
+    <div class="vc"><div class="vc-era e1">Era Pionera</div><h4>Autogiro C.4 · de la Cierva</h4><div class="vc-year">1923</div><p>Primera aeronave de ala rotatoria práctica. Precursor directo del helicóptero moderno.</p><div class="vc-ok">Logro: Rotor de autorrotación = seguridad.</div></div>
+    <div class="vc"><div class="vc-era e1">Era Pionera</div><h4>Fw 61 · Focke-Wulf</h4><div class="vc-year">1936</div><p>Primer helicóptero verdaderamente controlable. Vuelo de 80 km/h. Dos rotores laterales.</p><div class="vc-ok">Logro: Primer helicóptero práctico de la historia.</div></div>
+  </div>
+
+  <div class="slabel">ERA 2 · REVOLUCIÓN VTOL (1940 – 1969) · scroll horizontal →</div>
+  <div class="vc-scroll">
+    <div class="vc"><div class="vc-era e2">Revolución VTOL</div><h4>Sikorsky VS-300</h4><div class="vc-year">1939</div><p>Concepto moderno del helicóptero con un rotor principal + rotor de cola. Sikorsky. Estándar hasta hoy.</p><div class="vc-ok">Logro: Configuración que domina la industria 85 años después.</div></div>
+    <div class="vc"><div class="vc-era e2">Revolución VTOL</div><h4>XFY Pogo · Convair</h4><div class="vc-year">1954</div><p>Avión de combate VTOL de cola. Despegue y aterrizaje vertical sobre su cola. Piloto miraba al cielo al aterrizar.</p><div class="vc-prob">Problema: Aterrizaje imposible para el piloto. Cancelado.</div></div>
+    <div class="vc"><div class="vc-era e2">Revolución VTOL</div><h4>Ryan X-13 Vertijet</h4><div class="vc-year">1955</div><p>Jet puro con VTOL. Lograba vuelo vertical y horizontal. Proyecto militar EEUU.</p><div class="vc-prob">Problema: Sin aplicación práctica. Solo demostraciones.</div></div>
+    <div class="vc"><div class="vc-era e2">Revolución VTOL</div><h4>VZ-1 Pawnee · Hiller</h4><div class="vc-year">1955</div><p>Plataforma voladora unipersonal. El piloto inclinaba su cuerpo para dirigir. Dos fans ducted.</p><div class="vc-prob">Problema: Inestable con viento. Sin protección del piloto.</div></div>
+    <div class="vc"><div class="vc-era e2">Revolución VTOL</div><h4>X-22 · Bell</h4><div class="vc-year">1966</div><p>4 ventiladores en conductos rotables. Convertiplano con 4 props encajonadas. Experimental DARPA.</p><div class="vc-prob">Problema: Complejidad mecánica extrema. Nunca escaló.</div></div>
+    <div class="vc"><div class="vc-era e2">Revolución VTOL</div><h4>Harrier · Hawker Siddeley</h4><div class="vc-year">1969</div><p>Primer VTOL jet de combate práctico operativo. Toberas vectoriales. RAF lo usa por décadas.</p><div class="vc-ok">Logro: Primer VTOL jet operativo y efectivo de la historia.</div></div>
+  </div>
+
+  <div class="slabel">ERA 3 · TILTROTORS Y SUEÑOS (1970 – 2009) · scroll horizontal →</div>
+  <div class="vc-scroll">
+    <div class="vc"><div class="vc-era e3">Tiltrotors</div><h4>V-22 Osprey · Bell Boeing</h4><div class="vc-year">1989</div><p>Convertiplano militar. Rotores que se inclinan 90°: helicóptero al despegar, avión al crucero.</p><div class="vc-ok">Logro: Primer tiltrotor operativo en escala industrial (militar).</div></div>
+    <div class="vc"><div class="vc-era e3">Tiltrotors</div><h4>M400 Skycar · Moller</h4><div class="vc-year">1994–2003</div><p>El primer auto volador "personal". Paul Moller invirtió 30 años y $200M. Nunca voló de forma independiente. Financiado con engaño a inversores.</p><div class="vc-prob">Problema: Fraude, estafa, tecnología nunca funcionó. Mayor fracaso de la historia del AirCar.</div></div>
+    <div class="vc"><div class="vc-era e3">Tiltrotors</div><h4>PAL-V Liberty</h4><div class="vc-year">2005</div><p>Auto + girocóptero holandés. Se pliega para usar en la calle. Certificado en Europa. Precio: €500K.</p><div class="vc-prob">Problema: Necesita pista. No es VTOL. Nicho muy pequeño.</div></div>
+    <div class="vc"><div class="vc-era e3">Tiltrotors</div><h4>Transition · Terrafugia</h4><div class="vc-year">2009</div><p>Auto que se transforma en avión. FAA certified light sport aircraft. Ahora parte de Geely (Volvo).</p><div class="vc-prob">Problema: Necesita pista de aterrizaje. No es disruptivo.</div></div>
+  </div>
+
+  <div class="slabel">ERA 4 · REVOLUCIÓN eVTOL (2010 – 2019) · scroll horizontal →</div>
+  <div class="vc-scroll">
+    <div class="vc"><div class="vc-era e4">Revolución eVTOL</div><h4>Phantom 1 · DJI</h4><div class="vc-year">2013</div><p>Primer drone de consumo masivo. Dio acceso a VTOL autónomo al público. Creó industria del drone.</p><div class="vc-ok">Logro: Democratizó el VTOL autónomo. Base técnica de todo eVTOL.</div></div>
+    <div class="vc"><div class="vc-era e4">Revolución eVTOL</div><h4>EHang 184 · EHang</h4><div class="vc-year">2016</div><p>Primer drone de pasajeros. 1 persona. Autónomo. Vuelo ~23 min. Solo en China con restricciones.</p><div class="vc-prob">Problema: Rango limitado. Certificación solo en China. Dudas de seguridad.</div></div>
+    <div class="vc"><div class="vc-era e4">Revolución eVTOL</div><h4>Volocopter 2X</h4><div class="vc-year">2017</div><p>18 rotores, 2 personas. Demostración en Dubai 2017. Volopilot (autonomía). Alemania.</p><div class="vc-prob">Problema: Solo 27 minutos de vuelo. Sin cargo de pasajeros.</div></div>
+    <div class="vc"><div class="vc-era e4">Revolución eVTOL</div><h4>Flyer · Kitty Hawk</h4><div class="vc-year">2017</div><p>Larry Page (Google) financia. Primer eVTOL personal sobre agua. Solo 1 persona.</p><div class="vc-prob">Problema: No podía volar sobre tierra. Cancelado 2020.</div></div>
+    <div class="vc"><div class="vc-era e4">Revolución eVTOL</div><h4>S4 · Joby Aviation</h4><div class="vc-year">2018</div><p>6 rotores tiltados. 320 km/h. 240 km de rango. El más avanzado del mundo. Toyota y Delta invertidos.</p><div class="vc-ok">Logro: Más cercano a certificación FAA. El AirCar del futuro más serio.</div></div>
+    <div class="vc"><div class="vc-era e4">Revolución eVTOL</div><h4>Lilium Jet</h4><div class="vc-year">2019</div><p>72 mini-jets eléctricos en las alas. Velocidad 300 km/h. 6 plazas. Alemán. SPAC 2021.</p><div class="vc-prob">Problema: Bancarrota 2023. Reestructuración. Tecnología muy compleja.</div></div>
+  </div>
+
+  <div class="slabel">ERA 5 · CARRERA POR CERTIFICACIÓN (2020 – 2025) · scroll horizontal →</div>
+  <div class="vc-scroll">
+    <div class="vc"><div class="vc-era e5">Certificación</div><h4>Joby S4 · FAA</h4><div class="vc-year">2021–2025</div><p>Certificación FAA en proceso. Deal con Delta Airlines. USAF ya lo usa. El más cerca de mercado.</p><div class="vc-ok">✈️ El más avanzado del mundo. Referente global para FYT.</div></div>
+    <div class="vc"><div class="vc-era e5">Certificación</div><h4>Alia-250 · Beta Tech.</h4><div class="vc-year">2021</div><p>eVTOL de ala fija + VTOL. UPS y United Airlines partners. Vermont, EEUU.</p><div class="vc-ok">Logro: Primer eVTOL con carga real en pruebas (UPS).</div></div>
+    <div class="vc"><div class="vc-era e5">Certificación</div><h4>Midnight · Archer Avi.</h4><div class="vc-year">2022</div><p>12 rotores de elevación + 2 de crucero. United Airlines order de $1B. Stellantis produce.</p><div class="vc-prob">Problema: Certificación aún pendiente. Competencia muy fuerte.</div></div>
+    <div class="vc"><div class="vc-era e5">Certificación</div><h4>EH216-S · EHang</h4><div class="vc-year">2023</div><p>Primera certificación de tipo de drone de pasajeros en el mundo. CAAC (China). Vuelos comerciales.</p><div class="vc-ok">✅ Primer eVTOL del mundo certificado para pasajeros. Hito histórico.</div></div>
+    <div class="vc"><div class="vc-era e5">Certificación</div><h4>VX4 · Vertical Aerosp.</h4><div class="vc-year">2023</div><p>UK. 5 pasajeros. 200 mph. Rolls-Royce & American Airlines partners.</p><div class="vc-prob">Problema: CEO salió, financiamiento ajustado, retrasos.</div></div>
+    <div class="vc"><div class="vc-era e5">Certificación</div><h4>SA-2 · Supernal (Hyundai)</h4><div class="vc-year">2024</div><p>Hyundai entra al mercado eVTOL. 5 pasajeros. Producción en masa prevista con infraestructura automotriz.</p><div class="vc-ok">Potencial disruptivo: infraestructura manufacturera de Hyundai disponible.</div></div>
+  </div>
+
+  <div class="slabel">PROBLEMAS GLOBALES DE LA TECNOLOGÍA EVTOL — Oportunidades estratégicas de FYT</div>
+  <div class="g2">
+    <div>
+      <div class="card" style="margin-bottom:10px">
+        <div class="ci ci-warn">🔋</div>
+        <h3>Problema 1: Densidad Energética de Baterías</h3>
+        <p>Las baterías de Li-ion actuales (~250 Wh/kg) solo permiten 20-45 minutos de vuelo. Se necesita >500 Wh/kg para uso comercial práctico. FYT solución: cable HVDC de DroneTRY = autonomía ilimitada.</p>
+        <div style="margin-top:8px"><span class="chip chip-fyt">💡 FYT Oportunidad: cable HVDC elimina este problema</span></div>
+      </div>
+      <div class="card" style="margin-bottom:10px">
+        <div class="ci ci-warn">📋</div>
+        <h3>Problema 2: Certificación Aeronáutica</h3>
+        <p>La certificación FAA/EASA toma 7-10 años y cuesta >$100M USD. En Chile, la DGAC no tiene aún un marco regulatorio específico para eVTOLs. FLY está mapeando esta regulación para que FYT llegue preparada.</p>
+        <div style="margin-top:8px"><span class="chip chip-fly">💡 FLY trabaja en esto: primer mover advantage</span></div>
+      </div>
+      <div class="card" style="margin-bottom:10px">
+        <div class="ci ci-warn">🔊</div>
+        <h3>Problema 3: Contaminación Acústica</h3>
+        <p>Los eVTOLs siguen siendo ruidosos (65-75 dB a 500m). El diseño de propellers es crítico. El diseño del AirCar de FYT debe incorporar tecnología de reducción de ruido desde TRL 3.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:10px">
+        <div class="ci ci-warn">🏗️</div>
+        <h3>Problema 4: Infraestructura de Vertiports</h3>
+        <p>No existe infraestructura de despegue/aterrizaje en ciudades. Se necesitan vertiports integrados en edificios. En Chile, Santiago no tiene ninguno planificado. Oportunidad de FYT: alianza con constructoras y municipios.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px">
+        <div class="ci ci-warn">🧠</div>
+        <h3>Problema 5: Aceptación Cultural y Miedo</h3>
+        <p>El público teme que los eVTOLs caigan sobre sus casas. Fernanda tiene la estrategia perfecta: charlas educativas con prototipos, cable de DroneTRY como "línea de vida" visible, interfaz One-Button Fly.</p>
+        <div style="margin-top:8px"><span class="chip chip-fyt">💡 FYT tiene la solución: change management antes de vender</span></div>
+      </div>
+      <div class="card">
+        <div class="ci ci-warn">💰</div>
+        <h3>Problema 6: Costo por Unidad</h3>
+        <p>Los eVTOLs actuales cuestan $1-5M USD por unidad. El modelo de negocio de "air taxi as a service" (como Uber Air) puede hacer la tecnología accesible sin que el usuario compre el vehículo. Joby ya tiene deals con Delta.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== PRESUPUESTO ======================== -->
+<section id="bud" class="sec">
+  <div class="sh"><h2>Presupuesto de Prototipado</h2><p>Materiales y costos estimados para desarrollar el AirCar CO₂ desde modelo conceptual hasta prototipo funcional</p></div>
+
+  <div class="g3" style="margin-bottom:20px">
+    <div class="card" style="border-left:3px solid var(--fyt);text-align:center">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--fyt)">$3 – 10M</div>
+      <div style="font-size:12px;color:var(--t3);margin:4px 0 8px">CLP</div>
+      <h3>TRL 2 → 3</h3>
+      <p style="font-size:12px">Maqueta conceptual + modelo a escala 1/10 estático. Validación de diseño básico.</p>
+      <div style="margin-top:8px"><span class="chip chip-fyt">Etapa actual</span></div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--fly);text-align:center">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--fly)">$15 – 80M</div>
+      <div style="font-size:12px;color:var(--t3);margin:4px 0 8px">CLP</div>
+      <h3>TRL 3 → 5</h3>
+      <p style="font-size:12px">Prototipo funcional a escala reducida (1/5). Vuelo real, captura CO₂ básica demostrada.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--ok);text-align:center">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--ok)">$200 – 500M+</div>
+      <div style="font-size:12px;color:var(--t3);margin:4px 0 8px">CLP</div>
+      <h3>TRL 5 → 7</h3>
+      <p style="font-size:12px">Prototipo a escala real. Pruebas con piloto. Validación regulatoria DGAC.</p>
+    </div>
+  </div>
+
+  <div class="slabel">DETALLE DE MATERIALES Y COSTOS (TRL 2 → 4)</div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Categoría</th><th>Componente / Material</th><th>Especificación</th><th>Precio Est. (CLP)</th><th>Fuente</th><th>TRL</th></tr></thead>
+      <tbody>
+        <tr><td class="bud-cat" colspan="6">🏗️ Estructura y Materiales de Fuselaje</td></tr>
+        <tr><td>Estructura</td><td><b>Fibra de carbono (tela)</b></td><td>Tejido 2x2, 200 g/m², 1m²</td><td>$45.000 – $120.000</td><td>Alibaba / Importación</td><td><span class="b b-fyt">TRL 3</span></td></tr>
+        <tr><td>Estructura</td><td><b>Perfiles de aluminio aeronáutico</b></td><td>6061-T6, tubos y perfiles</td><td>$80.000 – $250.000/kg</td><td>Ferretería industrial CL</td><td><span class="b b-fyt">TRL 2-3</span></td></tr>
+        <tr><td>Estructura</td><td><b>Resina epoxi aeronáutica</b></td><td>Cytec FM73, 1kg</td><td>$60.000 – $180.000</td><td>Importación directa</td><td><span class="b b-fyt">TRL 3</span></td></tr>
+        <tr><td>Modelo</td><td><b>Impresión 3D FDM (PLA/PETG)</b></td><td>Por kilo de material</td><td>$15.000 – $40.000/kg</td><td>Mercado Libre Chile</td><td><span class="b b-fyt">TRL 2</span></td></tr>
+        <tr><td>Modelo</td><td><b>Foam de alta densidad (EPS)</b></td><td>Para maquetas conceptuales</td><td>$5.000 – $20.000/unidad</td><td>Ferretería local</td><td><span class="b b-fyt">TRL 2</span></td></tr>
+
+        <tr><td class="bud-cat" colspan="6">⚡ Sistema de Propulsión Eléctrica</td></tr>
+        <tr><td>Motor</td><td><b>Motor BLDC (Brushless DC)</b></td><td>KV 340-500, 6-12 kg empuje</td><td>$80.000 – $300.000/ud</td><td>T-Motor / Hobbywing</td><td><span class="b b-fly">TRL 3</span></td></tr>
+        <tr><td>Motor</td><td><b>ESC (Electronic Speed Controller)</b></td><td>80A-120A por motor</td><td>$40.000 – $120.000/ud</td><td>Maytech / Hobbywing</td><td><span class="b b-fly">TRL 3</span></td></tr>
+        <tr><td>Hélices</td><td><b>Hélice carbono bi-pala</b></td><td>30"–40" diámetro</td><td>$35.000 – $90.000/ud</td><td>T-Motor / APC</td><td><span class="b b-fly">TRL 3</span></td></tr>
+        <tr><td>Hélices</td><td><b>Hélice plegable de carbono</b></td><td>Para drones pesados</td><td>$50.000 – $150.000/ud</td><td>T-Motor</td><td><span class="b b-fly">TRL 4</span></td></tr>
+
+        <tr><td class="bud-cat" colspan="6">🔋 Sistema de Energía</td></tr>
+        <tr><td>Batería</td><td><b>LiPo 6S High-discharge</b></td><td>16.000 – 30.000 mAh</td><td>$200.000 – $500.000/pack</td><td>Tattu / Gens Ace</td><td><span class="b b-fly">TRL 3</span></td></tr>
+        <tr><td>Batería</td><td><b>Battery Management System</b></td><td>BMS 6S 100A</td><td>$80.000 – $200.000</td><td>Importación técnica</td><td><span class="b b-fly">TRL 3-4</span></td></tr>
+        <tr><td>Cable</td><td><b>Cable HVDC (DroneTRY tech)</b></td><td>600V, 50m, cobre trenzado</td><td>$500.000 – $2.000.000</td><td>Especial/fabricado</td><td><span class="b b-dry">TRL 3</span></td></tr>
+
+        <tr><td class="bud-cat" colspan="6">🧠 Electrónica de Vuelo y Control</td></tr>
+        <tr><td>Flight Controller</td><td><b>Pixhawk 6C</b></td><td>Ardupilot/PX4. Último modelo.</td><td>$250.000 – $450.000</td><td>Holybro / Importación</td><td><span class="b b-fyt">TRL 3</span></td></tr>
+        <tr><td>GPS</td><td><b>M10 GPS + Compass</b></td><td>RTK opcional para precisión cm</td><td>$80.000 – $300.000</td><td>Holybro</td><td><span class="b b-fyt">TRL 3</span></td></tr>
+        <tr><td>Telemetría</td><td><b>Módulo 915 MHz radio</b></td><td>Comunicación tierra-dron</td><td>$40.000 – $100.000</td><td>RFDesign / SiK</td><td><span class="b b-fyt">TRL 3</span></td></tr>
+        <tr><td>Sensores</td><td><b>LiDAR TF-Luna / TF-Mini</b></td><td>Evasión de obstáculos</td><td>$60.000 – $180.000</td><td>Benewake</td><td><span class="b b-fly">TRL 4</span></td></tr>
+        <tr><td>Computadora</td><td><b>NVIDIA Jetson Orin Nano</b></td><td>Cómputo IA embebido a bordo</td><td>$350.000 – $750.000</td><td>NVIDIA / Arrow</td><td><span class="b b-fly">TRL 4</span></td></tr>
+
+        <tr><td class="bud-cat" colspan="6">🌿 Sistema de Captura CO₂ (Innovación Central FYT)</td></tr>
+        <tr><td>Absorbente</td><td><b>Zeolitas 13X (pellets)</b></td><td>Captura CO₂ por adsorción física, 1 kg</td><td>$80.000 – $200.000/kg</td><td>Sigma-Aldrich / Proveedor técnico</td><td><span class="b b-fyt">TRL 2-3</span></td></tr>
+        <tr><td>Absorbente</td><td><b>Aminas (MEA - monoetanolamina)</b></td><td>Captura química CO₂, liquid</td><td>$30.000 – $100.000/L</td><td>Proveedor químico CL</td><td><span class="b b-fyt">TRL 2-3</span></td></tr>
+        <tr><td>MOF</td><td><b>Metal-Organic Frameworks</b></td><td>HKUST-1 o ZIF-8, alta eficiencia</td><td>$500.000 – $2.000.000/100g</td><td>Importación lab</td><td><span class="b b-fyt">TRL 2</span></td></tr>
+        <tr><td>Bomba</td><td><b>Micro-bomba de vacío</b></td><td>Para forzar aire por absorbente</td><td>$100.000 – $350.000</td><td>Parker / Thomas</td><td><span class="b b-fyt">TRL 3</span></td></tr>
+        <tr><td>Sensores</td><td><b>Sensor CO₂ MH-Z19C (NDIR)</b></td><td>Medición captura en tiempo real</td><td>$25.000 – $60.000</td><td>Winsen / Amazon</td><td><span class="b b-fyt">TRL 2-3</span></td></tr>
+
+        <tr><td class="bud-cat" colspan="6">🏭 Infraestructura de Laboratorio</td></tr>
+        <tr><td>Lab</td><td><b>Arriendo espacio lab (mensual)</b></td><td>50-100 m², taller industrial</td><td>$400.000 – $1.200.000/mes</td><td>Incuba UdeC / UAI Innova</td><td><span class="b b-fyt">TRL 2-3</span></td></tr>
+        <tr><td>Lab</td><td><b>Mesa de trabajo profesional</b></td><td>Estación con puesta a tierra</td><td>$200.000 – $600.000</td><td>Sodimac Pro / Importación</td><td><span class="b b-fyt">TRL 2</span></td></tr>
+        <tr><td>Lab</td><td><b>Soldador de temperatura controlada</b></td><td>Hakko FX-888D o similar</td><td>$150.000 – $350.000</td><td>Mercado electrónico CL</td><td><span class="b b-fyt">TRL 2</span></td></tr>
+        <tr><td>Lab</td><td><b>Osciloscopio digital 4CH</b></td><td>200 MHz mínimo</td><td>$500.000 – $1.500.000</td><td>Rigol / Tektronix</td><td><span class="b b-fly">TRL 3</span></td></tr>
+        <tr><td>Lab</td><td><b>Banco de pruebas de empuje</b></td><td>Para motores y hélices</td><td>$300.000 – $800.000</td><td>RCbenchmark / DIY</td><td><span class="b b-fly">TRL 3</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="background:var(--fyt-d);border:1px solid rgba(0,216,255,.25);border-radius:var(--r);padding:14px 18px;margin-top:8px">
+    <p style="font-size:13px">💡 <b style="color:var(--fyt)">Estrategia de financiamiento inicial:</b> Para TRL 2→3, el costo estimado es $5-15M CLP. Fuentes: CORFO Capital Semilla ($5-25M CLP), FONDEF Idea ($3-8M CLP), concursos UAI Innova, crowdfunding de ciencia, Incuba UdeC. Matías Tapia está evaluando si se puede usar el laboratorio de la UdeC sin costo adicional.</p>
+  </div>
+</section>
+
+<!-- ======================== MARKETING ======================== -->
+<section id="mkt" class="sec">
+  <div class="sh"><h2>Marketing sin Conflicto de Interés</h2><p>Estrategia de visibilidad que respeta el horario laboral y el magíster de Fernanda · Sin dañar su reputación profesional</p></div>
+
+  <div class="slabel">MAPA DE DISPONIBILIDAD SEMANAL — Horarios COI</div>
+  <div class="g2" style="margin-bottom:16px">
+    <div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px"><div style="width:14px;height:14px;border-radius:3px;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);flex-shrink:0"></div> <span style="color:#EF4444;font-weight:600">Bloqueado · Trabajo</span> <span style="color:var(--t3)">Lun-Vie 9:00 - 18:00</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px"><div style="width:14px;height:14px;border-radius:3px;background:var(--fly-d);border:1px solid rgba(168,85,247,.3);flex-shrink:0"></div> <span style="color:var(--fly);font-weight:600">Bloqueado · MGET UAI</span> <span style="color:var(--t3)">Vie 14:00-20:00 + Sáb 8:00-13:00</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px"><div style="width:14px;height:14px;border-radius:3px;background:var(--ok-d);border:1px solid rgba(34,197,94,.2);flex-shrink:0"></div> <span style="color:var(--ok);font-weight:600">Disponible · FYT Marketing</span> <span style="color:var(--t3)">Noches + Sáb tarde + Domingo</span></div>
+      </div>
+      <div class="coi-grid">
+        <div class="coi-day"><div class="day-name">LUN</div><div class="coi-slot coi-free">7-9 FYT</div><div class="coi-slot coi-block">9-18 Trab.</div><div class="coi-slot coi-free">19-22 FYT</div></div>
+        <div class="coi-day"><div class="day-name">MAR</div><div class="coi-slot coi-free">7-9 FYT</div><div class="coi-slot coi-block">9-18 Trab.</div><div class="coi-slot coi-free">19-22 FYT</div></div>
+        <div class="coi-day"><div class="day-name">MIÉ</div><div class="coi-slot coi-free">7-9 FYT</div><div class="coi-slot coi-block">9-18 Trab.</div><div class="coi-slot coi-free">19-22 FYT</div></div>
+        <div class="coi-day"><div class="day-name">JUE</div><div class="coi-slot coi-free">7-9 FYT</div><div class="coi-slot coi-block">9-18 Trab.</div><div class="coi-slot coi-free">19-22 FYT</div></div>
+        <div class="coi-day"><div class="day-name">VIE</div><div class="coi-slot coi-free">7-9 FYT</div><div class="coi-slot coi-block">9-13 Trab.</div><div class="coi-slot coi-mget">14-20 MGET</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="coi-grid" style="grid-template-columns:1fr 1fr;gap:8px">
+        <div class="coi-day"><div class="day-name">SÁB</div><div class="coi-slot coi-mget">8-13 MGET</div><div class="coi-slot coi-free">13-17 FYT Lab</div><div class="coi-slot coi-free">17-21 Mktg</div></div>
+        <div class="coi-day"><div class="day-name">DOM</div><div class="coi-slot coi-free">Día libre FYT</div><div class="coi-slot coi-free">Contenido</div><div class="coi-slot coi-free">Estrategia</div></div>
+      </div>
+      <div style="background:var(--ok-d);border:1px solid rgba(34,197,94,.2);border-radius:var(--r);padding:12px;margin-top:10px">
+        <p style="font-size:13px;color:var(--ok)">✅ <b>Estrategia clave:</b> Crear todo el contenido de la semana el domingo. Programar publicaciones automáticas con Buffer/Hootsuite para que se publiquen durante la semana en horarios óptimos (12pm y 7pm) sin que Fernanda tenga que estar presente.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slabel">ESTRATEGIA DE MARKETING POR CANAL</div>
+  <div class="g2">
+    <div>
+      <div class="mkt-card">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h4>🔵 LinkedIn (B2B Reputation)</h4><span class="mkt-tag mkt-ok">✅ Sin COI</span></div>
+        <p style="font-size:13px;color:var(--t2);margin:6px 0">Posicionar a Fernanda como referente en movilidad aérea, captura CO₂ y EBCT. Posts académicos, sin vender. Construye credibilidad sin que su empleador lo vea como amenaza.</p>
+        <p style="font-size:12px;color:var(--t3)">📅 Publicar: Martes y jueves 7pm. Programar el domingo.</p>
+      </div>
+      <div class="mkt-card">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h4>🔴 YouTube (Educación y Ciencia)</h4><span class="mkt-tag mkt-ok">✅ Sin COI</span></div>
+        <p style="font-size:13px;color:var(--t2);margin:6px 0">"Fernanda explica": videos cortos de 3-8 min sobre historia del vuelo, eVTOLs, CO₂ capture. Filmar los sábados en el lab. Editar domingos. No hay conflicto con el trabajo.</p>
+        <p style="font-size:12px;color:var(--t3)">📅 Subir: 1 video por semana. Sábado filmación, domingo edición.</p>
+      </div>
+      <div class="mkt-card">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h4>📸 Instagram / TikTok (Cultura Tech)</h4><span class="mkt-tag mkt-ok">✅ Sin COI</span></div>
+        <p style="font-size:13px;color:var(--t2);margin:6px 0">Mostrar el proceso de I+D en el laboratorio: "así se construye un AirCar en Chile". Humaniza la ciencia. Reels del lab, del magíster, de la investigación. No mencionar el empleador.</p>
+        <p style="font-size:12px;color:var(--t3)">📅 3 posts/semana programados. Filmación sábados en lab.</p>
+      </div>
+    </div>
+    <div>
+      <div class="mkt-card">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h4>🎤 Charlas y Conferencias</h4><span class="mkt-tag mkt-ok">✅ Sin COI (fuera de horario)</span></div>
+        <p style="font-size:13px;color:var(--t2);margin:6px 0">Charlas en universidades, colegios, eventos tech. Solo sábados y noches. "La física de los autos voladores" + "Cómo emprender en ciencia en Chile". Prototipo educativo como prop.</p>
+        <p style="font-size:12px;color:var(--t3)">📅 1 charla mensual mínimo. Construye reputación y early adopters.</p>
+      </div>
+      <div class="mkt-card">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h4>📰 Newsletter Semanal</h4><span class="mkt-tag mkt-ok">✅ Sin COI</span></div>
+        <p style="font-size:13px;color:var(--t2);margin:6px 0">"FYT Weekly: movilidad aérea + planeta". Enviado cada lunes 8am (redactado el domingo). Para inversores, early adopters, académicos. Herramienta: Mailchimp (gratuito hasta 500 suscriptores).</p>
+        <p style="font-size:12px;color:var(--t3)">📅 Redactar el domingo. Enviar automático el lunes 8am.</p>
+      </div>
+      <div class="mkt-card">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h4>⛔ Lo que NO hacer</h4><span class="mkt-tag mkt-no">⚠️ Riesgo COI</span></div>
+        <p style="font-size:13px;color:var(--t2);margin:6px 0">No publicar durante horario laboral desde dispositivos del trabajo. No mencionar el empleador en contenido FYT. No contactar clientes/inversores usando el mail corporativo. No usar recursos del empleador para FYT.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== GESTOR IA ======================== -->
+<section id="pm" class="sec">
+  <div class="sh"><h2>🤖 Gestor de Proyectos con IA</h2><p>Tu asistente personal diario · Tareas por prioridad · Progreso por proyecto · Gamificado</p></div>
+
+  <div class="g4" style="margin-bottom:18px">
+    <div class="card" style="text-align:center">
+      <div id="pm-score" style="font-size:28px;color:var(--fyt)">0</div>
+      <div style="font-size:11px;color:var(--t3)">✨ Puntos FYT</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div id="pm-done" style="font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--ok)">0</div>
+      <div style="font-size:11px;color:var(--t3)">✅ Completadas</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div id="pm-total" style="font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--fly)">0</div>
+      <div style="font-size:11px;color:var(--t3)">📋 Total Tareas</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div id="pm-streak" style="font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--warn)">0</div>
+      <div style="font-size:11px;color:var(--t3)">🔥 Racha días</div>
+    </div>
+  </div>
+
+  <div class="pm-header">
+    <div>
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px">Mis Tareas</h3>
+      <p style="font-size:12px;color:var(--t3)">Gestiona tu progreso en FYT, FLY y DroneTRY</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="pm-btn pm-btn-sec" onclick="clearDone()">🗑 Limpiar</button>
+      <button class="pm-btn pm-btn-primary" onclick="toggleForm()">+ Nueva Tarea</button>
+    </div>
+  </div>
+
+  <div id="task-form">
+    <h3>➕ Nueva Tarea</h3>
+    <div class="fm-row">
+      <div class="fm-col fm-full"><label>Título de la tarea</label><input id="t-title" type="text" placeholder="ej: Redactar claims de patente CO₂"></div>
+    </div>
+    <div class="fm-row">
+      <div class="fm-col"><label>Proyecto</label>
+        <select id="t-proj">
+          <option value="FYT">🛸 FYT · AirCar</option>
+          <option value="DRONETRY">🔌 DRONETRY</option>
+          <option value="FLY">🏙️ FLY</option>
+          <option value="MGET">🎓 MGET UAI</option>
+          <option value="PI">🛡️ PI & Legal</option>
+          <option value="Personal">👩‍🔬 Personal</option>
+        </select>
+      </div>
+      <div class="fm-col"><label>Prioridad</label>
+        <select id="t-pri">
+          <option value="crit">🔴 Crítico</option>
+          <option value="high">🟡 Alto</option>
+          <option value="med" selected>🟠 Normal</option>
+          <option value="low">🟢 Bajo</option>
+        </select>
+      </div>
+    </div>
+    <div class="fm-row">
+      <div class="fm-col"><label>Fecha límite</label><input id="t-due" type="date"></div>
+      <div class="fm-col"><label>Tiempo estimado</label>
+        <select id="t-time">
+          <option value="15min">⚡ 15 minutos</option>
+          <option value="30min">⏱ 30 minutos</option>
+          <option value="1h" selected>⏰ 1 hora</option>
+          <option value="2h">⏳ 2 horas</option>
+          <option value="4h">📅 Medio día</option>
+          <option value="1d">🗓 1 día</option>
+        </select>
+      </div>
+    </div>
+    <div class="fm-row">
+      <div class="fm-col fm-full"><label>Notas (opcional)</label><textarea id="t-note" rows="2" placeholder="Detalles, links, contexto..."></textarea></div>
+    </div>
+    <div class="fm-actions">
+      <button class="pm-btn pm-btn-primary" onclick="addTask()">✅ Agregar Tarea</button>
+      <button class="pm-btn pm-btn-sec" onclick="toggleForm()">Cancelar</button>
+    </div>
+  </div>
+
+  <div class="pm-filters">
+    <button class="pm-filter-btn active" onclick="filterTasks('all',this)">Todas</button>
+    <button class="pm-filter-btn" onclick="filterTasks('FYT',this)">🛸 FYT</button>
+    <button class="pm-filter-btn" onclick="filterTasks('DRONETRY',this)">🔌 DRONETRY</button>
+    <button class="pm-filter-btn" onclick="filterTasks('FLY',this)">🏙️ FLY</button>
+    <button class="pm-filter-btn" onclick="filterTasks('MGET',this)">🎓 MGET</button>
+    <button class="pm-filter-btn" onclick="filterTasks('PI',this)">🛡️ PI</button>
+    <button class="pm-filter-btn" onclick="filterTasks('crit',this)">🔴 Críticos</button>
+  </div>
+
+  <div class="task-list" id="task-list">
+    <!-- Tasks rendered by JS -->
+  </div>
+
+  <div style="margin-top:20px;padding:16px;background:var(--bg-c);border:1px solid var(--bd);border-radius:var(--r)">
+    <h3 style="font-size:13px;color:var(--fyt);margin-bottom:10px">💡 Prompts rápidos para copiar a Claude/ChatGPT</h3>
+    <div class="g2">
+      <div onclick="copyPrompt(this)" style="background:var(--bg-e);border:1px solid var(--bd);border-radius:var(--r-s);padding:10px;cursor:pointer;transition:.2s" onmouseover="this.style.borderColor='var(--fyt)'" onmouseout="this.style.borderColor='var(--bd)'">
+        <p style="font-size:11px;font-weight:700;color:var(--fyt);margin-bottom:4px">📋 Búsqueda de Patentes FTO</p>
+        <p style="font-size:12px;color:var(--t2)">"Realiza una búsqueda de prior art y análisis FTO para una invención que consiste en un vehículo aéreo eléctrico VTOL que integra en su estructura un sistema activo de aspiración y captura de CO2 atmosférico durante el vuelo. Busca en Espacenet, Google Patents y USPTO."</p>
+      </div>
+      <div onclick="copyPrompt(this)" style="background:var(--bg-e);border:1px solid var(--bd);border-radius:var(--r-s);padding:10px;cursor:pointer;transition:.2s" onmouseover="this.style.borderColor='var(--fyt)'" onmouseout="this.style.borderColor='var(--bd)'">
+        <p style="font-size:11px;font-weight:700;color:var(--dry);margin-bottom:4px">🔌 Diseño Sistema CO₂</p>
+        <p style="font-size:12px;color:var(--t2)">"Diseña un sistema de captura de CO2 liviano (&lt;5kg) que pueda instalarse en el fuselaje de un eVTOL de 100kg de peso máximo. Evalúa: zeolitas 13X, MOFs tipo HKUST-1 y soluciones amínicas. Considera la presión del flujo de aire a 100 km/h."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== ROADMAP ======================== -->
+<section id="road" class="sec">
+  <div class="sh"><h2>Hoja de Ruta FYT</h2><p>Tracker de progreso didáctico · De TRL 2 a TRL 9 · Fernanda puede ir marcando sus avances</p></div>
+
+  <div class="slabel">ESTADO ACTUAL TRL (Technology Readiness Level)</div>
+  <div class="trl-tracker">
+    <div class="trl-node active"><div class="trl-n">1</div><div class="trl-l">Principio básico observado</div></div>
+    <div class="trl-node active"><div class="trl-n">2</div><div class="trl-l">Concepto tecnológico</div></div>
+    <div class="trl-node partial"><div class="trl-n">3</div><div class="trl-l">Prueba experimental</div></div>
+    <div class="trl-node"><div class="trl-n">4</div><div class="trl-l">Validación lab</div></div>
+    <div class="trl-node"><div class="trl-n">5</div><div class="trl-l">Validación entorno real</div></div>
+    <div class="trl-node"><div class="trl-n">6</div><div class="trl-l">Demo en entorno real</div></div>
+    <div class="trl-node"><div class="trl-n">7</div><div class="trl-l">Demo operacional</div></div>
+    <div class="trl-node"><div class="trl-n">8</div><div class="trl-l">Sistema completo</div></div>
+    <div class="trl-node"><div class="trl-n">9</div><div class="trl-l">Mercado real</div></div>
+  </div>
+  <p style="font-size:12px;color:var(--t3);margin-bottom:20px">🔵 Activo · 🌑 En progreso · ⚪ Pendiente · FYT está en TRL 2, avanzando a TRL 3</p>
+
+  <div class="rh-grid">
+    <div class="rh rh1">
+      <div class="rh-title">FASE 1 · Pre-incubación</div>
+      <div class="rh-period">Meses 0 – 6</div>
+      <div class="rh-item"><span class="rtag rt-pi">PI</span>Registro marca FYT en INAPI</div>
+      <div class="rh-item"><span class="rtag rt-pi">PI</span>Búsqueda FTO (Matías Tapia)</div>
+      <div class="rh-item"><span class="rtag rt-tec">TEC</span>Estado del Arte completado</div>
+      <div class="rh-item"><span class="rtag rt-tec">TEC</span>Laboratorio habilitado</div>
+      <div class="rh-item"><span class="rtag rt-est">EST</span>Constitución SpA FYT</div>
+      <div class="rh-item"><span class="rtag rt-est">EST</span>NDAs firmados por equipo</div>
+      <div class="rh-item"><span class="rtag rt-fin">FIN</span>Postulación CORFO Semilla</div>
+      <div class="rh-item"><span class="rtag rt-est">EST</span>Primera charla pública</div>
+    </div>
+    <div class="rh rh2">
+      <div class="rh-title">FASE 2 · Prototipado TRL 3-4</div>
+      <div class="rh-period">Meses 6 – 18</div>
+      <div class="rh-item"><span class="rtag rt-tec">TEC</span>Maqueta escala 1/10 estática</div>
+      <div class="rh-item"><span class="rtag rt-tec">TEC</span>Sistema CO₂ básico en banco</div>
+      <div class="rh-item"><span class="rtag rt-tec">TEC</span>Prototipo volador 1/10 escala</div>
+      <div class="rh-item"><span class="rtag rt-pi">PI</span>Solicitud provisional patente</div>
+      <div class="rh-item"><span class="rtag rt-fin">FIN</span>FONDEF I+D presentado</div>
+      <div class="rh-item"><span class="rtag rt-est">EST</span>Presentación en competencia</div>
+      <div class="rh-item"><span class="rtag rt-est">EST</span>Alianza con Incuba UdeC</div>
+      <div class="rh-item"><span class="rtag rt-fin">FIN</span>Inversión semilla asegurada</div>
+    </div>
+    <div class="rh rh3">
+      <div class="rh-title">FASE 3 · Validación TRL 5-7</div>
+      <div class="rh-period">Meses 18 – 48</div>
+      <div class="rh-item"><span class="rtag rt-tec">TEC</span>Prototipo escala 1/3 volador</div>
+      <div class="rh-item"><span class="rtag rt-tec">TEC</span>CO₂ capture demostrado en vuelo</div>
+      <div class="rh-item"><span class="rtag rt-pi">PI</span>Solicitud PCT internacional</div>
+      <div class="rh-item"><span class="rtag rt-fin">FIN</span>Ronda Series A (angel/VC)</div>
+      <div class="rh-item"><span class="rtag rt-est">EST</span>Regulación DGAC experimental</div>
+      <div class="rh-item"><span class="rtag rt-est">EST</span>Equipo FLY integrado en FYT</div>
+      <div class="rh-item"><span class="rtag rt-tec">TEC</span>Prototipo escala real (piloto)</div>
+      <div class="rh-item"><span class="rtag rt-est">EST</span>Lanzamiento comercial Chile</div>
+    </div>
+  </div>
+
+  <div class="slabel">CHECKLIST DE PROGRESO — Marca tus avances</div>
+  <div id="checklist" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <!-- Generated by JS -->
+  </div>
+</section>
+
+<!-- ======================== CONTEXTO IA ======================== -->
+<section id="aic" class="sec">
+  <div class="sh"><h2>📄 Contexto para IA</h2><p>Texto completo para alimentar a Claude, ChatGPT u otras IAs con el contexto de FYT</p></div>
+
+  <div style="background:var(--fyt-d);border:1px solid rgba(0,216,255,.25);border-radius:var(--r);padding:14px 18px;margin-bottom:16px">
+    <p style="font-size:13px;color:var(--fyt)">💡 <b>Cómo usar:</b> Copia el texto del cuadro de abajo y pégalo al inicio de cualquier conversación con una IA (Claude, ChatGPT, Gemini). Luego haz tus preguntas específicas sobre FYT y la IA tendrá todo el contexto necesario.</p>
+  </div>
+
+  <div class="cb">
+    <div class="cb-h"><div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FEBC2E"></div><div class="dot" style="background:#28C840"></div></div><span>fyt-context.txt — Copiar y pegar a cualquier IA</span></div>
+    <pre id="ai-context" style="white-space:pre-wrap;word-break:break-word;color:var(--t2);font-size:11.5px">## CONTEXTO EMPRESA FYT — FERNANDA MESA CARRASCO
+
+IDENTIFICACIÓN DE LA CEO:
+- Nombre: Fernanda Mesa Carrasco
+- Título: CEO y Fundadora de FYT (Empresa de Base Científica y Tecnológica)
+- Formación: Física e Ingeniería, Universidad de Concepción (UdeC)
+- Magíster: MGET — Gestión y Emprendimiento Tecnológico, Universidad Adolfo Ibáñez (UAI)
+- Diploma: Transferencia Tecnológica e Innovación
+- Experticia: Gestora de Propiedad Intelectual aplicada a Ciencia
+- Visión personal: Ser la primera mujer en implementar tecnología AirCar en Chile
+- Horario laboral: Lunes a viernes 9:00–18:00 hrs (trabajo actual, no relacionado con FYT)
+- Magíster: Viernes 14:00–20:00 + Sábado 08:00–13:00
+
+EMPRESA FYT (PRINCIPAL — FOCO):
+- Tipo: Empresa de Base Científica y Tecnológica (EBCT) de propiedad exclusiva de Fernanda Mesa
+- Estado legal: No constituida aún (en proceso de planificación)
+- IP: 100% propiedad de Fernanda Mesa — nadie más tiene derechos
+- TRL actual: 2 (investigación académica y técnica)
+- Tecnología core: AirCar eléctrico VTOL que integra en su estructura física un sistema activo de aspiración y captura de CO2 atmosférico para descontaminar el planeta, reducir la huella de carbono y bajar la temperatura global
+- Origen idea: Clase de Transformación Digital en UAI — concepto original 100% de Fernanda
+- Diferenciador radical: Ningún competidor global combina VTOL eléctrico + captura CO2 integrada en chasis
+- ODS vinculados: ODS 9 (Industria y Resiliencia), ODS 13 (Acción por el Clima), ODS 3 (Salud)
+
+PROYECTOS EN SINERGIA (NO son FYT, pero FYT los usa):
+1. DRONETRY (TRL 2-3): Drone cautivo con cable HVDC + fibra óptica para vigilancia 24/7
+   - Equipo: Bruno Osses (Ing. Eléctrico, electromovilidad), Julio Hofflinger (Ing. Forestal, IA), Tomás (memorista UdeC)
+   - Rol Fernanda: Coordinadora R&D y Apoyo Hardware
+   - Sinergia con FYT: FYT licenciará tech HVDC para dar autonomía ilimitada al AirCar
+   
+2. FLY (TRL 2): Enlace estratégico con fabricantes internacionales de eVTOL
+   - Foco: Mapear regulación DGAC Chile, negociar alianzas con fabricantes certificados del exterior
+   - NO hace I+D de hardware
+   - Sinergia con FYT: Construye ecosistema regulatorio. Equipo puede integrarse en FYT bajo vesting.
+   
+REGLA DE SEPARACIÓN: FYT ≠ FLY ≠ DRONETRY. Son proyectos independientes con sinergia.
+
+EQUIPO FYT ACTUAL:
+- Fernanda Mesa: CEO & Fundadora (45% dedicación total ecosistema)
+- Matías Tapia: Director Vigilancia Tecnológica e I+D (15% avance global, 90% hito específico)
+  * Tareas: Estado del Arte + búsqueda patentes FTO + conseguir laboratorio de prototipado
+
+PROPIEDAD INTELECTUAL — REGLA DE ORO:
+- Escenario A (sola): 100% IP es de Fernanda
+- Escenario B (ayuda técnica operativa): Riesgo de co-inventoría → NECESITA IP Assignment Agreement previo
+- Escenario C (solo ideas verbales en clase): 0% derecho para los comentaristas. Ideas NO son protegibles.
+- Ley aplicable: Ley 19.039 (PI Industrial INAPI) + Ley 17.336 (Propiedad Intelectual DDI)
+- Todo colaborador debe firmar NDA + IP Assignment ANTES de ver documentos técnicos
+
+ESTRATEGIA COMPETITIVA FYT:
+- Porter: Diferenciación radical (no compite en precio)
+- Blue Ocean: Espacio sin competidores (CO2 capture + VTOL + urgencia climática)
+- Playing to Win: Aspiración = líder VTOL+CO2 en Latam al año 5
+- Dónde jugar: Chile primero (Santiago), luego Colombia/Perú/México
+- Cómo ganar: CO2 capture + cable HVDC (autonomía ilimitada) + adopción cultural progresiva
+
+ROADMAP TRL:
+- TRL 2 (actual): Investigación académica y técnica
+- TRL 3 (Mes 6): Maqueta y prueba experimental básica en lab
+- TRL 4 (Mes 12): Prototipo funcional a escala reducida
+- TRL 5-6 (Mes 18-36): Prototipo validado en entorno real
+- TRL 7-9 (Año 4-6): Demo operacional → certificación → mercado
+
+RESTRICCIONES MARKETING (sin COI):
+- No publicar en horario laboral (L-V 9-18)
+- No usar recursos del empleador para FYT
+- No mencionar empleador en contenido FYT
+- Canales permitidos: LinkedIn (noches), YouTube (sábados lab), Instagram, charlas universitarias
+- Estrategia: crear contenido el domingo, programar para la semana
+
+FINANCIAMIENTO POR ETAPAS:
+- TRL 2-3: CORFO Capital Semilla (~$5-25M CLP), Startup Chile, UAI Innova
+- TRL 4-5: FONDEF I+D, InvestChile, angels cleantech
+- TRL 6+: VC impacto (Breakthrough Energy, Acumen)
+- Bono de carbono: fuente de ingreso pre-producto
+
+PROBLEMAS GLOBALES EVTOL (oportunidades de diferenciación FYT):
+1. Baterías: solo 20-45 min de vuelo (FYT solución: cable HVDC)
+2. Certificación: 7-10 años + $100M (FYT estrategia: Chile DGAC primero, más flexible)
+3. Ruido: 65-75 dB (FYT debe diseñar propellers silenciosos desde TRL 3)
+4. Infraestructura: sin vertiports (FYT: alianza con constructoras y municipios)
+5. Aceptación cultural: miedo a caídas (FYT: charlas + cable visual + One-Button interface)
+6. Costo: $1-5M por unidad (FYT: modelo as-a-service, no venta directa)
+
+INSTRUCCIÓN PARA LA IA:
+Cuando Fernanda te consulte sobre FYT, siempre mantén la separación entre FYT, FLY y DRONETRY.
+FYT es la empresa PRINCIPAL y ÚNICA de Fernanda. No la confundas con los otros proyectos.
+Siempre protege la soberanía IP de Fernanda: recuerda que las ideas verbales no dan derechos de PI.
+Si alguien pregunta si puede ser socio de FYT, la respuesta es: solo bajo condiciones de vesting por hitos técnicos verificados.</pre>
+  </div>
+  <button onclick="copyContext()" class="pm-btn pm-btn-primary" style="margin-top:12px;width:100%;padding:12px">📋 Copiar contexto completo al portapapeles</button>
+</section>
+</main>
+
+<script>
+// STARS
+function createStars(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<120;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const size=Math.random()*2.5+.5;
+    s.style.cssText=`width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${Math.random()*4+2}s;animation-delay:${Math.random()*3}s`;
+    c.appendChild(s);
+  }
+}
+createStars();
+
+// NAVIGATION
+function show(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('n-'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// TASK MANAGER
+let tasks=JSON.parse(localStorage.getItem('fyt-tasks')||'[]');
+let score=parseInt(localStorage.getItem('fyt-score')||'0');
+let currentFilter='all';
+
+const priConfig={
+  crit:{label:'🔴 Crítico',pts:40,color:'#EF4444'},
+  high:{label:'🟡 Alto',pts:25,color:'var(--warn)'},
+  med:{label:'🟠 Normal',pts:15,color:'#F59E0B'},
+  low:{label:'🟢 Bajo',pts:10,color:'var(--ok)'}
+};
+const projColors={FYT:'var(--fyt)',DRONETRY:'var(--dry)',FLY:'var(--fly)',MGET:'var(--fly)',PI:'var(--warn)',Personal:'var(--ok)'};
+
+function saveTasks(){localStorage.setItem('fyt-tasks',JSON.stringify(tasks));localStorage.setItem('fyt-score',score);}
+
+function renderTasks(){
+  const list=document.getElementById('task-list');
+  let filtered=tasks.filter(t=>{
+    if(currentFilter==='all')return true;
+    if(currentFilter==='crit')return t.pri==='crit'&&!t.done;
+    return t.proj===currentFilter;
+  });
+  filtered.sort((a,b)=>{
+    const po={crit:0,high:1,med:2,low:3};
+    if(a.done!==b.done)return a.done?1:-1;
+    return po[a.pri]-po[b.pri];
+  });
+  list.innerHTML=filtered.length?filtered.map((t,i)=>{
+    const real=tasks.findIndex(x=>x.id===t.id);
+    const pc=priConfig[t.pri];
+    const proj=t.proj;
+    const dueStr=t.due?`<span style="font-size:11px;color:var(--t3)">📅 ${t.due}</span>`:'';
+    const noteStr=t.note?`<p style="font-size:12px;color:var(--t3);margin-top:4px">${t.note}</p>`:'';
+    return `<div class="task-item${t.done?' done':''}" id="task-${t.id}">
+      <div class="pri-dot pri-${t.pri}" style="background:${pc.color};margin-top:4px;flex-shrink:0"></div>
+      <div class="task-cb${t.done?' checked':''}" onclick="toggleTask(${real})">${t.done?'✓':''}</div>
+      <div class="task-info">
+        <div class="task-title">${t.title}</div>
+        <div class="task-meta">
+          <span class="b" style="background:rgba(0,0,0,.2);color:${projColors[proj]||'var(--fyt)'};border:1px solid ${projColors[proj]||'var(--fyt)'}33">${proj}</span>
+          <span style="font-size:11px;color:${pc.color};font-weight:600">${pc.label}</span>
+          <span style="font-size:11px;color:var(--t3)">⏱ ${t.time||'—'}</span>
+          ${dueStr}
+          ${t.done?`<span class="points-badge">+${pc.pts}pts</span>`:''}
+        </div>
+        ${noteStr}
+      </div>
+      <button class="task-del" onclick="deleteTask(${real})">✕</button>
+    </div>`;
+  }).join(''):'<div style="text-align:center;padding:40px;color:var(--t3);font-size:14px">🎯 No hay tareas aquí.<br><span style="font-size:12px">Agrega una con el botón + Nueva Tarea</span></div>';
+
+  const done=tasks.filter(t=>t.done).length;
+  document.getElementById('pm-done').textContent=done;
+  document.getElementById('pm-total').textContent=tasks.length;
+  document.getElementById('pm-score').textContent=score;
+  document.getElementById('pm-streak').textContent=getStreak();
+}
+
+function getStreak(){return localStorage.getItem('fyt-streak')||0;}
+
+function toggleTask(idx){
+  const t=tasks[idx];
+  if(!t)return;
+  t.done=!t.done;
+  if(t.done){score+=priConfig[t.pri]?.pts||10;updateStreak();}
+  else{score=Math.max(0,score-(priConfig[t.pri]?.pts||10));}
+  saveTasks();renderTasks();
+}
+
+function updateStreak(){
+  const today=new Date().toDateString();
+  const last=localStorage.getItem('fyt-last-done');
+  let streak=parseInt(localStorage.getItem('fyt-streak')||0);
+  if(last!==today){streak++;localStorage.setItem('fyt-streak',streak);localStorage.setItem('fyt-last-done',today);}
+}
+
+function addTask(){
+  const title=document.getElementById('t-title').value.trim();
+  if(!title){alert('Por favor escribe el título de la tarea');return;}
+  const task={id:Date.now(),title,proj:document.getElementById('t-proj').value,pri:document.getElementById('t-pri').value,due:document.getElementById('t-due').value,time:document.getElementById('t-time').value,note:document.getElementById('t-note').value.trim(),done:false,created:new Date().toISOString()};
+  tasks.unshift(task);saveTasks();renderTasks();
+  document.getElementById('t-title').value='';document.getElementById('t-note').value='';document.getElementById('t-due').value='';
+  document.getElementById('task-form').style.display='none';
+}
+
+function deleteTask(idx){if(confirm('¿Eliminar esta tarea?')){tasks.splice(idx,1);saveTasks();renderTasks();}}
+function clearDone(){tasks=tasks.filter(t=>!t.done);saveTasks();renderTasks();}
+function toggleForm(){const f=document.getElementById('task-form');f.style.display=f.style.display==='none'?'block':'none';}
+
+function filterTasks(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('.pm-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTasks();
+}
+
+function copyPrompt(el){
+  const text=el.querySelector('p:last-child').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=el.style.borderColor;el.style.borderColor='var(--ok)';
+    setTimeout(()=>el.style.borderColor=orig,1500);
+  });
+}
+
+// CHECKLIST
+const checkItems=[
+  {id:'c1',text:'Registrar marca FYT en INAPI (Clase 12 + 42)'},
+  {id:'c2',text:'Completar búsqueda de prior art (Espacenet + Google Patents)'},
+  {id:'c3',text:'Finalizar Informe de Estado del Arte (Matías Tapia)'},
+  {id:'c4',text:'Conseguir laboratorio de prototipado'},
+  {id:'c5',text:'Firmar NDAs con todos los colaboradores'},
+  {id:'c6',text:'Constituir SpA FYT'},
+  {id:'c7',text:'Postular a CORFO Capital Semilla'},
+  {id:'c8',text:'Dar primera charla pública sobre AirCar'},
+  {id:'c9',text:'Construir maqueta conceptual 1/10'},
+  {id:'c10',text:'Solicitar patente provisional ante INAPI'},
+  {id:'c11',text:'Validar sistema CO₂ básico en banco de lab'},
+  {id:'c12',text:'Presentar en concurso UAI Innova o similar'},
+];
+
+function renderChecklist(){
+  const c=document.getElementById('checklist');
+  if(!c)return;
+  const saved=JSON.parse(localStorage.getItem('fyt-checklist')||'{}');
+  c.innerHTML=checkItems.map(item=>`
+    <div style="background:var(--bg-c);border:1px solid ${saved[item.id]?'var(--ok)':'var(--bd)'};border-radius:var(--r-s);padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.2s" onclick="toggleCheck('${item.id}',this)">
+      <div style="width:20px;height:20px;border-radius:4px;border:2px solid ${saved[item.id]?'var(--ok)':'var(--bd)'};background:${saved[item.id]?'var(--ok)':'transparent'};display:flex;align-items:center;justify-content:center;font-size:12px;color:#000;flex-shrink:0">${saved[item.id]?'✓':''}</div>
+      <span style="font-size:13px;color:${saved[item.id]?'var(--ok)':'var(--t1)'};${saved[item.id]?'text-decoration:line-through':''}">${item.text}</span>
+    </div>
+  `).join('');
+}
+
+function toggleCheck(id,el){
+  const saved=JSON.parse(localStorage.getItem('fyt-checklist')||'{}');
+  saved[id]=!saved[id];
+  localStorage.setItem('fyt-checklist',JSON.stringify(saved));
+  renderChecklist();
+}
+
+function copyContext(){
+  const text=document.getElementById('ai-context').textContent;
+  navigator.clipboard.writeText(text).then(()=>{alert('✅ Contexto copiado al portapapeles. Pégalo al inicio de cualquier conversación con una IA.');});
+}
+
+// Initialize
+if(tasks.length===0){
+  tasks=[
+    {id:1,title:'Completar informe Estado del Arte + Mercado + Patentes',proj:'FYT',pri:'crit',due:'',time:'4h',note:'A cargo de Matías Tapia. Revisar avance.',done:false,created:new Date().toISOString()},
+    {id:2,title:'Registrar marca "FYT" en INAPI (Clase 12 y 42)',proj:'PI',pri:'crit',due:'',time:'2h',note:'Urgente. Clase 12 vehículos + Clase 42 tech.',done:false,created:new Date().toISOString()},
+    {id:3,title:'Evaluar espacio de laboratorio para prototipado',proj:'FYT',pri:'high',due:'',time:'1h',note:'Matías está buscando. Ver Incuba UdeC y UAI Innova.',done:false,created:new Date().toISOString()},
+    {id:4,title:'Firmar NDA con todos los colaboradores de FYT',proj:'PI',pri:'crit',due:'',time:'1h',note:'Antes de compartir cualquier doc técnico.',done:false,created:new Date().toISOString()},
+    {id:5,title:'Preparar presentación charla pública "AirCar Chile"',proj:'FYT',pri:'med',due:'',time:'4h',note:'Para universidades y colegios. Usa maqueta como prop.',done:false,created:new Date().toISOString()},
+    {id:6,title:'Postular a CORFO Capital Semilla',proj:'FYT',pri:'high',due:'',time:'1d',note:'Financiamiento inicial TRL 2→3. $5-25M CLP.',done:false,created:new Date().toISOString()},
+  ];
+  saveTasks();
+}
+renderTasks();
+renderChecklist();
+</script>
+</body>
+</html>
