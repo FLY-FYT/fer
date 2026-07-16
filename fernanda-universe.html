@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FYT · Future & Technology — El Camino</title>
+<style>
+/* ================================================================
+   FYT UNIVERSE · Warm cosmos — breathing, not overwhelming
+   Moods: cosmos (default) · dawn · dusk · aurora · ember
+   ================================================================ */
+:root {
+  /* — Cosmos (default) — */
+  --bg0:       #03060e;
+  --bg1:       #070d1c;
+  --bg2:       #0c1628;
+  --bg3:       #101e35;
+  --accent:    #60a5fa;   /* soft blue */
+  --accent2:   #a78bfa;   /* lavender */
+  --gold:      #fbbf24;   /* warm gold */
+  --warm:      #fb923c;   /* warm orange */
+  --green:     #6ee7b7;
+  --text:      #e2e8f0;
+  --muted: #d1d3d6;
+  --border:    rgba(96,165,250,.10);
+  --border-hi: rgba(96,165,250,.28);
+  --glow:      0 0 24px rgba(96,165,250,.15);
+  --ff-serif:  Georgia, 'Times New Roman', serif;
+  --ff-sans:   'Segoe UI', system-ui, -apple-system, sans-serif;
+  --ff-mono:   'Courier New', monospace;
+  --transition-theme: background 0.8s ease, color 0.8s ease, border-color 0.8s ease;
+}
+
+/* ── MOOD THEMES ── */
+body.mood-dawn {
+  --bg0:#0e0802; --bg1:#1a1005; --bg2:#241608; --bg3:#2e1c0a;
+  --accent: #9e5e2e; --accent2:#fbbf24; --gold:#fde68a; --border:rgba(251,146,60,.12); --border-hi:rgba(251,146,60,.3);
+}
+body.mood-dusk {
+  --bg0:#090513; --bg1:#110a20; --bg2:#180f2d; --bg3:#1f1438;
+  --accent:#a78bfa; --accent2:#c4b5fd; --gold:#fde68a; --border:rgba(167,139,250,.12); --border-hi:rgba(167,139,250,.3);
+}
+body.mood-aurora {
+  --bg0:#020e0a; --bg1:#041a12; --bg2:#07261a; --bg3:#093220;
+  --accent:#6ee7b7; --accent2:#34d399; --gold:#fbbf24; --border:rgba(110,231,183,.12); --border-hi:rgba(110,231,183,.3);
+}
+body.mood-ember {
+  --bg0:#0e0502; --bg1:#1c0a03; --bg2:#2a0f04; --bg3:#381406;
+  --accent:#f97316; --accent2:#fb923c; --gold:#fde68a; --border:rgba(249,115,22,.12); --border-hi:rgba(249,115,22,.3);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-sans);background:var(--bg0);color:var(--text);min-height:100vh;overflow-x:hidden;transition:var(--transition-theme)}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+
+/* ── SUBTLE STARS ── */
+.starfield{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;opacity:.4}
+.starfield::before{content:'';position:absolute;inset:0;
+  background-image:radial-gradient(1px 1px at 12% 18%,rgba(255,255,255,.5) 0,transparent 0),
+    radial-gradient(1px 1px at 33% 44%,rgba(255,255,255,.35) 0,transparent 0),
+    radial-gradient(1px 1px at 55% 8%,rgba(255,255,255,.55) 0,transparent 0),
+    radial-gradient(1px 1px at 72% 62%,rgba(255,255,255,.4) 0,transparent 0),
+    radial-gradient(1px 1px at 88% 22%,rgba(255,255,255,.45) 0,transparent 0),
+    radial-gradient(1px 1px at 22% 75%,rgba(255,255,255,.3) 0,transparent 0),
+    radial-gradient(1px 1px at 62% 85%,rgba(255,255,255,.4) 0,transparent 0),
+    radial-gradient(2px 2px at 44% 38%,var(--accent) 0,transparent 0),
+    radial-gradient(2px 2px at 78% 18%,var(--accent2) 0,transparent 0);
+  opacity:.5}
+
+/* ── MOOD SWITCHER ── */
+.mood-bar{
+  position:fixed;top:12px;right:14px;z-index:1200;
+  display:flex;align-items:center;gap:6px;
+  background:rgba(7,13,28,.88);
+  border:1px solid var(--border);
+  border-radius:24px;padding:5px 10px;
+  backdrop-filter:blur(12px);
+  transition:var(--transition-theme);
+}
+.mood-label{font-size:.55rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.mood-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .25s;flex-shrink:0}
+.mood-dot:hover,.mood-dot.active{border-color:var(--text);transform:scale(1.2)}
+.mood-cosmos{background:radial-gradient(circle, #003463, #000a20)}
+.mood-dawn{background:radial-gradient(circle,#fb923c,#c2410c)}
+.mood-dusk-btn{background:radial-gradient(circle,#a78bfa,#7c3aed)}
+.mood-aurora{background:radial-gradient(circle,#6ee7b7,#059669)}
+.mood-ember{background:radial-gradient(circle, #9e5e2e,#9a3412)}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  position:fixed;top:0;left:0;width:210px;height:100vh;
+  background:rgba(7,13,28,.96);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;z-index:1000;
+  overflow-y:auto;backdrop-filter:blur(14px);
+  transition:transform .3s ease, var(--transition-theme);
+}
+.s-brand{padding:18px 16px 12px;border-bottom:1px solid var(--border)}
+.s-logo{font-family:var(--ff-serif);font-size:1.5rem;font-weight:400;
+  letter-spacing:3px;color:var(--gold);text-shadow:0 0 16px rgba(251,191,36,.25)}
+.s-logo span{font-size:.7rem;letter-spacing:1px;color:var(--muted);display:block;margin-top:1px;font-family:var(--ff-sans)}
+.s-profile{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border)}
+.s-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.s-nm{font-size:.72rem;font-weight:600;color:var(--text)}
+.s-rl{font-size:.58rem;color:var(--accent);letter-spacing:.5px}
+.s-sec{font-size:.52rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+  padding:9px 16px 3px;margin-top:4px}
+.s-link{display:flex;align-items:center;gap:7px;padding:7px 16px;
+  color:var(--muted);text-decoration:none;font-size:.73rem;
+  transition:all .2s;border-left:2px solid transparent}
+.s-link:hover,.s-link.active{color:var(--accent);background:rgba(96,165,250,.05);border-left-color:var(--accent)}
+.s-link .ic{width:15px;text-align:center;font-size:.82rem;flex-shrink:0}
+
+/* hamburger */
+.hbg{display:none;position:fixed;top:10px;left:10px;z-index:1100;
+  background:var(--bg2);border:1px solid var(--border);border-radius:7px;
+  width:36px;height:36px;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+.hbg span{width:15px;height:1.5px;background:var(--accent);border-radius:1px;transition:all .3s}
+.hbg.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.s-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:999}
+
+/* ── MAIN ── */
+.main{margin-left:210px;position:relative;z-index:1}
+.sec{padding:56px 40px 36px;max-width:1200px;border-bottom:1px solid var(--border)}
+.eye{font-size:.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.h1{font-family:var(--ff-serif);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:400;
+  line-height:1.18;margin-bottom:12px;letter-spacing:-.3px}
+.h1 .g{color:var(--gold)}
+.h1 .a{color:var(--accent)}
+.desc{font-size:.84rem;color:var(--muted);line-height:1.8;max-width:660px;margin-bottom:24px}
+
+/* ── HERO ── */
+#hero{min-height:95vh;display:flex;flex-direction:column;justify-content:center;
+  padding:56px 40px 40px;position:relative;overflow:hidden;max-width:none;border-bottom:1px solid var(--border)}
+.hero-glow{position:absolute;right:0;top:50%;transform:translateY(-50%);
+  width:440px;height:440px;border-radius:50%;
+  background:radial-gradient(circle,rgba(96,165,250,.04) 0%,transparent 70%);
+  pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;
+  background:rgba(96,165,250,.07);border:1px solid var(--border-hi);
+  border-radius:20px;padding:3px 10px;font-size:.6rem;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);margin-bottom:16px;width:fit-content}
+.hero-badge::before{content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--accent);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero-title{font-family:var(--ff-serif);font-size:clamp(2rem,5vw,3.6rem);
+  font-weight:400;line-height:1.1;max-width:680px;margin-bottom:14px;letter-spacing:-.5px}
+.hero-title .g{color:var(--gold)}
+.hero-sub{font-size:.9rem;color:var(--muted);max-width:520px;line-height:1.8;margin-bottom:20px}
+.hero-quote{
+  font-family:var(--ff-serif);font-size:1.05rem;color:var(--gold);
+  border-left:2px solid var(--gold);padding-left:14px;
+  margin-bottom:28px;font-style:italic;max-width:480px;line-height:1.6;opacity:.9}
+.hero-stats{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:26px}
+.h-st{background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:12px 18px;text-align:center;min-width:90px}
+.h-sv{font-size:1.4rem;font-weight:700;color:var(--accent);line-height:1}
+.h-sl{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+
+/* ── FYT STORY ── */
+.story-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:28px;margin-top:20px;position:relative;overflow:hidden}
+.story-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.story-letter{font-family:var(--ff-serif);font-size:4rem;color:var(--gold);
+  float:left;line-height:.85;margin:4px 14px 0 0;opacity:.25}
+.story-text{font-size:.85rem;color:var(--muted);line-height:1.85}
+.story-text strong{color:var(--text)}
+.fyt-meaning{display:flex;gap:16px;flex-wrap:wrap;margin-top:20px}
+.fyt-word{background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+  padding:12px 16px;text-align:center;flex:1;min-width:100px}
+.fyt-letter{font-family:var(--ff-serif);font-size:2rem;color:var(--gold);line-height:1}
+.fyt-name{font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-top:3px}
+.fyt-exp{font-size:.65rem;color:var(--muted);margin-top:4px;line-height:1.4}
+
+/* ── SCOTT KELLY CARD ── */
+.kelly-card{background:var(--bg2);border:1px solid var(--border-hi);border-radius:14px;
+  padding:24px;margin-top:20px;display:flex;gap:20px;align-items:flex-start}
+.kelly-icon{font-size:3rem;flex-shrink:0;width:56px;height:56px;
+  border-radius:50%;background:linear-gradient(135deg,var(--bg3),var(--bg2));
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border-hi);box-shadow:var(--glow)}
+.kelly-body .kelly-name{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.kelly-body .kelly-title{font-size:.65rem;color:var(--accent);letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:10px}
+.kelly-body .kelly-quote{font-family:var(--ff-serif);font-size:.88rem;color:var(--gold);
+  font-style:italic;line-height:1.6;border-left:2px solid var(--gold);padding-left:10px}
+.kelly-body .kelly-desc{font-size:.76rem;color:var(--muted);line-height:1.7;margin-top:10px}
+
+/* ── DREAM MAP ── */
+.dream-wrap{position:relative;width:100%;max-width:960px;
+  background:radial-gradient(ellipse at 50% 50%,rgba(96,165,250,.02) 0%,transparent 65%);
+  border-radius:16px;border:1px solid var(--border);overflow:hidden;
+  padding:20px 0;margin:20px 0}
+.dream-timeline{position:relative;padding:30px 40px;overflow-x:auto}
+.dream-timeline::before{content:'';position:absolute;left:40px;right:40px;
+  top:50%;height:1px;background:linear-gradient(90deg,transparent,var(--border-hi),var(--border-hi),transparent);
+  pointer-events:none}
+.dream-nodes{display:flex;align-items:center;gap:0;position:relative;min-width:860px}
+.dn-group{display:flex;flex-direction:column;align-items:center;position:relative;flex:1}
+.dn-connector{flex:1;height:1px;background:var(--border);min-width:20px;margin-top:0;align-self:center}
+.dn-above{margin-bottom:12px;display:flex;flex-direction:column;align-items:center;cursor:pointer}
+.dn-below{margin-top:12px;display:flex;flex-direction:column;align-items:center;cursor:pointer}
+.dn-center{display:flex;flex-direction:column;align-items:center;cursor:pointer;z-index:2}
+.dn-dot{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:1rem;border:1px solid;transition:all .25s;flex-shrink:0}
+.dn-dot:hover{transform:scale(1.15)}
+.dn-dot.d-past{background:rgba(110,231,183,.12);border-color:var(--green);box-shadow:0 0 10px rgba(110,231,183,.15)}
+.dn-dot.d-now{background:rgba(96,165,250,.15);border-color:var(--accent);box-shadow:0 0 14px rgba(96,165,250,.25);animation:dn-pulse 2.5s infinite}
+.dn-dot.d-near{background:rgba(251,191,36,.08);border-color:var(--gold)}
+.dn-dot.d-dream{background:rgba(167,139,250,.1);border-color:var(--accent2);width:46px;height:46px;font-size:1.2rem}
+@keyframes dn-pulse{0%,100%{box-shadow:0 0 14px rgba(96,165,250,.25)}50%{box-shadow:0 0 22px rgba(96,165,250,.45)}}
+.dn-label{font-size:.58rem;text-align:center;line-height:1.35;max-width:72px;font-weight:600;margin-top:5px}
+.dn-year{font-size:.52rem;color:var(--muted);margin-top:2px}
+/* alternating above/below */
+.dn-above .dn-dot{margin-bottom:4px}
+.dn-below .dn-dot{margin-top:4px}
+
+/* ── LIFE TIMELINE EDITOR ── */
+.lt-editor{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-top:16px}
+.lt-editor h3{font-size:.72rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.lt-form{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:14px}
+.lf{display:flex;flex-direction:column;gap:3px}
+.lf label{font-size:.58rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.lf input,.lf select,.lf textarea{background:var(--bg3);border:1px solid var(--border);border-radius:7px;
+  padding:6px 10px;color:var(--text);font-size:.76rem;font-family:var(--ff-sans);
+  transition:border-color .2s;width:100%}
+.lf input:focus,.lf select:focus,.lf textarea:focus{outline:none;border-color:var(--accent)}
+.lf select option{background:var(--bg3)}
+.lt-list{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.lt-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+  padding:10px 14px;display:flex;align-items:flex-start;gap:10px}
+.lt-item-icon{font-size:1.1rem;flex-shrink:0;margin-top:2px}
+.lt-item-body{flex:1}
+.lt-item-year{font-size:.58rem;color:var(--accent);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.lt-item-title{font-size:.8rem;font-weight:600;margin-top:1px}
+.lt-item-desc{font-size:.72rem;color:var(--muted);margin-top:3px;line-height:1.55}
+.lt-item-del{background:transparent;border:none;cursor:pointer;color:var(--muted);
+  font-size:.75rem;padding:2px 5px;border-radius:4px;transition:color .2s;flex-shrink:0}
+.lt-item-del:hover{color:var(--warm)}
+
+/* Spatial timeline visual */
+.space-timeline{overflow-x:auto;padding-bottom:8px;margin-top:20px;position:relative}
+.st-track{display:flex;align-items:center;gap:0;min-width:700px;position:relative;padding:24px 20px}
+.st-track::before{content:'';position:absolute;left:20px;right:20px;top:50%;
+  height:1px;background:linear-gradient(90deg,var(--green),var(--accent),var(--gold),var(--accent2));
+  opacity:.25}
+.st-node{display:flex;flex-direction:column;align-items:center;
+  flex:1;cursor:pointer;position:relative;z-index:1}
+.st-node:nth-child(even) .st-content{order:-1;margin-bottom:10px;margin-top:0}
+.st-node:nth-child(even) .st-dot{order:0}
+.st-node:nth-child(even) .st-year-label{order:1;margin-top:6px;margin-bottom:0}
+.st-dot{width:28px;height:28px;border-radius:50%;border:1px solid;
+  display:flex;align-items:center;justify-content:center;font-size:.7rem;
+  background:var(--bg2);transition:all .2s;flex-shrink:0}
+.st-dot.past{border-color:var(--green);background:rgba(110,231,183,.1)}
+.st-dot.now{border-color:var(--accent);background:rgba(96,165,250,.12);animation:dn-pulse 2.5s infinite}
+.st-dot.future{border-color:var(--border-hi)}
+.st-content{font-size:.58rem;text-align:center;max-width:66px;line-height:1.35;margin-top:8px;font-weight:600;color:var(--text)}
+.st-year-label{font-size:.52rem;color:var(--muted);margin-top:4px}
+.st-connector{flex:1;height:1px;background:var(--border);align-self:center;min-width:16px}
+
+/* ── BLOG ── */
+.blog-form{background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  padding:20px;margin-bottom:18px;display:none}
+.blog-form.open{display:block}
+.blog-form h3{font-size:.7rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;font-weight:700}
+.blog-grid{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.post-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  padding:18px;transition:all .25s}
+.post-card:hover{border-color:var(--border-hi)}
+.post-meta{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:7px}
+.post-date{font-size:.6rem;color:var(--muted);font-family:var(--ff-mono)}
+.post-cat-tag{font-size:.56rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  padding:1px 6px;border-radius:4px}
+.post-mood-ico{font-size:1rem}
+.post-title{font-family:var(--ff-serif);font-size:.98rem;font-weight:400;
+  margin-bottom:6px;line-height:1.4;color:var(--text)}
+.post-excerpt{font-size:.76rem;color:var(--muted);line-height:1.7}
+.post-full-text{display:none;margin-top:12px;font-size:.8rem;color:var(--muted);line-height:1.85;
+  border-top:1px solid var(--border);padding-top:12px;font-style:italic}
+.post-full-text.open{display:block}
+.post-toggle{font-size:.68rem;color:var(--accent);cursor:pointer;margin-top:8px;display:inline-block}
+
+/* ── CARDS / GRID ── */
+.cg{display:grid;gap:12px;margin-top:18px}
+.cg2{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.cg3{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;
+  transition:all .2s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .2s}
+.card:hover{border-color:var(--border-hi);transform:translateY(-1px)}
+.card:hover::before{opacity:1}
+.ci{font-size:1.6rem;margin-bottom:8px}
+.ct{font-size:.86rem;font-weight:700;margin-bottom:5px}
+.cd{font-size:.76rem;color:var(--muted);line-height:1.65}
+.badge{display:inline-block;padding:1px 7px;border-radius:5px;font-size:.6rem;font-weight:700;letter-spacing:.5px;margin-top:6px;margin-right:3px}
+.bc{background:rgba(96,165,250,.09);color:var(--accent);border:1px solid rgba(96,165,250,.18)}
+.bg{background:rgba(251,191,36,.09);color:var(--gold);border:1px solid rgba(251,191,36,.18)}
+.bn{background:rgba(167,139,250,.09);color:var(--accent2);border:1px solid rgba(167,139,250,.18)}
+.bgr{background:rgba(110,231,183,.09);color:var(--green);border:1px solid rgba(110,231,183,.18)}
+.bw{background:rgba(251,146,60,.09);color:var(--warm);border:1px solid rgba(251,146,60,.18)}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;
+  font-size:.73rem;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:var(--ff-sans);text-decoration:none}
+.bp{background:var(--accent);color:#020509}
+.bp:hover{opacity:.85;box-shadow:var(--glow)}
+.bgh{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.bgh:hover{border-color:var(--accent);color:var(--accent)}
+.bgold{background:var(--gold);color:#020509}
+.bgold:hover{opacity:.88}
+.bsm{padding:4px 9px;font-size:.66rem}
+.bdan{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171}
+.bdan:hover{background:rgba(248,113,113,.2)}
+
+/* progress */
+.pg-bar{height:3px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-top:3px}
+.pg-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1s}
+
+/* form elements generic */
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.ff label{display:block;font-size:.58rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.ff input,.ff select,.ff textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:7px;
+  padding:7px 10px;color:var(--text);font-size:.76rem;font-family:var(--ff-sans)}
+.ff input:focus,.ff select:focus,.ff textarea:focus{outline:none;border-color:var(--accent)}
+.ff select option{background:var(--bg3)}
+
+/* roadmap */
+.rm-track{position:relative;padding-left:28px;margin-top:22px}
+.rm-track::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:1px;
+  background:linear-gradient(to bottom,var(--accent),var(--accent2),var(--gold));opacity:.2}
+.rm-item{display:flex;gap:16px;margin-bottom:20px;position:relative}
+.rm-dot{width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;
+  border:1px solid;position:relative;z-index:1;margin-left:-28px}
+.rm-dot.done{background:rgba(110,231,183,.15);border-color:var(--green)}
+.rm-dot.now{background:rgba(96,165,250,.15);border-color:var(--accent);animation:dn-pulse 2.5s infinite}
+.rm-dot.soon{background:var(--bg2);border-color:var(--border-hi)}
+.rm-dot.dream{background:rgba(251,191,36,.1);border-color:var(--gold)}
+.rm-body{flex:1;padding-top:5px}
+.rm-period{font-size:.57rem;color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px}
+.rm-title{font-size:.88rem;font-weight:700;margin-bottom:4px}
+.rm-desc{font-size:.75rem;color:var(--muted);line-height:1.65}
+.rm-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+
+/* week grid */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:18px}
+.day-col{background:var(--bg2);border:1px solid var(--border);border-radius:9px;overflow:hidden}
+.day-hd{text-align:center;font-size:.6rem;font-weight:700;padding:6px;
+  background:var(--bg3);border-bottom:1px solid var(--border);letter-spacing:.8px;color:var(--muted)}
+.day-body{padding:5px}
+.tb{border-radius:4px;padding:3px 5px;font-size:.56rem;margin-bottom:3px;line-height:1.3;font-weight:500}
+.tb-work{background:rgba(100,116,139,.1);color:var(--muted);border-left:2px solid var(--muted)}
+.tb-mget{background:rgba(167,139,250,.1);color:var(--accent2);border-left:2px solid var(--accent2)}
+.tb-fyt{background:rgba(96,165,250,.08);color:var(--accent);border-left:2px solid var(--accent)}
+.tb-eng{background:rgba(251,191,36,.09);color:var(--gold);border-left:2px solid var(--gold)}
+.tb-rest{background:rgba(110,231,183,.08);color:var(--green);border-left:2px solid var(--green)}
+.tb-free{background:rgba(251,146,60,.08);color:var(--warm);border-left:2px solid var(--warm)}
+
+/* TRL slider */
+.trl-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-top:12px}
+.trl-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.trl-row:last-child{border-bottom:none}
+.trl-proj{font-size:.76rem;font-weight:600;min-width:110px}
+.trl-sl{flex:1;-webkit-appearance:none;appearance:none;height:3px;border-radius:2px;
+  background:var(--bg3);outline:none;cursor:pointer}
+.trl-sl::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;
+  background:var(--accent);cursor:pointer;box-shadow:0 0 7px rgba(96,165,250,.4)}
+.trl-val{font-size:.75rem;font-weight:700;color:var(--accent);min-width:52px;text-align:right}
+
+/* metrics */
+.met-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-top:14px}
+
+/* vault */
+.vault{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-top:14px}
+.file-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:12px}
+.file-item{background:var(--bg3);border:1px solid var(--border);border-radius:7px;
+  padding:10px;text-align:center;cursor:default;transition:all .2s}
+.file-item:hover{border-color:var(--accent)}
+.file-upload-btn{background:rgba(96,165,250,.05);border:1px dashed rgba(96,165,250,.2);
+  border-radius:7px;padding:16px;text-align:center;cursor:pointer;
+  transition:all .2s;color:var(--muted);font-size:.72rem}
+.file-upload-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* dividers */
+.sep{height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:.15;margin:24px 0}
+
+/* footer */
+.pg-footer{padding:20px 40px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.ftr-brand{font-family:var(--ff-serif);font-size:.9rem;color:var(--gold);letter-spacing:2px}
+.ftr-text{font-size:.6rem;color:var(--muted)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  .sidebar{transform:translateX(-100%);width:230px;transition:transform .3s}
+  .sidebar.open{transform:translateX(0)}
+  .s-ov.open{display:block}
+  .hbg{display:flex}
+  .main{margin-left:0}
+  #hero{padding:66px 20px 36px;min-height:auto}
+  .sec{padding:38px 20px 26px}
+  .week-grid{grid-template-columns:repeat(4,1fr)}
+  .week-grid .day-col:nth-child(n+5){display:none}
+  .fr{grid-template-columns:1fr}
+  .mood-bar{top:10px;right:10px;padding:4px 8px}
+  .kelly-card{flex-direction:column}
+  .fyt-meaning{gap:8px}
+}
+@media(max-width:480px){
+  .week-grid{grid-template-columns:repeat(3,1fr)}
+  .week-grid .day-col:nth-child(n+4){display:none}
+  .dream-timeline{padding:20px}
+  .met-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body class="mood-cosmos">
+<div class="starfield"></div>
+
+<!-- ── MOOD SWITCHER ── -->
+<div class="mood-bar" id="moodBar">
+  <span class="mood-label">Mood</span>
+  <div class="mood-dot mood-cosmos active" title="Cosmos" data-mood="mood-cosmos" onclick="setMood(this)"></div>
+  <div class="mood-dot mood-dawn" title="Amanecer" data-mood="mood-dawn" onclick="setMood(this)"></div>
+  <div class="mood-dot mood-dusk-btn" title="Atardecer" data-mood="mood-dusk" onclick="setMood(this)"></div>
+  <div class="mood-dot mood-aurora" title="Aurora" data-mood="mood-aurora" onclick="setMood(this)"></div>
+  <div class="mood-dot mood-ember" title="Ember" data-mood="mood-ember" onclick="setMood(this)"></div>
+</div>
+
+<button class="hbg" id="hbg"><span></span><span></span><span></span></button>
+<div class="s-ov" id="sov"></div>
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar" id="sidebar">
+  <div class="s-brand">
+    <div class="s-logo">FYT <span>Future &amp; Technology</span></div>
+  </div>
+  <div class="s-profile">
+    <div class="s-av">🚀</div>
+    <div>
+      <div class="s-nm">FYT · EBCT</div>
+      <div class="s-rl">TRL 2 → Espacio</div>
+    </div>
+  </div>
+  <div class="s-sec">El camino</div>
+  <a href="#hero" class="s-link active"><span class="ic">🌌</span> Inicio</a>
+  <a href="#fyt-story" class="s-link"><span class="ic">📖</span> Historia de FYT</a>
+  <a href="#scott" class="s-link"><span class="ic">👨‍🚀</span> Scott Kelly</a>
+  <a href="#dreammap" class="s-link"><span class="ic">🗺️</span> Mapa de Sueños</a>
+  <a href="#lifejourney" class="s-link"><span class="ic">⭐</span> Mi Línea de Vida</a>
+  <a href="#roadmap" class="s-link"><span class="ic">🛤️</span> Roadmap FYT</a>
+  <a href="#schedule" class="s-link"><span class="ic">⏱</span> Mi Tiempo</a>
+  <a href="#blog" class="s-link"><span class="ic">✍️</span> Bitácora Anónima</a>
+  <div class="s-sec">Proyectos</div>
+  <a href="#fyt-proj" class="s-link"><span class="ic">🛸</span> FYT · AirCar CO₂</a>
+  <a href="#dronetry" class="s-link"><span class="ic">🔌</span> DroneTRY</a>
+  <a href="#fly" class="s-link"><span class="ic">🏙️</span> FLY · Regulación</a>
+  <a href="#nido" class="s-link"><span class="ic">🏡</span> NIDO</a>
+  <a href="#servia" class="s-link"><span class="ic">⚡</span> SERVIA</a>
+  <div class="s-sec">Control</div>
+  <a href="#trl" class="s-link"><span class="ic">📊</span> Tracker TRL/IPRL</a>
+  <a href="#vault" class="s-link"><span class="ic">🔐</span> Bóveda Local</a>
+</nav>
+
+<!-- ================================================================
+     MAIN
+================================================================ -->
+<main class="main">
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">🟢 Activo · Julio 2026</div>
+  <h1 class="hero-title">
+    Future &amp; Technology.<br>
+    <span class="g">El sueño detrás de las siglas.</span>
+  </h1>
+  <p class="hero-sub">
+    FYT no es solo un nombre. Es la respuesta a una pregunta que alguien se hizo en silencio:
+    ¿y si el vehículo que vuela también limpia el aire? ¿Y si la ruta al espacio empieza aquí?
+  </p>
+  <div class="hero-quote">
+    "Me la voy a jugar. Es mi sueño."
+  </div>
+  <div class="hero-stats">
+    <div class="h-st"><div class="h-sv">FYT</div><div class="h-sl">Future & Technology</div></div>
+    <div class="h-st"><div class="h-sv">TRL 2</div><div class="h-sl">Estado actual</div></div>
+    <div class="h-st"><div class="h-sv">5</div><div class="h-sl">Proyectos</div></div>
+    <div class="h-st"><div class="h-sv">∞</div><div class="h-sl">Límite</div></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <a href="#fyt-story" class="btn bgold">📖 La historia de FYT</a>
+    <a href="#dreammap" class="btn bgh">🗺️ Mapa de Sueños</a>
+  </div>
+</section>
+
+<!-- ── FYT STORY ── -->
+<section class="sec" id="fyt-story">
+  <div class="eye">El nombre</div>
+  <h2 class="h1">¿Por qué <span class="g">FYT</span>?</h2>
+  <p class="desc">Detrás de tres letras hay una razón de ser, una declaración y una protección.</p>
+
+  <div class="story-card">
+    <div class="story-letter">F</div>
+    <div class="story-text">
+      <strong>FYT nació en silencio.</strong> No fue un pitch en una sala de inversores.
+      Fue una idea que llegó durante una clase de Transformación Digital en la UAI —
+      un pensamiento que conectó física, vuelo, clima y ambición en una sola frase:
+      <em>"¿Y si el vehículo que vuela también captura el CO₂ que contamina?"</em>
+      <br><br>
+      Esa idea era demasiado importante para compartirla antes de tiempo. Y demasiado original
+      para perderla. Por eso se eligió un nombre que pudiera proteger lo que había detrás,
+      sin revelar de inmediato quién lo creó ni por qué.
+      <strong>FYT es el escudo y la visión al mismo tiempo.</strong>
+      <br><br>
+      El nombre no dice directamente "vehículo aéreo" ni "empresa de Fernanda". Dice
+      <strong>futuro</strong> y <strong>tecnología</strong> — dos palabras que pertenecen
+      a cualquier industria, pero que en este contexto encubren una misión muy específica:
+      construir el primer AirCar que descontamine el planeta mientras vuela,
+      y llevar esa tecnología desde Chile al espacio.
+    </div>
+  </div>
+
+  <div class="fyt-meaning" style="margin-top:20px">
+    <div class="fyt-word">
+      <div class="fyt-letter">F</div>
+      <div class="fyt-name">Future</div>
+      <div class="fyt-exp">La dirección. No se construye lo que ya existe. FYT apunta a donde el mundo todavía no llegó.</div>
+    </div>
+    <div class="fyt-word">
+      <div class="fyt-letter">&amp;</div>
+      <div class="fyt-name">Enlace</div>
+      <div class="fyt-exp">El puente entre lo que se sueña y lo que se construye. Entre la ciencia y el mercado.</div>
+    </div>
+    <div class="fyt-word">
+      <div class="fyt-letter">T</div>
+      <div class="fyt-name">Technology</div>
+      <div class="fyt-exp">La herramienta. No basta con soñar —
+      la tecnología convierte la visión en algo que se puede tocar, volar y certificar.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;border-color:rgba(251,191,36,.2)">
+    <div class="ci">🔒</div>
+    <div class="ct">Por qué se oculta tras el nombre</div>
+    <div class="cd">
+      La IP — propiedad intelectual — es el activo más valioso de una empresa de base científica.
+      Antes de que la idea esté protegida con una patente, cada persona que la conoce
+      es un riesgo potencial. El nombre FYT no revela la tecnología del AirCar,
+      no revela a su fundadora, y no revela el sistema de captura de CO₂.
+      Permite operar en stealth mode mientras se construyen los cimientos legales y técnicos.
+      <strong style="color:var(--gold)"> Cuando sea el momento, FYT hablará por sí mismo.</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCOTT KELLY ── -->
+<section class="sec" id="scott">
+  <div class="eye">La inspiración</div>
+  <h2 class="h1">Scott Kelly — <span class="g">Un año en el espacio</span></h2>
+  <p class="desc">El primer libro que cambió la perspectiva. El astronauta que demostró que el cuerpo y la mente pueden adaptarse a lo imposible.</p>
+
+  <div class="kelly-card">
+    <div class="kelly-icon">👨‍🚀</div>
+    <div class="kelly-body">
+      <div class="kelly-name">Scott Kelly</div>
+      <div class="kelly-title">Astronauta NASA · Comandante ISS · Récord norteamericano en el espacio</div>
+      <div class="kelly-quote">
+        "El espacio no te pide que seas perfecto. Te pide que seas persistente."
+      </div>
+      <div class="kelly-desc">
+        Scott Kelly pasó 340 días consecutivos en la Estación Espacial Internacional —
+        el récord norteamericano de permanencia continua. Su libro <strong style="color:var(--text)">"Endurance: A Year in Space, A Lifetime of Discovery"</strong>
+        documenta no solo la ciencia del vuelo espacial, sino la psicología de mantenerse
+        cuando todo duele, cuando el planeta se ve desde lejos y cuando el regreso
+        no está garantizado.
+        <br><br>
+        Lo que hace especial a Kelly no es el récord. Es que fue un estudiante mediocre
+        que leyó "The Right Stuff" de Tom Wolfe a los 18 años y decidió que quería eso.
+        Sin atajos. Con trabajo. Con <strong style="color:var(--text)">un año entero flotando en el vacío</strong>
+        para probar que era posible.
+        <br><br>
+        Las lecciones de ese libro: la disciplina física es no negociable,
+        el aislamiento enseña quién eres realmente, y los sueños grandes
+        requieren preparación pequeña y constante — exactamente lo que construye FYT, un día a la vez.
+      </div>
+    </div>
+  </div>
+
+  <div class="cg cg3" style="margin-top:16px">
+    <div class="card">
+      <div class="ci">💪</div>
+      <div class="ct">340 días en el espacio</div>
+      <div class="cd">El cuerpo humano puede adaptarse a condiciones extremas con la preparación correcta. Buceo, resistencia física, disciplina — el entrenamiento empieza hoy.</div>
+    </div>
+    <div class="card">
+      <div class="ci">📖</div>
+      <div class="ct">Endurance</div>
+      <div class="cd">El libro que lo cambió todo. No sobre héroes — sobre alguien que decidió, día a día, no rendirse. Esa es la mentalidad FYT.</div>
+    </div>
+    <div class="card">
+      <div class="ci">🌍</div>
+      <div class="ct">Ver la Tierra desde arriba</div>
+      <div class="cd">Cuando ves el planeta desde el espacio, entiendes por qué vale la pena construir un vehículo que limpie su atmósfera mientras vuela.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DREAM MAP ── -->
+<section class="sec" id="dreammap">
+  <div class="eye">Mapa de sueños</div>
+  <h2 class="h1">La <span class="g">Ruta de FYT</span></h2>
+  <p class="desc">Desde el origen hasta el espacio. Cada nodo es un hito, una meta o un sueño en construcción. Los de arriba son la ruta de FYT como empresa. Los de abajo son la ruta de vida personal.</p>
+
+  <div class="dream-wrap">
+    <div style="padding:14px 20px 0;display:flex;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:6px;font-size:.6rem;color:var(--muted)">
+        <span style="width:10px;height:10px;border-radius:50%;background:rgba(110,231,183,.3);border:1px solid var(--green);flex-shrink:0"></span> Logrado
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:.6rem;color:var(--muted)">
+        <span style="width:10px;height:10px;border-radius:50%;background:rgba(96,165,250,.2);border:1px solid var(--accent);flex-shrink:0"></span> En curso
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:.6rem;color:var(--muted)">
+        <span style="width:10px;height:10px;border-radius:50%;background:rgba(251,191,36,.1);border:1px solid var(--gold);flex-shrink:0"></span> Próximo
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:.6rem;color:var(--muted)">
+        <span style="width:10px;height:10px;border-radius:50%;background:rgba(167,139,250,.1);border:1px solid var(--accent2);flex-shrink:0"></span> Gran sueño
+      </div>
+      <span style="font-size:.58rem;color:var(--muted);margin-left:auto;align-self:center">— Ruta FYT · arriba / Ruta personal · abajo —</span>
+    </div>
+
+    <div class="dream-timeline">
+      <div class="dream-nodes">
+
+        <!-- NODO 1 -->
+        <div class="dn-group">
+          <div class="dn-above" title="FYT: Idea del AirCar CO₂ nace en UAI">
+            <div class="dn-label" style="color:var(--green)">Idea FYT<br>nace en UAI</div>
+            <div class="dn-year">2025</div>
+            <div class="dn-dot d-past" style="margin-top:6px">💡</div>
+          </div>
+          <div style="height:32px;width:1px;background:var(--border);margin:0 auto"></div>
+          <div class="dn-below" title="Personal: Lee Endurance de Scott Kelly">
+            <div class="dn-dot d-past" style="margin-bottom:6px">📖</div>
+            <div class="dn-label" style="color:var(--green)">Lee<br>Endurance</div>
+            <div class="dn-year">2024</div>
+          </div>
+        </div>
+        <div class="dn-connector"></div>
+
+        <!-- NODO 2 -->
+        <div class="dn-group">
+          <div class="dn-above" title="FYT: TRL 2 — Investigación y estado del arte">
+            <div class="dn-label" style="color:var(--accent)">FYT TRL 2<br>Investigación</div>
+            <div class="dn-year">2026</div>
+            <div class="dn-dot d-now" style="margin-top:6px">🛸</div>
+          </div>
+          <div style="height:32px;width:1px;background:var(--border);margin:0 auto"></div>
+          <div class="dn-below" title="Personal: Magíster MGET UAI en curso">
+            <div class="dn-dot d-now" style="margin-bottom:6px">🎓</div>
+            <div class="dn-label" style="color:var(--accent)">Magíster<br>MGET UAI</div>
+            <div class="dn-year">2026</div>
+          </div>
+        </div>
+        <div class="dn-connector"></div>
+
+        <!-- NODO 3 -->
+        <div class="dn-group">
+          <div class="dn-above" title="FYT: Prototipo maqueta + CORFO semilla">
+            <div class="dn-label" style="color:var(--gold)">Prototipo<br>+ CORFO</div>
+            <div class="dn-year">2027</div>
+            <div class="dn-dot d-near" style="margin-top:6px">🔬</div>
+          </div>
+          <div style="height:32px;width:1px;background:var(--border);margin:0 auto"></div>
+          <div class="dn-below" title="Personal: Inglés intensivo + Buceo PADI">
+            <div class="dn-dot d-near" style="margin-bottom:6px">🤿</div>
+            <div class="dn-label" style="color:var(--gold)">Inglés +<br>Buceo PADI</div>
+            <div class="dn-year">2026-27</div>
+          </div>
+        </div>
+        <div class="dn-connector"></div>
+
+        <!-- NODO 4 -->
+        <div class="dn-group">
+          <div class="dn-above" title="FYT: Patente PCT + vuelo validado">
+            <div class="dn-label" style="color:var(--gold)">Patente PCT<br>Vuelo real</div>
+            <div class="dn-year">2028</div>
+            <div class="dn-dot d-near" style="margin-top:6px">📜</div>
+          </div>
+          <div style="height:32px;width:1px;background:var(--border);margin:0 auto"></div>
+          <div class="dn-below" title="Personal: Postular a Embry-Riddle Aeronautical University">
+            <div class="dn-dot d-near" style="margin-bottom:6px">✈️</div>
+            <div class="dn-label" style="color:var(--gold)">Postular<br>Embry-Riddle</div>
+            <div class="dn-year">2027</div>
+          </div>
+        </div>
+        <div class="dn-connector"></div>
+
+        <!-- NODO 5 -->
+        <div class="dn-group">
+          <div class="dn-above" title="FYT: Serie A + FLY integrado + FYT en mercado">
+            <div class="dn-label" style="color:var(--accent2)">FYT<br>Mercado LatAm</div>
+            <div class="dn-year">2030</div>
+            <div class="dn-dot d-dream" style="margin-top:6px">💰</div>
+          </div>
+          <div style="height:32px;width:1px;background:var(--border);margin:0 auto"></div>
+          <div class="dn-below" title="Personal: MSc Ingeniería Aeroespacial cursada">
+            <div class="dn-dot d-dream" style="margin-bottom:6px">🎓</div>
+            <div class="dn-label" style="color:var(--accent2)">MSc<br>Aeroespacial</div>
+            <div class="dn-year">2028-30</div>
+          </div>
+        </div>
+        <div class="dn-connector"></div>
+
+        <!-- NODO 6 — EL GRAN SUEÑO -->
+        <div class="dn-group">
+          <div class="dn-above" title="FYT atraviesa la atmósfera terrestre">
+            <div class="dn-label" style="color:var(--gold)">FYT cruza<br>la atmósfera</div>
+            <div class="dn-year">2033+</div>
+            <div class="dn-dot d-dream" style="width:50px;height:50px;font-size:1.3rem;margin-top:6px;animation:dn-pulse 3s infinite;border-color:var(--gold)">🛸</div>
+          </div>
+          <div style="height:32px;width:1px;background:var(--border);margin:0 auto"></div>
+          <div class="dn-below" title="EL GRAN SUEÑO: Ir al espacio">
+            <div class="dn-dot d-dream" style="width:50px;height:50px;font-size:1.3rem;margin-bottom:6px;animation:dn-pulse 3s infinite;border-color:var(--gold)">🌌</div>
+            <div class="dn-label" style="color:var(--gold);font-size:.65rem;font-weight:700">IR AL<br>ESPACIO</div>
+            <div class="dn-year">2035+</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="padding:0 20px 16px;display:flex;justify-content:space-between;font-size:.6rem;color:var(--muted)">
+      <span>← Hoy</span><span>Mañana →</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── LIFE JOURNEY EDITOR ── -->
+<section class="sec" id="lifejourney">
+  <div class="eye">Mi historia</div>
+  <h2 class="h1">Línea de <span class="g">Vida</span></h2>
+  <p class="desc">Un espacio solo tuyo. Agrega los momentos que formaron la persona que quiere ir al espacio. Desde cuando empezaste a soñar hasta hoy. Solo visible en tu equipo.</p>
+
+  <div class="lt-editor">
+    <h3>+ Agregar momento a tu historia</h3>
+    <div class="lt-form">
+      <div class="lf"><label>Año</label><input type="number" id="lt-year" placeholder="Ej: 2018" min="1990" max="2100"></div>
+      <div class="lf"><label>Categoría</label><select id="lt-cat">
+        <option value="🌱">🌱 Origen del sueño</option>
+        <option value="📚">📚 Aprendizaje clave</option>
+        <option value="💪">💪 Hito personal</option>
+        <option value="🛸">🛸 Hito FYT/Proyectos</option>
+        <option value="💔">💔 Obstáculo superado</option>
+        <option value="🌟">🌟 Momento que cambió todo</option>
+        <option value="🤝">🤝 Persona que marcó el camino</option>
+        <option value="📖">📖 Libro / Idea inspiradora</option>
+      </select></div>
+      <div class="lf"><label>Título</label><input type="text" id="lt-title" placeholder="Ej: El día que leí Endurance"></div>
+      <div class="lf"><label>¿Pasado, presente o futuro?</label><select id="lt-status">
+        <option value="past">✓ Pasado</option>
+        <option value="now">⬤ Presente</option>
+        <option value="future">○ Futuro</option>
+      </select></div>
+    </div>
+    <div class="lf" style="margin-bottom:12px"><label>Descripción (solo tú la verás)</label>
+      <textarea id="lt-desc" rows="2" placeholder="¿Qué ocurrió? ¿Qué sentiste? ¿Qué cambió?"></textarea></div>
+    <button class="btn bp" onclick="addLifeEvent()">+ Agregar a mi historia</button>
+  </div>
+
+  <!-- VISUAL TIMELINE -->
+  <div style="margin-top:20px">
+    <div style="font-size:.65rem;color:var(--muted);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase">Línea de tiempo espacial ↗</div>
+    <div class="space-timeline" id="space-timeline">
+      <div class="st-track" id="st-track"></div>
+    </div>
+  </div>
+
+  <!-- LIST VIEW -->
+  <div class="lt-list" id="lt-list"></div>
+</section>
+
+<!-- ── ROADMAP FYT ── -->
+<section class="sec" id="roadmap">
+  <div class="eye">Roadmap FYT</div>
+  <h2 class="h1">La ruta de <span class="g">Future &amp; Technology</span></h2>
+  <p class="desc">Cada hito es verificable. El camino no es recto — es orbital.</p>
+  <div class="rm-track">
+    <div class="rm-item">
+      <div class="rm-dot done">✓</div>
+      <div class="rm-body">
+        <div class="rm-period">2024 · Logrado</div>
+        <div class="rm-title">Licenciatura en Física e Ingeniería — UdeC</div>
+        <div class="rm-desc">La base científica que hace a FYT diferente de cualquier emprendimiento tecnológico. La física no es el contenido — es la lente.</div>
+        <div class="rm-tags"><span class="badge bgr">✓ Base sólida</span></div>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot done">✓</div>
+      <div class="rm-body">
+        <div class="rm-period">2024-2026 · Activo</div>
+        <div class="rm-title">CATA · Gestora Tecnológica + IP (INAPI & OMPI)</div>
+        <div class="rm-desc">Transferencia tecnológica de laboratorios a la industria. Propiedad intelectual como especialización. La gestora que protege lo que FYT construye.</div>
+        <div class="rm-tags"><span class="badge bgr">✓ Activo</span><span class="badge bc">INAPI cert.</span><span class="badge bn">OMPI cert.</span></div>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot now">⬤</div>
+      <div class="rm-body">
+        <div class="rm-period">2025-2026 · En curso</div>
+        <div class="rm-title">Magíster MGET UAI + FYT TRL 2 + 5 proyectos en paralelo</div>
+        <div class="rm-desc">La teoría y la práctica al mismo tiempo. El magíster da la red y el marco. Los proyectos (FYT, DroneTRY, FLY, NIDO, SERVIA) construyen el portafolio.</div>
+        <div class="rm-tags"><span class="badge bc">En curso</span><span class="badge bn">MGET UAI</span></div>
+        <div style="margin-top:8px;max-width:280px">
+          <div style="display:flex;justify-content:space-between;font-size:.62rem;margin-bottom:3px"><span>Progreso MGET</span><span style="color:var(--accent)">65%</span></div>
+          <div class="pg-bar"><div class="pg-fill" style="width:65%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot soon">○</div>
+      <div class="rm-body">
+        <div class="rm-period">2026-2027 · Próximo</div>
+        <div class="rm-title">Inglés intensivo + Certificación buceo PADI</div>
+        <div class="rm-desc">No son hobbies. Son requisitos de un astronauta: inglés para comunicarse en la ISS, buceo para el entrenamiento de flotabilidad. Scott Kelly hizo exactamente esto.</div>
+        <div class="rm-tags"><span class="badge bg">🇺🇸 Inglés avanzado</span><span class="badge bgr">🤿 PADI cert.</span></div>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot soon">○</div>
+      <div class="rm-body">
+        <div class="rm-period">2027 · Planificado</div>
+        <div class="rm-title">Postular a Embry-Riddle Aeronautical University — MSc Aerospace Engineering</div>
+        <div class="rm-desc">Daytona Beach, Florida. El puente entre la física chilena y el programa espacial. La universidad aeronáutica más reconocida de Estados Unidos.</div>
+        <div class="rm-tags"><span class="badge bg">✈️ Embry-Riddle</span><span class="badge bc">EE.UU.</span></div>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot soon">○</div>
+      <div class="rm-body">
+        <div class="rm-period">2028-2030 · Visión</div>
+        <div class="rm-title">MSc Aeroespacial + FYT TRL 5-6 + Ronda Serie A</div>
+        <div class="rm-desc">Estudiar en EEUU mientras FYT demuestra CO₂ capture en vuelo real. La doble apuesta: la persona y la empresa crecen al mismo tiempo.</div>
+        <div class="rm-tags"><span class="badge bc">TRL 5-6</span><span class="badge bn">Serie A</span></div>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot dream">🌌</div>
+      <div class="rm-body">
+        <div class="rm-period">2033+ · El gran sueño</div>
+        <div class="rm-title" style="color:var(--gold)">FYT cruza la atmósfera · Formación de astronauta · Ir al espacio</div>
+        <div class="rm-desc">Todo el camino anterior es el combustible. El vehículo que captura CO₂ desde el aire, la misma persona que aprendió a volar desde un laboratorio en Concepción.</div>
+        <div class="rm-tags"><span class="badge bg">🚀 Destino final</span><span class="badge bn">Astronauta</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCHEDULE ── -->
+<section class="sec" id="schedule">
+  <div class="eye">Gestión del tiempo</div>
+  <h2 class="h1">La <span class="g">semana real</span> de FYT</h2>
+  <p class="desc">Cada bloque protegido es un paso hacia el sueño. El descanso no es opcional — es parte del sistema.</p>
+  <div class="week-grid">
+    <div class="day-col"><div class="day-hd">LUN</div><div class="day-body">
+      <div class="tb tb-fyt">6:30–8:30 FYT</div>
+      <div class="tb tb-work">9–18 CATA</div>
+      <div class="tb tb-eng">18–19:30 Inglés</div>
+      <div class="tb tb-fyt">19:30–21 FYT</div>
+      <div class="tb tb-rest">21+ Descanso</div>
+    </div></div>
+    <div class="day-col"><div class="day-hd">MAR</div><div class="day-body">
+      <div class="tb tb-fyt">6:30–8:30 FYT</div>
+      <div class="tb tb-work">9–18 CATA</div>
+      <div class="tb tb-eng">18–19:30 Inglés</div>
+      <div class="tb tb-fyt">19:30–21 Blog/IP</div>
+      <div class="tb tb-rest">21+ Descanso</div>
+    </div></div>
+    <div class="day-col"><div class="day-hd">MIÉ</div><div class="day-body">
+      <div class="tb tb-fyt">6:30–8:30 DroneTRY</div>
+      <div class="tb tb-work">9–18 CATA</div>
+      <div class="tb tb-mget">18–20 MGET estudio</div>
+      <div class="tb tb-rest">20+ Ejercicio/Descanso</div>
+    </div></div>
+    <div class="day-col"><div class="day-hd">JUE</div><div class="day-body">
+      <div class="tb tb-fyt">6:30–8:30 FYT</div>
+      <div class="tb tb-work">9–18 CATA</div>
+      <div class="tb tb-eng">18–19:30 Inglés</div>
+      <div class="tb tb-fyt">19:30–21 NIDO/SERVIA</div>
+      <div class="tb tb-rest">21+ Descanso</div>
+    </div></div>
+    <div class="day-col"><div class="day-hd">VIE</div><div class="day-body">
+      <div class="tb tb-fyt">6:30–9 FYT</div>
+      <div class="tb tb-work">9–13 CATA</div>
+      <div class="tb tb-mget">15–19:30 MGET UAI</div>
+      <div class="tb tb-rest">19:30+ Descanso</div>
+    </div></div>
+    <div class="day-col"><div class="day-hd">SÁB</div><div class="day-body">
+      <div class="tb tb-mget">9–13:30 MGET UAI</div>
+      <div class="tb tb-fyt">14–17 Lab FYT</div>
+      <div class="tb tb-eng">17–18:30 Inglés</div>
+      <div class="tb tb-fyt">18:30–21 Blog</div>
+    </div></div>
+    <div class="day-col"><div class="day-hd">DOM</div><div class="day-body">
+      <div class="tb tb-rest">9–11 Descanso total</div>
+      <div class="tb tb-free">11–14 Buceo/Ejercicio</div>
+      <div class="tb tb-fyt">14–17 Planificación</div>
+      <div class="tb tb-rest">17+ Familia/Recarga</div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ── BLOG ── -->
+<section class="sec" id="blog">
+  <div class="eye">Bitácora anónima</div>
+  <h2 class="h1">El diario del <span class="g">camino</span></h2>
+  <p class="desc">La historia de alguien que decidió ir al espacio desde un laboratorio. Anónima. Honesta. Para quien algún día necesite saber que sí se puede. Solo guardada en tu equipo.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+    <button class="btn bgold" onclick="toggleBlogForm()">✍️ Nueva entrada</button>
+    <span style="font-size:.68rem;color:var(--muted);align-self:center">🔒 Solo visible aquí · Guardado local</span>
+  </div>
+  <div class="blog-form" id="blog-form">
+    <h3>Nueva entrada de bitácora</h3>
+    <div class="fr">
+      <div class="ff"><label>Título</label><input type="text" id="bl-title" placeholder="Ej: El día que casi abandono…"></div>
+      <div class="ff"><label>Categoría</label><select id="bl-cat">
+        <option value="reflexión">🌙 Reflexión</option>
+        <option value="hito">🚀 Hito logrado</option>
+        <option value="obstáculo">⚡ Obstáculo</option>
+        <option value="aprendizaje">📚 Aprendizaje</option>
+        <option value="sueño">🌌 Sueño</option>
+        <option value="cotidiano">☀️ Cotidiano</option>
+      </select></div>
+    </div>
+    <div class="ff" style="margin-bottom:10px"><label>Historia (sin filtros)</label>
+      <textarea id="bl-text" rows="4" placeholder="Escribe lo que realmente ocurrió. Este espacio es solo tuyo."></textarea></div>
+    <div class="fr">
+      <div class="ff"><label>Estado de ánimo</label><select id="bl-mood">
+        <option value="🔥">🔥 Imparable</option>
+        <option value="💪">💪 Enfocada</option>
+        <option value="🌊" selected>🌊 En flujo</option>
+        <option value="🌧">🌧 Difícil</option>
+        <option value="🌱">🌱 Creciendo</option>
+        <option value="✨">✨ Inspirada</option>
+      </select></div>
+      <div class="ff"><label>Imagen (opcional)</label><input type="file" id="bl-img" accept="image/*"></div>
+    </div>
+    <div style="display:flex;gap:7px;margin-top:4px">
+      <button class="btn bgold" onclick="savePost()">💾 Guardar</button>
+      <button class="btn bgh" onclick="toggleBlogForm()">Cancelar</button>
+    </div>
+  </div>
+  <div class="blog-grid" id="blog-grid"></div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section class="sec" id="fyt-proj">
+  <div class="eye">Empresa principal</div>
+  <h2 class="h1">FYT · <span class="g">AirCar CO₂</span></h2>
+  <div class="cg cg2">
+    <div class="card" style="border-color:rgba(96,165,250,.2)">
+      <div class="ci">🛸</div>
+      <div class="ct">FYT · EBCT · TRL 2</div>
+      <div class="cd">AirCar eléctrico VTOL que integra captura activa de CO₂ en su estructura. La única empresa en LatAm con esta propuesta. IP 100% de la fundadora.</div>
+      <div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:.62rem;margin-bottom:3px"><span>Avance global</span><span style="color:var(--accent)">15%</span></div><div class="pg-bar"><div class="pg-fill" style="width:15%"></div></div></div>
+      <div class="badge bc">ODS 9</div><div class="badge bc">ODS 13</div><div class="badge bgr">IP 100%</div>
+      <div style="margin-top:12px"><a href="fyt-strategic-company.html" class="btn bp bsm">Ver Dashboard FYT →</a></div>
+    </div>
+    <div class="card"><div class="ci">🎯</div><div class="ct">Hitos 2026</div><div class="cd">
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:.74rem;margin-top:6px">
+        <div>☐ Marca FYT en INAPI (Clase 12, 42, 35)</div>
+        <div>☐ Búsqueda FTO (Matías Tapia)</div>
+        <div>☐ Laboratorio habilitado</div>
+        <div>☐ Postulación CORFO Capital Semilla</div>
+        <div>☐ Constitución SpA FYT</div>
+        <div>☐ Primera maqueta 1/10</div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="sec" id="dronetry">
+  <div class="eye">Colaborativo</div>
+  <h2 class="h1">DroneTRY · <span class="g">Cable HVDC</span></h2>
+  <div class="cg cg2">
+    <div class="card" style="border-color:rgba(167,139,250,.18)">
+      <div class="ci">🔌</div><div class="ct">DroneTRY · TRL 2-3</div>
+      <div class="cd">Drone cautivo con cable HVDC + fibra óptica para energía ilimitada 24/7. La sinergia con FYT: el cable que da autonomía infinita al AirCar.</div>
+      <div class="badge bn">HVDC</div><div class="badge bn">Fibra óptica</div><div class="badge bc">IA bordo</div>
+      <div style="margin-top:12px"><a href="informe-drones-cautivos_1.html" class="btn bgh bsm">Ver informe →</a></div>
+    </div>
+    <div class="card"><div class="ci">👥</div><div class="ct">Equipo</div><div class="cd" style="font-size:.76rem;line-height:1.8">
+      <strong style="color:var(--accent2)">Bruno Osses</strong> — CEO electromotilidad<br>
+      <strong style="color:var(--accent2)">Julio Hofflinger</strong> — IA y visión computacional<br>
+      <strong style="color:var(--accent2)">Tomás</strong> — Memorista UdeC · Hardware<br>
+      <strong style="color:var(--accent)">Fundadora</strong> — Coordinadora R&D + Hardware
+    </div></div>
+  </div>
+</section>
+
+<section class="sec" id="fly">
+  <div class="eye">Estratégico</div>
+  <h2 class="h1">FLY · <span class="g">Regulación eVTOL</span></h2>
+  <div class="cg cg2">
+    <div class="card" style="border-color:rgba(251,191,36,.15)">
+      <div class="ci">🏙️</div><div class="ct">FLY · TRL 2 · Enlace Estratégico</div>
+      <div class="cd">Mapeo de regulación DGAC Chile. Alianzas con fabricantes internacionales de eVTOL certificado. El ecosistema regulatorio que FYT necesitará. El primer mover advantage se prepara hoy.</div>
+      <div class="badge bg">DGAC mapping</div><div class="badge bw">First mover</div>
+      <div style="margin-top:10px;font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);padding-top:8px">
+        Cuando el AirCar esté listo, el equipo FLY se integra a FYT bajo vesting (cliff 12 meses).
+      </div>
+    </div>
+    <div class="card"><div class="ci">🗺️</div><div class="ct">Hitos FLY 2026</div><div class="cd" style="font-size:.74rem;line-height:1.9">
+      ☐ Mapa regulatorio DGAC completado<br>
+      ☐ Contacto con 3 fabricantes globales<br>
+      ☐ Marco legal eVTOL Chile vs FAA/EASA<br>
+      ☐ Primer aliado estratégico identificado<br>
+      ☐ Vesting structure con FYT definida
+    </div></div>
+  </div>
+</section>
+
+<section class="sec" id="nido">
+  <div class="eye">MGET UAI</div>
+  <h2 class="h1">NIDO · <span class="g">Primer Hogar</span></h2>
+  <div class="cg cg2">
+    <div class="card" style="border-color:rgba(251,146,60,.15)">
+      <div class="ci">🏡</div><div class="ct">NIDO · Prototipo</div>
+      <div class="cd">Plataforma gamificada para parejas jóvenes que equipan su primer departamento. Centraliza perfil + presupuesto + plano + mercado. Del departamento vacío al hogar compartido.</div>
+      <div style="margin-top:10px"><div style="display:flex;justify-content:space-between;font-size:.62rem;margin-bottom:3px"><span>Design Thinking</span><span style="color:var(--warm)">90%</span></div><div class="pg-bar"><div class="pg-fill" style="width:90%;background:var(--warm)"></div></div></div>
+      <div style="margin-top:10px"><a href="El_viaje_en_la_construccion_de_Nido_MCM.html" class="btn bgh bsm">Ver bitácora →</a></div>
+    </div>
+    <div class="card"><div class="ci">💡</div><div class="ct">Propuesta de valor</div><div class="cd" style="font-size:.75rem;line-height:1.75">
+      <strong>Para:</strong> Parejas 30-40, Ñuñoa, doble ingreso<br>
+      <strong>Que necesitan:</strong> Equipar sin fricción ni miedo<br>
+      <strong>NIDO ofrece:</strong> Preview progresivo del hogar antes de comprar<br>
+      <strong>Equipo:</strong> Victor · Fundadora · Lisette · Nathaly
+    </div></div>
+  </div>
+</section>
+
+<section class="sec" id="servia">
+  <div class="eye">MGET UAI</div>
+  <h2 class="h1">SERVIA · <span class="g">Urgencias Certificadas</span></h2>
+  <div class="cg cg2">
+    <div class="card" style="border-color:rgba(110,231,183,.15)">
+      <div class="ci">⚡</div><div class="ct">SERVIA · MVP</div>
+      <div class="cd">Marketplace con validación preventiva de proveedores + análisis de reacción emocional del cliente + bot NLP que lee contextos, no palabras. Tu tiempo es el único recurso que nos importa.</div>
+      <div style="margin-top:10px"><div style="display:flex;justify-content:space-between;font-size:.62rem;margin-bottom:3px"><span>Estrategia</span><span style="color:var(--green)">85%</span></div><div class="pg-bar"><div class="pg-fill" style="width:85%;background:var(--green)"></div></div></div>
+      <div class="badge bgr">IA contextual</div><div class="badge bc">NLP 24/7</div>
+      <div style="margin-top:8px;font-size:.72rem;color:var(--muted)"><strong style="color:var(--green)">Equipo:</strong> Julio (CEO) · René (Back-end) · Nano (Datos) · <strong style="color:var(--accent)">Fer (Dir. Proyecto & Finanzas)</strong></div>
+      <div style="margin-top:10px"><a href="servia-plan-estrategico.html" class="btn bgh bsm">Ver plan estratégico →</a></div>
+    </div>
+    <div class="card"><div class="ci">🤖</div><div class="ct">IA Actualizada</div><div class="cd" style="font-size:.74rem;line-height:1.7">
+      El bot identifica el enojo leyendo <strong>contexto</strong>, no palabras sueltas. Gestión automática con historial del cliente. Switch de opciones para quejas específicas.
+      <br><br>Reembolso al 3ero → correo de advertencia + retiro de licencia.
+      <br><br><em style="color:var(--green)">"Tu tiempo es el único recurso que nos importa."</em>
+    </div></div>
+  </div>
+</section>
+
+<!-- ── TRL TRACKER ── -->
+<section class="sec" id="trl">
+  <div class="eye">Control de escalamiento</div>
+  <h2 class="h1">Tracker <span class="g">TRL / IPRL</span></h2>
+  <p class="desc">Desliza para actualizar el estado real de cada proyecto. Solo guardado en tu equipo.</p>
+  <div class="trl-wrap">
+    <div style="font-size:.65rem;color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px">Technology Readiness Level (1–9)</div>
+    <div class="trl-row"><div class="trl-proj">🛸 FYT</div><input type="range" class="trl-sl" min="1" max="9" value="2" id="trl-fyt" oninput="upTRL('fyt')"><div class="trl-val" id="td-fyt">TRL 2</div></div>
+    <div class="trl-row"><div class="trl-proj">🔌 DroneTRY</div><input type="range" class="trl-sl" min="1" max="9" value="2" id="trl-dro" oninput="upTRL('dro')"><div class="trl-val" id="td-dro">TRL 2</div></div>
+    <div class="trl-row"><div class="trl-proj">🏙️ FLY</div><input type="range" class="trl-sl" min="1" max="9" value="2" id="trl-fly" oninput="upTRL('fly')"><div class="trl-val" id="td-fly">TRL 2</div></div>
+    <div class="trl-row"><div class="trl-proj">🏡 NIDO</div><input type="range" class="trl-sl" min="1" max="9" value="3" id="trl-nido" oninput="upTRL('nido')"><div class="trl-val" id="td-nido">TRL 3</div></div>
+    <div class="trl-row"><div class="trl-proj">⚡ SERVIA</div><input type="range" class="trl-sl" min="1" max="9" value="2" id="trl-srv" oninput="upTRL('srv')"><div class="trl-val" id="td-srv">TRL 2</div></div>
+  </div>
+  <div class="trl-wrap" style="margin-top:10px">
+    <div style="font-size:.65rem;color:var(--accent2);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px">IP Readiness Level (1–5)</div>
+    <div class="trl-row"><div class="trl-proj">🛸 FYT IP</div><input type="range" class="trl-sl" min="1" max="5" value="2" id="ip-fyt" oninput="upIP('fyt')"><div class="trl-val" id="id-fyt" style="color:var(--accent2)">IPRL 2</div></div>
+    <div class="trl-row"><div class="trl-proj">🔌 DroneTRY IP</div><input type="range" class="trl-sl" min="1" max="5" value="1" id="ip-dro" oninput="upIP('dro')"><div class="trl-val" id="id-dro" style="color:var(--accent2)">IPRL 1</div></div>
+    <div class="trl-row"><div class="trl-proj">⚡ SERVIA IP</div><input type="range" class="trl-sl" min="1" max="5" value="2" id="ip-srv" oninput="upIP('srv')"><div class="trl-val" id="id-srv" style="color:var(--accent2)">IPRL 2</div></div>
+  </div>
+  <div class="met-grid">
+    <div class="ff"><label>Inversión levantada (CLP)</label><input type="text" id="m-inv" placeholder="$0"></div>
+    <div class="ff"><label>Laboratorio</label><select id="m-lab"><option>❌ No habilitado</option><option>🔄 En gestión</option><option>✅ Habilitado</option></select></div>
+    <div class="ff"><label>Marca FYT INAPI</label><select id="m-brand"><option>❌ No presentada</option><option>🔄 En trámite</option><option>✅ Registrada</option></select></div>
+    <div class="ff"><label>Patente</label><select id="m-pat"><option>❌ Sin presentar</option><option>🔄 En preparación</option><option>✅ Provisional</option><option>🌍 PCT presentada</option></select></div>
+    <div class="ff"><label>Próximo hito</label><input type="text" id="m-next" placeholder="Ej: Lab habilitado"></div>
+    <div class="ff"><label>Inversores / socios</label><input type="number" id="m-inv-n" placeholder="0" value="0"></div>
+  </div>
+  <div style="display:flex;gap:7px;margin-top:14px;flex-wrap:wrap">
+    <button class="btn bp" onclick="saveMetrics()">💾 Guardar estado</button>
+    <button class="btn bgh" onclick="loadMetrics()">🔄 Restaurar</button>
+    <span id="m-saved" style="display:none;font-size:.68rem;color:var(--green);align-self:center">✅ Guardado</span>
+  </div>
+</section>
+
+<!-- ── VAULT ── -->
+<section class="sec" id="vault">
+  <div class="eye">Bóveda local</div>
+  <h2 class="h1">Mis <span class="g">documentos</span></h2>
+  <p class="desc">Solo en tu equipo. Nadie más puede verlos. Agrega imágenes, PDFs y archivos de tus proyectos.</p>
+  <div class="vault">
+    <div class="file-grid" id="file-grid">
+      <div class="file-upload-btn" onclick="document.getElementById('finput').click()">
+        <div style="font-size:1.8rem;margin-bottom:5px">+</div>
+        <div>Agregar archivo</div>
+      </div>
+    </div>
+    <input type="file" id="finput" style="display:none" multiple onchange="handleFiles(this.files)">
+    <div style="margin-top:12px;font-size:.62rem;color:var(--muted)">🔒 Los archivos se guardan como referencias locales. No salen de tu equipo.</div>
+  </div>
+</section>
+
+<footer class="pg-footer">
+  <div class="ftr-brand">FYT · Future &amp; Technology</div>
+  <div class="ftr-text">Del laboratorio al espacio · Chile → Embry-Riddle → Cosmos · 2026</div>
+  <div style="display:flex;gap:5px;flex-wrap:wrap">
+    <span class="badge bc">FYT</span><span class="badge bn">DroneTRY</span>
+    <span class="badge bg">FLY</span><span class="badge bgr">NIDO</span><span class="badge bw">SERVIA</span>
+  </div>
+</footer>
+
+</main>
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script>
+/* ── MOOD ── */
+const MOODS=['mood-cosmos','mood-dawn','mood-dusk','mood-aurora','mood-ember'];
+function setMood(el){
+  MOODS.forEach(m=>document.body.classList.remove(m));
+  document.body.classList.add(el.dataset.mood);
+  document.querySelectorAll('.mood-dot').forEach(d=>d.classList.remove('active'));
+  el.classList.add('active');
+  localStorage.setItem('fyt-mood',el.dataset.mood);
+}
+(function(){
+  const saved=localStorage.getItem('fyt-mood');
+  if(saved){
+    MOODS.forEach(m=>document.body.classList.remove(m));
+    document.body.classList.add(saved);
+    document.querySelectorAll('.mood-dot').forEach(d=>{
+      if(d.dataset.mood===saved)d.classList.add('active');
+      else d.classList.remove('active');
+    });
+  }
+})();
+
+/* ── SIDEBAR ── */
+const hbg=document.getElementById('hbg');
+const sb=document.getElementById('sidebar');
+const sov=document.getElementById('sov');
+hbg.addEventListener('click',()=>{hbg.classList.toggle('open');sb.classList.toggle('open');sov.classList.toggle('open')});
+sov.addEventListener('click',()=>{hbg.classList.remove('open');sb.classList.remove('open');sov.classList.remove('open')});
+document.querySelectorAll('.s-link').forEach(l=>{
+  l.addEventListener('click',()=>{
+    document.querySelectorAll('.s-link').forEach(x=>x.classList.remove('active'));
+    l.classList.add('active');
+    if(window.innerWidth<=860){hbg.classList.remove('open');sb.classList.remove('open');sov.classList.remove('open')}
+  });
+});
+window.addEventListener('scroll',()=>{
+  document.querySelectorAll('section[id]').forEach(s=>{
+    const t=s.offsetTop-200,b=t+s.offsetHeight;
+    if(window.scrollY>=t&&window.scrollY<b){
+      document.querySelectorAll('.s-link').forEach(l=>l.classList.remove('active'));
+      const lk=document.querySelector(`.s-link[href="#${s.id}"]`);
+      if(lk)lk.classList.add('active');
+    }
+  });
+});
+
+/* ── LIFE JOURNEY ── */
+let lifeEvents=JSON.parse(localStorage.getItem('fyt-life')||'[]');
+if(!lifeEvents.length){
+  lifeEvents=[
+    {id:1,year:2019,cat:'📖',title:'Lee "Endurance" de Scott Kelly',status:'past',desc:'El primer libro que conectó la física con el espacio. El astronauta que no era perfecto pero no paraba.'},
+    {id:2,year:2020,cat:'🌱',title:'Empieza la carrera de Física en UdeC',status:'past',desc:'La decisión de entender el mundo desde sus reglas más fundamentales.'},
+    {id:3,year:2024,cat:'💪',title:'Licenciada en Física e Ingeniería Física',status:'past',desc:'La base está. Ahora construir encima.'},
+    {id:4,year:2025,cat:'🌟',title:'Nace FYT en una clase de la UAI',status:'past',desc:'La pregunta que lo cambió todo: ¿y si el vehículo que vuela también captura CO₂?'},
+    {id:5,year:2026,cat:'🛸',title:'FYT en marcha · TRL 2 · 5 proyectos simultáneos',status:'now',desc:'El camino empezó. Caótico, apasionante, real.'},
+    {id:6,year:2027,cat:'📚',title:'Inglés avanzado + Buceo PADI',status:'future',desc:'Los requisitos del astronauta se construyen ahora.'},
+    {id:7,year:2035,cat:'🌌',title:'El Gran Sueño: ir al espacio',status:'future',desc:'Todo el camino anterior conduce aquí.'}
+  ];
+  localStorage.setItem('fyt-life',JSON.stringify(lifeEvents));
+}
+function addLifeEvent(){
+  const year=parseInt(document.getElementById('lt-year').value);
+  const title=document.getElementById('lt-title').value.trim();
+  if(!year||!title){alert('Año y título son obligatorios');return}
+  const ev={id:Date.now(),year,cat:document.getElementById('lt-cat').value,
+    title,status:document.getElementById('lt-status').value,desc:document.getElementById('lt-desc').value.trim()};
+  lifeEvents.push(ev);
+  lifeEvents.sort((a,b)=>a.year-b.year);
+  localStorage.setItem('fyt-life',JSON.stringify(lifeEvents));
+  renderLife();
+  document.getElementById('lt-year').value='';
+  document.getElementById('lt-title').value='';
+  document.getElementById('lt-desc').value='';
+}
+function delLifeEvent(id){
+  lifeEvents=lifeEvents.filter(e=>e.id!==id);
+  localStorage.setItem('fyt-life',JSON.stringify(lifeEvents));
+  renderLife();
+}
+function renderLife(){
+  // List
+  const list=document.getElementById('lt-list');
+  list.innerHTML=lifeEvents.map(e=>`
+    <div class="lt-item">
+      <div class="lt-item-icon">${e.cat}</div>
+      <div class="lt-item-body">
+        <div class="lt-item-year">${e.year}</div>
+        <div class="lt-item-title">${e.title}</div>
+        ${e.desc?`<div class="lt-item-desc">${e.desc}</div>`:''}
+      </div>
+      <button class="lt-item-del" onclick="delLifeEvent(${e.id})" title="Eliminar">✕</button>
+    </div>`).join('');
+  // Spatial timeline
+  const track=document.getElementById('st-track');
+  const dotClass={past:'past',now:'now',future:'future'};
+  let html='';
+  lifeEvents.forEach((e,i)=>{
+    html+=`<div class="st-node" title="${e.title}">
+      <div class="st-content">${e.cat} ${e.title.substring(0,22)}${e.title.length>22?'…':''}</div>
+      <div class="st-dot ${dotClass[e.status]||'future'}">${e.cat}</div>
+      <div class="st-year-label">${e.year}</div>
+    </div>`;
+    if(i<lifeEvents.length-1)html+=`<div class="st-connector"></div>`;
+  });
+  track.innerHTML=html;
+}
+renderLife();
+
+/* ── BLOG ── */
+let posts=JSON.parse(localStorage.getItem('fyt-blog')||'[]');
+if(!posts.length){
+  posts=[
+    {id:1,date:'2026-07-15',title:'El día que decidí ir al espacio',cat:'sueño',mood:'🔥',text:'En clase de transformación digital se me ocurrió: ¿y si el AirCar también captura CO₂? No era solo una idea de aula. Era el hilo que conectaba todo lo que soy. La física, el vuelo, el clima. Y de fondo, siempre, el espacio. Ahí lo decidí: me la voy a jugar.'},
+    {id:2,date:'2026-07-20',title:'Primer día del dashboard FYT',cat:'hito',mood:'💪',text:'Pasé la tarde organizando cinco proyectos en una sola pantalla. FYT. DroneTRY. FLY. NIDO. SERVIA. Son frentes que convergen. Cansa. Pero también emociona. El caos tiene un patrón.'}
+  ];
+  localStorage.setItem('fyt-blog',JSON.stringify(posts));
+}
+const catC={reflexión:{bg:'rgba(167,139,250,.1)',c:'#a78bfa'},hito:{bg:'rgba(110,231,183,.1)',c:'#6ee7b7'},obstáculo:{bg:'rgba(248,113,113,.1)',c:'#f87171'},aprendizaje:{bg:'rgba(251,191,36,.1)',c:'#fbbf24'},sueño:{bg:'rgba(96,165,250,.1)',c:'#60a5fa'},cotidiano:{bg:'rgba(100,116,139,.1)',c:'#64748b'}};
+function toggleBlogForm(){document.getElementById('blog-form').classList.toggle('open')}
+function savePost(){
+  const title=document.getElementById('bl-title').value.trim();
+  const text=document.getElementById('bl-text').value.trim();
+  if(!title||!text){alert('Escribe el título y la historia');return}
+  posts.unshift({id:Date.now(),date:new Date().toISOString().split('T')[0],
+    title,cat:document.getElementById('bl-cat').value,
+    mood:document.getElementById('bl-mood').value,text});
+  localStorage.setItem('fyt-blog',JSON.stringify(posts));
+  renderBlog();
+  document.getElementById('bl-title').value='';
+  document.getElementById('bl-text').value='';
+  document.getElementById('blog-form').classList.remove('open');
+}
+function delPost(id){posts=posts.filter(p=>p.id!==id);localStorage.setItem('fyt-blog',JSON.stringify(posts));renderBlog()}
+function togPost(id){const el=document.getElementById('pf-'+id);el.classList.toggle('open');document.querySelector('[data-pt="'+id+'"]').textContent=el.classList.contains('open')?'Leer menos ▲':'Leer más ▼'}
+function renderBlog(){
+  const g=document.getElementById('blog-grid');
+  if(!posts.length){g.innerHTML='<div class="card" style="text-align:center;padding:24px;color:var(--muted)">✍️ Tu bitácora está vacía. Escribe tu primera entrada.</div>';return}
+  g.innerHTML=posts.map(p=>{
+    const c=catC[p.cat]||catC.cotidiano;
+    return`<div class="post-card">
+      <div class="post-meta">
+        <span class="post-date">${p.date}</span>
+        <span class="post-cat-tag" style="background:${c.bg};color:${c.c}">${p.cat}</span>
+        <span class="post-mood-ico">${p.mood}</span>
+      </div>
+      <div class="post-title">${p.title}</div>
+      <div class="post-excerpt">${p.text.substring(0,110)}…</div>
+      <div class="post-full-text" id="pf-${p.id}">${p.text}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+        <span class="post-toggle" data-pt="${p.id}" onclick="togPost(${p.id})">Leer más ▼</span>
+        <button class="btn bdan bsm" onclick="delPost(${p.id})">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+renderBlog();
+
+/* ── TRL ── */
+function upTRL(p){const v=document.getElementById('trl-'+p).value;document.getElementById('td-'+p).textContent='TRL '+v;saveTRL()}
+function upIP(p){const v=document.getElementById('ip-'+p).value;document.getElementById('id-'+p).textContent='IPRL '+v;saveTRL()}
+function saveTRL(){
+  const d={trl:{},ip:{}};
+  ['fyt','dro','fly','nido','srv'].forEach(p=>{d.trl[p]=document.getElementById('trl-'+p).value});
+  ['fyt','dro','srv'].forEach(p=>{d.ip[p]=document.getElementById('ip-'+p).value});
+  localStorage.setItem('fyt-trl',JSON.stringify(d));
+}
+(function(){
+  const raw=localStorage.getItem('fyt-trl');if(!raw)return;
+  const d=JSON.parse(raw);
+  ['fyt','dro','fly','nido','srv'].forEach(p=>{if(d.trl&&d.trl[p]){document.getElementById('trl-'+p).value=d.trl[p];document.getElementById('td-'+p).textContent='TRL '+d.trl[p]}});
+  ['fyt','dro','srv'].forEach(p=>{if(d.ip&&d.ip[p]){document.getElementById('ip-'+p).value=d.ip[p];document.getElementById('id-'+p).textContent='IPRL '+d.ip[p]}});
+})();
+
+/* ── METRICS ── */
+function saveMetrics(){
+  const m={inv:document.getElementById('m-inv').value,lab:document.getElementById('m-lab').value,
+    brand:document.getElementById('m-brand').value,pat:document.getElementById('m-pat').value,
+    next:document.getElementById('m-next').value,invn:document.getElementById('m-inv-n').value};
+  localStorage.setItem('fyt-met',JSON.stringify(m));
+  const s=document.getElementById('m-saved');s.style.display='block';
+  setTimeout(()=>s.style.display='none',2800);
+}
+function loadMetrics(){
+  const raw=localStorage.getItem('fyt-met');if(!raw)return;
+  const m=JSON.parse(raw);
+  if(m.inv)document.getElementById('m-inv').value=m.inv;
+  if(m.lab)document.getElementById('m-lab').value=m.lab;
+  if(m.brand)document.getElementById('m-brand').value=m.brand;
+  if(m.pat)document.getElementById('m-pat').value=m.pat;
+  if(m.next)document.getElementById('m-next').value=m.next;
+  if(m.invn)document.getElementById('m-inv-n').value=m.invn;
+}
+loadMetrics();
+
+/* ── FILES ── */
+let fileRefs=JSON.parse(localStorage.getItem('fyt-files')||'[]');
+const fIcons={pdf:'📄',doc:'📝',docx:'📝',jpg:'🖼',jpeg:'🖼',png:'🖼',gif:'🖼',mp4:'🎬',mp3:'🎵',xlsx:'📊',pptx:'📊',zip:'🗜',default:'📁'};
+function gIcon(n){const e=n.split('.').pop().toLowerCase();return fIcons[e]||fIcons.default}
+function fmtSz(b){if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'KB';return(b/1048576).toFixed(1)+'MB'}
+function handleFiles(files){
+  Array.from(files).forEach(f=>{fileRefs.unshift({id:Date.now()+Math.random(),name:f.name,size:fmtSz(f.size),date:new Date().toLocaleDateString()})});
+  localStorage.setItem('fyt-files',JSON.stringify(fileRefs));
+  renderFiles();
+}
+function delFile(id){fileRefs=fileRefs.filter(f=>f.id!==id);localStorage.setItem('fyt-files',JSON.stringify(fileRefs));renderFiles()}
+function renderFiles(){
+  const g=document.getElementById('file-grid');
+  const up='<div class="file-upload-btn" onclick="document.getElementById(\'finput\').click()"><div style="font-size:1.8rem;margin-bottom:4px">+</div><div>Agregar</div></div>';
+  g.innerHTML=up+fileRefs.map(f=>`
+    <div class="file-item">
+      <div style="font-size:1.5rem;margin-bottom:4px">${gIcon(f.name)}</div>
+      <div style="font-size:.64rem;color:var(--text);word-break:break-word;line-height:1.3">${f.name}</div>
+      <div style="font-size:.56rem;color:var(--muted);margin-top:2px">${f.size} · ${f.date}</div>
+      <button class="btn bdan bsm" style="margin-top:6px;width:100%;justify-content:center" onclick="delFile(${f.id})">✕</button>
+    </div>`).join('');
+}
+renderFiles();
+</script>
+</body>
+</html>
