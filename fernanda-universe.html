@@ -643,15 +643,15 @@ body{font-family:var(--ff-sans);background:var(--bg0);color:var(--text);min-heig
         <!-- NODO 1 -->
         <div class="dn-group">
           <div class="dn-above" title="FYT: Idea del AirCar CO₂ nace en UAI">
-            <div class="dn-label" style="color:var(--green)">Idea FYT<br>nace en UAI</div>
-            <div class="dn-year">2025</div>
+            <div class="dn-label" style="color:var(--green)">Idea FYT Green<br>nace en UAI</div>
+            <div class="dn-year">2026</div>
             <div class="dn-dot d-past" style="margin-top:6px">💡</div>
           </div>
           <div style="height:32px;width:1px;background:var(--border);margin:0 auto"></div>
           <div class="dn-below" title="Personal: Lee Endurance de Scott Kelly">
             <div class="dn-dot d-past" style="margin-bottom:6px">📖</div>
             <div class="dn-label" style="color:var(--green)">Lee<br>Endurance</div>
-            <div class="dn-year">2024</div>
+            <div class="dn-year">2022</div>
           </div>
         </div>
         <div class="dn-connector"></div>
@@ -1064,40 +1064,6 @@ body{font-family:var(--ff-sans);background:var(--bg0);color:var(--text);min-heig
       <br><br>Reembolso al 3ero → correo de advertencia + retiro de licencia.
       <br><br><em style="color:var(--green)">"Tu tiempo es el único recurso que nos importa."</em>
     </div></div>
-  </div>
-</section>
-
-<!-- ── TRL TRACKER ── -->
-<section class="sec" id="trl">
-  <div class="eye">Control de escalamiento</div>
-  <h2 class="h1">Tracker <span class="g">TRL / IPRL</span></h2>
-  <p class="desc">Desliza para actualizar el estado real de cada proyecto. Solo guardado en tu equipo.</p>
-  <div class="trl-wrap">
-    <div style="font-size:.65rem;color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px">Technology Readiness Level (1–9)</div>
-    <div class="trl-row"><div class="trl-proj">🛸 FYT</div><input type="range" class="trl-sl" min="1" max="9" value="2" id="trl-fyt" oninput="upTRL('fyt')"><div class="trl-val" id="td-fyt">TRL 2</div></div>
-    <div class="trl-row"><div class="trl-proj">🔌 DroneTRY</div><input type="range" class="trl-sl" min="1" max="9" value="2" id="trl-dro" oninput="upTRL('dro')"><div class="trl-val" id="td-dro">TRL 2</div></div>
-    <div class="trl-row"><div class="trl-proj">🏙️ FLY</div><input type="range" class="trl-sl" min="1" max="9" value="2" id="trl-fly" oninput="upTRL('fly')"><div class="trl-val" id="td-fly">TRL 2</div></div>
-    <div class="trl-row"><div class="trl-proj">🏡 NIDO</div><input type="range" class="trl-sl" min="1" max="9" value="3" id="trl-nido" oninput="upTRL('nido')"><div class="trl-val" id="td-nido">TRL 3</div></div>
-    <div class="trl-row"><div class="trl-proj">⚡ SERVIA</div><input type="range" class="trl-sl" min="1" max="9" value="2" id="trl-srv" oninput="upTRL('srv')"><div class="trl-val" id="td-srv">TRL 2</div></div>
-  </div>
-  <div class="trl-wrap" style="margin-top:10px">
-    <div style="font-size:.65rem;color:var(--accent2);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px">IP Readiness Level (1–5)</div>
-    <div class="trl-row"><div class="trl-proj">🛸 FYT IP</div><input type="range" class="trl-sl" min="1" max="5" value="2" id="ip-fyt" oninput="upIP('fyt')"><div class="trl-val" id="id-fyt" style="color:var(--accent2)">IPRL 2</div></div>
-    <div class="trl-row"><div class="trl-proj">🔌 DroneTRY IP</div><input type="range" class="trl-sl" min="1" max="5" value="1" id="ip-dro" oninput="upIP('dro')"><div class="trl-val" id="id-dro" style="color:var(--accent2)">IPRL 1</div></div>
-    <div class="trl-row"><div class="trl-proj">⚡ SERVIA IP</div><input type="range" class="trl-sl" min="1" max="5" value="2" id="ip-srv" oninput="upIP('srv')"><div class="trl-val" id="id-srv" style="color:var(--accent2)">IPRL 2</div></div>
-  </div>
-  <div class="met-grid">
-    <div class="ff"><label>Inversión levantada (CLP)</label><input type="text" id="m-inv" placeholder="$0"></div>
-    <div class="ff"><label>Laboratorio</label><select id="m-lab"><option>❌ No habilitado</option><option>🔄 En gestión</option><option>✅ Habilitado</option></select></div>
-    <div class="ff"><label>Marca FYT INAPI</label><select id="m-brand"><option>❌ No presentada</option><option>🔄 En trámite</option><option>✅ Registrada</option></select></div>
-    <div class="ff"><label>Patente</label><select id="m-pat"><option>❌ Sin presentar</option><option>🔄 En preparación</option><option>✅ Provisional</option><option>🌍 PCT presentada</option></select></div>
-    <div class="ff"><label>Próximo hito</label><input type="text" id="m-next" placeholder="Ej: Lab habilitado"></div>
-    <div class="ff"><label>Inversores / socios</label><input type="number" id="m-inv-n" placeholder="0" value="0"></div>
-  </div>
-  <div style="display:flex;gap:7px;margin-top:14px;flex-wrap:wrap">
-    <button class="btn bp" onclick="saveMetrics()">💾 Guardar estado</button>
-    <button class="btn bgh" onclick="loadMetrics()">🔄 Restaurar</button>
-    <span id="m-saved" style="display:none;font-size:.68rem;color:var(--green);align-self:center">✅ Guardado</span>
   </div>
 </section>
 
