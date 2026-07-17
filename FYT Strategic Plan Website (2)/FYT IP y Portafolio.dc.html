@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:oklch(14% 0.03 250);}
+a{color:oklch(78% 0.13 85);text-decoration:none;}
+a:hover{color:oklch(85% 0.13 85);text-decoration:underline;}
+input[type=range]{-webkit-appearance:none;appearance:none;height:3px;border-radius:2px;background:oklch(30% 0.02 250);outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:oklch(78% 0.13 85);cursor:pointer;}
+select,input[type=text],input[type=number],input[type=date],textarea{font-family:'IBM Plex Sans',sans-serif;}
+</style>
+</helmet>
+
+<div style="font-family:'IBM Plex Sans',sans-serif;background:oklch(14% 0.03 250);color:oklch(93% 0.01 250);min-height:100vh;">
+
+<header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 40px;background:oklch(14% 0.03 250 / 0.92);backdrop-filter:blur(10px);border-bottom:1px solid oklch(30% 0.02 250);">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div style="width:40px;height:40px;border-radius:50%;background:oklch(19% 0.035 250);border:1.5px solid oklch(78% 0.13 85);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div style="width:13px;height:13px;background:oklch(78% 0.13 85);transform:rotate(45deg);border-radius:2px;"></div>
+    </div>
+    <div>
+      <div style="font-family:'Spectral',serif;font-weight:700;font-size:20px;letter-spacing:0.04em;color:oklch(97% 0.01 250);line-height:1;">FYT</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.12em;color:oklch(65% 0.02 250);text-transform:uppercase;">Consola IP &amp; Portafolio</div>
+    </div>
+  </div>
+  <nav style="display:flex;align-items:center;gap:20px;font-size:13px;color:oklch(78% 0.02 250);flex-wrap:wrap;">
+    <a href="#resumen" style="color:oklch(85% 0.02 250);">Resumen</a>
+    <a href="#proyectos" style="color:oklch(85% 0.02 250);">Proyectos</a>
+    <a href="#ip" style="color:oklch(85% 0.02 250);">Propiedad Intelectual</a>
+    <a href="#bitacora" style="color:oklch(85% 0.02 250);">Bitácora</a>
+    <a href="#glosario" style="color:oklch(85% 0.02 250);">Glosario</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a href="FYT 12 Pasos EBCT.dc.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(78% 0.02 250);border:1px solid oklch(30% 0.02 250);padding:8px 14px;border-radius:2px;white-space:nowrap;">12 Pasos</a>
+    <a href="FYT Teoria de Vuelo y CO2.dc.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(78% 0.02 250);border:1px solid oklch(30% 0.02 250);padding:8px 14px;border-radius:2px;white-space:nowrap;">Teoría de Vuelo</a>
+    <a href="https://fly-fyt.github.io/fer/fyt-strategic-company.html#hero" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(78% 0.13 85);border:1px solid oklch(78% 0.13 85);padding:8px 14px;border-radius:2px;white-space:nowrap;">&larr; Dashboard</a>
+  </div>
+</header>
+
+<section id="resumen" style="padding:80px 40px 48px;max-width:1180px;margin:0 auto;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:12px;">Consola de Gestión</div>
+  <h1 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:0 0 14px;color:oklch(97% 0.01 250);">Propiedad Intelectual y Seguimiento de Proyectos</h1>
+  <p style="font-size:15px;line-height:1.65;color:oklch(75% 0.02 250);max-width:680px;margin:0 0 8px;">Un solo lugar para TRL, estado de IP, bitácora de horas y búsqueda de patentes de los cinco proyectos de Fernanda — para que cada web de proyecto muestre solo su información principal.</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);border-left:2px solid oklch(78% 0.13 85);padding:12px 18px;max-width:680px;margin:18px 0 36px;">
+    <p style="font-size:12.5px;line-height:1.55;color:oklch(70% 0.02 250);margin:0;">🔒 <strong>Privacidad garantizada:</strong> este archivo es de código abierto, pero todo lo que registras aquí (TRL, estados de IP, bitácora) se guarda solo en <code>localStorage</code> de tu navegador. Nada se envía a internet.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);">
+    <div style="background:oklch(17% 0.032 250);padding:22px;text-align:center;"><div style="font-family:'Spectral',serif;font-size:26px;font-weight:600;color:oklch(78% 0.13 85);">{{ avgTRL }}</div><div style="font-size:11px;color:oklch(62% 0.02 250);margin-top:4px;">TRL promedio portafolio</div></div>
+    <div style="background:oklch(17% 0.032 250);padding:22px;text-align:center;"><div style="font-family:'Spectral',serif;font-size:26px;font-weight:600;color:oklch(78% 0.13 85);">5</div><div style="font-size:11px;color:oklch(62% 0.02 250);margin-top:4px;">Proyectos activos</div></div>
+    <div style="background:oklch(17% 0.032 250);padding:22px;text-align:center;"><div style="font-family:'Spectral',serif;font-size:26px;font-weight:600;color:oklch(78% 0.13 85);">{{ totalHours }}</div><div style="font-size:11px;color:oklch(62% 0.02 250);margin-top:4px;">Horas registradas</div></div>
+    <div style="background:oklch(17% 0.032 250);padding:22px;text-align:center;"><div style="font-family:'Spectral',serif;font-size:26px;font-weight:600;color:oklch(78% 0.13 85);">{{ entryCount }}</div><div style="font-size:11px;color:oklch(62% 0.02 250);margin-top:4px;">Hitos en bitácora</div></div>
+  </div>
+</section>
+
+<section id="proyectos" style="padding:60px 40px;max-width:1180px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:26px;margin:0 0 8px;color:oklch(97% 0.01 250);">Cuadro de Mando — TRL por Proyecto</h2>
+  <p style="font-size:13.5px;color:oklch(66% 0.02 250);margin:0 0 24px;">Desliza para actualizar el estado real. Se guarda automáticamente en este equipo.</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:8px 24px;">
+    <sc-for list="{{ projects }}" as="p" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:180px 1fr 60px;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid oklch(22% 0.02 250);">
+        <div>
+          <div style="font-size:14px;font-weight:600;color:oklch(92% 0.01 250);">{{ p.icon }} {{ p.name }}</div>
+          <div style="font-size:11px;color:oklch(58% 0.02 250);">{{ p.responsible }}</div>
+        </div>
+        <input type="range" min="1" max="9" value="{{ p.trl }}" onChange="{{ p.onTrlChange }}"/>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:oklch(78% 0.13 85);text-align:right;">TRL {{ p.trl }}</div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section id="ip" style="padding:60px 40px;max-width:1180px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:26px;margin:0 0 24px;color:oklch(97% 0.01 250);">Propiedad Intelectual</h2>
+
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:14px;">Estado de trámites — FYT</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);margin-bottom:48px;">
+    <div style="background:oklch(17% 0.032 250);padding:18px;">
+      <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-bottom:8px;">Marca FYT (INAPI)</div>
+      <select value="{{ brandStatus }}" onChange="{{ setBrandStatus }}" style="width:100%;background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
+        <option value="no">❌ No presentada</option><option value="tramite">🔄 En trámite</option><option value="ok">✅ Registrada</option>
+      </select>
+    </div>
+    <div style="background:oklch(17% 0.032 250);padding:18px;">
+      <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-bottom:8px;">Búsqueda FTO</div>
+      <select value="{{ ftoStatus }}" onChange="{{ setFtoStatus }}" style="width:100%;background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
+        <option value="no">❌ Sin iniciar</option><option value="curso">🔄 En curso</option><option value="ok">✅ Completada</option>
+      </select>
+    </div>
+    <div style="background:oklch(17% 0.032 250);padding:18px;">
+      <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-bottom:8px;">Patente</div>
+      <select value="{{ patentStatus }}" onChange="{{ setPatentStatus }}" style="width:100%;background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
+        <option value="no">❌ Sin presentar</option><option value="prep">🔄 En preparación</option><option value="prov">✅ Provisional</option><option value="pct">🌍 PCT presentada</option>
+      </select>
+    </div>
+    <div style="background:oklch(17% 0.032 250);padding:18px;">
+      <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-bottom:8px;">NDAs colaboradores</div>
+      <select value="{{ ndaStatus }}" onChange="{{ setNdaStatus }}" style="width:100%;background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
+        <option value="no">❌ Ninguno firmado</option><option value="parcial">🔄 Parcial</option><option value="ok">✅ Todos firmados</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:14px;">Palabras clave para búsqueda de patentes (FTO)</div>
+  <div style="display:flex;flex-direction:column;gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);margin-bottom:16px;">
+    <sc-for list="{{ keywordSets }}" as="k" hint-placeholder-count="3">
+      <div style="background:oklch(17% 0.032 250);padding:22px 24px;">
+        <div style="font-size:14px;font-weight:600;color:oklch(93% 0.01 250);margin-bottom:4px;">{{ k.domain }}</div>
+        <div style="font-size:12px;color:oklch(60% 0.02 250);margin-bottom:12px;">{{ k.note }}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <sc-for list="{{ k.words }}" as="w" hint-placeholder-count="6">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:4px 10px;border:1px solid oklch(30% 0.02 250);border-radius:20px;color:oklch(75% 0.02 250);">{{ w }}</span>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <p style="font-size:12.5px;color:oklch(58% 0.02 250);margin:0 0 48px;">Bases sugeridas: Espacenet (EPO), Google Patents, INAPI (Chile), USPTO, WIPO PATENTSCOPE, JPO. Combinar términos con operadores booleanos (AND/OR) y truncamiento (*) según la base.</p>
+</section>
+
+<section id="bitacora" style="padding:60px 40px;max-width:1180px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:26px;margin:0 0 24px;color:oklch(97% 0.01 250);">Bitácora de Gestión</h2>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px;margin-bottom:24px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:14px;">
+      <label style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:11px;color:oklch(60% 0.02 250);">Fecha</span><input type="date" value="{{ formDate }}" onChange="{{ setFormDate }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;"/></label>
+      <label style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:11px;color:oklch(60% 0.02 250);">Proyecto</span>
+        <select value="{{ formProject }}" onChange="{{ setFormProject }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
+          <option value="FYT">🛸 FYT</option><option value="DroneTRY">🔌 DroneTRY</option><option value="FLY">🏙️ FLY</option><option value="NIDO">🏡 NIDO</option><option value="SERVIA">⚡ SERVIA</option><option value="General">🗂️ General</option>
+        </select>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:11px;color:oklch(60% 0.02 250);">Categoría</span>
+        <select value="{{ formCategory }}" onChange="{{ setFormCategory }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
+          <option>Búsqueda de Patentes</option><option>Redacción de Declaración</option><option>Estrategia Comercial</option><option>Reuniones y Vinculación</option><option>Análisis Financiero</option><option>Gestión Operativa</option>
+        </select>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:11px;color:oklch(60% 0.02 250);">Horas</span><input type="number" step="0.5" value="{{ formHours }}" onChange="{{ setFormHours }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;"/></label>
+    </div>
+    <label style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;"><span style="font-size:11px;color:oklch(60% 0.02 250);">Descripción</span><textarea rows="2" value="{{ formDesc }}" onChange="{{ setFormDesc }}" placeholder="Ej: Búsqueda FTO en Espacenet — 12 patentes revisadas" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:8px 10px;border-radius:3px;font-size:13px;resize:vertical;"></textarea></label>
+    <button onClick="{{ addEntry }}" style="background:oklch(78% 0.13 85);color:oklch(14% 0.03 250);border:none;padding:9px 18px;border-radius:3px;font-size:13px;font-weight:600;cursor:pointer;">+ Guardar hito</button>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);">
+    <sc-for list="{{ entries }}" as="e" hint-placeholder-count="3">
+      <div style="background:oklch(17% 0.032 250);padding:16px 20px;display:grid;grid-template-columns:100px 90px 1fr 60px 30px;gap:14px;align-items:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:oklch(62% 0.02 250);">{{ e.date }}</div>
+        <div style="font-size:12px;color:oklch(78% 0.13 85);">{{ e.project }}</div>
+        <div><div style="font-size:13px;color:oklch(90% 0.01 250);">{{ e.category }}</div><div style="font-size:12px;color:oklch(66% 0.02 250);margin-top:2px;">{{ e.desc }}</div></div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:oklch(93% 0.01 250);text-align:right;">{{ e.hours }}h</div>
+        <button onClick="{{ e.onDelete }}" style="background:transparent;border:1px solid oklch(35% 0.05 25);color:oklch(70% 0.1 25);border-radius:3px;cursor:pointer;font-size:12px;padding:4px 8px;">✕</button>
+      </div>
+    </sc-for>
+    <sc-if value="{{ noEntries }}" hint-placeholder-val="{{ false }}">
+      <div style="background:oklch(17% 0.032 250);padding:24px;text-align:center;font-size:13px;color:oklch(58% 0.02 250);">Sin hitos registrados aún.</div>
+    </sc-if>
+  </div>
+</section>
+
+<section id="glosario" style="padding:60px 40px 100px;max-width:1180px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:26px;margin:0 0 24px;color:oklch(97% 0.01 250);">Glosario Pericial (IP &amp; TT)</h2>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);">
+    <div style="background:oklch(17% 0.032 250);padding:22px;"><div style="font-family:'Spectral',serif;font-weight:600;font-size:15px;color:oklch(95% 0.01 250);margin-bottom:8px;">Estado de la Técnica (OMPI)</div><div style="font-size:13px;line-height:1.6;color:oklch(72% 0.02 250);">Todo conocimiento puesto a disposición del público en cualquier lugar del mundo (divulgación escrita, oral, comercialización o uso) antes de la fecha de prioridad de la solicitud en examen.</div></div>
+    <div style="background:oklch(17% 0.032 250);padding:22px;"><div style="font-family:'Spectral',serif;font-weight:600;font-size:15px;color:oklch(95% 0.01 250);margin-bottom:8px;">Derecho de Prioridad (París)</div><div style="font-size:13px;line-height:1.6;color:oklch(72% 0.02 250);">Otorga 12 meses desde la primera solicitud nacional para pedir protección en otro país de la Unión, manteniendo la fecha original para el examen de novedad.</div></div>
+    <div style="background:oklch(17% 0.032 250);padding:22px;"><div style="font-family:'Spectral',serif;font-weight:600;font-size:15px;color:oklch(95% 0.01 250);margin-bottom:8px;">Tratado PCT (OMPI)</div><div style="font-size:13px;line-height:1.6;color:oklch(72% 0.02 250);">Permite presentar una única solicitud internacional, postergando la costosa entrada en fase nacional hasta el mes 30-31 desde la fecha de prioridad.</div></div>
+    <div style="background:oklch(17% 0.032 250);padding:22px;"><div style="font-family:'Spectral',serif;font-weight:600;font-size:15px;color:oklch(95% 0.01 250);margin-bottom:8px;">Libertad de Operación (FTO)</div><div style="font-size:13px;line-height:1.6;color:oklch(72% 0.02 250);">Búsqueda pericial de las reivindicaciones de patentes vigentes para asegurar que comercializar el producto no infrinja derechos de terceros.</div></div>
+  </div>
+</section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = {
+    trl: { fyt: 2, dro: 2, fly: 2, nido: 3, srv: 2 },
+    brandStatus: 'tramite', ftoStatus: 'curso', patentStatus: 'prep', ndaStatus: 'parcial',
+    formDate: '', formProject: 'FYT', formCategory: 'Búsqueda de Patentes', formHours: 1, formDesc: '',
+    entries: [
+      { id: 1, date: '2026-07-10', project: 'FYT', category: 'Búsqueda de Patentes', hours: 3, desc: 'Revisión inicial de patentes DAC (Lackner, ATCOM) y eVTOL comparables.' },
+      { id: 2, date: '2026-07-14', project: 'FYT', category: 'Estrategia Comercial', hours: 2, desc: 'Definición de propuesta de valor única vs. Joby/EHang.' }
+    ]
+  };
+
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem('fyt-ip-tracker');
+      if (raw) {
+        const d = JSON.parse(raw);
+        this.setState({
+          trl: d.trl || this.state.trl,
+          brandStatus: d.brandStatus || this.state.brandStatus,
+          ftoStatus: d.ftoStatus || this.state.ftoStatus,
+          patentStatus: d.patentStatus || this.state.patentStatus,
+          ndaStatus: d.ndaStatus || this.state.ndaStatus,
+          entries: d.entries || this.state.entries
+        });
+      }
+    } catch (e) {}
+  }
+
+  persist(patch) {
+    this.setState(patch, () => {
+      try {
+        const { trl, brandStatus, ftoStatus, patentStatus, ndaStatus, entries } = this.state;
+        localStorage.setItem('fyt-ip-tracker', JSON.stringify({ trl, brandStatus, ftoStatus, patentStatus, ndaStatus, entries }));
+      } catch (e) {}
+    });
+  }
+
+  addEntry() {
+    const s = this.state;
+    if (!s.formDesc.trim() || !s.formHours) return;
+    const entry = { id: Date.now(), date: s.formDate || new Date().toISOString().split('T')[0], project: s.formProject, category: s.formCategory, hours: parseFloat(s.formHours) || 0, desc: s.formDesc.trim() };
+    this.persist({ entries: [entry, ...s.entries], formDesc: '', formHours: 1 });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const projMeta = [
+      { key: 'fyt', icon: '🛸', name: 'FYT · AirCar CO₂', responsible: 'Fernanda Mesa · Fundadora' },
+      { key: 'dro', icon: '🔌', name: 'DroneTRY', responsible: 'Bruno Osses / Julio Hofflinger / Tomás' },
+      { key: 'fly', icon: '🏙️', name: 'FLY · Regulación eVTOL', responsible: 'Equipo FLY' },
+      { key: 'nido', icon: '🏡', name: 'NIDO', responsible: 'Victor / Fernanda / Lisette / Nathaly' },
+      { key: 'srv', icon: '⚡', name: 'SERVIA', responsible: 'Julio / René / Nano / Fernanda' }
+    ];
+    const projects = projMeta.map(p => ({
+      ...p, trl: s.trl[p.key],
+      onTrlChange: (e) => this.persist({ trl: { ...s.trl, [p.key]: parseInt(e.target.value) } })
+    }));
+    const avgTRL = (Object.values(s.trl).reduce((a, b) => a + b, 0) / Object.values(s.trl).length).toFixed(1);
+    const totalHours = s.entries.reduce((a, e) => a + (parseFloat(e.hours) || 0), 0);
+
+    const entries = s.entries.map(e => ({ ...e, onDelete: () => this.persist({ entries: s.entries.filter(x => x.id !== e.id) }) }));
+
+    return {
+      projects, avgTRL, totalHours,
+      entryCount: s.entries.length, entries, noEntries: s.entries.length === 0,
+      brandStatus: s.brandStatus, ftoStatus: s.ftoStatus, patentStatus: s.patentStatus, ndaStatus: s.ndaStatus,
+      setBrandStatus: (e) => this.persist({ brandStatus: e.target.value }),
+      setFtoStatus: (e) => this.persist({ ftoStatus: e.target.value }),
+      setPatentStatus: (e) => this.persist({ patentStatus: e.target.value }),
+      setNdaStatus: (e) => this.persist({ ndaStatus: e.target.value }),
+      formDate: s.formDate, formProject: s.formProject, formCategory: s.formCategory, formHours: s.formHours, formDesc: s.formDesc,
+      setFormDate: (e) => this.setState({ formDate: e.target.value }),
+      setFormProject: (e) => this.setState({ formProject: e.target.value }),
+      setFormCategory: (e) => this.setState({ formCategory: e.target.value }),
+      setFormHours: (e) => this.setState({ formHours: e.target.value }),
+      setFormDesc: (e) => this.setState({ formDesc: e.target.value }),
+      addEntry: () => this.addEntry(),
+      keywordSets: [
+        { domain: 'FYT · AirCar + Captura de CO₂', note: 'Núcleo de innovación — combinar términos de vehículo con términos de captura', words: ['electric VTOL aircraft', 'vertical takeoff landing air vehicle', 'integrated carbon capture aircraft', 'airborne CO2 capture system', 'atmospheric CO2 aspiration vehicle', 'direct air capture DAC', 'CO2 sorbent aircraft structure', 'zeolite CO2 adsorption module', 'amine CO2 scrubber mobile', 'flying carbon scrubber', 'mobile direct air capture unit', 'CO2 capture chassis integration'] },
+        { domain: 'DroneTRY · Dron cautivo HVDC', note: 'Foco en transmisión de energía por cable, no en captura de CO₂', words: ['tethered drone power cable', 'tethered UAV HVDC power supply', 'captive drone fiber optic tether', 'unmanned aerial vehicle continuous power tether', 'tethered multirotor surveillance system'] },
+        { domain: 'Sistema de captura de CO₂ (independiente)', note: 'Para vigilancia de arte previo del módulo, aislado del vehículo', words: ['CO2 adsorption isotherm sorbent', 'metal-organic framework CO2 capture', 'amine scrubbing CO2 kinetics', 'regenerable CO2 sorbent cartridge', 'lightweight portable CO2 capture module'] }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

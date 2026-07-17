@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  @page { margin: 0.5in; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:oklch(14% 0.03 250);}
+a{color:oklch(78% 0.13 85);text-decoration:none;}
+a:hover{color:oklch(85% 0.13 85);text-decoration:underline;}
+input[type=number]{-moz-appearance:textfield;}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+</style>
+</helmet>
+
+<div style="font-family:'IBM Plex Sans',sans-serif;background:oklch(14% 0.03 250);color:oklch(93% 0.01 250);min-height:100vh;">
+
+<header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 40px;background:oklch(14% 0.03 250 / 0.92);backdrop-filter:blur(10px);border-bottom:1px solid oklch(30% 0.02 250);">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div style="width:40px;height:40px;border-radius:50%;background:oklch(19% 0.035 250);border:1.5px solid oklch(78% 0.13 85);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div style="width:13px;height:13px;background:oklch(78% 0.13 85);transform:rotate(45deg);border-radius:2px;"></div>
+    </div>
+    <div>
+      <div style="font-family:'Spectral',serif;font-weight:700;font-size:20px;letter-spacing:0.04em;color:oklch(97% 0.01 250);line-height:1;">FYT</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.12em;color:oklch(65% 0.02 250);text-transform:uppercase;">R&amp;D Technical Reference</div>
+    </div>
+  </div>
+  <nav style="display:flex;align-items:center;gap:20px;font-size:13px;color:oklch(78% 0.02 250);flex-wrap:wrap;">
+    <a href="#aero" style="color:oklch(85% 0.02 250);">Aerodinámica</a>
+    <a href="#propulsion" style="color:oklch(85% 0.02 250);">Propulsión</a>
+    <a href="#quimica" style="color:oklch(85% 0.02 250);">Captura CO₂</a>
+    <a href="#balance" style="color:oklch(85% 0.02 250);">Balance</a>
+    <a href="#supuestos" style="color:oklch(85% 0.02 250);">Supuestos</a>
+  </nav>
+  <a href="https://fly-fyt.github.io/fer/fyt-strategic-company.html#hero" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;color:oklch(78% 0.13 85);border:1px solid oklch(78% 0.13 85);padding:8px 14px;border-radius:2px;white-space:nowrap;">&larr; Dashboard FYT</a>
+</header>
+
+<section style="position:relative;padding:88px 40px 64px;border-bottom:1px solid oklch(30% 0.02 250);">
+  <div style="max-width:920px;margin:0 auto;">
+    <div style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;color:oklch(78% 0.13 85);text-transform:uppercase;border:1px solid oklch(78% 0.13 85);padding:6px 14px;border-radius:20px;margin-bottom:26px;">
+      <span style="width:6px;height:6px;border-radius:50%;background:oklch(78% 0.13 85);"></span>Documento técnico · TRL 2 → 3
+    </div>
+    <h1 style="font-family:'Spectral',serif;font-weight:600;font-size:44px;line-height:1.15;margin:0 0 18px;color:oklch(97% 0.01 250);">Teoría de Vuelo y Captura de CO₂<br/>del Prototipo FYT</h1>
+    <p style="font-size:16px;line-height:1.65;color:oklch(75% 0.02 250);max-width:700px;margin:0 0 20px;">Fundamentos de aerodinámica VTOL, propulsión eléctrica y físico-química de captura de CO₂ aplicados al primer hito del AirCar: un demostrador de <strong style="color:oklch(93% 0.01 250);">10–15 kg</strong> capaz de sostener vuelo estacionario a <strong style="color:oklch(93% 0.01 250);">1 metro de altura</strong>, previo a integrar el módulo de captura activa.</p>
+    <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);border-left:2px solid oklch(78% 0.13 85);padding:16px 22px;max-width:700px;">
+      <p style="font-size:13.5px;line-height:1.6;color:oklch(78% 0.02 250);margin:0;">Este documento presenta un <strong>modelo de ingeniería de primer orden</strong> (momentum theory, isotermas de adsorción, balances de masa) para dimensionamiento preliminar. No sustituye ensayos de banco, CFD ni validación experimental — ver <a href="#supuestos">Supuestos y limitaciones</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="aero" style="padding:80px 40px;max-width:980px;margin:0 auto;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:12px;">01 · Aerodinámica VTOL</div>
+  <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:30px;margin:0 0 18px;color:oklch(97% 0.01 250);">Sustentación y potencia de vuelo estacionario</h2>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 20px;">Para un multirotor en hover, la <strong>teoría de momento (actuator disk theory)</strong> de Rankine-Froude modela cada rotor como un disco actuador que acelera una columna de aire. En equilibrio, el empuje total debe igualar el peso:</p>
+
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);text-align:center;margin-bottom:8px;">T = m·g</div>
+    <div style="font-size:12.5px;color:oklch(62% 0.02 250);text-align:center;">T: empuje total [N] · m: masa del vehículo [kg] · g: 9.81 m/s²</div>
+  </div>
+
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 20px;">La velocidad inducida en el disco (v<sub>i</sub>) y la potencia ideal de hover se derivan del balance de momento y energía del flujo:</p>
+
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;display:grid;gap:16px;">
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);">v<sub>i</sub> = √( T / (2·ρ·A) )</div>
+      <div style="font-size:12.5px;color:oklch(62% 0.02 250);margin-top:6px;">ρ: densidad del aire [kg/m³] · A: área total de discos rotores [m²]</div>
+    </div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);">P<sub>ideal</sub> = T·v<sub>i</sub> = T<sup>3/2</sup> / √(2·ρ·A)</div>
+      <div style="font-size:12.5px;color:oklch(62% 0.02 250);margin-top:6px;">Potencia ideal de hover (sin pérdidas viscosas ni de estela)</div>
+    </div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);">P<sub>hover</sub> = P<sub>ideal</sub> / FM</div>
+      <div style="font-size:12.5px;color:oklch(62% 0.02 250);margin-top:6px;">FM (Figure of Merit) ≈ 0.55–0.75 para rotores pequeños — captura pérdidas por arrastre de perfil, estela y pérdidas de punta [Leishman, "Principles of Helicopter Aerodynamics"]</div>
+    </div>
+  </div>
+
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 12px;">Dos métricas de diseño clave: la <strong>carga de disco</strong> (disk loading) DL = T/A [N/m²] y la <strong>carga de potencia</strong> (power loading) PL = T/P [N/W] — a menor carga de disco, menor velocidad inducida y mayor eficiencia de hover, a costa de mayor diámetro de rotor.</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:32px 0 12px;">Blade Element Momentum Theory (BEMT)</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">La teoría de momento por sí sola no captura la distribución radial de carga. La BEMT combina un balance de momento anular (variación radial de v<sub>i</sub>(r)) con la teoría de elemento de pala (fuerzas aerodinámicas locales según cuerda, torsión y perfil). Para un anillo de radio r y espesor dr:</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;display:grid;gap:14px;">
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">dT<sub>momento</sub> = 4π·ρ·r·v<sub>i</sub>²·(1+a')·dr</div>
+      <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-top:4px;">Balance de momento angular anular · a': factor de interferencia rotacional</div>
+    </div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">dT<sub>elemento</sub> = N<sub>b</sub>·½·ρ·V<sub>rel</sub>²·c(r)·(C<sub>l</sub>cosφ − C<sub>d</sub>sinφ)·dr</div>
+      <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-top:4px;">N<sub>b</sub>: número de palas · c(r): cuerda local · φ: ángulo de flujo inducido · V<sub>rel</sub>²=(Ωr)²+v<sub>i</sub>²</div>
+    </div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 16px;">Igualando dT<sub>momento</sub> = dT<sub>elemento</sub> en cada estación radial se resuelve iterativamente el ángulo de inflow λ(r), obteniendo la distribución de carga real de la pala. Los coeficientes adimensionales de diseño:</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;display:grid;gap:14px;">
+    <div style="text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">C<sub>T</sub> = T / (ρ·A·(ΩR)²) &nbsp;&nbsp; C<sub>P</sub> = P / (ρ·A·(ΩR)³)</div></div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">σ = N<sub>b</sub>·c / (π·R)</div><div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-top:4px;">Solidez del rotor — relación entre área de palas y área de disco</div></div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">La <strong>pérdida de punta de pala (tip loss)</strong> se corrige con el factor de Prandtl: F = (2/π)·cos⁻¹(exp(−f)), con f = (N<sub>b</sub>/2)·(1−r/R)/(r/R·sinφ) — reduce la sustentación efectiva cerca de la punta por fuga tridimensional del flujo.</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:28px 0 12px;">Efectos de bajo número de Reynolds</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 16px;">Con cuerdas de pala de pocos centímetros, el régimen de vuelo cae en Re = ρ·V<sub>rel</sub>·c/μ ≈ 20,000–150,000 — zona donde los perfiles convencionales sufren <strong>burbujas de separación laminar</strong> y caída abrupta de eficiencia aerodinámica (C<sub>l</sub>/C<sub>d</sub> hasta 30–50% menor que en Re&gt;500,000). Esto exige perfiles específicos para bajo Re (ej. familia Eppler, Selig) en vez de perfiles de aviación convencional escalados.</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:28px 0 12px;">Efecto suelo y estado de anillo de vórtices</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 16px;">El hito de vuelo a <strong>1 metro de altura</strong> ocurre dentro de la zona de <strong>efecto suelo (IGE)</strong>, donde la proximidad del piso reduce la velocidad inducida y aumenta el empuje disponible para la misma potencia. El modelo de Cheeseman-Bennett:</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:16px;color:oklch(93% 0.01 250);text-align:center;">T<sub>IGE</sub> / T<sub>OGE</sub> = 1 / (1 − (R / 4z)²)</div>
+    <div style="font-size:12px;color:oklch(62% 0.02 250);text-align:center;margin-top:6px;">z: altura del disco sobre el suelo · R: radio del rotor — a z=1m con R≈0.15m, la ganancia de empuje es de solo ~1.4%, prácticamente despreciable a esta altura de prueba</div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">Advertencia operacional: durante el <strong>descenso</strong> a baja velocidad vertical (~0.3–0.7× v<sub>i</sub> de hover), el vehículo puede entrar en <strong>Vortex Ring State (VRS)</strong> — el rotor reingiere su propia estela, generando empuje errático y pérdida de control. El protocolo de vuelo de prueba debe evitar descensos verticales lentos y preferir trayectorias con componente de avance.</p>
+
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:28px;margin-top:32px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:18px;">Calculadora · Hover</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:22px;">
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">Masa total (kg)</span>
+        <input type="number" step="0.1" value="{{ mass }}" onChange="{{ setMass }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);"># de rotores</span>
+        <input type="number" step="1" value="{{ numRotors }}" onChange="{{ setNumRotors }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">Diámetro rotor (m)</span>
+        <input type="number" step="0.01" value="{{ rotorDiameter }}" onChange="{{ setRotorDiameter }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">Figure of Merit</span>
+        <input type="number" step="0.01" value="{{ figureOfMerit }}" onChange="{{ setFM }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);">
+      <div style="background:oklch(14% 0.03 250);padding:16px;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:oklch(78% 0.13 85);">{{ thrustPerRotor }} N</div><div style="font-size:10.5px;color:oklch(62% 0.02 250);margin-top:4px;">Empuje / rotor</div></div>
+      <div style="background:oklch(14% 0.03 250);padding:16px;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:oklch(78% 0.13 85);">{{ inducedVelocity }} m/s</div><div style="font-size:10.5px;color:oklch(62% 0.02 250);margin-top:4px;">Velocidad inducida</div></div>
+      <div style="background:oklch(14% 0.03 250);padding:16px;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:oklch(78% 0.13 85);">{{ hoverPowerW }} W</div><div style="font-size:10.5px;color:oklch(62% 0.02 250);margin-top:4px;">Potencia de hover</div></div>
+      <div style="background:oklch(14% 0.03 250);padding:16px;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:oklch(78% 0.13 85);">{{ diskLoading }} N/m²</div><div style="font-size:10.5px;color:oklch(62% 0.02 250);margin-top:4px;">Carga de disco</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="propulsion" style="padding:80px 40px;max-width:980px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:12px;">02 · Propulsión y Energía</div>
+  <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:30px;margin:0 0 18px;color:oklch(97% 0.01 250);">Cadena eléctrica y autonomía</h2>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 20px;">La potencia mecánica de hover (P<sub>hover</sub>) se traduce en potencia eléctrica requerida a través de la eficiencia de la cadena motor+ESC (η<sub>prop</sub> ≈ 0.80–0.88 para BLDC + ESC de calidad hobby/profesional):</p>
+
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;display:grid;gap:16px;">
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);">P<sub>eléctrica</sub> = P<sub>hover</sub> / η<sub>prop</sub></div>
+    </div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);">E<sub>batería</sub> = C<sub>Ah</sub> · V<sub>nominal</sub></div>
+      <div style="font-size:12.5px;color:oklch(62% 0.02 250);margin-top:6px;">Energía disponible [Wh]: capacidad [Ah] × voltaje nominal [V]</div>
+    </div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);">t<sub>vuelo</sub> = (E<sub>batería</sub> · DoD) / P<sub>eléctrica</sub></div>
+      <div style="font-size:12.5px;color:oklch(62% 0.02 250);margin-top:6px;">DoD (Depth of Discharge) ≈ 0.8 para preservar ciclo de vida de LiPo</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:32px 0 12px;">Modelo electromecánico del motor BLDC</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">El motor brushless se modela como un circuito equivalente con resistencia de bobinado R<sub>m</sub> y constante de velocidad K<sub>v</sub> [RPM/V], o su inversa K<sub>t</sub> = 1/K<sub>v</sub> en unidades SI de par [N·m/A]:</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;display:grid;gap:14px;">
+    <div style="text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">V = I·R<sub>m</sub> + ω/K<sub>v</sub></div><div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-top:4px;">Ecuación de tensión: caída resistiva + fuerza contraelectromotriz (back-EMF)</div></div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">τ = K<sub>t</sub>·(I − I<sub>0</sub>)</div><div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-top:4px;">I<sub>0</sub>: corriente sin carga (pérdidas por fricción e histéresis magnética)</div></div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">η<sub>motor</sub> = τ·ω / (V·I)</div><div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-top:4px;">Máxima cerca del 70-85% de la corriente de máxima eficiencia, no en el punto de máximo par</div></div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">El punto de operación del motor se fija por la <strong>curva de carga del rotor</strong> τ<sub>rotor</sub>(ω) = C<sub>P</sub>·ρ·A·(ΩR)³/ω = C<sub>Q</sub>·ρ·A·R·(ΩR)² (par requerido crece con ω²), que debe intersectar la curva de par disponible del motor a la tensión de batería dada — este es el criterio de selección de K<sub>v</sub> y relación de hélice.</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:28px 0 12px;">Ley de Peukert y descarga a alta corriente</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">La capacidad nominal de una batería (C<sub>Ah</sub>) se mide a una tasa de descarga estándar (típicamente C/5); en vuelo, la corriente real es mucho mayor (5-15C), y la capacidad efectiva cae según la <strong>ley de Peukert</strong>:</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:16px;color:oklch(93% 0.01 250);text-align:center;">C<sub>efectiva</sub> = C<sub>nominal</sub> · (I<sub>nominal</sub> / I<sub>real</sub>)<sup>k−1</sup></div>
+    <div style="font-size:12px;color:oklch(62% 0.02 250);text-align:center;margin-top:6px;">k: exponente de Peukert (≈1.05–1.15 para LiPo de alta descarga, cercano a 1 = comportamiento casi ideal)</div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">Aunque las LiPo modernas tienen k cercano a 1 (poca pérdida por Peukert comparado con plomo-ácido), la caída de tensión bajo carga (por R<sub>interna</sub>) sí reduce la energía utilizable real — el cálculo de autonomía abajo usa DoD como aproximación conservadora de ambos efectos combinados.</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:28px 0 12px;">El ciclo masa-energía-empuje</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 20px;">Para un objetivo de 10-15 kg, la masa de batería es circular: más batería → más autonomía, pero también más masa → más empuje requerido → más potencia → se necesita aún más batería. La <strong>densidad de energía específica</strong> del pack (Wh/kg, típicamente 150-250 Wh/kg en LiPo de alta descarga) determina el punto de retorno decreciente: m<sub>batería</sub> = E<sub>batería</sub>/ρ<sub>energía</sub>, y un incremento marginal de batería solo mejora la autonomía neta hasta que el empuje extra requerido consume la energía extra añadida.</p>
+
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:28px;margin-top:32px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:18px;">Calculadora · Autonomía de vuelo</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:22px;">
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">Capacidad batería (Ah)</span>
+        <input type="number" step="0.1" value="{{ battCapacityAh }}" onChange="{{ setBattCapacity }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">Voltaje nominal (V)</span>
+        <input type="number" step="0.1" value="{{ battVoltage }}" onChange="{{ setBattVoltage }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">Eficiencia motor+ESC</span>
+        <input type="number" step="0.01" value="{{ propEfficiency }}" onChange="{{ setPropEff }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">DoD</span>
+        <input type="number" step="0.05" value="{{ dod }}" onChange="{{ setDod }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);">
+      <div style="background:oklch(14% 0.03 250);padding:16px;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:oklch(78% 0.13 85);">{{ elecPowerW }} W</div><div style="font-size:10.5px;color:oklch(62% 0.02 250);margin-top:4px;">Potencia eléctrica</div></div>
+      <div style="background:oklch(14% 0.03 250);padding:16px;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:oklch(78% 0.13 85);">{{ battEnergyWh }} Wh</div><div style="font-size:10.5px;color:oklch(62% 0.02 250);margin-top:4px;">Energía total batería</div></div>
+      <div style="background:oklch(14% 0.03 250);padding:16px;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:oklch(78% 0.13 85);">{{ enduranceMin }} min</div><div style="font-size:10.5px;color:oklch(62% 0.02 250);margin-top:4px;">Autonomía estimada</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="quimica" style="padding:80px 40px;max-width:980px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:12px;">03 · Fisicoquímica de Captura de CO₂</div>
+  <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:30px;margin:0 0 18px;color:oklch(97% 0.01 250);">Adsorción física vs. absorción química</h2>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:28px 0 12px;">Adsorción física (Zeolitas 13X, MOF)</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">La capacidad de equilibrio de un sorbente sólido frente a la presión parcial de CO₂ se describe con la <strong>isoterma de Langmuir</strong> (adsorción en monocapa, sitios homogéneos):</p>
+
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);text-align:center;margin-bottom:8px;">q = (q<sub>max</sub>·b·P) / (1 + b·P)</div>
+    <div style="font-size:12.5px;color:oklch(62% 0.02 250);text-align:center;">q: capacidad de adsorción [mol CO₂/kg sorbente] · q<sub>max</sub>: capacidad de saturación de monocapa · b: constante de afinidad [1/kPa] · P: presión parcial de CO₂ [kPa]</div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">Para sistemas heterogéneos (MOFs con múltiples sitios de unión, como HKUST-1 o ZIF-8) se prefiere el modelo de <strong>Toth</strong> o <strong>Sips</strong>, que corrigen la saturación asintótica de Langmuir [Ruthven, "Principles of Adsorption and Adsorption Processes"]. La cinética de captación sigue un modelo de <strong>difusión intraparticular tipo LDF (Linear Driving Force)</strong>: dq/dt = k<sub>LDF</sub>·(q* − q), donde q* es la capacidad de equilibrio a la presión parcial local.</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:28px 0 12px;">Absorción química (Aminas — MEA)</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">Las aminas primarias como la monoetanolamina (MEA) reaccionan con CO₂ vía dos mecanismos paralelos, dependiendo de la disponibilidad de agua:</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;display:grid;gap:14px;">
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">2 R-NH₂ + CO₂ ⇌ R-NH₃⁺ + R-NH-COO⁻</div>
+      <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-top:4px;">Formación de carbamato — capacidad teórica máxima: 0.5 mol CO₂ / mol amina</div>
+    </div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">R-NH₂ + CO₂ + H₂O ⇌ R-NH₃⁺ + HCO₃⁻</div>
+      <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-top:4px;">Hidrólisis a bicarbonato — permite superar el límite de 0.5:1 hasta ~1 mol CO₂ / mol amina</div>
+    </div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 8px;">La velocidad de absorción en la interfase gas-líquido se modela con <strong>teoría de doble película</strong>: N<sub>CO₂</sub> = k<sub>L</sub>·a·(C*−C<sub>bulk</sub>), donde k<sub>L</sub>·a es el coeficiente volumétrico de transferencia de masa y C* la concentración de saturación en equilibrio [Rochelle, "Amine Scrubbing for CO₂ Capture", Science 2009].</p>
+
+  <div style="background:oklch(19% 0.04 85 / 0.08);border:1px solid oklch(45% 0.08 85);padding:16px 22px;margin:24px 0;">
+    <p style="font-size:13.5px;line-height:1.6;color:oklch(80% 0.05 85);margin:0;">Disyuntiva de diseño para FYT: los <strong>sorbentes sólidos</strong> (zeolita/MOF) evitan el manejo de líquidos corrosivos en vuelo y son más livianos por unidad de volumen, pero requieren <strong>regeneración térmica</strong> (calor de adsorción ΔH<sub>ads</sub> ≈ 30–50 kJ/mol para zeolitas) entre ciclos. Las <strong>aminas líquidas</strong> ofrecen mayor capacidad molar pero añaden masa de líquido y riesgo de derrame — poco compatibles con un demostrador aéreo de 10–15 kg.</p>
+  </div>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:32px 0 12px;">Isotermas de heterogeneidad superficial (Toth, Sips)</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">Los MOF y zeolitas reales presentan sitios de energía de unión no uniforme. El modelo de <strong>Toth</strong> introduce un parámetro de heterogeneidad t (0&lt;t≤1; t=1 recupera Langmuir):</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:16px;color:oklch(93% 0.01 250);text-align:center;">q = q<sub>max</sub>·b·P / [1 + (b·P)<sup>t</sup>]<sup>1/t</sup></div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">La dependencia con la temperatura de la constante de afinidad b(T) sigue una forma tipo Van't Hoff: b(T) = b<sub>0</sub>·exp(Q/(R·T)), donde Q es el calor isostérico de adsorción — a mayor T, menor afinidad, lo que rige el ciclo de regeneración térmica del sorbente.</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:28px 0 12px;">Calor isostérico de adsorción (Clausius-Clapeyron)</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">La energía liberada al adsorber (y requerida para desorber) se obtiene de la variación de la isoterma con la temperatura a capacidad q constante:</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:16px;color:oklch(93% 0.01 250);text-align:center;">(∂ ln P / ∂T)<sub>q</sub> = −ΔH<sub>ads</sub> / (R·T²)</div>
+    <div style="font-size:12px;color:oklch(62% 0.02 250);text-align:center;margin-top:6px;">ΔH<sub>ads</sub> típico: 25–35 kJ/mol (zeolita 13X), 20–40 kJ/mol (MOFs), hasta 60-90 kJ/mol para quimisorción con aminas soportadas</div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">Este valor determina directamente la energía térmica de regeneración por mol de CO₂ capturado (ver Sección 04) — a mayor ΔH<sub>ads</sub>, mayor selectividad y estabilidad del sorbente frente a humedad/N₂, pero también mayor penalidad energética para liberar el CO₂ retenido.</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:28px 0 12px;">Curvas de ruptura en lecho fijo (Thomas / Yoon-Nelson)</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">Para un lecho de sorbente atravesado por flujo continuo, la concentración de salida C(t) no cae a cero instantáneamente al saturarse — sigue una <strong>curva de ruptura (breakthrough curve)</strong>. El modelo de Thomas (cinética de segundo orden, isoterma de Langmuir, sin dispersión axial):</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);text-align:center;">C/C₀ = 1 / [1 + exp(k<sub>Th</sub>·(q<sub>max</sub>·m − Q·C₀·t) / Q)]</div>
+    <div style="font-size:12px;color:oklch(62% 0.02 250);text-align:center;margin-top:6px;">k<sub>Th</sub>: constante de Thomas · m: masa de sorbente · Q: caudal volumétrico · t: tiempo</div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">El <strong>tiempo de ruptura</strong> (breakthrough time, cuando C/C₀ alcanza ~5-10%) define la ventana operativa real del módulo de captura antes de saturarse — inferior a la capacidad teórica q<sub>max</sub>, y es el parámetro que debe medirse experimentalmente en el banco de pruebas (Sección 05).</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:28px 0 12px;">Cinética de absorción en aminas y número de Hatta</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">La reacción CO₂-amina es de <strong>segundo orden</strong> (primer orden en amina, primer orden en CO₂ disuelto), con constante de Arrhenius:</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;display:grid;gap:14px;">
+    <div style="text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">r = k₂·[amina]·[CO₂]<sub>líquido</sub> &nbsp;&nbsp; k₂ = A·exp(−E<sub>a</sub>/(R·T))</div></div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);">Ha = √(k₂·[amina]·D<sub>CO₂</sub>) / k<sub>L</sub></div><div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-top:4px;">Número de Hatta: compara velocidad de reacción química vs. difusión — Ha≫1 (típico en MEA) indica reacción rápida limitada por transferencia de masa, no por cinética</div></div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">Cuando Ha≫1, el flux real de absorción se amplifica por un <strong>factor de mejora (enhancement factor)</strong> E ≈ Ha respecto al caso de absorción física pura, ya que la reacción consume CO₂ disuelto en la película líquida más rápido de lo que la difusión sola permitiría — relevante si en fases posteriores se evaluara un contactor líquido compacto en vez de sorbente sólido.</p>
+</section>
+
+<section id="balance" style="padding:80px 40px;max-width:980px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:12px;">04 · Balance de Masa y Energía en Vuelo</div>
+  <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:30px;margin:0 0 18px;color:oklch(97% 0.01 250);">Cuánto CO₂ puede capturar el módulo en vuelo</h2>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 20px;">El aire ambiental contiene ~420 ppm de CO₂ en volumen, equivalente a una fracción másica Y<sub>CO₂</sub> ≈ 6.4×10⁻⁴ kg CO₂/kg aire (usando M<sub>CO₂</sub>=44 g/mol y M<sub>aire</sub>≈29 g/mol). El flujo másico de aire que atraviesa el ducto de captura es:</p>
+
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;display:grid;gap:16px;">
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);">ṁ<sub>aire</sub> = ρ<sub>aire</sub> · A<sub>ducto</sub> · v<sub>aire</sub></div>
+    </div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);">ṁ<sub>CO₂ capturado</sub> = ṁ<sub>aire</sub> · Y<sub>CO₂</sub> · η<sub>captura</sub></div>
+      <div style="font-size:12.5px;color:oklch(62% 0.02 250);margin-top:6px;">η<sub>captura</sub>: eficiencia de remoción del módulo (fracción del CO₂ disponible efectivamente adsorbido, función de tiempo de residencia y área superficial del sorbente)</div>
+    </div>
+    <div style="height:1px;background:oklch(30% 0.02 250);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:oklch(93% 0.01 250);">P<sub>fan</sub> = Q·ΔP / η<sub>fan</sub></div>
+      <div style="font-size:12.5px;color:oklch(62% 0.02 250);margin-top:6px;">Penalidad energética de forzar el aire a través del lecho de sorbente (ΔP: caída de presión, Q: caudal volumétrico)</div>
+    </div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">Esta P<sub>fan</sub> se suma a P<sub>eléctrica</sub> de la Sección 02, reduciendo la autonomía total disponible — el diseño del ducto (área grande, baja velocidad, bajo ΔP) es una palanca directa para minimizar esa penalidad sin sacrificar caudal de aire tratado.</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:32px 0 12px;">Energía de regeneración térmica del sorbente</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">Tras saturarse, el sorbente debe calentarse para liberar el CO₂ retenido (desorción). La energía total de un ciclo de regeneración combina el calor sensible del lecho y el calor latente de desorción:</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);text-align:center;">Q<sub>regen</sub> = m<sub>sorbente</sub>·C<sub>p</sub>·ΔT + n<sub>CO₂</sub>·ΔH<sub>ads</sub></div>
+    <div style="font-size:12px;color:oklch(62% 0.02 250);text-align:center;margin-top:6px;">C<sub>p</sub>: calor específico del sorbente (~0.8-1.0 kJ/kg·K zeolita) · ΔT: salto térmico de regeneración (~150-300°C zeolita, ~100-120°C aminas soportadas) · n<sub>CO₂</sub>: moles desorbidos</div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 20px;">En términos de referencia industrial, la captura de CO₂ post-combustión con aminas líquidas consume típicamente <strong>2.5–4.0 GJ/tonelada de CO₂</strong> capturada (calor de regeneración + electricidad auxiliar) — una cota superior útil para estimar si un ciclo de regeneración a bordo es viable energéticamente en un vehículo de 10-15 kg, o si conviene descartar el sorbente saturado y reemplazar el cartucho en tierra durante esta fase TRL 2-3.</p>
+
+  <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin:28px 0 12px;">Retorno energético neto del sistema</h3>
+  <p style="font-size:15px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 18px;">Una métrica de diseño honesta para FYT es el <strong>costo energético por gramo de CO₂ capturado</strong>, comparando la energía extra consumida (fan + eventual regeneración) contra la energía de propulsión pura:</p>
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:24px 28px;margin-bottom:20px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:oklch(93% 0.01 250);text-align:center;">Penalidad [%] = (P<sub>fan</sub> + P<sub>regen</sub>) / P<sub>eléctrica,hover</sub> × 100</div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;color:oklch(72% 0.02 250);margin:0 0 24px;">Si esta penalidad supera ~15-20% de la potencia total, la autonomía se degrada al punto de comprometer la misión de vuelo — este umbral debe usarse como criterio de aceptación en el diseño del módulo de captura antes de integrarlo al fuselaje del demostrador.</p>
+
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);padding:28px;margin-top:32px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:18px;">Calculadora · CO₂ capturado por vuelo</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:22px;">
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">Área ducto (m²)</span>
+        <input type="number" step="0.001" value="{{ ductArea }}" onChange="{{ setDuctArea }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">Velocidad aire (m/s)</span>
+        <input type="number" step="0.5" value="{{ airVelocity }}" onChange="{{ setAirVelocity }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">Eficiencia captura</span>
+        <input type="number" step="0.05" value="{{ captureEfficiency }}" onChange="{{ setCaptureEff }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11.5px;color:oklch(65% 0.02 250);">Duración vuelo (s)</span>
+        <input type="number" step="10" value="{{ flightDuration }}" onChange="{{ setFlightDuration }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(95% 0.01 250);padding:8px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;"/>
+      </label>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);">
+      <div style="background:oklch(14% 0.03 250);padding:16px;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:oklch(78% 0.13 85);">{{ airMassFlow }} kg/s</div><div style="font-size:10.5px;color:oklch(62% 0.02 250);margin-top:4px;">Flujo másico de aire</div></div>
+      <div style="background:oklch(14% 0.03 250);padding:16px;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:oklch(78% 0.13 85);">{{ co2CapturedRateMg }} mg/s</div><div style="font-size:10.5px;color:oklch(62% 0.02 250);margin-top:4px;">CO₂ capturado (tasa)</div></div>
+      <div style="background:oklch(14% 0.03 250);padding:16px;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:oklch(78% 0.13 85);">{{ co2CapturedGrams }} g</div><div style="font-size:10.5px;color:oklch(62% 0.02 250);margin-top:4px;">CO₂ total capturado</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="supuestos" style="padding:80px 40px 110px;max-width:980px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:oklch(78% 0.13 85);text-transform:uppercase;margin-bottom:12px;">05 · Supuestos y Limitaciones</div>
+  <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:30px;margin:0 0 20px;color:oklch(97% 0.01 250);">Qué falta validar antes de TRL 3</h2>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:32px;">
+    <div style="display:flex;gap:12px;font-size:14.5px;line-height:1.6;color:oklch(80% 0.02 250);"><span style="color:oklch(78% 0.13 85);flex-shrink:0;">□</span><span>Modelo de momento asume flujo axial uniforme sin interferencia entre rotores adyacentes — validar con banco de pruebas de empuje estático antes del primer vuelo a 1m.</span></div>
+    <div style="display:flex;gap:12px;font-size:14.5px;line-height:1.6;color:oklch(80% 0.02 250);"><span style="color:oklch(78% 0.13 85);flex-shrink:0;">□</span><span>Figure of Merit (0.55–0.75) es un rango típico de literatura — medir el valor real del rotor elegido con dinamómetro de empuje/torque.</span></div>
+    <div style="display:flex;gap:12px;font-size:14.5px;line-height:1.6;color:oklch(80% 0.02 250);"><span style="color:oklch(78% 0.13 85);flex-shrink:0;">□</span><span>Isotermas de Langmuir/Toth requieren parámetros (q<sub>max</sub>, b) específicos del lote de zeolita/MOF adquirido — obtener del proveedor o medir por TGA/volumetría.</span></div>
+    <div style="display:flex;gap:12px;font-size:14.5px;line-height:1.6;color:oklch(80% 0.02 250);"><span style="color:oklch(78% 0.13 85);flex-shrink:0;">□</span><span>η<sub>captura</sub> depende fuertemente del tiempo de residencia del aire en el lecho — a mayor velocidad de aire, menor eficiencia por sorbente; existe un óptimo caudal-vs-captura a determinar experimentalmente.</span></div>
+    <div style="display:flex;gap:12px;font-size:14.5px;line-height:1.6;color:oklch(80% 0.02 250);"><span style="color:oklch(78% 0.13 85);flex-shrink:0;">□</span><span>No se modela aún la regeneración del sorbente (ciclo de desorción térmica) ni su impacto en masa/energía del sistema completo — pendiente para integración TRL 3-4.</span></div>
+  </div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:oklch(58% 0.02 250);text-transform:uppercase;margin-bottom:10px;">Referencias</div>
+  <div style="font-size:12.5px;line-height:1.9;color:oklch(64% 0.02 250);">
+    Leishman, J.G. — <em>Principles of Helicopter Aerodynamics</em>, Cambridge University Press.<br/>
+    Prouty, R.W. — <em>Helicopter Performance, Stability, and Control</em>.<br/>
+    Ruthven, D.M. — <em>Principles of Adsorption and Adsorption Processes</em>, Wiley.<br/>
+    Rochelle, G.T. — "Amine Scrubbing for CO₂ Capture", <em>Science</em>, 2009.<br/>
+    NOAA Global Monitoring Laboratory — concentración atmosférica de CO₂ (ppm).
+  </div>
+</section>
+
+<footer style="padding:40px;border-top:1px solid oklch(30% 0.02 250);max-width:980px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(58% 0.02 250);">FYT · Documento técnico interno · TRL 2 → 3</div>
+  <a href="https://fly-fyt.github.io/fer/fyt-strategic-company.html#hero" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(78% 0.13 85);">&larr; Volver al Dashboard FYT</a>
+</footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = {
+    mass: 12, numRotors: 4, rotorDiameter: 0.3, airDensity: 1.225, figureOfMerit: 0.65,
+    battCapacityAh: 4, battVoltage: 22.2, propEfficiency: 0.85, dod: 0.8,
+    ductArea: 0.01, airVelocity: 8, captureEfficiency: 0.3, flightDuration: 60
+  };
+
+  renderVals() {
+    const s = this.state;
+    const g = 9.81;
+    const totalThrust = s.mass * g;
+    const thrustPerRotor = totalThrust / s.numRotors;
+    const rotorArea = Math.PI * Math.pow(s.rotorDiameter / 2, 2);
+    const diskAreaTotal = rotorArea * s.numRotors;
+    const inducedVelocity = Math.sqrt(totalThrust / (2 * s.airDensity * diskAreaTotal));
+    const idealPower = totalThrust * inducedVelocity;
+    const hoverPower = idealPower / s.figureOfMerit;
+    const diskLoading = totalThrust / diskAreaTotal;
+
+    const elecPower = hoverPower / s.propEfficiency;
+    const battEnergyWh = s.battCapacityAh * s.battVoltage;
+    const usableEnergyWh = battEnergyWh * s.dod;
+    const enduranceHours = usableEnergyWh / elecPower;
+    const enduranceMin = enduranceHours * 60;
+
+    const co2MassFraction = 0.00064;
+    const airMassFlow = s.airDensity * s.ductArea * s.airVelocity;
+    const co2CapturedRate = airMassFlow * co2MassFraction * s.captureEfficiency;
+    const co2CapturedTotal = co2CapturedRate * s.flightDuration;
+
+    const mk = (key) => (e) => this.setState({ [key]: parseFloat(e.target.value) || 0 });
+
+    return {
+      mass: s.mass, numRotors: s.numRotors, rotorDiameter: s.rotorDiameter, figureOfMerit: s.figureOfMerit,
+      battCapacityAh: s.battCapacityAh, battVoltage: s.battVoltage, propEfficiency: s.propEfficiency, dod: s.dod,
+      ductArea: s.ductArea, airVelocity: s.airVelocity, captureEfficiency: s.captureEfficiency, flightDuration: s.flightDuration,
+
+      thrustPerRotor: thrustPerRotor.toFixed(2),
+      inducedVelocity: inducedVelocity.toFixed(2),
+      hoverPowerW: hoverPower.toFixed(0),
+      diskLoading: diskLoading.toFixed(1),
+      elecPowerW: elecPower.toFixed(0),
+      battEnergyWh: battEnergyWh.toFixed(1),
+      enduranceMin: enduranceMin.toFixed(1),
+      airMassFlow: airMassFlow.toFixed(4),
+      co2CapturedRateMg: (co2CapturedRate * 1e6).toFixed(2),
+      co2CapturedGrams: (co2CapturedTotal * 1000).toFixed(3),
+
+      setMass: mk('mass'), setNumRotors: mk('numRotors'), setRotorDiameter: mk('rotorDiameter'), setFM: mk('figureOfMerit'),
+      setBattCapacity: mk('battCapacityAh'), setBattVoltage: mk('battVoltage'), setPropEff: mk('propEfficiency'), setDod: mk('dod'),
+      setDuctArea: mk('ductArea'), setAirVelocity: mk('airVelocity'), setCaptureEff: mk('captureEfficiency'), setFlightDuration: mk('flightDuration')
+    };
+  }
+}
+
+</script>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "FYT Teoria de Vuelo y CO2";
+  // rAF raced with a short timeout: inside a cross-origin iframe (PrintMode),
+  // rAF can be throttled or paused even while the tab is focused, which would
+  // hang the scroll loop and never reach print(). Same pattern as
+  // buildExportSettleScript (export/shared.ts).
+  var raf = function () {
+    return Promise.race([
+      new Promise(function (r) { requestAnimationFrame(r); }),
+      new Promise(function (r) { setTimeout(r, 50); }),
+    ]);
+  };
+  var t0 = performance.now();
+  var mark = function (phase) {
+    var ms = Math.round(performance.now() - t0);
+    console.info('[autoprint]', phase, ms + 'ms');
+    try { parent.postMessage({ __omelette_autoprint: { phase: phase, ms: ms } }, '*'); } catch (e) {}
+  };
+  mark('start');
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    // A placeholder whose fetch failed (.sc-placeholder-error inside) keeps
+    // .sc-placeholder forever — don't wait on it. JS loop, not :has(), so an
+    // engine without :has() support can't throw out of the while and skip
+    // print() entirely.
+    var pendingPlaceholders = function () {
+      var all = settleRoot.querySelectorAll('.sc-placeholder'), n = 0;
+      for (var i = 0; i < all.length; i++)
+        if (!all[i].querySelector('.sc-placeholder-error')) n++;
+      return n;
+    };
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        pendingPlaceholders() === 0;
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  mark('settle-done' + (settleRoot ? ' (errs=' + settleRoot.querySelectorAll('.sc-placeholder-error').length + ' pending=' + pendingPlaceholders() + ')' : ''));
+  // Project support.js may predate runtime default-seeding; push via bridge.
+  if (isDc && window.__dcSetProps && window.__dcRootName) {
+    try {
+      const dpEl = document.querySelector('script[data-dc-script]');
+      const meta = JSON.parse((dpEl && dpEl.getAttribute('data-props')) || '{}');
+      const bag = {};
+      for (const k in meta)
+        if (k[0] !== '$' && meta[k] && meta[k].default !== undefined)
+          bag[k] = meta[k].default;
+      if (Object.keys(bag).length) {
+        window.__dcSetProps(window.__dcRootName(), bag);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    } catch (e) {}
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    var scrollDeadline = Date.now() + 4000;
+    for (let y = 0; y <= full && Date.now() < scrollDeadline; y += step) {
+      window.scrollTo(0, y);
+      await raf();
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  mark('scroll-done');
+  try { await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 3000))]); } catch (e) {}
+  mark('fonts-done');
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await raf();
+    sweep();
+    await raf();
+  } catch (e) {}
+  // A document that owns its print CSS (the doc-page starter injects the
+  // meta at runtime; hand-rolled print designs author it) gets no automatic
+  // page geometry and keeps its forced breaks: strip the injected default
+  // @page — write time cannot see a runtime-injected meta — skip the frame
+  // override below, and skip the fakepage-flattening further down. What
+  // still applies: the print baseline and break-hygiene defaults (no @page
+  // in either; low specificity, so the document's own print CSS wins) and
+  // the break-inside relaxation on >page elements (avoid on those cannot
+  // be honored whoever authored it).
+  var ownsPrint = !!document.querySelector('meta[name="omelette-owns-print" i]');
+  if (ownsPrint) {
+    var dst = document.querySelector('style[data-omelette-print-defaults]');
+    if (dst && dst.textContent) {
+      dst.textContent = dst.textContent.replace(/@page\b[^{}]*\{[^}]*\}/, '');
+    }
+  }
+  // Size the PDF page to the rendered design unless the file opted into
+  // standard paper via @page{size:letter|A4|…} or declared print ownership
+  // via the meta above. Decks own their own @page.
+  // Wrappers (body, …) lose padding+margin so the frame sits at (0,0); the
+  // frame itself loses only margin — its padding is INSIDE the measured
+  // rect and must stay, or content shifts and leaves a gap at bottom/right.
+  var __m = null;
+  try { __m = (() => {
+  var STAMP = true;
+  var docEl = document.documentElement;
+  var doc = { width: docEl.scrollWidth, height: docEl.scrollHeight };
+  // Name-presence check, case-insensitive — the same contract as the
+  // instant-PDF path's runtime check in deck-stage-export.ts. The name is
+  // a string literal here because that file interpolates this script into
+  // its print script, so importing a shared constant from it would be a
+  // cycle; measure.test.ts pins the literal so the two cannot drift apart
+  // silently.
+  var ownsPrint = !!document.querySelector('meta[name="omelette-owns-print" i]');
+
+  var ds = document.querySelector('deck-stage');
+  if (ds) {
+    var dw = Number(ds.getAttribute('width')) || 1920;
+    var dh = Number(ds.getAttribute('height')) || 1080;
+    var n = typeof ds.length === 'number' ? ds.length : ds.children.length;
+    var idx = typeof ds.index === 'number' ? ds.index : 0;
+    var frames = [];
+    for (var i = 0; i < n; i++) frames.push({ left: 0, top: 0, width: dw, height: dh });
+    return { kind: 'deck', source: 'declared', doc: doc, frames: frames,
+      authored: frames.map(function(){return{width:true,height:true}}),
+      deck: { width: dw, height: dh, slideCount: n, index: idx },
+      signals: { paperPage: false, pxPage: false, ownsPrint: ownsPrint } };
+  }
+
+  // Declared kind: a doc-page tag names the kind outright, so no signal
+  // heuristics run (like the deck branch above, signals report false —
+  // they describe inferred classifications only). The tag alone is not
+  // trusted: the element must have upgraded (shadowRoot present), so a
+  // leftover tag whose script was deleted falls through to the heuristics
+  // that handle plain markup.
+  var stageSx = window.scrollX || 0, stageSy = window.scrollY || 0;
+  var dp = document.querySelector('doc-page');
+  if (dp && dp.shadowRoot) {
+    // Crop to the sheet, not the host — the desk around it is screen-only
+    // chrome that must not land in PNG exports.
+    var sheet = dp.shadowRoot.querySelector('.sheet');
+    var sr = (sheet || dp).getBoundingClientRect();
+    return { kind: 'paper-doc', source: 'declared', doc: doc,
+      frames: [{ left: sr.left + stageSx, top: sr.top + stageSy,
+        width: sr.width, height: sr.height }],
+      authored: [{ width: false, height: false }],
+      signals: { paperPage: false, pxPage: false, ownsPrint: ownsPrint } };
+  }
+  var paperPage = false, pxPage = false;
+  var eachRule = function (fn) {
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var rs; try { rs = document.styleSheets[s].cssRules; } catch (e) { continue; }
+      for (var r = 0; r < rs.length; r++) {
+        fn(rs[r]);
+        if (rs[r].cssRules) for (var n = 0; n < rs[r].cssRules.length; n++) fn(rs[r].cssRules[n]);
+      }
+    }
+  };
+  eachRule(function (r) {
+    if (r.type !== 6) return;
+    var m = /\bsize\s*:\s*([^;}]+)/i.exec(r.cssText || '');
+    if (!m) return;
+    if (/\b(letter|a[3-5]|legal|ledger)\b/i.test(m[1])) paperPage = true;
+    if (/\d+(?:\.\d+)?px\b/i.test(m[1])) pxPage = true;
+  });
+  var signals = { paperPage: paperPage, pxPage: pxPage, ownsPrint: ownsPrint };
+
+  var pxVal = function (v) {
+    var m = /^(\d+(?:\.\d+)?)px$/.exec(v || ''); return m ? +m[1] : 0;
+  };
+  var authoredPx = function (el, prop) {
+    if (pxVal(el.style[prop])) return true;
+    var attr = el.getAttribute(prop);
+    if (attr && /^\d+$/.test(attr)) return true;
+    var hit = false;
+    eachRule(function (r) {
+      if (hit || r.type !== 1 || !r.style) return;
+      try { if (el.matches(r.selectorText) && pxVal(r.style[prop])) hit = true; } catch (e) {}
+    });
+    return hit;
+  };
+
+  var el = document.body, rootPxW = false;
+  for (;;) {
+    var kids = [];
+    for (var c = 0; c < el.children.length; c++) {
+      var t = el.children[c].tagName;
+      if (t !== 'SCRIPT' && t !== 'STYLE' && t !== 'TEMPLATE') kids.push(el.children[c]);
+    }
+    if (kids.length !== 1 || !(kids[0] instanceof HTMLElement)) break;
+    if (STAMP) el.setAttribute('data-om-frame-wrap', '');
+    el = kids[0];
+    rootPxW = authoredPx(el, 'width');
+    if (rootPxW) break;
+  }
+  if (!rootPxW) rootPxW = authoredPx(el, 'width');
+
+  // @page{size:letter} alone is a flowing doc; with a px-width root it's a
+  // fixed sheet pretending to be paper — fall through and size to render.
+  if (paperPage && !rootPxW) {
+    return { kind: 'paper-doc', source: 'inferred', doc: doc, signals: signals,
+      frames: [{ left: 0, top: 0, width: doc.width, height: doc.height }],
+      authored: [{ width: false, height: false }] };
+  }
+
+  var sx = window.scrollX || 0, sy = window.scrollY || 0;
+  var rectOf = function (e) {
+    var r = e.getBoundingClientRect();
+    var oy; try { oy = getComputedStyle(e).overflowY; } catch (err) {}
+    var h = oy === 'visible' ? Math.max(r.height, e.scrollHeight || 0) : r.height;
+    return { left: r.left + sx, top: r.top + sy, width: r.width, height: h };
+  };
+
+  // Multi-frame: off unless the page opts in via data-om-multi-frame on the
+  // stop element — the explicit opt-in is what guards against card grids
+  // and pricing tables that match the geometry but aren't separate
+  // canvases. Two ways to name the frames, explicit first:
+  // 1. Descendants marked data-om-frame-export (the social-frames starter
+  //    marks each asset frame; shells/panels around them are presentation,
+  //    so nesting is expected). Document order.
+  // 2. Fallback, no marked descendants: direct children with an authored px
+  //    width AND height (the original geometry heuristic).
+  // Frames may be different sizes (a gallery mixes 1080×1920 stories with
+  // 728×90 banners); data-om-frame-label rides along for export filenames.
+  if (el.hasAttribute('data-om-multi-frame')) {
+    var visOk = function (e) {
+      var cs; try { cs = getComputedStyle(e); } catch (err) { return false; }
+      return cs.display !== 'none' && cs.visibility !== 'hidden' && cs.position !== 'fixed';
+    };
+    // A frame's crop is its VISUAL box — never the scrollHeight-inflated
+    // rect that rectOf computes for page roots. Shadow-DOM hover controls
+    // (image-slot's Replace bar parks 29px below its host) and similar
+    // escaping UI contribute scrollable overflow to the frame, and the
+    // inflated height both squashes the nominal-size resize and drags
+    // content below the frame into the crop. Zoom-independent; bit every
+    // slot-bearing frame.
+    var frameRectOf = function (e) {
+      var r = e.getBoundingClientRect();
+      return { left: r.left + sx, top: r.top + sy, width: r.width, height: r.height };
+    };
+    var pushCand = function (list, e) {
+      if (!visOk(e)) return;
+      var rc = frameRectOf(e);
+      if (rc.width < 2 || rc.height < 2) return;
+      var lbl = e.getAttribute('data-om-frame-label');
+      if (lbl) rc.label = lbl;
+      list.push(rc);
+    };
+    var cands = [];
+    var marked = el.querySelectorAll('[data-om-frame-export]');
+    if (marked.length) {
+      for (var mk = 0; mk < marked.length; mk++) pushCand(cands, marked[mk]);
+    } else {
+      for (var k = 0; k < el.children.length; k++) {
+        var ch = el.children[k];
+        if (!authoredPx(ch, 'width') || !authoredPx(ch, 'height')) continue;
+        pushCand(cands, ch);
+      }
+    }
+    if (cands.length >= 2) {
+      return { kind: 'multi-frame', source: 'inferred', doc: doc, signals: signals,
+        frames: cands, authored: cands.map(function(){return{width:true,height:true}}) };
+    }
+  }
+
+  if (STAMP) el.setAttribute('data-om-frame', '');
+  return { kind: 'single-canvas', source: 'inferred', doc: doc, signals: signals,
+    frames: [rectOf(el)],
+    authored: [{ width: rootPxW, height: authoredPx(el, 'height') }] };
+})(); } catch (e) {}
+  var frame = null;
+  if (!ownsPrint && __m && __m.kind === 'single-canvas') {
+    var f = __m.frames && __m.frames[0];
+    if (f && f.width >= 200 && f.height >= 200) {
+      frame = f;
+      var fst = document.createElement('style');
+      fst.textContent = '@media print{@page{size:' + Math.ceil(f.width) + 'px ' +
+        Math.ceil(f.height) + 'px;margin:0}' +
+        'html,body,[data-om-frame-wrap]{padding:0!important;margin:0!important;background:none!important}' +
+        '[data-om-frame]{margin:0!important}}';
+      document.body.appendChild(fst);
+    }
+  }
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks (slides
+  // are sized to the page) and for fixed-size canvases (frame set, or an author
+  // px-based @page) — runs as before for flowing docs on letter/A4.
+  try {
+    if (!ds && !frame && !(__m && __m.signals && __m.signals.pxPage)) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          // An owns-print doc's forced breaks are intentional sheet
+          // boundaries, never fake-paged simulation — don't strip them.
+          // The break-inside relaxation above still applies: avoid on a
+          // >page element is impossible to honor whoever authored it.
+          if (
+            !ownsPrint &&
+            (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always')
+          ) {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  mark('print-calling');
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

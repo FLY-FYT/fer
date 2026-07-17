@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:oklch(14% 0.03 250);}
+a{color:oklch(78% 0.13 85);text-decoration:none;}
+a:hover{color:oklch(85% 0.13 85);text-decoration:underline;}
+::selection{background:oklch(78% 0.13 85);color:oklch(14% 0.03 250);}
+</style>
+</helmet>
+
+<div style="font-family:'IBM Plex Sans',sans-serif;background:oklch(14% 0.03 250);color:oklch(93% 0.01 250);min-height:100vh;">
+
+<header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 40px;background:oklch(14% 0.03 250 / 0.92);backdrop-filter:blur(10px);border-bottom:1px solid oklch(30% 0.02 250);">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div style="width:40px;height:40px;border-radius:50%;background:oklch(19% 0.035 250);border:1.5px solid {{ accent }};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div style="width:13px;height:13px;background:{{ accent }};transform:rotate(45deg);border-radius:2px;"></div>
+    </div>
+    <div>
+      <div style="font-family:'Spectral',serif;font-weight:700;font-size:20px;letter-spacing:0.04em;color:oklch(97% 0.01 250);line-height:1;">FYT</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.12em;color:oklch(65% 0.02 250);text-transform:uppercase;">Scientific &amp; Technology Co.</div>
+    </div>
+  </div>
+  <nav style="display:flex;align-items:center;gap:22px;font-size:13.5px;color:oklch(78% 0.02 250);flex-wrap:wrap;">
+    <a href="#pasos" style="color:oklch(85% 0.02 250);">12 Pasos</a>
+    <a href="#swot" style="color:oklch(85% 0.02 250);">SWOT</a>
+    <a href="#ip" style="color:oklch(85% 0.02 250);">IP &amp; Legal</a>
+    <a href="#roadmap" style="color:oklch(85% 0.02 250);">Roadmap TRL</a>
+    <a href="#presupuesto" style="color:oklch(85% 0.02 250);">Presupuesto</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a href="FYT Teoria de Vuelo y CO2.dc.html" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:oklch(78% 0.02 250);border:1px solid oklch(30% 0.02 250);padding:8px 14px;border-radius:2px;white-space:nowrap;">Teoría de Vuelo</a>
+    <a href="FYT IP y Portafolio.dc.html" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:oklch(78% 0.02 250);border:1px solid oklch(30% 0.02 250);padding:8px 14px;border-radius:2px;white-space:nowrap;">Consola IP</a>
+    <a href="https://fly-fyt.github.io/fer/fyt-strategic-company.html#hero" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.04em;color:{{ accent }};border:1px solid {{ accent }};padding:8px 14px;border-radius:2px;white-space:nowrap;">← Volver al Dashboard</a>
+  </div>
+</header>
+
+<section id="hero" style="position:relative;padding:96px 40px 80px;overflow:hidden;border-bottom:1px solid oklch(30% 0.02 250);">
+  <img src="uploads/686b3a727e0a3879d79ab5af63105ea6.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.22;filter:saturate(0.7);">
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg, oklch(14% 0.03 250 / 0.55) 0%, oklch(14% 0.03 250) 92%);"></div>
+  <div style="position:relative;max-width:920px;margin:0 auto;text-align:center;">
+    <div style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.14em;color:{{ accent }};text-transform:uppercase;border:1px solid {{ accent }};padding:6px 14px;border-radius:20px;margin-bottom:28px;">
+      <span style="width:6px;height:6px;border-radius:50%;background:{{ accent }};"></span>TRL 2 · Activo
+    </div>
+    <h1 style="font-family:'Spectral',serif;font-weight:600;font-size:52px;line-height:1.12;margin:0 0 20px;color:oklch(97% 0.01 250);">Los 12 Pasos para<br>Construir la EBCT</h1>
+    <p style="font-size:17px;line-height:1.6;color:oklch(75% 0.02 250);max-width:640px;margin:0 auto 36px;">Metodología estratégica de Empresa de Base Científico-Tecnológica — MGET UAI, aplicada íntegramente al caso FYT: el AirCar eléctrico con captura activa de CO₂ de Fernanda Mesa Carrasco.</p>
+    <div style="display:flex;gap:36px;justify-content:center;flex-wrap:wrap;">
+      <div><div style="font-family:'Spectral',serif;font-size:28px;font-weight:600;color:{{ accent }};">45%</div><div style="font-size:11.5px;color:oklch(65% 0.02 250);letter-spacing:0.04em;">Dedicación de Fernanda</div></div>
+      <div><div style="font-family:'Spectral',serif;font-size:28px;font-weight:600;color:{{ accent }};">100%</div><div style="font-size:11.5px;color:oklch(65% 0.02 250);letter-spacing:0.04em;">IP propiedad de Fernanda</div></div>
+      <div><div style="font-family:'Spectral',serif;font-size:28px;font-weight:600;color:{{ accent }};">3</div><div style="font-size:11.5px;color:oklch(65% 0.02 250);letter-spacing:0.04em;">Proyectos sinérgicos</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contexto" style="padding:80px 40px;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center;">
+  <div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.14em;color:{{ accent }};text-transform:uppercase;margin-bottom:14px;">Contexto</div>
+    <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:32px;margin:0 0 18px;color:oklch(97% 0.01 250);">El vehículo aéreo que descontamina el planeta</h2>
+    <p style="font-size:15.5px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 16px;">FYT es la EBCT privada de Fernanda Mesa: un AirCar eléctrico que integra un sistema activo de aspiración y captura de CO₂ en su propia estructura — reduciendo la huella de carbono global mientras vuela.</p>
+    <p style="font-size:15.5px;line-height:1.75;color:oklch(78% 0.02 250);margin:0 0 24px;">Física e Ingeniera de la Universidad de Concepción, con Magíster MGET en Gestión Tecnológica y Emprendimiento (UAI) y diplomado en Transferencia Tecnológica. Su visión: ser la primera mujer en implementar tecnología AirCar en Chile.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border:1px solid oklch(30% 0.02 250);border-radius:20px;color:oklch(70% 0.02 250);">ODS 9 · Industria</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border:1px solid oklch(30% 0.02 250);border-radius:20px;color:oklch(70% 0.02 250);">ODS 13 · Clima</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border:1px solid oklch(30% 0.02 250);border-radius:20px;color:oklch(70% 0.02 250);">ODS 3 · Salud</span>
+    </div>
+  </div>
+  <div style="position:relative;aspect-ratio:3/4;border-radius:4px;overflow:hidden;border:1px solid oklch(30% 0.02 250);">
+    <img src="uploads/22c64091e626ead47fe1d4b165790c16.jpg" alt="Visión FYT: elevando la exploración humana hacia soluciones climáticas" style="width:100%;height:100%;object-fit:cover;">
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(180deg, transparent, oklch(14% 0.03 250 / 0.9));font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:oklch(70% 0.02 250);">Referencia visual — visión FYT</div>
+  </div>
+</section>
+
+<section style="padding:8px 40px 64px;max-width:1180px;margin:0 auto;">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);">
+    <div style="background:oklch(17% 0.032 250);padding:26px 24px;"><div style="font-size:22px;margin-bottom:8px;">🛸</div><div style="font-family:'Spectral',serif;font-weight:600;font-size:16px;color:oklch(95% 0.01 250);margin-bottom:6px;">FYT · Empresa Principal</div><div style="font-size:13.5px;line-height:1.6;color:oklch(70% 0.02 250);">AirCar eléctrico VTOL + captura activa de CO₂. 100% propiedad IP de Fernanda. TRL 2.</div></div>
+    <div style="background:oklch(17% 0.032 250);padding:26px 24px;"><div style="font-size:22px;margin-bottom:8px;">🔌</div><div style="font-family:'Spectral',serif;font-weight:600;font-size:16px;color:oklch(95% 0.01 250);margin-bottom:6px;">DRONETRY · UdeC</div><div style="font-size:13.5px;line-height:1.6;color:oklch(70% 0.02 250);">Dron con cable HVDC + fibra óptica. FYT licenciará esta tecnología para autonomía ilimitada.</div></div>
+    <div style="background:oklch(17% 0.032 250);padding:26px 24px;"><div style="font-size:22px;margin-bottom:8px;">🏙️</div><div style="font-family:'Spectral',serif;font-weight:600;font-size:16px;color:oklch(95% 0.01 250);margin-bottom:6px;">FLY · Enlace Estratégico</div><div style="font-size:13.5px;line-height:1.6;color:oklch(70% 0.02 250);">Mapeo regulatorio DGAC y alianzas con fabricantes eVTOL certificados. Equipo se integra a FYT bajo vesting.</div></div>
+  </div>
+</section>
+
+<section id="pasos" style="padding:90px 40px 40px;max-width:1180px;margin:0 auto;">
+  <div style="text-align:center;margin-bottom:56px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.14em;color:{{ accent }};text-transform:uppercase;margin-bottom:14px;">Estrategia Competitiva</div>
+    <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:36px;margin:0 0 14px;color:oklch(97% 0.01 250);">12 Pasos para Construir una EBCT Exitosa</h2>
+    <p style="font-size:15px;color:oklch(70% 0.02 250);max-width:560px;margin:0 auto;">Teoría de Empresas de Base Científico-Tecnológica — MGET UAI, con ejemplo concreto y checklist accionable para cada paso.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);margin-bottom:72px;">
+    <sc-for list="{{ steps }}" as="s" hint-placeholder-count="12">
+      <a href="{{ s.anchor }}" style="display:block;background:oklch(17% 0.032 250);padding:20px 18px;color:inherit;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:{{ accent }};margin-bottom:8px;">{{ s.n }}</div>
+        <div style="font-family:'Spectral',serif;font-weight:600;font-size:14.5px;color:oklch(93% 0.01 250);line-height:1.35;">{{ s.title }}</div>
+      </a>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:0;">
+    <sc-for list="{{ steps }}" as="s" hint-placeholder-count="12">
+      <div id="{{ s.id }}" style="display:grid;grid-template-columns:88px 1fr;gap:28px;padding:44px 0;border-top:1px solid oklch(30% 0.02 250);">
+        <div style="font-family:'Spectral',serif;font-size:46px;font-weight:600;color:{{ accent }};line-height:1;">{{ s.n }}</div>
+        <div>
+          <h3 style="font-family:'Spectral',serif;font-weight:600;font-size:23px;margin:0 0 12px;color:oklch(97% 0.01 250);">{{ s.title }}</h3>
+          <p style="font-size:15px;line-height:1.7;color:oklch(78% 0.02 250);margin:0 0 18px;max-width:760px;">{{ s.explain }}</p>
+          <sc-if value="{{ detailed }}" hint-placeholder-val="{{ true }}">
+            <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);border-left:2px solid {{ accent }};padding:18px 22px;margin-bottom:16px;max-width:760px;">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:{{ accent }};text-transform:uppercase;margin-bottom:8px;">Aplicado a FYT</div>
+              <p style="font-size:14px;line-height:1.65;color:oklch(82% 0.02 250);margin:0;">{{ s.example }}</p>
+            </div>
+            <div style="max-width:760px;margin-bottom:16px;">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:oklch(60% 0.02 250);text-transform:uppercase;margin-bottom:10px;">Checklist accionable</div>
+              <sc-for list="{{ s.checklist }}" as="c" hint-placeholder-count="3">
+                <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:oklch(80% 0.02 250);margin-bottom:8px;">
+                  <span style="color:{{ accent }};flex-shrink:0;">□</span><span>{{ c }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <sc-for list="{{ s.tags }}" as="t" hint-placeholder-count="3">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;padding:4px 10px;border:1px solid oklch(30% 0.02 250);border-radius:20px;color:oklch(62% 0.02 250);">{{ t }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section id="swot" style="padding:90px 40px;max-width:1180px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <div style="text-align:center;margin-bottom:48px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.14em;color:{{ accent }};text-transform:uppercase;margin-bottom:14px;">Análisis Estratégico</div>
+    <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:34px;margin:0;color:oklch(97% 0.01 250);">Evaluación FYT — SWOT</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);">
+    <div style="background:oklch(17% 0.032 250);padding:32px;">
+      <div style="font-family:'Spectral',serif;font-weight:600;font-size:17px;color:oklch(95% 0.01 250);margin-bottom:16px;">💪 Fortalezas</div>
+      <sc-for list="{{ swotStrengths }}" as="i" hint-placeholder-count="5"><div style="font-size:14px;line-height:1.6;color:oklch(78% 0.02 250);margin-bottom:10px;padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:{{ accent }};">—</span>{{ i }}</div></sc-for>
+    </div>
+    <div style="background:oklch(17% 0.032 250);padding:32px;">
+      <div style="font-family:'Spectral',serif;font-weight:600;font-size:17px;color:oklch(95% 0.01 250);margin-bottom:16px;">🚀 Oportunidades</div>
+      <sc-for list="{{ swotOpportunities }}" as="i" hint-placeholder-count="5"><div style="font-size:14px;line-height:1.6;color:oklch(78% 0.02 250);margin-bottom:10px;padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:{{ accent }};">—</span>{{ i }}</div></sc-for>
+    </div>
+    <div style="background:oklch(17% 0.032 250);padding:32px;">
+      <div style="font-family:'Spectral',serif;font-weight:600;font-size:17px;color:oklch(95% 0.01 250);margin-bottom:16px;">⚠️ Debilidades</div>
+      <sc-for list="{{ swotWeaknesses }}" as="i" hint-placeholder-count="5"><div style="font-size:14px;line-height:1.6;color:oklch(78% 0.02 250);margin-bottom:10px;padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:{{ accent }};">—</span>{{ i }}</div></sc-for>
+    </div>
+    <div style="background:oklch(17% 0.032 250);padding:32px;">
+      <div style="font-family:'Spectral',serif;font-weight:600;font-size:17px;color:oklch(95% 0.01 250);margin-bottom:16px;">🔴 Amenazas</div>
+      <sc-for list="{{ swotThreats }}" as="i" hint-placeholder-count="5"><div style="font-size:14px;line-height:1.6;color:oklch(78% 0.02 250);margin-bottom:10px;padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:{{ accent }};">—</span>{{ i }}</div></sc-for>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="ip" style="padding:90px 40px;max-width:1180px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <div style="text-align:center;margin-bottom:48px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.14em;color:{{ accent }};text-transform:uppercase;margin-bottom:14px;">Propiedad Intelectual</div>
+    <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:34px;margin:0 0 12px;color:oklch(97% 0.01 250);">Análisis Legal — Ley 19.039</h2>
+    <p style="font-size:14.5px;color:oklch(70% 0.02 250);">Marco legal completo bajo la Ley de Propiedad Industrial (INAPI) y la Ley 17.336 de Propiedad Intelectual</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);margin-bottom:56px;">
+    <sc-for list="{{ ipScenarios }}" as="sc" hint-placeholder-count="3">
+      <div style="background:oklch(17% 0.032 250);padding:28px;">
+        <div style="font-family:'Spectral',serif;font-weight:700;font-size:22px;color:{{ accent }};margin-bottom:12px;">{{ sc.letter }}</div>
+        <div style="font-family:'Spectral',serif;font-weight:600;font-size:15.5px;color:oklch(95% 0.01 250);margin-bottom:10px;line-height:1.35;">{{ sc.title }}</div>
+        <p style="font-size:13.5px;line-height:1.6;color:oklch(74% 0.02 250);margin:0 0 14px;">{{ sc.desc }}</p>
+        <div style="font-size:12.5px;color:{{ accent }};margin-bottom:8px;">{{ sc.note }}</div>
+        <div style="font-size:12.5px;line-height:1.5;color:oklch(66% 0.02 250);border-top:1px solid oklch(30% 0.02 250);padding-top:10px;">{{ sc.action }}</div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="font-family:'Spectral',serif;font-weight:600;font-size:19px;color:oklch(95% 0.01 250);margin-bottom:24px;">Portafolio de Propiedad Intelectual — Acciones Inmediatas</div>
+  <div style="display:flex;flex-direction:column;gap:0;">
+    <sc-for list="{{ ipPortfolio }}" as="p" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:180px 1fr;gap:20px;padding:20px 0;border-top:1px solid oklch(30% 0.02 250);">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ accent }};">{{ p.when }}</div>
+        <div><div style="font-size:14.5px;font-weight:600;color:oklch(92% 0.01 250);margin-bottom:5px;">{{ p.title }}</div><div style="font-size:13.5px;line-height:1.55;color:oklch(72% 0.02 250);">{{ p.desc }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+</section><section id="roadmap" style="padding:90px 40px;max-width:1180px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);position:relative;">
+  <div style="text-align:center;margin-bottom:48px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.14em;color:{{ accent }};text-transform:uppercase;margin-bottom:14px;">Hoja de Ruta Tecnológica</div>
+    <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:34px;margin:0;color:oklch(97% 0.01 250);">Progreso TRL — De 2 a 9</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(9,1fr);gap:6px;margin-bottom:56px;">
+    <sc-for list="{{ trlScale }}" as="t" hint-placeholder-count="9">
+      <div style="text-align:center;">
+        <div style="height:6px;background:{{ t.color }};border-radius:3px;margin-bottom:8px;"></div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:oklch(90% 0.01 250);">{{ t.n }}</div>
+        <div style="font-size:10.5px;color:oklch(62% 0.02 250);line-height:1.3;margin-top:4px;">{{ t.label }}</div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);">
+    <sc-for list="{{ trlPhases }}" as="ph" hint-placeholder-count="3">
+      <div style="background:oklch(17% 0.032 250);padding:28px;">
+        <div style="font-family:'Spectral',serif;font-weight:600;font-size:16.5px;color:oklch(95% 0.01 250);margin-bottom:4px;">{{ ph.phase }}</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:{{ accent }};margin-bottom:16px;">{{ ph.months }}</div>
+        <sc-for list="{{ ph.items }}" as="it" hint-placeholder-count="6">
+          <div style="font-size:13px;line-height:1.55;color:oklch(75% 0.02 250);margin-bottom:8px;padding-left:14px;position:relative;"><span style="position:absolute;left:0;">·</span>{{ it }}</div>
+        </sc-for>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<sc-if value="{{ showBudget }}" hint-placeholder-val="{{ true }}">
+<section id="presupuesto" style="padding:90px 40px 110px;max-width:1180px;margin:0 auto;border-top:1px solid oklch(30% 0.02 250);">
+  <div style="text-align:center;margin-bottom:48px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.14em;color:{{ accent }};text-transform:uppercase;margin-bottom:14px;">Financiamiento</div>
+    <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:34px;margin:0;color:oklch(97% 0.01 250);">Presupuesto de Prototipado</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);margin-bottom:56px;">
+    <sc-for list="{{ budgetTiers }}" as="b" hint-placeholder-count="3">
+      <div style="background:oklch(17% 0.032 250);padding:28px;text-align:center;">
+        <div style="font-family:'Spectral',serif;font-weight:700;font-size:24px;color:{{ accent }};margin-bottom:6px;">{{ b.range }}</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(65% 0.02 250);margin-bottom:14px;">{{ b.trl }}</div>
+        <div style="font-size:13.5px;line-height:1.55;color:oklch(76% 0.02 250);">{{ b.desc }}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <sc-for list="{{ budgetCategories }}" as="cat" hint-placeholder-count="6">
+    <div style="margin-bottom:36px;">
+      <div style="font-family:'Spectral',serif;font-weight:600;font-size:16px;color:oklch(95% 0.01 250);margin-bottom:14px;">{{ cat.name }}</div>
+      <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr 0.6fr;gap:0;font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(58% 0.02 250);padding:8px 0;border-bottom:1px solid oklch(30% 0.02 250);text-transform:uppercase;letter-spacing:0.04em;">
+        <div>Componente</div><div>Especificación</div><div>Precio (CLP)</div><div>TRL</div>
+      </div>
+      <sc-for list="{{ cat.rows }}" as="r" hint-placeholder-count="2">
+        <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr 0.6fr;gap:0;font-size:13px;color:oklch(78% 0.02 250);padding:12px 0;border-bottom:1px solid oklch(22% 0.02 250);">
+          <div style="color:oklch(90% 0.01 250);">{{ r.component }}</div><div style="color:oklch(70% 0.02 250);">{{ r.spec }}</div><div>{{ r.price }}</div><div style="color:{{ accent }};">{{ r.trl }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-for>
+
+  <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);border-left:2px solid {{ accent }};padding:22px 26px;margin-top:12px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:{{ accent }};text-transform:uppercase;margin-bottom:8px;">Estrategia de financiamiento inicial</div>
+    <p style="font-size:14px;line-height:1.65;color:oklch(80% 0.02 250);margin:0;">Para TRL 2→3, costo estimado $5–15M CLP. Fuentes: CORFO Capital Semilla ($5–25M CLP), FONDEF Idea ($3–8M CLP), concursos UAI Innova, crowdfunding científico, Incuba UdeC. Matías Tapia evalúa si el laboratorio de la UdeC puede usarse sin costo adicional.</p>
+  </div>
+</section>
+</sc-if>
+
+<footer style="padding:56px 40px;border-top:1px solid oklch(30% 0.02 250);max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div style="width:32px;height:32px;border-radius:50%;background:oklch(19% 0.035 250);border:1.5px solid {{ accent }};display:flex;align-items:center;justify-content:center;">
+      <div style="width:10px;height:10px;background:{{ accent }};transform:rotate(45deg);border-radius:2px;"></div>
+    </div>
+    <div><div style="font-family:'Spectral',serif;font-weight:700;font-size:15px;color:oklch(95% 0.01 250);">FYT</div><div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:oklch(58% 0.02 250);">Fernanda Mesa Carrasco · TRL 2 → 9 · Chile → LatAm → Mundo</div></div>
+  </div>
+  <a href="https://fly-fyt.github.io/fer/fyt-strategic-company.html#hero" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ accent }};">← Volver al Dashboard FYT</a>
+</footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;oklch(72% 0.1 95)&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;oklch(78% 0.13 85)&quot;,&quot;oklch(75% 0.14 70)&quot;,&quot;oklch(72% 0.1 95)&quot;,&quot;oklch(80% 0.11 60)&quot;]},&quot;viewMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;detallado&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;detallado&quot;,&quot;resumen&quot;]},&quot;showBudget&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accentColor || 'oklch(78% 0.13 85)';
+    const detailed = this.props.viewMode ? this.props.viewMode === 'detallado' : true;
+    const showBudget = this.props.showBudget ?? true;
+
+    const steps = [
+      {n:'01', id:'paso-01', anchor:'#paso-01', title:'Definición del Problema Raíz',
+        explain:'JTBD: "Las ciudades necesitan movilidad aérea que reduzca simultáneamente el CO₂ atmosférico." No se construye un AirCar — se construye la solución climática con movilidad integrada.',
+        example:'FYT no vende "un auto volador": vende infraestructura ambiental. Cada pitch, cada slide y cada conversación con inversionistas debe partir del problema climático, no del vehículo.',
+        checklist:['Redactar el Job-to-be-Done en una sola frase y usarlo en todo material FYT','Validar el problema con 5-10 conversaciones con expertos en movilidad/clima','Descartar cualquier narrativa que empiece por "el vehículo" en vez de "el problema"'],
+        tags:['Jobs Theory','Design Thinking','Problem Statement']},
+      {n:'02', id:'paso-02', anchor:'#paso-02', title:'Análisis del Entorno — PESTEL + Porter',
+        explain:'Mapear el ecosistema externo: regulación DGAC, competidores globales (Joby, Lilium, EHang), oportunidades climáticas desde los ODS y el Green New Deal.',
+        example:'FYT debe monitorear activamente el marco regulatorio DGAC (aún moldeable en Chile) y el avance de certificación de Joby/EHang para anticipar ventanas de first-mover.',
+        checklist:['Completar matriz PESTEL específica para movilidad aérea en Chile','Mapear las 5 fuerzas de Porter frente a Joby, Lilium y EHang','Identificar 3 oportunidades regulatorias u ODS explotables en 12 meses'],
+        tags:['PESTEL','Porter 5 Forces','Blue Ocean']},
+      {n:'03', id:'paso-03', anchor:'#paso-03', title:'Propuesta de Valor Única y Diferenciada',
+        explain:'¿Por qué FYT y no Joby? La captura integrada de CO₂ es el diferenciador radical. Un AirCar que además limpia el aire no es un taxi volador — es infraestructura ambiental.',
+        example:'Ningún competidor global combina VTOL eléctrico + captura de CO₂ integrada en el chasis. Ese es el ángulo que FYT debe repetir en cada material de comunicación.',
+        checklist:['Completar el Value Proposition Canvas comparando FYT vs. Joby/EHang','Definir en una línea el diferenciador radical y validarlo con 3 audiencias distintas','Auditar que todo material actual (deck, web, redes) refleje ese diferenciador'],
+        tags:['Value Proposition Canvas','Unique Value Prop']},
+      {n:'04', id:'paso-04', anchor:'#paso-04', title:'Protección de la Innovación (IP Primero)',
+        explain:'Antes de mostrar prototipos: búsqueda FTO en Espacenet, Google Patents e INAPI. Presentar solicitud de patente provisional en Chile (protege 12 meses a bajo costo). Registrar la marca FYT.',
+        example:'Fernanda lidera la búsqueda de arte previo. Ningún colaborador debe ver documentación técnica sin NDA firmado, y la marca FYT debe registrarse antes de cualquier exposición pública.\nMatías gestiona los tiempos y avances de los proyectos.',
+        checklist:['Completar búsqueda FTO en Espacenet, Google Patents e INAPI','Registrar marca FYT en INAPI (clases 12, 42 y 35)','Presentar solicitud de patente provisional dentro de los primeros 2-3 meses'],
+        tags:['INAPI','Espacenet','PCT (WIPO)','Ley 19.039']},
+      {n:'05', id:'paso-05', anchor:'#paso-05', title:'Modelo de Negocio y Captura de Valor',
+        explain:'¿Cómo gana dinero FYT? (1) Venta de AirCars, (2) bonos de carbono por CO₂ capturado, (3) servicios de monitoreo ambiental en vuelo, (4) licenciamiento de la tecnología de captura.',
+        example:'Los bonos de carbono son la vía de ingreso más temprana — pueden generar caja antes de tener el producto físico terminado, financiando etapas TRL 3-5.',
+        checklist:['Completar el Business Model Canvas con las 4 líneas de ingreso','Estimar el ingreso potencial por bonos de carbono a TRL 4-5','Definir qué línea de ingreso se activa primero y con qué recursos'],
+        tags:['Business Model Canvas','Lean Canvas','Porter Value Chain']},
+      {n:'06', id:'paso-06', anchor:'#paso-06', title:'Estrategia Competitiva — Jugar para Ganar',
+        explain:'FYT juega diferenciación radical (Porter). First mover en Chile. Aspiración: primera empresa de AirCar + captura de CO₂ en LatAm. Dónde: Chile primero, luego megaciudades contaminadas.',
+        example:'La ventana de first-mover en Chile es la palanca central: mientras la DGAC no tenga marco específico para eVTOLs, FYT puede ayudar a definirlo antes que lleguen Joby o EHang.',
+        checklist:['Definir el mapa "dónde jugar / cómo ganar" (Playing to Win) para FYT','Fijar la aspiración de largo plazo en una frase medible','Priorizar Chile como mercado de entrada antes de expandir a LatAm'],
+        tags:['Porter','Playing to Win','Blue Ocean']},
+      {n:'07', id:'paso-07', anchor:'#paso-07', title:'Hoja de Ruta Tecnológica (TRL 1 → 9)',
+        explain:'Estructurar el camino de madurez tecnológica con hitos verificables, desde investigación básica hasta mercado. Cada TRL define el financiamiento y tipo de validación requeridos.',
+        example:'FYT está en TRL 2 (concepto tecnológico). El siguiente hito verificable es un mockup estático a escala 1/10 que valide el diseño conceptual antes de pasar a TRL 3.',
+        checklist:['Documentar los hitos de salida de cada TRL de FYT hasta TRL 9','Vincular cada TRL a una fuente de financiamiento específica','Revisar el roadmap TRL cada trimestre'],
+        tags:['NASA TRL Framework','Technology Roadmapping','Lean Startup']},
+      {n:'08', id:'paso-08', anchor:'#paso-08', title:'Constitución Legal de la EBCT',
+        explain:'Constituir la SpA como vehículo legal de FYT. Registrar RUT, marca FYT en INAPI, contratos de IP con todos los colaboradores ANTES de que escriban una sola línea de código.',
+        example:'La SpA debe constituirse en la Fase 1 (meses 0-6), antes de que el equipo de FLY o cualquier colaborador técnico toque hardware o firmware de FYT.',
+        checklist:['Constituir la SpA con notario y registrar RUT','Redactar y firmar el Acuerdo de Cesión de IP Futura con cada colaborador antes de dar acceso técnico','Firmar NDA con todo colaborador antes de compartir documentación'],
+        tags:['Ley 20.241','SpA Chile','CORFO','INAPI']},
+      {n:'09', id:'paso-09', anchor:'#paso-09', title:'Equipo y Gobernanza (Cap Table + Vesting)',
+        explain:'Definir quién puede ser socio, cuándo y bajo qué condiciones. Cap Table inicial es 100% Fernanda. Futuros socios (equipo FLY) entran solo con hitos técnicos verificados. Cliff de 12 meses.',
+        example:'El equipo de FLY se integrará a FYT bajo vesting recién cuando el AirCar tenga hitos técnicos verificados — nunca por aporte conceptual o de red de contactos únicamente.',
+        checklist:['Documentar el Cap Table inicial: 100% Fernanda Mesa','Definir el vesting schedule y cliff de 12 meses para futuros socios','Redactar el Acuerdo de Socios con condiciones de entrada explícitas'],
+        tags:['Cap Table','Partner Agreement','Vesting Schedule','NDAs']},
+      {n:'10', id:'paso-10', anchor:'#paso-10', title:'Financiamiento por Etapas (Bootstrapping → VC)',
+        explain:'TRL 2-3: CORFO Capital Semilla (~$25-50M CLP), Startup Chile. TRL 4-5: FONDEF, InvestChile, ángeles cleantech. TRL 6+: VC de impacto (Acumen, Breakthrough Energy).',
+        example:'La postulación a CORFO Capital Semilla es la prioridad inmediata en la Fase 1, seguida de FONDEF I+D en la Fase 2 una vez exista el mockup 1/10.',
+        checklist:['Postular a CORFO Capital Semilla en los primeros 6 meses','Preparar pitch deck específico para cada etapa de financiamiento','Mapear 3 VCs de impacto climático como objetivo para TRL 6+'],
+        tags:['CORFO','Startup Chile','FONDEF','Pitch Deck']},
+      {n:'11', id:'paso-11', anchor:'#paso-11', title:'Go-to-Market y Adopción Cultural',
+        explain:'El miedo a los autos voladores es real. Estrategia de Fernanda: charlas regionales con prototipos educativos, el cable como "salvavidas" visible (sinergia DroneTRY), interfaz One-Button Fly, pilotos municipales.',
+        example:'El cable de DroneTRY se comunica activamente como "salvavidas" visible en las charlas — reduce el miedo al mostrar una medida de seguridad tangible, no solo discurso.',
+        checklist:['Diseñar el prototipo educativo para charlas públicas','Programar mínimo 1 charla mensual en universidades o eventos tech','Definir el mensaje de seguridad basado en el cable/salvavidas de DroneTRY'],
+        tags:['Crossing the Chasm','Diffusion of Innovation','Design for Adoption']},
+      {n:'12', id:'paso-12', anchor:'#paso-12', title:'Métricas, KPIs y Panel de Control',
+        explain:'KPIs TRL 2→4: papers de estado del arte, patentes encontradas en FTO, laboratorio habilitado mes 3, primer prototipo funcional mes 12, primera presentación pública mes 6, financiamiento semilla mes 9.',
+        example:'El dashboard de FYT ya trackea estos hitos mes a mes — este documento debe revisarse junto a él cada vez que se actualice el progreso real.',
+        checklist:['Definir OKRs trimestrales alineados a los hitos TRL 2→4','Mantener un dashboard de control con fecha real vs. planificada','Revisar los KPIs en cada reunión de equipo mensual'],
+        tags:['OKRs','SMART KPIs','Balanced Scorecard']}
+    ];
+
+    return {
+      accent, detailed, showBudget, steps,
+      swotStrengths:['Única empresa en Chile y LatAm con captura de CO₂ + AirCar','CEO con perfil dual: Física + Gestora de IP (muy poco común)','Sinergia real con DroneTRY (tecnología HVDC) y FLY (regulación)','Idea patentable con materialización técnica genuina','Formación MGET UAI: acceso a red de inversionistas y contactos'],
+      swotOpportunities:['Mercado global eVTOL valorado en US$1.5 billones para 2040','Chile: regulación DGAC aún moldeable (ventaja de first mover)','Bonos de carbono como ingreso temprano antes del producto','CORFO, FONDEF y Startup Chile disponibles para EBCT','ODS 13 como narrativa de impacto para fundraising global'],
+      swotWeaknesses:['TRL muy bajo: aún sin prototipo físico','Financiamiento inicial limitado','Laboratorio de prototipado aún no habilitado','Baja visibilidad pública en el sector aeroespacial chileno','Tiempo limitado: trabajo + magíster + tres proyectos'],
+      swotThreats:['Joby Aviation o EHang podrían llegar primero a Chile','La regulación DGAC podría ser restrictiva para nuevos actores','Costo de certificación aeronáutica muy alto (>US$10M)','Captura de CO₂ integrada en vuelo: física aún muy compleja','Conflicto de interés con el trabajo actual si no se gestiona bien'],
+      ipScenarios:[
+        {letter:'A', title:'Fernanda, Matías y Equipo colaborador estrategico desarrollan el AirCar ', desc:'Investigación, documentación, prototipo y patente realizados enteramente por Fernanda. Bajo la Ley 19.039 + 17.336: Fernanda es la única autora e inventora de FYT hasta que se acuerde lo contrario.', note:'✅ Fernanda Mesa = 100% propietaria exclusiva · Sin obligación de compartir', action:'Acción: mantener un cuaderno de inventora con fechas (bitácora firmada y timestampeada), guardar borradores con timestamps de Git/Drive.'},
+        {letter:'B', title:'Fernanda recibe ayuda técnica u operativa directa', desc:'Un colaborador escribe código, monta electrónica, diseña planos de chasis o el sistema de CO₂ — realiza un aporte inventivo o técnico real. Legalmente son co-inventores (patente INAPI) o coautores (software DDI).', note:'⚠️ Riesgo: co-propiedad no deseada si no hay contrato previo', action:'Mitigación: antes de que CUALQUIERA escriba código o toque hardware, debe firmar un Acuerdo de Cesión de Derechos de IP Futura a favor de FYT.'},
+        {letter:'C', title:'Solo ayuda conceptual/verbal (opiniones de clase, sugerencias)', desc:'Compañeros del MGET o de la clase de Transformación Digital UAI comentaron el concepto AirCar CO₂. Regla de oro de la IP: ideas, comentarios verbales y sugerencias conceptuales NO son legalmente protegibles.', note:'✅ Fernanda = 100% propietaria exclusiva · Comentaristas = 0% de derecho', action:'Los compañeros de clase no adquieren ningún derecho de propiedad sobre el concepto.'}
+      ],
+      ipPortfolio:[
+        {when:'Semana 1-2', title:'URGENTE: Marca FYT en INAPI', desc:'Clase 12 (vehículos), Clase 42 (tecnología), Clase 35 (servicios de negocios). Costo ~$150-250 USD. Protege de inmediato la identidad de la empresa.'},
+        {when:'Mes 1', title:'Búsqueda de Arte Previo y FTO', desc:'Matías Tapia realiza una búsqueda exhaustiva en Espacenet, Google Patents, INAPI, USPTO, JPO. Determina la libertad de operación y el espacio de patentabilidad para el sistema CO₂ + AirCar.'},
+        {when:'Mes 2-3', title:'Solicitud de Patente Provisional', desc:'Presentar en INAPI una solicitud provisional (protege 12 meses a muy bajo costo). Documenta la invención con reivindicaciones detalladas del sistema de aspiración de CO₂.'},
+        {when:'Mes 6+', title:'Patente PCT (WIPO) para LatAm', desc:'Usar el sistema PCT para extender la protección a Colombia, Perú, México y Brasil. Una sola solicitud protege en 153 países. Esencial antes de mostrar el prototipo públicamente.'},
+        {when:'Continuo', title:'Secretos Comerciales y NDAs', desc:'Mantener como secreto comercial: firmware de vuelo, cálculos del cable tethered, diseño del absorbedor de CO₂. Todo colaborador firma NDA antes de ver documentación técnica.'}
+      ],
+      trlScale:[
+        {n:1,label:'Principio básico',color:'oklch(30% 0.02 250)'},{n:2,label:'Concepto tecnológico',color:'oklch(78% 0.13 85)'},{n:3,label:'Prueba experimental',color:'oklch(30% 0.02 250)'},
+        {n:4,label:'Validación en lab.',color:'oklch(30% 0.02 250)'},{n:5,label:'Validación en entorno real',color:'oklch(30% 0.02 250)'},{n:6,label:'Demo en entorno real',color:'oklch(30% 0.02 250)'},
+        {n:7,label:'Demo operacional',color:'oklch(30% 0.02 250)'},{n:8,label:'Sistema completo',color:'oklch(30% 0.02 250)'},{n:9,label:'Mercado real',color:'oklch(30% 0.02 250)'}
+      ],
+      trlPhases:[
+        {phase:'Fase 1 · Pre-Incubación', months:'Meses 0–6', items:['IP: registrar marca FYT en INAPI','IP: búsqueda FTO (Matías Tapia)','TEC: estado del arte completado','TEC: laboratorio habilitado','EST: SpA de FYT constituida','EST: NDAs firmados por el equipo','FIN: postulación CORFO Semilla','EST: primera charla pública']},
+        {phase:'Fase 2 · Prototipado TRL 3-4', months:'Meses 6–18', items:['TEC: mockup estático 1/10 escala','TEC: sistema CO₂ básico en banco de pruebas','TEC: prototipo volador 1/10 escala','IP: solicitud de patente provisional','FIN: FONDEF I+D presentado','EST: presentación en concurso','EST: alianza con Incuba UdeC','FIN: inversión semilla asegurada']},
+        {phase:'Fase 3 · Validación TRL 5-7', months:'Meses 18–48', items:['TEC: prototipo volador 1/3 escala','TEC: captura de CO₂ en vuelo demostrada','IP: solicitud internacional PCT','FIN: ronda Serie A (ángel/VC)','EST: regulación experimental DGAC','EST: equipo FLY integrado a FYT','TEC: prototipo a escala completa (piloto)','EST: lanzamiento comercial en Chile']}
+      ],
+      budgetTiers:[
+        {range:'$3–10M CLP', trl:'TRL 2 → 3', desc:'Mockup conceptual + modelo estático a escala 1/10. Validación básica de diseño. Etapa actual.'},
+        {range:'$15–80M CLP', trl:'TRL 3 → 5', desc:'Prototipo funcional a escala reducida (1/5). Vuelo real, captura básica de CO₂ demostrada.'},
+        {range:'$200–500M+ CLP', trl:'TRL 5 → 7', desc:'Prototipo a escala completa. Pruebas piloto. Validación regulatoria DGAC.'}
+      ],
+      budgetCategories:[
+        {name:'🏗️ Estructura y Materiales del Fuselaje', rows:[
+          {component:'Fibra de carbono', spec:'Trenzado 2x2, 200g/m², 1m²', price:'$45.000–$120.000', trl:'TRL 3'},
+          {component:'Perfiles de aluminio aeronáutico', spec:'6061-T6, tubos y perfiles', price:'$80.000–$250.000/kg', trl:'TRL 2-3'},
+          {component:'Impresión 3D FDM (PLA/PETG)', spec:'Por kg de material', price:'$15.000–$40.000/kg', trl:'TRL 2'}
+        ]},
+        {name:'⚡ Sistema de Propulsión Eléctrica', rows:[
+          {component:'Motor BLDC', spec:'KV 340-500, 6-12 kg empuje', price:'$80.000–$300.000/u', trl:'TRL 3'},
+          {component:'ESC', spec:'80A-120A por motor', price:'$40.000–$120.000/u', trl:'TRL 3'},
+          {component:'Hélice bipala de carbono', spec:'30"–40" diámetro', price:'$35.000–$90.000/u', trl:'TRL 3'}
+        ]},
+        {name:'🔋 Sistema de Energía', rows:[
+          {component:'Batería LiPo 6S', spec:'16.000–30.000 mAh', price:'$200.000–$500.000/pack', trl:'TRL 3'},
+          {component:'Cable HVDC (tec. DroneTRY)', spec:'600V, 50m, cobre trenzado', price:'$500.000–$2.000.000', trl:'TRL 3'}
+        ]},
+        {name:'🧠 Electrónica y Control de Vuelo', rows:[
+          {component:'Controlador de vuelo Pixhawk 6C', spec:'Ardupilot/PX4, último modelo', price:'$250.000–$450.000', trl:'TRL 3'},
+          {component:'NVIDIA Jetson Orin Nano', spec:'Cómputo IA embebido', price:'$350.000–$750.000', trl:'TRL 4'}
+        ]},
+        {name:'🌿 Sistema de Captura de CO₂ (Innovación Core)', rows:[
+          {component:'Zeolitas 13X (pellets)', spec:'Adsorción física de CO₂, 1kg', price:'$80.000–$200.000/kg', trl:'TRL 2-3'},
+          {component:'Aminas (MEA)', spec:'Captura química líquida', price:'$30.000–$100.000/L', trl:'TRL 2-3'},
+          {component:'MOF (HKUST-1 / ZIF-8)', spec:'Alta eficiencia', price:'$500.000–$2.000.000/100g', trl:'TRL 2'},
+          {component:'Sensor CO₂ MH-Z19C (NDIR)', spec:'Medición en tiempo real', price:'$25.000–$60.000', trl:'TRL 2-3'}
+        ]},
+        {name:'🏭 Infraestructura de Laboratorio', rows:[
+          {component:'Arriendo de espacio (mensual)', spec:'50-100 m², taller industrial', price:'$400.000–$1.200.000/mes', trl:'TRL 2-3'},
+          {component:'Osciloscopio digital 4 canales', spec:'200 MHz mínimo', price:'$500.000–$1.500.000', trl:'TRL 3'}
+        ]}
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>
