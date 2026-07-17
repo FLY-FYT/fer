@@ -51,7 +51,7 @@ select,input[type=text],input[type=number],input[type=date],textarea{font-family
   <h1 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:0 0 14px;color:oklch(97% 0.01 250);">Propiedad Intelectual y Seguimiento de Proyectos</h1>
   <p style="font-size:15px;line-height:1.65;color:oklch(75% 0.02 250);max-width:680px;margin:0 0 8px;">Un solo lugar para TRL, estado de IP, bitácora de horas y búsqueda de patentes de los cinco proyectos de Fernanda — para que cada web de proyecto muestre solo su información principal.</p>
   <div style="background:oklch(17% 0.032 250);border:1px solid oklch(30% 0.02 250);border-left:2px solid oklch(78% 0.13 85);padding:12px 18px;max-width:680px;margin:18px 0 36px;">
-    <p style="font-size:12.5px;line-height:1.55;color:oklch(70% 0.02 250);margin:0;">🔒 <strong>Privacidad garantizada:</strong> este archivo es de código abierto, pero todo lo que registras aquí (TRL, estados de IP, bitácora) se guarda solo en <code>localStorage</code> de tu navegador. Nada se envía a internet.</p>
+    <p style="font-size:12.5px;line-height:1.55;color:oklch(70% 0.02 250);margin:0;"> <strong>Privacidad garantizada:</strong> este archivo es de código abierto, pero todo lo que registras aquí (TRL, estados de IP, bitácora) se guarda solo en <code>localStorage</code> de tu navegador. Nada se envía a internet.</p>
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:oklch(30% 0.02 250);border:1px solid oklch(30% 0.02 250);">
@@ -87,25 +87,25 @@ select,input[type=text],input[type=number],input[type=date],textarea{font-family
     <div style="background:oklch(17% 0.032 250);padding:18px;">
       <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-bottom:8px;">Marca FYT (INAPI)</div>
       <select value="{{ brandStatus }}" onChange="{{ setBrandStatus }}" style="width:100%;background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
-        <option value="no">❌ No presentada</option><option value="tramite">🔄 En trámite</option><option value="ok">✅ Registrada</option>
+        <option value="no"> No presentada</option><option value="tramite"> En trámite</option><option value="ok"> Registrada</option>
       </select>
     </div>
     <div style="background:oklch(17% 0.032 250);padding:18px;">
       <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-bottom:8px;">Búsqueda FTO</div>
       <select value="{{ ftoStatus }}" onChange="{{ setFtoStatus }}" style="width:100%;background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
-        <option value="no">❌ Sin iniciar</option><option value="curso">🔄 En curso</option><option value="ok">✅ Completada</option>
+        <option value="no"> Sin iniciar</option><option value="curso"> En curso</option><option value="ok"> Completada</option>
       </select>
     </div>
     <div style="background:oklch(17% 0.032 250);padding:18px;">
       <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-bottom:8px;">Patente</div>
       <select value="{{ patentStatus }}" onChange="{{ setPatentStatus }}" style="width:100%;background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
-        <option value="no">❌ Sin presentar</option><option value="prep">🔄 En preparación</option><option value="prov">✅ Provisional</option><option value="pct">🌍 PCT presentada</option>
+        <option value="no"> Sin presentar</option><option value="prep"> En preparación</option><option value="prov"> Provisional</option><option value="pct"> PCT presentada</option>
       </select>
     </div>
     <div style="background:oklch(17% 0.032 250);padding:18px;">
       <div style="font-size:11.5px;color:oklch(62% 0.02 250);margin-bottom:8px;">NDAs colaboradores</div>
       <select value="{{ ndaStatus }}" onChange="{{ setNdaStatus }}" style="width:100%;background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
-        <option value="no">❌ Ninguno firmado</option><option value="parcial">🔄 Parcial</option><option value="ok">✅ Todos firmados</option>
+        <option value="no"> Ninguno firmado</option><option value="parcial"> Parcial</option><option value="ok">Todos firmados</option>
       </select>
     </div>
   </div>
@@ -134,7 +134,7 @@ select,input[type=text],input[type=number],input[type=date],textarea{font-family
       <label style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:11px;color:oklch(60% 0.02 250);">Fecha</span><input type="date" value="{{ formDate }}" onChange="{{ setFormDate }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;"/></label>
       <label style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:11px;color:oklch(60% 0.02 250);">Proyecto</span>
         <select value="{{ formProject }}" onChange="{{ setFormProject }}" style="background:oklch(19% 0.035 250);border:1px solid oklch(30% 0.02 250);color:oklch(93% 0.01 250);padding:7px 8px;border-radius:3px;font-size:13px;">
-          <option value="FYT">🛸 FYT</option><option value="DroneTRY">🔌 DroneTRY</option><option value="FLY">🏙️ FLY</option><option value="NIDO">🏡 NIDO</option><option value="SERVIA">⚡ SERVIA</option><option value="General">🗂️ General</option>
+          <option value="FYT"> FYT</option><option value="DroneTRY"> DroneTRY</option><option value="FLY"> FLY</option><option value="NIDO"> NIDO</option><option value="SERVIA"> SERVIA</option><option value="General"> General</option>
         </select>
       </label>
       <label style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:11px;color:oklch(60% 0.02 250);">Categoría</span>
@@ -225,11 +225,11 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     const projMeta = [
-      { key: 'fyt', icon: '🛸', name: 'FYT · AirCar CO₂', responsible: 'Fernanda Mesa · Fundadora' },
-      { key: 'dro', icon: '🔌', name: 'DroneTRY', responsible: 'Bruno Osses / Julio Hofflinger / Tomás' },
-      { key: 'fly', icon: '🏙️', name: 'FLY · Regulación eVTOL', responsible: 'Equipo FLY' },
-      { key: 'nido', icon: '🏡', name: 'NIDO', responsible: 'Victor / Fernanda / Lisette / Nathaly' },
-      { key: 'srv', icon: '⚡', name: 'SERVIA', responsible: 'Julio / René / Nano / Fernanda' }
+      { key: 'fyt', icon: '', name: 'FYT · AirCar CO₂', responsible: 'Fernanda Mesa · Fundadora' },
+      { key: 'dro', icon: '', name: 'DroneTRY', responsible: 'Bruno Osses / Julio Hofflinger / Tomás' },
+      { key: 'fly', icon: '', name: 'FLY · Regulación eVTOL', responsible: 'Equipo FLY' },
+      { key: 'nido', icon: '', name: 'NIDO', responsible: 'Victor / Fernanda / Lisette / Nathaly' },
+      { key: 'srv', icon: '', name: 'SERVIA', responsible: 'Julio / René / Nano / Fernanda' }
     ];
     const projects = projMeta.map(p => ({
       ...p, trl: s.trl[p.key],
