@@ -81,18 +81,15 @@ body::before {
 }
 
 .sidebar-logo {
-  padding: 24px 20px 16px;
+  padding: 16px; /* Reducimos el padding para que la imagen quepa mejor */
   border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centramos la imagen */
 }
-.sidebar-logo .logo-main {
-  font-size: 2rem;
-  font-weight: 900;
-  letter-spacing: 4px;
-  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+
+/* El estilo antiguo del texto .logo-main ya no es necesario, lo podemos quitar o comentar */
+/* .sidebar-logo .logo-main { ... } */
 .sidebar-logo .logo-sub {
   font-size: .65rem;
   color: var(--text-mid);
@@ -151,7 +148,7 @@ body::before {
 .hamburger {
   display: flex; /* <-- Esto hace que siempre se vean las 3 líneas */
   position: fixed;
-  top: 12px; left: 12px;
+  top: 12px; right: 20px;
   z-index: 1100;
   background: var(--bg-card);
   border: 1px solid var(--border);
