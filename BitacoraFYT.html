@@ -915,49 +915,6 @@ body{font-family:var(--ff-sans);background:var(--bg0);color:var(--text);min-heig
   </div>
 </section>
 
-<!-- ── BLOG ── -->
-<section class="sec" id="blog">
-  <div class="eye">Bitácora anónima</div>
-  <h2 class="h1">El diario del <span class="g">camino</span></h2>
-  <p class="desc">La historia de alguien que decidió ir al espacio desde un laboratorio. Anónima. Honesta. Para quien algún día necesite saber que sí se puede. Solo guardada en tu equipo.</p>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-    <button class="btn bgold" onclick="toggleBlogForm()"> Nueva entrada</button>
-    <span style="font-size:.68rem;color:var(--muted);align-self:center"> Solo visible aquí · Guardado local</span>
-  </div>
-  <div class="blog-form" id="blog-form">
-    <h3>Nueva entrada de bitácora</h3>
-    <div class="fr">
-      <div class="ff"><label>Título</label><input type="text" id="bl-title" placeholder="Ej: El día que casi abandono…"></div>
-      <div class="ff"><label>Categoría</label><select id="bl-cat">
-        <option value="reflexión"> Reflexión</option>
-        <option value="hito"> Hito logrado</option>
-        <option value="obstáculo"> Obstáculo</option>
-        <option value="aprendizaje"> Aprendizaje</option>
-        <option value="sueño"> Sueño</option>
-        <option value="cotidiano"> Cotidiano</option>
-      </select></div>
-    </div>
-    <div class="ff" style="margin-bottom:10px"><label>Historia (sin filtros)</label>
-      <textarea id="bl-text" rows="4" placeholder="Escribe lo que realmente ocurrió. Este espacio es solo tuyo."></textarea></div>
-    <div class="fr">
-      <div class="ff"><label>Estado de ánimo</label><select id="bl-mood">
-        <option value=""> Imparable</option>
-        <option value=""> Enfocada</option>
-        <option value="" selected> En flujo</option>
-        <option value=""> Difícil</option>
-        <option value=""> Creciendo</option>
-        <option value=""> Inspirada</option>
-      </select></div>
-      <div class="ff"><label>Imagen (opcional)</label><input type="file" id="bl-img" accept="image/*"></div>
-    </div>
-    <div style="display:flex;gap:7px;margin-top:4px">
-      <button class="btn bgold" onclick="savePost()"> Guardar</button>
-      <button class="btn bgh" onclick="toggleBlogForm()">Cancelar</button>
-    </div>
-  </div>
-  <div class="blog-grid" id="blog-grid"></div>
-</section>
-
 <!-- ── PROJECTS ── -->
 <section class="sec" id="fyt-proj">
   <div class="eye">Empresa principal</div>
