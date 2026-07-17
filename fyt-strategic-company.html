@@ -65,7 +65,7 @@ body::before {
   top: 0; left: 0;
   width: 240px;
   height: 100vh;
-  background: rgba(6,13,26,.97);
+  background: rgba(15, 23, 36, .97);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -73,6 +73,11 @@ body::before {
   overflow-y: auto;
   transition: transform .3s ease;
   backdrop-filter: blur(10px);
+  transform: translateX(-100%); /* <-- Lo oculta por defecto */
+}
+
+.sidebar.open {
+  transform: translateX(0); /* <-- Lo muestra cuando haces clic */
 }
 
 .sidebar-logo {
