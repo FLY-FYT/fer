@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FYT · Future & Technology — El Camino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:        #07060a;
+  --bg-panel:  #0d0b10;
+  --bg-panel2: #141117;
+  --gold:      #c9a464;
+  --gold-hi:   #e9cd94;
+  --cream:     #efe8da;
+  --muted:     #9a927f;
+  --hair:      rgba(201,164,100,.20);
+  --hair-soft: rgba(239,232,218,.08);
+  --ff-display: 'Playfair Display', Georgia, serif;
+  --ff-body:    'EB Garamond', Georgia, serif;
+  --ff-ui:      'Inter', system-ui, -apple-system, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+::selection{background:var(--gold);color:#0a0810}
+
+/* faint paper-grain / vignette so the black doesn't feel flat */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% 0%, rgba(201,164,100,.05), transparent 55%),
+             radial-gradient(ellipse at 50% 100%, rgba(0,0,0,.5), transparent 60%);
+}
+
+/* ── READING PROGRESS ── */
+.progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-hi));
+  width:0%;z-index:1300;transition:width .1s linear}
+
+/* ── MASTHEAD ── */
+.masthead{position:sticky;top:0;z-index:1200;background:rgba(7,6,10,.86);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--hair)}
+.masthead-inner{max-width:1120px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:28px}
+.brand-mini{font-family:var(--ff-display);font-size:1.1rem;color:var(--gold-hi);letter-spacing:2px;flex-shrink:0;
+  display:flex;flex-direction:column;line-height:1.1}
+.brand-mini span{font-family:var(--ff-ui);font-size:.5rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.tabs{display:flex;gap:22px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;flex:1}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font-family:var(--ff-ui);font-size:.66rem;letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;white-space:nowrap;padding:4px 1px;position:relative;flex-shrink:0;
+  transition:color .2s}
+.tab::after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:1px;background:var(--gold);
+  transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.tab:hover{color:var(--cream)}
+.tab.active{color:var(--gold-hi)}
+.tab.active::after{transform:scaleX(1)}
+
+/* ── LAYOUT ── */
+.col{max-width:720px;margin:0 auto;padding:0 32px}
+.wide{max-width:1120px;margin:0 auto;padding:0 32px}
+.article{padding:108px 0 100px;border-bottom:1px solid var(--hair-soft)}
+.article:first-of-type{border-top:none}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+.kicker{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:14px}
+.headline{font-family:var(--ff-display);font-weight:600;font-size:clamp(1.7rem,3.4vw,2.6rem);
+  line-height:1.16;letter-spacing:-.2px;margin-bottom:20px}
+.headline em{font-style:italic;color:var(--gold-hi);font-weight:500}
+.lede{font-size:1.08rem;line-height:1.85;color:var(--cream);opacity:.92;margin-bottom:8px;max-width:620px}
+.lede + .lede{margin-top:14px}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:140px 32px 80px;position:relative;border-bottom:1px solid var(--hair)}
+.hero-wrap{max-width:720px;margin:0 auto;width:100%}
+.hero-eyebrow{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:22px;display:flex;align-items:center;gap:8px}
+.hero-eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.hero-title{font-family:var(--ff-display);font-weight:600;font-size:clamp(2.4rem,6vw,4.4rem);
+  line-height:1.06;letter-spacing:-.5px;margin-bottom:8px}
+.hero-title .em{font-style:italic;font-weight:500;color:var(--gold-hi);display:block}
+.hero-sub{font-size:1.12rem;line-height:1.85;color:var(--muted);max-width:520px;margin:26px 0 40px}
+.hero-quote{font-family:var(--ff-display);font-style:italic;font-size:1.5rem;color:var(--gold-hi);
+  line-height:1.4;padding:22px 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  margin-bottom:44px;max-width:520px}
+.stat-row{display:flex;flex-wrap:wrap;gap:0}
+.stat{padding-right:28px;margin-right:28px;border-right:1px solid var(--hair)}
+.stat:last-child{border-right:none;margin-right:0;padding-right:0}
+.stat-v{font-family:var(--ff-display);font-size:1.5rem;color:var(--gold-hi);line-height:1}
+.stat-l{font-family:var(--ff-ui);font-size:.56rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.scroll-cue{position:absolute;bottom:36px;left:32px;font-family:var(--ff-ui);font-size:.58rem;
+  letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.scroll-cue .ln{width:22px;height:1px;background:var(--muted);animation:pulse-ln 2.4s infinite}
+@keyframes pulse-ln{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ── DROP CAP PROSE ── */
+.dropcap-block{margin-top:8px}
+.dropcap{font-family:var(--ff-display);font-size:4.6rem;line-height:.78;color:var(--gold);
+  float:left;margin:5px 16px 0 0;font-weight:600}
+.prose{font-size:.98rem;line-height:1.9;color:var(--cream);opacity:.9;max-width:640px}
+.prose strong{color:var(--gold-hi);font-weight:600}
+.prose em{color:var(--gold-hi);font-style:italic}
+.prose::after{content:'';display:block;clear:both}
+
+/* ── DEFINITION ROWS (FYT meaning / propuesta de valor / equipo) ── */
+.def-list{margin-top:36px;border-top:1px solid var(--hair-soft)}
+.def-row{display:grid;grid-template-columns:120px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--hair-soft)}
+.def-term{font-family:var(--ff-display);font-size:1.5rem;color:var(--gold);font-weight:600}
+.def-name{font-family:var(--ff-ui);font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-hi);margin-bottom:6px}
+.def-desc{font-size:.9rem;line-height:1.75;color:var(--muted)}
+
+/* ── PULL QUOTE (inline, within sections) ── */
+.pull{font-family:var(--ff-display);font-style:italic;font-size:1.2rem;color:var(--gold-hi);
+  line-height:1.55;border-left:2px solid var(--gold);padding:2px 0 2px 22px;margin:28px 0;max-width:600px}
+
+/* ── HIGHLIGHT BLOCK (replaces empty-icon cards) ── */
+.highlight{border-left:2px solid var(--gold);padding-left:22px;margin-top:28px;max-width:640px}
+.highlight-title{font-family:var(--ff-ui);font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-hi);margin-bottom:8px}
+.highlight-body{font-size:.9rem;line-height:1.8;color:var(--muted)}
+
+/* ── STACKED FEATURE LIST (Kelly's 3 points / DroneTRY etc) ── */
+.feature-stack{margin-top:36px;border-top:1px solid var(--hair-soft)}
+.feature-row{padding:22px 0;border-bottom:1px solid var(--hair-soft)}
+.feature-title{font-family:var(--ff-display);font-size:1.05rem;font-weight:600;color:var(--cream);margin-bottom:6px}
+.feature-desc{font-size:.88rem;line-height:1.75;color:var(--muted);max-width:600px}
+
+/* ── METRIC (progress replacement) ── */
+.metric{margin-top:30px;max-width:420px}
+.metric-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.metric-label{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.metric-val{font-family:var(--ff-display);font-style:italic;font-size:1.1rem;color:var(--gold-hi)}
+.metric-line{height:1px;background:var(--hair);position:relative}
+.metric-line::after{content:'';position:absolute;left:0;top:-1px;height:3px;background:var(--gold);width:var(--w,0%)}
+
+/* ── TAGS (badges) ── */
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.tag{font-family:var(--ff-ui);font-size:.6rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-hi);
+  border:1px solid var(--hair);border-radius:2px;padding:4px 10px}
+
+/* ── GO-LINK (replaces filled button) ── */
+.go-link{display:inline-flex;align-items:center;gap:7px;font-family:var(--ff-ui);font-size:.72rem;
+  letter-spacing:1px;text-transform:uppercase;color:var(--gold-hi);text-decoration:none;margin-top:26px;
+  padding-bottom:3px;border-bottom:1px solid var(--hair);transition:border-color .2s,gap .2s}
+.go-link:hover{border-color:var(--gold);gap:11px}
+.go-link:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.go-link .arrow{transition:transform .2s}
+.go-link:hover .arrow{transform:translateX(2px)}
+
+/* ── CHECKLIST ── */
+.checklist{margin-top:30px;display:flex;flex-direction:column;gap:14px;max-width:560px}
+.check-item{display:flex;align-items:flex-start;gap:12px;font-size:.86rem;line-height:1.6;color:var(--muted)}
+.check-box{width:12px;height:12px;border:1px solid var(--gold);flex-shrink:0;margin-top:4px}
+
+/* ── NOTE ── */
+.note{margin-top:20px;padding-top:16px;border-top:1px solid var(--hair-soft);font-size:.82rem;
+  line-height:1.75;color:var(--muted);max-width:600px}
+
+/* ── SECTION HEAD helper for two-block layout ── */
+.split{display:grid;grid-template-columns:1fr;gap:0}
+
+/* ── FOOTER / COLOPHON ── */
+.colophon{padding:60px 32px 50px;text-align:center;border-top:1px solid var(--hair)}
+.colophon-brand{font-family:var(--ff-display);font-size:1.15rem;color:var(--gold-hi);letter-spacing:3px;margin-bottom:10px}
+.colophon-text{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.colophon-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .masthead-inner{padding:12px 20px;gap:16px}
+  .col,.wide{padding:0 20px}
+  .article{padding:76px 0 64px}
+  #hero{padding:120px 20px 64px}
+  .def-row{grid-template-columns:1fr;gap:6px}
+  .scroll-cue{display:none}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="progress" id="progress"></div>
+
+<!-- ── MASTHEAD / TOP TABS ── -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand-mini">FYT<span>Future &amp; Technology</span></div>
+    <nav class="tabs" id="tabs">
+      <a href="#hero" class="tab active">Inicio</a>
+      <a href="#fyt-story" class="tab">Historia</a>
+      <a href="#scott" class="tab">Scott Kelly</a>
+      <a href="#fyt-proj" class="tab">FYT</a>
+      <a href="#dronetry" class="tab">DroneTRY</a>
+      <a href="#fly" class="tab">FLY</a>
+      <a href="#nido" class="tab">NIDO</a>
+      <a href="#servia" class="tab">SERVIA</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-wrap">
+    <div class="hero-eyebrow">Activo · Julio 2026</div>
+    <h1 class="hero-title">Future &amp; Technology.<span class="em">El sueño detrás de las siglas.</span></h1>
+    <p class="hero-sub">
+      FYT no es solo un nombre. Es la respuesta a una pregunta que alguien se hizo en silencio:
+      ¿y si el vehículo que vuela también limpia el aire? ¿Y si la ruta al espacio empieza aquí?
+    </p>
+    <div class="hero-quote">"Me la voy a jugar. Es mi sueño."</div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-v">FYT</div><div class="stat-l">Future &amp; Technology</div></div>
+      <div class="stat"><div class="stat-v">TRL 2</div><div class="stat-l">Estado actual</div></div>
+      <div class="stat"><div class="stat-v">5</div><div class="stat-l">Proyectos</div></div>
+      <div class="stat"><div class="stat-v">∞</div><div class="stat-l">Límite</div></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="ln"></span> Desliza para leer el camino</div>
+</section>
+
+<!-- ── FYT STORY ── -->
+<section class="article" id="fyt-story">
+  <div class="col reveal">
+    <div class="kicker">El nombre</div>
+    <h2 class="headline">¿Por qué <em>FYT</em>?</h2>
+    <p class="lede">Detrás de tres letras hay una razón de ser, una declaración y una protección.</p>
+
+    <div class="dropcap-block">
+      <span class="dropcap">F</span>
+      <p class="prose">
+        <strong>FYT nació en silencio.</strong> No fue un pitch en una sala de inversores.
+        Fue una idea que llegó durante una clase de Transformación Digital en la UAI —
+        un pensamiento que conectó física, vuelo, clima y ambición en una sola frase:
+        <em>"¿Y si el vehículo que vuela también captura el CO₂ que contamina?"</em>
+        <br><br>
+        Esa idea era demasiado importante para compartirla antes de tiempo. Y demasiado original
+        para perderla. Por eso se eligió un nombre que pudiera proteger lo que había detrás,
+        sin revelar de inmediato quién lo creó ni por qué.
+        <strong>FYT es el escudo y la visión al mismo tiempo.</strong>
+        <br><br>
+        El nombre no dice directamente "vehículo aéreo" ni "empresa de Fernanda". Dice
+        <strong>futuro</strong> y <strong>tecnología</strong> — dos palabras que pertenecen
+        a cualquier industria, pero que en este contexto encubren una misión muy específica:
+        construir el primer AirCar que descontamine el planeta mientras vuela,
+        y llevar esa tecnología desde Chile al espacio.
+      </p>
+    </div>
+
+    <div class="def-list">
+      <div class="def-row">
+        <div class="def-term">F</div>
+        <div><div class="def-name">Future</div><div class="def-desc">La dirección. No se construye lo que ya existe. FYT apunta a donde el mundo todavía no llegó.</div></div>
+      </div>
+      <div class="def-row">
+        <div class="def-term">&amp;</div>
+        <div><div class="def-name">Enlace</div><div class="def-desc">El puente entre lo que se sueña y lo que se construye. Entre la ciencia y el mercado.</div></div>
+      </div>
+      <div class="def-row">
+        <div class="def-term">T</div>
+        <div><div class="def-name">Technology</div><div class="def-desc">La herramienta. No basta con soñar — la tecnología convierte la visión en algo que se puede tocar, volar y certificar.</div></div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <div class="highlight-title">Por qué se oculta tras el nombre</div>
+      <div class="highlight-body">
+        La IP — propiedad intelectual — es el activo más valioso de una empresa de base científica.
+        Antes de que la idea esté protegida con una patente, cada persona que la conoce
+        es un riesgo potencial. El nombre FYT no revela la tecnología del AirCar,
+        no revela a su fundadora, y no revela el sistema de captura de CO₂.
+        Permite operar en stealth mode mientras se construyen los cimientos legales y técnicos.
+        <em>Cuando sea el momento, FYT hablará por sí mismo.</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCOTT KELLY ── -->
+<section class="article" id="scott">
+  <div class="col reveal">
+    <div class="kicker">La inspiración</div>
+    <h2 class="headline">Scott Kelly — <em>Un año en el espacio</em></h2>
+    <p class="lede">El primer libro que cambió la perspectiva. El astronauta que demostró que el cuerpo y la mente pueden adaptarse a lo imposible.</p>
+
+    <div class="pull">"El espacio no te pide que seas perfecto. Te pide que seas persistente."</div>
+
+    <div class="dropcap-block">
+      <p class="prose">
+        <strong>Scott Kelly</strong> — Astronauta NASA · Comandante ISS · Récord norteamericano en el espacio.
+        Pasó 340 días consecutivos en la Estación Espacial Internacional —
+        el récord norteamericano de permanencia continua. Su libro <strong>"Endurance: A Year in Space, A Lifetime of Discovery"</strong>
+        documenta no solo la ciencia del vuelo espacial, sino la psicología de mantenerse
+        cuando todo duele, cuando el planeta se ve desde lejos y cuando el regreso
+        no está garantizado.
+        <br><br>
+        Lo que hace especial a Kelly no es el récord. Es que fue un estudiante mediocre
+        que leyó "The Right Stuff" de Tom Wolfe a los 18 años y decidió que quería eso.
+        Sin atajos. Con trabajo. Con <strong>un año entero flotando en el vacío</strong>
+        para probar que era posible.
+        <br><br>
+        Las lecciones de ese libro: la disciplina física es no negociable,
+        el aislamiento enseña quién eres realmente, y los sueños grandes
+        requieren preparación pequeña y constante — exactamente lo que construye FYT, un día a la vez.
+      </p>
+    </div>
+
+    <div class="feature-stack">
+      <div class="feature-row">
+        <div class="feature-title">340 días en el espacio</div>
+        <div class="feature-desc">El cuerpo humano puede adaptarse a condiciones extremas con la preparación correcta. Buceo, resistencia física, disciplina — el entrenamiento empieza hoy.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-title">Endurance</div>
+        <div class="feature-desc">El libro que lo cambió todo. No sobre héroes — sobre alguien que decidió, día a día, no rendirse. Esa es la mentalidad FYT.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-title">Ver la Tierra desde arriba</div>
+        <div class="feature-desc">Cuando ves el planeta desde el espacio, entiendes por qué vale la pena construir un vehículo que limpie su atmósfera mientras vuela.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FYT PROJECT ── -->
+<section class="article" id="fyt-proj">
+  <div class="col reveal">
+    <div class="kicker">Empresa principal</div>
+    <h2 class="headline">FYT · <em>AirCar CO₂</em></h2>
+    <p class="lede">
+      AirCar eléctrico VTOL que integra captura activa de CO₂ en su estructura. La única empresa en
+      LatAm con esta propuesta. IP 100% de la fundadora.
+    </p>
+
+    <div class="metric">
+      <div class="metric-top"><span class="metric-label">Avance global</span><span class="metric-val">15%</span></div>
+      <div class="metric-line" style="--w:15%"></div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">ODS 9</span><span class="tag">ODS 13</span><span class="tag">IP 100%</span>
+    </div>
+
+    <a href="fyt-strategic-company.html" class="go-link">Ver Dashboard FYT <span class="arrow">→</span></a>
+
+    <div class="checklist">
+      <div class="check-item"><span class="check-box"></span> Marca FYT en INAPI (Clase 12, 42, 35)</div>
+      <div class="check-item"><span class="check-box"></span> Búsqueda FTO (Matías Tapia)</div>
+      <div class="check-item"><span class="check-box"></span> Laboratorio habilitado</div>
+      <div class="check-item"><span class="check-box"></span> Postulación CORFO Capital Semilla</div>
+      <div class="check-item"><span class="check-box"></span> Constitución SpA FYT</div>
+      <div class="check-item"><span class="check-box"></span> Primera maqueta 1/10</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DRONETRY ── -->
+<section class="article" id="dronetry">
+  <div class="col reveal">
+    <div class="kicker">Colaborativo</div>
+    <h2 class="headline">DroneTRY · <em>Cable HVDC</em></h2>
+    <p class="lede">
+      Drone cautivo con cable HVDC + fibra óptica para energía ilimitada 24/7. La sinergia con FYT:
+      el cable que da autonomía infinita al AirCar.
+    </p>
+
+    <div class="tags">
+      <span class="tag">HVDC</span><span class="tag">Fibra óptica</span><span class="tag">IA a bordo</span>
+    </div>
+
+    <a href="informe-drones-cautivos_1.html" class="go-link">Ver informe <span class="arrow">→</span></a>
+
+    <div class="def-list">
+      <div class="def-row" style="grid-template-columns:1fr">
+        <div>
+          <div class="def-name">Equipo</div>
+          <div class="def-desc">
+            <strong style="color:var(--cream)">Bruno Osses</strong> — CEO electromotilidad<br>
+            <strong style="color:var(--cream)">Julio Hofflinger</strong> — IA y visión computacional<br>
+            <strong style="color:var(--cream)">Tomás</strong> — Memorista UdeC · Hardware<br>
+            <strong style="color:var(--gold-hi)">Fundadora</strong> — Coordinadora R&amp;D + Hardware
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FLY ── -->
+<section class="article" id="fly">
+  <div class="col reveal">
+    <div class="kicker">Estratégico</div>
+    <h2 class="headline">FLY · <em>Regulación eVTOL</em></h2>
+    <p class="lede">
+      Mapeo de regulación DGAC Chile. Alianzas con fabricantes internacionales de eVTOL certificado.
+      El ecosistema regulatorio que FYT necesitará. El primer mover advantage se prepara hoy.
+    </p>
+
+    <div class="tags">
+      <span class="tag">DGAC mapping</span><span class="tag">First mover</span>
+    </div>
+
+    <div class="note">Cuando el AirCar esté listo, el equipo FLY se integra a FYT bajo vesting (cliff 12 meses).</div>
+
+    <div class="checklist">
+      <div class="check-item"><span class="check-box"></span> Mapa regulatorio DGAC completado</div>
+      <div class="check-item"><span class="check-box"></span> Contacto con 3 fabricantes globales</div>
+      <div class="check-item"><span class="check-box"></span> Marco legal eVTOL Chile vs FAA/EASA</div>
+      <div class="check-item"><span class="check-box"></span> Primer aliado estratégico identificado</div>
+      <div class="check-item"><span class="check-box"></span> Vesting structure con FYT definida</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NIDO ── -->
+<section class="article" id="nido">
+  <div class="col reveal">
+    <div class="kicker">MGET UAI</div>
+    <h2 class="headline">NIDO · <em>Primer Hogar</em></h2>
+    <p class="lede">
+      Plataforma gamificada para parejas jóvenes que equipan su primer departamento. Centraliza
+      perfil + presupuesto + plano + mercado. Del departamento vacío al hogar compartido.
+    </p>
+
+    <div class="metric">
+      <div class="metric-top"><span class="metric-label">Design Thinking</span><span class="metric-val">90%</span></div>
+      <div class="metric-line" style="--w:90%"></div>
+    </div>
+
+    <a href="El_viaje_en_la_construccion_de_Nido_MCM.html" class="go-link">Ver bitácora <span class="arrow">→</span></a>
+
+    <div class="def-list">
+      <div class="def-row"><div class="def-name" style="grid-column:1/-1">Para</div><div class="def-desc">Parejas 30-40, Ñuñoa, doble ingreso</div></div>
+      <div class="def-row"><div class="def-name" style="grid-column:1/-1">Que necesitan</div><div class="def-desc">Equipar sin fricción ni miedo</div></div>
+      <div class="def-row"><div class="def-name" style="grid-column:1/-1">NIDO ofrece</div><div class="def-desc">Preview progresivo del hogar antes de comprar</div></div>
+      <div class="def-row"><div class="def-name" style="grid-column:1/-1">Equipo</div><div class="def-desc">Victor · Fundadora · Lisette · Nathaly</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVIA ── -->
+<section class="article" id="servia">
+  <div class="col reveal">
+    <div class="kicker">MGET UAI</div>
+    <h2 class="headline">SERVIA · <em>Urgencias Certificadas</em></h2>
+    <p class="lede">
+      Marketplace con validación preventiva de proveedores + análisis de reacción emocional del cliente
+      + bot NLP que lee contextos, no palabras. Tu tiempo es el único recurso que nos importa.
+    </p>
+
+    <div class="metric">
+      <div class="metric-top"><span class="metric-label">Estrategia</span><span class="metric-val">85%</span></div>
+      <div class="metric-line" style="--w:85%"></div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">IA contextual</span><span class="tag">NLP 24/7</span>
+    </div>
+
+    <div class="note">Equipo: Julio (CEO) · René (Back-end) · Nano (Datos) · Fer (Dir. Proyecto &amp; Finanzas)</div>
+
+    <a href="servia-plan-estrategico.html" class="go-link">Ver plan estratégico <span class="arrow">→</span></a>
+
+    <div class="highlight">
+      <div class="highlight-title">IA actualizada</div>
+      <div class="highlight-body">
+        El bot identifica el enojo leyendo <em>contexto</em>, no palabras sueltas. Gestión automática
+        con historial del cliente. Switch de opciones para quejas específicas.
+        <br><br>Reembolso al 3ero → correo de advertencia + retiro de licencia.
+      </div>
+    </div>
+
+    <div class="pull">"Tu tiempo es el único recurso que nos importa."</div>
+  </div>
+</section>
+
+<footer class="colophon">
+  <div class="colophon-brand">FYT · Future &amp; Technology</div>
+  <div class="colophon-text">Del laboratorio al espacio · Chile → Embry-Riddle → Cosmos · 2026</div>
+  <div class="colophon-tags">
+    <span class="tag">FYT</span><span class="tag">DroneTRY</span><span class="tag">FLY</span>
+    <span class="tag">NIDO</span><span class="tag">SERVIA</span>
+  </div>
+</footer>
+
+<script>
+/* ── reading progress ── */
+const bar=document.getElementById('progress');
+function updateProgress(){
+  const h=document.documentElement;
+  const scrolled=h.scrollTop;
+  const max=h.scrollHeight-h.clientHeight;
+  bar.style.width=max>0?(scrolled/max*100)+'%':'0%';
+}
+document.addEventListener('scroll',updateProgress,{passive:true});
+updateProgress();
+
+/* ── tab scroll-spy ── */
+const tabs=Array.from(document.querySelectorAll('.tab'));
+const sections=Array.from(document.querySelectorAll('section[id]'));
+const tabMap=new Map(tabs.map(t=>[t.getAttribute('href').slice(1),t]));
+const spy=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      tabs.forEach(t=>t.classList.remove('active'));
+      const t=tabMap.get(entry.target.id);
+      if(t){
+        t.classList.add('active');
+        t.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+      }
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px',threshold:0});
+sections.forEach(s=>spy.observe(s));
+
+/* ── reveal on scroll ── */
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const revealEls=document.querySelectorAll('.reveal');
+if(reduceMotion){
+  revealEls.forEach(el=>el.classList.add('in'));
+}else{
+  const ro=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){entry.target.classList.add('in');ro.unobserve(entry.target)}
+    });
+  },{threshold:.12});
+  revealEls.forEach(el=>ro.observe(el));
+}
+</script>
+</body>
+</html>
