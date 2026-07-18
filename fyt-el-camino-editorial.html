@@ -6,7 +6,7 @@
 <title>FYT · Future & Technology — El Camino</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:        #07060a;
@@ -21,25 +21,90 @@
   --ff-display: 'Playfair Display', Georgia, serif;
   --ff-body:    'EB Garamond', Georgia, serif;
   --ff-ui:      'Inter', system-ui, -apple-system, sans-serif;
+  --transition-theme: background .5s ease, color .5s ease, border-color .5s ease;
 }
+ 
+/* ── COLOR PALETTES (switchable) ── */
+body.pal-marfil{
+  --bg:#f6f1e7; --bg-panel:#efe7d5; --bg-panel2:#e9dfc9;
+  --gold:#95492f; --gold-hi:#b25a3b; --cream:#241f18; --muted:#6c6353;
+  --hair:rgba(149,73,47,.25); --hair-soft:rgba(36,31,24,.10);
+}
+body.pal-grafito{
+  --bg:#111316; --bg-panel:#181b1f; --bg-panel2:#1e2126;
+  --gold:#b7c0c8; --gold-hi:#e2e7ea; --cream:#e7e9eb; --muted:#8b929a;
+  --hair:rgba(183,192,200,.20); --hair-soft:rgba(231,233,235,.07);
+}
+body.pal-verde{
+  --bg:#0a130e; --bg-panel:#0f1a14; --bg-panel2:#142219;
+  --gold:#c9b26a; --gold-hi:#e6d38f; --cream:#e9ece3; --muted:#8b9a8c;
+  --hair:rgba(201,178,106,.20); --hair-soft:rgba(233,236,227,.07);
+}
+ 
+/* ── TYPOGRAPHY VARIANTS (switchable) ── */
+body.font-modern{
+  --ff-display:'Montserrat',system-ui,sans-serif;
+  --ff-body:'Inter',system-ui,sans-serif;
+}
+body.font-modern .headline,body.font-modern .hero-title,body.font-modern .dropcap,
+body.font-modern .def-term,body.font-modern .feature-title,body.font-modern .metric-val,
+body.font-modern .hero-quote,body.font-modern .pull,body.font-modern .colophon-brand,
+body.font-modern .brand-mini{font-style:normal;letter-spacing:-.3px}
+body.font-press{
+  --ff-display:'Libre Baskerville',Georgia,serif;
+  --ff-body:'Source Serif 4',Georgia,serif;
+}
+ 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-height:100vh;overflow-x:hidden;transition:var(--transition-theme)}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
-::selection{background:var(--gold);color:#0a0810}
-
-/* faint paper-grain / vignette so the black doesn't feel flat */
-.grain{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse at 50% 0%, rgba(201,164,100,.05), transparent 55%),
-             radial-gradient(ellipse at 50% 100%, rgba(0,0,0,.5), transparent 60%);
+::selection{background:var(--gold);color:var(--bg)}
+ 
+/* faint paper-grain / vignette so the background doesn't feel flat */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;transition:var(--transition-theme);
+  background:radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--gold) 8%, transparent), transparent 55%),
+             radial-gradient(ellipse at 50% 100%, color-mix(in srgb, black 35%, transparent), transparent 60%);
 }
-
+ 
 /* ── READING PROGRESS ── */
 .progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-hi));
   width:0%;z-index:1300;transition:width .1s linear}
-
+ 
+/* ── SETTINGS PANEL (color + typography) ── */
+.settings-btn{position:fixed;top:14px;right:22px;z-index:1400;background:rgba(0,0,0,.3);
+  border:1px solid var(--hair);color:var(--muted);font-family:var(--ff-ui);font-size:.6rem;
+  letter-spacing:1.5px;text-transform:uppercase;padding:7px 13px;border-radius:20px;cursor:pointer;
+  backdrop-filter:blur(8px);transition:var(--transition-theme),color .2s,border-color .2s}
+.settings-btn:hover{color:var(--gold-hi);border-color:var(--gold)}
+.settings-btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.settings-panel{position:fixed;top:52px;right:22px;z-index:1400;background:var(--bg-panel);
+  border:1px solid var(--hair);border-radius:12px;padding:18px 20px;width:230px;
+  box-shadow:0 18px 40px rgba(0,0,0,.35);transform:translateY(-8px);opacity:0;pointer-events:none;
+  transition:opacity .2s ease,transform .2s ease,var(--transition-theme)}
+.settings-panel.open{opacity:1;transform:none;pointer-events:auto}
+.settings-group{margin-bottom:16px}
+.settings-group:last-child{margin-bottom:0}
+.settings-label{font-family:var(--ff-ui);font-size:.56rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px}
+.swatches{display:flex;gap:8px}
+.swatch{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;
+  flex-shrink:0;transition:border-color .2s,transform .2s}
+.swatch:hover,.swatch.active{border-color:var(--cream);transform:scale(1.12)}
+.swatch:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+.sw-dorado{background:radial-gradient(circle,#c9a464,#07060a)}
+.sw-marfil{background:radial-gradient(circle,#b25a3b,#f6f1e7)}
+.sw-grafito{background:radial-gradient(circle,#b7c0c8,#111316)}
+.sw-verde{background:radial-gradient(circle,#c9b26a,#0a130e)}
+.font-opts{display:flex;flex-direction:column;gap:6px}
+.font-opt{text-align:left;background:transparent;border:1px solid var(--hair);color:var(--muted);
+  font-family:var(--ff-ui);font-size:.68rem;padding:7px 10px;border-radius:6px;cursor:pointer;transition:all .2s}
+.font-opt:hover{border-color:var(--gold);color:var(--cream)}
+.font-opt.active{border-color:var(--gold);color:var(--gold-hi);background:color-mix(in srgb, var(--gold) 10%, transparent)}
+.font-opt:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+ 
 /* ── MASTHEAD ── */
 .masthead{position:sticky;top:0;z-index:1200;background:rgba(7,6,10,.86);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--hair)}
@@ -57,15 +122,23 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
 .tab:hover{color:var(--cream)}
 .tab.active{color:var(--gold-hi)}
 .tab.active::after{transform:scaleX(1)}
-
+ 
 /* ── LAYOUT ── */
 .col{max-width:720px;margin:0 auto;padding:0 32px}
 .wide{max-width:1120px;margin:0 auto;padding:0 32px}
-.article{padding:108px 0 100px;border-bottom:1px solid var(--hair-soft)}
+.article{padding:80px 0 72px;border-bottom:1px solid var(--hair-soft)}
 .article:first-of-type{border-top:none}
+ 
+/* tighter rhythm for the project cluster — FYT/DroneTRY/FLY/NIDO share one continuous block */
+.article.tight{padding:44px 0 40px;border-bottom:none}
+.article.tight .lede{margin-bottom:2px}
+.article.tight .metric,.article.tight .tags,.article.tight .go-link,
+.article.tight .checklist,.article.tight .def-list,.article.tight .note{margin-top:16px}
+.article.tight .headline{margin-bottom:12px}
+.article.tight .kicker{margin-bottom:8px}
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .7s ease}
 .reveal.in{opacity:1;transform:none}
-
+ 
 .kicker{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:3px;text-transform:uppercase;
   color:var(--gold);margin-bottom:14px}
 .headline{font-family:var(--ff-display);font-weight:600;font-size:clamp(1.7rem,3.4vw,2.6rem);
@@ -73,10 +146,10 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
 .headline em{font-style:italic;color:var(--gold-hi);font-weight:500}
 .lede{font-size:1.08rem;line-height:1.85;color:var(--cream);opacity:.92;margin-bottom:8px;max-width:620px}
 .lede + .lede{margin-top:14px}
-
+ 
 /* ── HERO ── */
-#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
-  padding:140px 32px 80px;position:relative;border-bottom:1px solid var(--hair)}
+#hero{min-height:74vh;display:flex;flex-direction:column;justify-content:center;
+  padding:120px 32px 64px;position:relative;border-bottom:1px solid var(--hair)}
 .hero-wrap{max-width:720px;margin:0 auto;width:100%}
 .hero-eyebrow{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:3px;text-transform:uppercase;
   color:var(--gold);margin-bottom:22px;display:flex;align-items:center;gap:8px}
@@ -97,7 +170,7 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
   letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
 .scroll-cue .ln{width:22px;height:1px;background:var(--muted);animation:pulse-ln 2.4s infinite}
 @keyframes pulse-ln{0%,100%{opacity:.4}50%{opacity:1}}
-
+ 
 /* ── DROP CAP PROSE ── */
 .dropcap-block{margin-top:8px}
 .dropcap{font-family:var(--ff-display);font-size:4.6rem;line-height:.78;color:var(--gold);
@@ -106,29 +179,29 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
 .prose strong{color:var(--gold-hi);font-weight:600}
 .prose em{color:var(--gold-hi);font-style:italic}
 .prose::after{content:'';display:block;clear:both}
-
+ 
 /* ── DEFINITION ROWS (FYT meaning / propuesta de valor / equipo) ── */
 .def-list{margin-top:36px;border-top:1px solid var(--hair-soft)}
 .def-row{display:grid;grid-template-columns:120px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--hair-soft)}
 .def-term{font-family:var(--ff-display);font-size:1.5rem;color:var(--gold);font-weight:600}
 .def-name{font-family:var(--ff-ui);font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-hi);margin-bottom:6px}
 .def-desc{font-size:.9rem;line-height:1.75;color:var(--muted)}
-
+ 
 /* ── PULL QUOTE (inline, within sections) ── */
 .pull{font-family:var(--ff-display);font-style:italic;font-size:1.2rem;color:var(--gold-hi);
   line-height:1.55;border-left:2px solid var(--gold);padding:2px 0 2px 22px;margin:28px 0;max-width:600px}
-
+ 
 /* ── HIGHLIGHT BLOCK (replaces empty-icon cards) ── */
 .highlight{border-left:2px solid var(--gold);padding-left:22px;margin-top:28px;max-width:640px}
 .highlight-title{font-family:var(--ff-ui);font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-hi);margin-bottom:8px}
 .highlight-body{font-size:.9rem;line-height:1.8;color:var(--muted)}
-
+ 
 /* ── STACKED FEATURE LIST (Kelly's 3 points / DroneTRY etc) ── */
 .feature-stack{margin-top:36px;border-top:1px solid var(--hair-soft)}
 .feature-row{padding:22px 0;border-bottom:1px solid var(--hair-soft)}
 .feature-title{font-family:var(--ff-display);font-size:1.05rem;font-weight:600;color:var(--cream);margin-bottom:6px}
 .feature-desc{font-size:.88rem;line-height:1.75;color:var(--muted);max-width:600px}
-
+ 
 /* ── METRIC (progress replacement) ── */
 .metric{margin-top:30px;max-width:420px}
 .metric-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
@@ -136,12 +209,12 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
 .metric-val{font-family:var(--ff-display);font-style:italic;font-size:1.1rem;color:var(--gold-hi)}
 .metric-line{height:1px;background:var(--hair);position:relative}
 .metric-line::after{content:'';position:absolute;left:0;top:-1px;height:3px;background:var(--gold);width:var(--w,0%)}
-
+ 
 /* ── TAGS (badges) ── */
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
 .tag{font-family:var(--ff-ui);font-size:.6rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-hi);
   border:1px solid var(--hair);border-radius:2px;padding:4px 10px}
-
+ 
 /* ── GO-LINK (replaces filled button) ── */
 .go-link{display:inline-flex;align-items:center;gap:7px;font-family:var(--ff-ui);font-size:.72rem;
   letter-spacing:1px;text-transform:uppercase;color:var(--gold-hi);text-decoration:none;margin-top:26px;
@@ -150,25 +223,25 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
 .go-link:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
 .go-link .arrow{transition:transform .2s}
 .go-link:hover .arrow{transform:translateX(2px)}
-
+ 
 /* ── CHECKLIST ── */
 .checklist{margin-top:30px;display:flex;flex-direction:column;gap:14px;max-width:560px}
 .check-item{display:flex;align-items:flex-start;gap:12px;font-size:.86rem;line-height:1.6;color:var(--muted)}
 .check-box{width:12px;height:12px;border:1px solid var(--gold);flex-shrink:0;margin-top:4px}
-
+ 
 /* ── NOTE ── */
 .note{margin-top:20px;padding-top:16px;border-top:1px solid var(--hair-soft);font-size:.82rem;
   line-height:1.75;color:var(--muted);max-width:600px}
-
+ 
 /* ── SECTION HEAD helper for two-block layout ── */
 .split{display:grid;grid-template-columns:1fr;gap:0}
-
+ 
 /* ── FOOTER / COLOPHON ── */
 .colophon{padding:60px 32px 50px;text-align:center;border-top:1px solid var(--hair)}
 .colophon-brand{font-family:var(--ff-display);font-size:1.15rem;color:var(--gold-hi);letter-spacing:3px;margin-bottom:10px}
 .colophon-text{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
 .colophon-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
-
+ 
 /* ── RESPONSIVE ── */
 @media(max-width:720px){
   .masthead-inner{padding:12px 20px;gap:16px}
@@ -180,10 +253,31 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
 }
 </style>
 </head>
-<body>
+<body class="pal-dorado font-editorial">
 <div class="grain"></div>
 <div class="progress" id="progress"></div>
-
+ 
+<button type="button" class="settings-btn" id="settingsBtn" aria-expanded="false" aria-controls="settingsPanel">Ajustes</button>
+<div class="settings-panel" id="settingsPanel" role="dialog" aria-label="Ajustes de color y tipografía">
+  <div class="settings-group">
+    <div class="settings-label">Color</div>
+    <div class="swatches" role="group" aria-label="Paletas de color">
+      <button type="button" class="swatch sw-dorado active" data-pal="pal-dorado" title="Dorado" aria-label="Paleta Dorado"></button>
+      <button type="button" class="swatch sw-marfil" data-pal="pal-marfil" title="Marfil" aria-label="Paleta Marfil"></button>
+      <button type="button" class="swatch sw-grafito" data-pal="pal-grafito" title="Grafito" aria-label="Paleta Grafito"></button>
+      <button type="button" class="swatch sw-verde" data-pal="pal-verde" title="Verde botella" aria-label="Paleta Verde botella"></button>
+    </div>
+  </div>
+  <div class="settings-group">
+    <div class="settings-label">Tipografía</div>
+    <div class="font-opts" role="group" aria-label="Combinaciones tipográficas">
+      <button type="button" class="font-opt active" data-font="font-editorial">Editorial clásica</button>
+      <button type="button" class="font-opt" data-font="font-modern">Moderna sans</button>
+      <button type="button" class="font-opt" data-font="font-press">Prensa</button>
+    </div>
+  </div>
+</div>
+ 
 <!-- ── MASTHEAD / TOP TABS ── -->
 <header class="masthead">
   <div class="masthead-inner">
@@ -191,7 +285,7 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
     <nav class="tabs" id="tabs">
       <a href="#hero" class="tab active">Inicio</a>
       <a href="#fyt-story" class="tab">Historia</a>
-      <a href="#scott" class="tab">Scott Kelly</a>
+      <a href="#scott" class="tab">Inspiración</a>
       <a href="#fyt-proj" class="tab">FYT</a>
       <a href="#dronetry" class="tab">DroneTRY</a>
       <a href="#fly" class="tab">FLY</a>
@@ -200,7 +294,7 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
     </nav>
   </div>
 </header>
-
+ 
 <!-- ── HERO ── -->
 <section id="hero">
   <div class="hero-wrap">
@@ -220,14 +314,14 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
   </div>
   <div class="scroll-cue"><span class="ln"></span> Desliza para leer el camino</div>
 </section>
-
+ 
 <!-- ── FYT STORY ── -->
 <section class="article" id="fyt-story">
   <div class="col reveal">
     <div class="kicker">El nombre</div>
     <h2 class="headline">¿Por qué <em>FYT</em>?</h2>
     <p class="lede">Detrás de tres letras hay una razón de ser, una declaración y una protección.</p>
-
+ 
     <div class="dropcap-block">
       <span class="dropcap">F</span>
       <p class="prose">
@@ -248,7 +342,7 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
         y llevar esa tecnología desde Chile al espacio.
       </p>
     </div>
-
+ 
     <div class="def-list">
       <div class="def-row">
         <div class="def-term">F</div>
@@ -263,7 +357,7 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
         <div><div class="def-name">Technology</div><div class="def-desc">La herramienta. No basta con soñar — la tecnología convierte la visión en algo que se puede tocar, volar y certificar.</div></div>
       </div>
     </div>
-
+ 
     <div class="highlight">
       <div class="highlight-title">Por qué se oculta tras el nombre</div>
       <div class="highlight-body">
@@ -277,16 +371,16 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
     </div>
   </div>
 </section>
-
+ 
 <!-- ── SCOTT KELLY ── -->
 <section class="article" id="scott">
   <div class="col reveal">
     <div class="kicker">La inspiración</div>
     <h2 class="headline">Scott Kelly — <em>Un año en el espacio</em></h2>
     <p class="lede">El primer libro que cambió la perspectiva. El astronauta que demostró que el cuerpo y la mente pueden adaptarse a lo imposible.</p>
-
+ 
     <div class="pull">"El espacio no te pide que seas perfecto. Te pide que seas persistente."</div>
-
+ 
     <div class="dropcap-block">
       <p class="prose">
         <strong>Scott Kelly</strong> — Astronauta NASA · Comandante ISS · Récord norteamericano en el espacio.
@@ -306,7 +400,7 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
         requieren preparación pequeña y constante — exactamente lo que construye FYT, un día a la vez.
       </p>
     </div>
-
+ 
     <div class="feature-stack">
       <div class="feature-row">
         <div class="feature-title">340 días en el espacio</div>
@@ -323,28 +417,28 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
     </div>
   </div>
 </section>
-
+ 
 <!-- ── FYT PROJECT ── -->
-<section class="article" id="fyt-proj">
+<section class="article tight" id="fyt-proj">
   <div class="col reveal">
     <div class="kicker">Empresa principal</div>
     <h2 class="headline">FYT · <em>AirCar CO₂</em></h2>
     <p class="lede">
       AirCar eléctrico VTOL que integra captura activa de CO₂ en su estructura. La única empresa en
-      LatAm con esta propuesta.
+      LatAm con esta propuesta. IP 100% de la fundadora.
     </p>
-
+ 
     <div class="metric">
       <div class="metric-top"><span class="metric-label">Avance global</span><span class="metric-val">15%</span></div>
       <div class="metric-line" style="--w:15%"></div>
     </div>
-
+ 
     <div class="tags">
       <span class="tag">ODS 9</span><span class="tag">ODS 13</span><span class="tag">IP 100%</span>
     </div>
-
+ 
     <a href="fyt-strategic-company.html" class="go-link">Ver Dashboard FYT <span class="arrow">→</span></a>
-
+ 
     <div class="checklist">
       <div class="check-item"><span class="check-box"></span> Marca FYT en INAPI (Clase 12, 42, 35)</div>
       <div class="check-item"><span class="check-box"></span> Búsqueda FTO (Matías Tapia)</div>
@@ -355,9 +449,9 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
     </div>
   </div>
 </section>
-
+ 
 <!-- ── DRONETRY ── -->
-<section class="article" id="dronetry">
+<section class="article tight" id="dronetry">
   <div class="col reveal">
     <div class="kicker">Colaborativo</div>
     <h2 class="headline">DroneTRY · <em>Cable HVDC</em></h2>
@@ -365,31 +459,31 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
       Drone cautivo con cable HVDC + fibra óptica para energía ilimitada 24/7. La sinergia con FYT:
       el cable que da autonomía infinita al AirCar.
     </p>
-
+ 
     <div class="tags">
       <span class="tag">HVDC</span><span class="tag">Fibra óptica</span><span class="tag">IA a bordo</span>
     </div>
-
+ 
     <a href="informe-drones-cautivos_1.html" class="go-link">Ver informe <span class="arrow">→</span></a>
-
+ 
     <div class="def-list">
       <div class="def-row" style="grid-template-columns:1fr">
         <div>
           <div class="def-name">Equipo</div>
           <div class="def-desc">
-            <strong style="color:var(--cream)">Bruno Osses</strong> — Baterias y electromotilidad<br>
+            <strong style="color:var(--cream)">Bruno Osses</strong> — CEO electromotilidad<br>
             <strong style="color:var(--cream)">Julio Hofflinger</strong> — IA y visión computacional<br>
-            <strong style="color:var(--cream)">Tomás y Equipo</strong> — Memorista UdeC · Hardware<br>
-            <strong style="color:var(--gold-hi)">Fernanda</strong> — I+D y Física del Hardware<br>
+            <strong style="color:var(--cream)">Tomás</strong> — Memorista UdeC · Hardware<br>
+            <strong style="color:var(--gold-hi)">Fundadora</strong> — Coordinadora R&amp;D + Hardware
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
+ 
 <!-- ── FLY ── -->
-<section class="article" id="fly">
+<section class="article tight" id="fly">
   <div class="col reveal">
     <div class="kicker">Estratégico</div>
     <h2 class="headline">FLY · <em>Regulación eVTOL</em></h2>
@@ -397,13 +491,13 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
       Mapeo de regulación DGAC Chile. Alianzas con fabricantes internacionales de eVTOL certificado.
       El ecosistema regulatorio que FYT necesitará. El primer mover advantage se prepara hoy.
     </p>
-
+ 
     <div class="tags">
       <span class="tag">DGAC mapping</span><span class="tag">First mover</span>
     </div>
-
+ 
     <div class="note">Cuando el AirCar esté listo, el equipo FLY se integra a FYT bajo vesting (cliff 12 meses).</div>
-
+ 
     <div class="checklist">
       <div class="check-item"><span class="check-box"></span> Mapa regulatorio DGAC completado</div>
       <div class="check-item"><span class="check-box"></span> Contacto con 3 fabricantes globales</div>
@@ -413,9 +507,9 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
     </div>
   </div>
 </section>
-
+ 
 <!-- ── NIDO ── -->
-<section class="article" id="nido">
+<section class="article tight" id="nido">
   <div class="col reveal">
     <div class="kicker">MGET UAI</div>
     <h2 class="headline">NIDO · <em>Primer Hogar</em></h2>
@@ -423,25 +517,25 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
       Plataforma gamificada para parejas jóvenes que equipan su primer departamento. Centraliza
       perfil + presupuesto + plano + mercado. Del departamento vacío al hogar compartido.
     </p>
-
+ 
     <div class="metric">
       <div class="metric-top"><span class="metric-label">Design Thinking</span><span class="metric-val">90%</span></div>
       <div class="metric-line" style="--w:90%"></div>
     </div>
-
+ 
     <a href="El_viaje_en_la_construccion_de_Nido_MCM.html" class="go-link">Ver bitácora <span class="arrow">→</span></a>
-
+ 
     <div class="def-list">
       <div class="def-row"><div class="def-name" style="grid-column:1/-1">Para</div><div class="def-desc">Parejas 30-40, Ñuñoa, doble ingreso</div></div>
       <div class="def-row"><div class="def-name" style="grid-column:1/-1">Que necesitan</div><div class="def-desc">Equipar sin fricción ni miedo</div></div>
       <div class="def-row"><div class="def-name" style="grid-column:1/-1">NIDO ofrece</div><div class="def-desc">Preview progresivo del hogar antes de comprar</div></div>
-      <div class="def-row"><div class="def-name" style="grid-column:1/-1">Equipo</div><div class="def-desc">Victor · Fernanda · Lisette · Nathaly</div></div>
+      <div class="def-row"><div class="def-name" style="grid-column:1/-1">Equipo</div><div class="def-desc">Victor · Fundadora · Lisette · Nathaly</div></div>
     </div>
   </div>
 </section>
-
+ 
 <!-- ── SERVIA ── -->
-<section class="article" id="servia">
+<section class="article tight" id="servia" style="border-bottom:1px solid var(--hair-soft)">
   <div class="col reveal">
     <div class="kicker">MGET UAI</div>
     <h2 class="headline">SERVIA · <em>Urgencias Certificadas</em></h2>
@@ -449,20 +543,20 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
       Marketplace con validación preventiva de proveedores + análisis de reacción emocional del cliente
       + bot NLP que lee contextos, no palabras. Tu tiempo es el único recurso que nos importa.
     </p>
-
+ 
     <div class="metric">
       <div class="metric-top"><span class="metric-label">Estrategia</span><span class="metric-val">85%</span></div>
       <div class="metric-line" style="--w:85%"></div>
     </div>
-
+ 
     <div class="tags">
       <span class="tag">IA contextual</span><span class="tag">NLP 24/7</span>
     </div>
-
-    <div class="note">Equipo: Julio (CEO) · René (Dir. IA) · Nano (Analista Datos) · Fer (Dir. Proyecto &amp; Finanzas)</div>
-
+ 
+    <div class="note">Equipo: Julio (CEO) · René (Back-end) · Nano (Datos) · Fer (Dir. Proyecto &amp; Finanzas)</div>
+ 
     <a href="servia-plan-estrategico.html" class="go-link">Ver plan estratégico <span class="arrow">→</span></a>
-
+ 
     <div class="highlight">
       <div class="highlight-title">IA actualizada</div>
       <div class="highlight-body">
@@ -471,11 +565,11 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
         <br><br>Reembolso al 3ero → correo de advertencia + retiro de licencia.
       </div>
     </div>
-
+ 
     <div class="pull">"Tu tiempo es el único recurso que nos importa."</div>
   </div>
 </section>
-
+ 
 <footer class="colophon">
   <div class="colophon-brand">FYT · Future &amp; Technology</div>
   <div class="colophon-text">Del laboratorio al espacio · Chile → Embry-Riddle → Cosmos · 2026</div>
@@ -484,8 +578,44 @@ body{background:var(--bg);color:var(--cream);font-family:var(--ff-body);min-heig
     <span class="tag">NIDO</span><span class="tag">SERVIA</span>
   </div>
 </footer>
-
+ 
 <script>
+/* ── settings panel: color + typography ── */
+const settingsBtn=document.getElementById('settingsBtn');
+const settingsPanel=document.getElementById('settingsPanel');
+settingsBtn.addEventListener('click',()=>{
+  const open=settingsPanel.classList.toggle('open');
+  settingsBtn.setAttribute('aria-expanded',open?'true':'false');
+});
+document.addEventListener('click',(e)=>{
+  if(!settingsPanel.contains(e.target)&&e.target!==settingsBtn&&settingsPanel.classList.contains('open')){
+    settingsPanel.classList.remove('open');
+    settingsBtn.setAttribute('aria-expanded','false');
+  }
+});
+const PALETTES=['pal-dorado','pal-marfil','pal-grafito','pal-verde'];
+const FONTS=['font-editorial','font-modern','font-press'];
+function applyPalette(pal){
+  PALETTES.forEach(p=>document.body.classList.remove(p));
+  document.body.classList.add(pal);
+  document.querySelectorAll('.swatch').forEach(s=>s.classList.toggle('active',s.dataset.pal===pal));
+  localStorage.setItem('fyt-pal',pal);
+}
+function applyFont(font){
+  FONTS.forEach(f=>document.body.classList.remove(f));
+  document.body.classList.add(font);
+  document.querySelectorAll('.font-opt').forEach(b=>b.classList.toggle('active',b.dataset.font===font));
+  localStorage.setItem('fyt-font',font);
+}
+document.querySelectorAll('.swatch').forEach(s=>s.addEventListener('click',()=>applyPalette(s.dataset.pal)));
+document.querySelectorAll('.font-opt').forEach(b=>b.addEventListener('click',()=>applyFont(b.dataset.font)));
+(function(){
+  const savedPal=localStorage.getItem('fyt-pal');
+  const savedFont=localStorage.getItem('fyt-font');
+  if(savedPal&&PALETTES.includes(savedPal))applyPalette(savedPal);
+  if(savedFont&&FONTS.includes(savedFont))applyFont(savedFont);
+})();
+ 
 /* ── reading progress ── */
 const bar=document.getElementById('progress');
 function updateProgress(){
@@ -496,7 +626,7 @@ function updateProgress(){
 }
 document.addEventListener('scroll',updateProgress,{passive:true});
 updateProgress();
-
+ 
 /* ── tab scroll-spy ── */
 const tabs=Array.from(document.querySelectorAll('.tab'));
 const sections=Array.from(document.querySelectorAll('section[id]'));
@@ -514,7 +644,7 @@ const spy=new IntersectionObserver((entries)=>{
   });
 },{rootMargin:'-45% 0px -50% 0px',threshold:0});
 sections.forEach(s=>spy.observe(s));
-
+ 
 /* ── reveal on scroll ── */
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const revealEls=document.querySelectorAll('.reveal');
